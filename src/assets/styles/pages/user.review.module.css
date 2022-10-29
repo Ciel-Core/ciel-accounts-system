@@ -1,0 +1,58 @@
+/**
+ *
+ * The style of the register "review" page
+ *
+**/
+
+.table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.table .item {
+    display: flex;
+    text-align: left;
+    margin: 36px 0px;
+}
+
+.table .item .title {
+    display: block;
+    min-width: calc(35% - 16px);
+    max-width: calc(35% - 16px);
+    font-size: 16px;
+    font-weight: 400;
+    margin-right: 16px;
+    opacity: 0.7;
+}
+
+.table .item .content {
+    display: block;
+    font-size: 16px;
+    font-weight: 600;
+    text-align: center;
+    position: relative;
+    width: 100%;
+    height: fit-content;
+    padding: 0px 8px;
+}
+
+.table .item .content .contentTextWrapper {
+    display: block;
+    height: inherit;
+}
+
+.securityQuestionItem {
+    display: block;
+    height: fit-content;
+}
+
+.securityQuestionItem .securityQuestion {
+    display: block;
+    font-size: 16px;
+    font-weight: 300;
+}
+
+.securityQuestionItem .securityQuestionAnswer {
+    display: block;
+    margin-top: 18px;
+}

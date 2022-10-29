@@ -1,0 +1,103 @@
+/**
+ *
+ * The style of the global bar and its elements
+ *
+**/
+
+.globalbar {
+    height: var(--globalbar--height);
+    transition: all 0.1s;
+    flex-grow: 1;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.globalbar[disabled] {
+    opacity: 1;
+}
+
+.globalbar[data-show-content=true] {
+    /*animation: fadeInMainFull 2s cubic-bezier(0.87, 0.02, 0.01, 1) forwards;*/
+    animation: fadeInMainFull 1.5s cubic-bezier(0.8, 0.05, 0, 1) forwards;
+}
+
+@keyframes fadeInMainFull {
+    0% {
+        flex-grow: 1;
+    }
+    25%,
+    50% {
+        flex-grow: 1;
+    }
+    100% {
+        flex-grow: 0;
+    }
+}
+
+.userprofile {
+    width: 68px;
+    height: 68px;
+    background-color: #fafafa;
+    border: 1px solid #e2e2e2;
+    border-radius: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    opacity: 0.4;
+}
+
+.globalbar[data-show-content=false] .userprofile {
+    animation: fadeInPP 3s ease forwards;
+}
+
+.globalbar[data-show-content=true] .userprofile {
+    animation: fadeInPPFull 2s cubic-bezier(0.87, 0.02, 0.01, 1) forwards;
+}
+
+.userProfileImage {
+    border-radius: 100%;
+}
+
+.globalbar[data-show-content=false] .userProfileImage {
+    animation: opacityInOut 2s ease-in-out infinite forwards;
+}
+
+@keyframes opacityInOut {
+    0% {
+        opacity: 0.52;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.52;
+    }
+}
+
+@keyframes fadeInPP {
+    from {
+        transform: scale(0.7);
+    }
+    to {
+        transform: scale(0.75);
+    }
+}
+
+@keyframes fadeInPPFull {
+    0% {
+        opacity: 0.4;
+        transform: scale(0.74);
+    }
+    25%,
+    50% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}

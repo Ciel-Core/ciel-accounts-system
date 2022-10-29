@@ -1,0 +1,36 @@
+/**
+ *
+ * The style of the user "quick settings" page (registration)
+ *
+**/
+
+.quickSettingContainer {
+    width: 100%;
+    text-align: left;
+    display: block;
+    overflow: hidden;
+    margin: 12px 0px;
+}
+
+.quickSettingContainer .title {
+    font-size: 16px;
+    font-weight: 600;
+    display: block;
+    margin: 6px 10px;
+}
+
+.quickSettingContainer .description {
+    font-size: 16px;
+    opacity: 0.7;
+    margin: 12px 10px;
+    line-height: 24px;
+    display: block;
+}
+
+.quickSettingContainer .contentContainer {
+    margin-top: 24px;
+}
+
+.sectionTitle {
+    text-align: left;
+}

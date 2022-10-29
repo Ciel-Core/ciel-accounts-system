@@ -1,0 +1,17 @@
+/**
+ *
+ * The style of the user "challenge" page (2FA)
+ *
+**/
+
+.challengeOptionButton {
+    height: fit-content;
+    min-height: 68px;
+    width: 100% !important;
+}
+
+.suggestion {
+    max-width: 100%;
+    width: 450px;
+    margin-bottom: 24px;
+}

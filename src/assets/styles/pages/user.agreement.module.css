@@ -1,0 +1,45 @@
+/**
+ *
+ * The style of the register "agreement" page
+ *
+**/
+
+.agreementItem {
+    margin: 28px 0px;
+    text-align: left;
+}
+
+.agreementItem .titleContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    align-items: center;
+}
+
+.agreementItem .titleContainer svg {
+    width: 26px;
+    height: 26px;
+    --svg-color: var(--accent-color);
+}
+
+.agreementItem .titleContainer .title {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0px 8px;
+    margin-bottom: 4px;
+}
+
+.agreementItem .description {
+    padding-left: 34px;
+    height: fit-content;
+    width: calc(100% - 34px);
+    margin: 6px 0px;
+    display: block;
+    opacity: 0.7;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.agreementItem .button {
+    margin-left: 22px;
+}
