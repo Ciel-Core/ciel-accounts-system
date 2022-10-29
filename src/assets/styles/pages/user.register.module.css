@@ -1,0 +1,68 @@
+/**
+ *
+ * The style of the first registration page
+ *
+**/
+
+.buttonsStickyContainer {
+    position: sticky;
+    bottom: -1px;
+    background: var(--main-background);
+    padding-top: var(--page-margin);
+    padding-bottom: calc(var(--page-margin) + 1px);
+    box-shadow: 0px -18px 18px var(--main-background), 0px -24px 30px var(--main-background), calc(-1 * var(--page-margin)) -18px 18px var(--main-background), var(--page-margin) -18px 18px var(--main-background);
+}
+
+.buttonsStickyContainer[data-sticky=false] {
+    box-shadow: none;
+}
+
+.buttonsStickyContainer svg {
+    width: 32px;
+    height: 32px;
+    --svg-color: var(--background-bold);
+    opacity: 1;
+    position: absolute;
+    padding: 8px;
+    margin: 0px calc((100% - 50px) / 2);
+    top: -46px;
+    background-color: var(--main-background);
+    border: solid 1px var(--background-blend);
+    box-shadow: 0px 1px 6px var(--main-background);
+    border-radius: 50%;
+    transition: opacity 0.1s ease-in-out;
+    cursor: pointer;
+}
+
+.buttonsStickyContainer svg:active {
+    padding: 4px;
+    background-color: var(--background-blend);
+    border: solid 3px var(--background-blend);
+}
+
+.buttonsStickyContainer svg:hover,
+.buttonsStickyContainer svg:focus {
+    padding: 5px;
+    border: solid 4px var(--background-blend);
+    outline: none;
+}
+
+.buttonsStickyContainer[data-sticky=false] svg,
+.buttonsStickyContainer:not([data-sticky=false]):not([data-sticky=true]) {
+    opacity: 0;
+}
+
+.buttonsStickyContainer[data-sticky=true] svg {
+    animation-name: slideIn;
+    animation-timing-function: ease-out;
+    animation-duration: 0.1s;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-6px)
+    }
+    to {
+        transform: translateY(0)
+    }
+}

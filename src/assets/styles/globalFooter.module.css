@@ -1,0 +1,39 @@
+/**
+ *
+ * The style of the global footer and its elements
+ *
+**/
+
+.globalfooter {
+    min-height: var(--globalfooter--height);
+    height: fit-content;
+    text-align: center;
+    line-height: 18px;
+    font-size: 12px;
+    opacity: 0;
+    font-weight: 400;
+}
+
+.globalfooter,
+.globalfooter text {
+    color: var(--background-bold);
+}
+
+.globalfooter[data-show-content=true] {
+    animation: opacityIn 0.1s ease-in-out forwards;
+    animation-delay: 1.65s;
+}
+
+@keyframes opacityIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: unset;
+    }
+}
+
+.link {
+    text-decoration: none;
+    color: inherit;
+}

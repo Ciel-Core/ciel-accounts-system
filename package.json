@@ -1,0 +1,24 @@
+{
+    "name": "accounts-system",
+    "version": "0.0.0",
+    "description": "",
+    "scripts": {
+        "start": "vite",
+        "dev": "vite --host",
+        "build": "vite build && npm audit",
+        "serve": "vite preview",
+        "php": "vite build --mode development && cd dist/ && \"../php_server_folder/php.exe\" -S localhost:80"
+    },
+    "license": "MIT",
+    "devDependencies": {
+        "vite": "^3.0.0",
+        "vite-plugin-pwa": "^0.13.1",
+        "vite-plugin-solid": "^2.3.0",
+        "vite-plugin-solid-svg": "^0.5.0"
+    },
+    "dependencies": {
+        "@solidjs/router": "^0.4.3",
+        "rosetta": "^1.1.0",
+        "solid-js": "^1.4.7"
+    }
+}

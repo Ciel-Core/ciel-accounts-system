@@ -1,0 +1,643 @@
+/**
+ *
+ * The style of general components
+ *
+**/
+
+
+/* Buttons */
+
+.button {
+    font-size: 16px;
+    line-height: 1.5em;
+    padding: 12px 24px;
+    margin: 4px;
+    border: solid 1px transparent;
+    border-radius: 40px;
+    background-color: var(--accent-color-faint);
+    width: fit-content;
+    transition: box-shadow 0.12s;
+    color: var(--accent-color);
+    /* Make buttons unselectable*/
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    cursor: pointer;
+    /* Remove underline from links! */
+    text-decoration: none;
+    font-weight: 500;
+    text-align: left;
+}
+
+.button.primarybutton {
+    background-color: var(--accent-color);
+    color: white;
+}
+
+.button.lightButton {
+    background-color: transparent;
+}
+
+.button.primarybutton[disabled],
+.button[disabled] {
+    transition: all 0.0s linear!important;
+    color: var(--background-bold) !important;
+    box-shadow: none !important;
+    border-color: transparent !important;
+    pointer-events: none;
+}
+
+.button.primarybutton[disabled] {
+    background-color: var(--background-blend) !important;
+}
+
+.button[disabled] {
+    background-color: transparent !important;
+}
+
+.button.primarybutton:hover,
+.button.primarybutton:focus,
+.button.lightButton:hover,
+.button.lightButton:focus {
+    box-shadow: -2px 2px 5px var(--accent-color-lighter), 2px 2px 5px var(--accent-color-lighter);
+    transition: border 0s linear;
+}
+
+.button:hover,
+.button:focus {
+    transition: border 0.1s;
+    border-color: var(--accent-color);
+    outline: none;
+}
+
+.button.lightButton:hover,
+.button.lightButton:focus {
+    box-shadow: none;
+    border-color: transparent;
+    background-color: var(--accent-color-faint);
+    outline: none;
+}
+
+.button:active {
+    background-color: var(--accent-color-lighter);
+}
+
+.button.primarybutton:active {
+    background-color: var(--accent-color-active);
+}
+
+.button.lightButton:active {
+    background-color: var(--accent-color-lighter);
+    box-shadow: -2px 2px 5px var(--accent-color-faint), 2px 2px 5px var(--accent-color-faint);
+}
+
+.button.smallButton {
+    padding: 4px 12px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.button.iconButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.button.iconButton .buttonIcon {
+    display: inline-block;
+    overflow: hidden;
+    margin-left: 6px;
+    height: 28px;
+    width: 28px;
+    min-width: 28px;
+    max-width: 28px;
+    min-height: 28px;
+}
+
+.button.iconButton .buttonIcon img,
+.button.iconButton .buttonIcon svg {
+    height: inherit;
+    width: inherit;
+    border-style: none;
+    padding: 0px;
+    margin: 0px auto;
+}
+
+.button.iconButton .buttonIcon svg {
+    --svg-color: var(--accent-color);
+}
+
+.button.iconButton.primarybutton .buttonIcon svg {
+    --svg-color: white;
+}
+
+.button.iconButton[disabled] .buttonIcon svg {
+    --svg-color: var(--background-bold);
+}
+
+.button.iconButton .iconButtonText {
+    display: inline-block;
+    margin-right: auto;
+    margin-left: 12px;
+}
+
+
+/* Text input fields */
+
+.inputFieldContainer,
+.selectContainer {
+    width: fit-content;
+    height: fit-content;
+    max-width: 100%;
+    margin: 16px 4px;
+    margin-top: 20px;
+    padding: 0px;
+    position: relative;
+}
+
+.inputFieldContainer .inputFieldLabel,
+.selectContainer .selectLabel {
+    color: var(--background-bold);
+    position: absolute;
+    font-size: 16px;
+    margin-top: 16px;
+    margin-left: 12px;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    pointer-events: none;
+    padding: 0px 6px;
+    transition: margin 0.1s;
+    left: 0px;
+    top: 0px;
+    font-weight: 500;
+}
+
+.inputField::placeholder {
+    user-select: none;
+}
+
+.inputField::-webkit-input-placeholder {
+    user-select: none;
+}
+
+.inputField::-moz-placeholder {
+    user-select: none;
+}
+
+.inputField::-ms-clear,
+.inputField::-ms-reveal {
+    display: none;
+}
+
+.selectContainer .selectHint,
+.inputFieldContainer .inputFieldHint {
+    max-width: 100%;
+    height: fit-content;
+    text-align: left;
+    font-size: 14px;
+    padding: 4px;
+    padding-top: 8px;
+    opacity: 0.8;
+}
+
+.selectContainer .selectDataContainer:focus-within .selectLabel,
+.selectField:valid~.selectLabel,
+.inputFieldContainer .inputFieldDataContainer:focus-within .inputFieldLabel,
+.inputField:not(:placeholder-shown):not(:focus)+.inputFieldLabel {
+    color: var(--accent-color);
+    margin-top: -12px;
+    background-color: var(--main-background);
+}
+
+.selectField:valid:not(:focus)~.selectLabel,
+.inputField:not(:placeholder-shown):not(:focus)+.inputFieldLabel {
+    color: var(--background-bold);
+}
+
+.selectContainer .selectDataContainer .selectField,
+.inputField {
+    font-size: 16px;
+    padding: 14px 16px;
+    border: solid 2px var(--background-blend);
+    background-color: var(--background-blend);
+    border-bottom: solid 2px var(--background-bold);
+    border-radius: 4px 4px 0px 0px;
+    color: var(--text-color);
+    width: calc(100% - 4px - 16px - 16px);
+}
+
+.inputFieldContainer .inputFieldDataContainer,
+.selectContainer .selectDataContainer {
+    position: relative;
+}
+
+.selectContainer .selectDataContainer .selectField {
+    appearance: none;
+    cursor: pointer;
+    width: 100%;
+}
+
+.selectContainer .selectDataContainer .selectFieldArrow {
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    right: 10px;
+    top: calc((100% - 25px) / 2);
+    --svg-color: var(--background-bold);
+    pointer-events: none;
+    background-color: var(--background-blend);
+}
+
+.selectContainer .selectDataContainer:focus-within .selectFieldArrow {
+    --svg-color: var(--accent-color);
+    background-color: var(--main-background);
+}
+
+.selectField:valid+.selectFieldArrow {
+    background-color: var(--main-background);
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+}
+
+.selectContainer .selectDataContainer .selectField:focus,
+.selectContainer .selectDataContainer .selectField:valid,
+.inputField:focus,
+.inputField:not(:placeholder-shown) {
+    border: solid 0px transparent;
+    background-color: var(--main-background);
+    border: solid 2px var(--accent-color);
+    border-radius: 4px;
+    outline: none;
+}
+
+.selectContainer .selectDataContainer .selectField:valid:not(:focus),
+.inputField:not(:placeholder-shown):not(:focus) {
+    border-color: var(--background-bold);
+}
+
+.inputFieldContainer .inputFieldDataContainer .inputErrorIcon {
+    width: 22px;
+    height: 22px;
+    --svg-color: var(--error-color);
+    position: absolute;
+    right: 16px;
+    top: calc((53px - 22px) / 2);
+    display: none;
+    pointer-events: none;
+}
+
+.inputFieldContainer.invalidData .inputFieldDataContainer .inputErrorIcon {
+    display: block;
+}
+
+.inputFieldContainer.invalidData .inputFieldDataContainer:focus-within .inputErrorIcon {
+    display: none;
+}
+
+.invalidData .inputFieldDataContainer:not(:focus-within) .inputField {
+    border-bottom: solid 2px var(--error-color);
+}
+
+.invalidData .inputFieldLabel {
+    color: var(--error-color);
+}
+
+.invalidData .inputField:not(:placeholder-shown):not(:focus) {
+    border-color: var(--error-color);
+}
+
+.invalidData .inputField:not(:placeholder-shown):not(:focus)+.inputFieldLabel {
+    color: var(--error-color);
+}
+
+.inputFieldContainer.invalidData .inputFieldHint {
+    color: var(--error-color);
+    font-weight: 600;
+    opacity: 1;
+}
+
+
+/* <Notice> */
+
+.notice {
+    max-width: 100%;
+    height: fit-content;
+    text-align: left;
+    font-size: 16px;
+    padding: 4px;
+    opacity: 0.5;
+}
+
+.notice.smallerNotice {
+    font-size: 14px;
+    padding: 8px;
+    opacity: 0.8;
+}
+
+
+/* <Mark> */
+
+.mark {
+    display: inline-block;
+    color: var(--accent-color);
+}
+
+
+/* <FlexContainer> */
+
+.flexContainer {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 18px;
+    max-width: 100%;
+}
+
+@media (pointer:none),
+(pointer:coarse) {
+    .flexContainer {
+        margin: 18px 0px;
+    }
+}
+
+.flexContainer.spaceBetween {
+    justify-content: space-between;
+}
+
+.flexContainer.spaceAround {
+    justify-content: space-around;
+}
+
+.flexContainer.horozontal {
+    flex-direction: row;
+    height: fit-content;
+    max-width: 100%;
+    width: 100%;
+}
+
+.flexContainer.noFlexGrow {
+    flex-grow: 0;
+}
+
+
+/* <Link> */
+
+.link {
+    font-weight: bold;
+    color: var(--accent-color);
+    text-decoration: underline;
+    text-decoration-thickness: 0.1em;
+    text-decoration-style: dashed;
+}
+
+
+/* <CheckBox> */
+
+.checkBoxContainer {
+    font-size: inherit;
+    width: fit-content;
+    height: fit-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: inherit;
+}
+
+.checkBoxContainer .checkBox {
+    /* Add if not using autoprefixer */
+    -webkit-appearance: none;
+    appearance: none;
+    /* Not removed via appearance */
+    margin: 0;
+    font-size: inherit;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    border: solid 2px var(--background-bold);
+    background-color: transparent;
+    border-radius: 2px;
+}
+
+.checkBoxContainer .checkBox:focus {
+    outline: 5px solid var(--background-blend);
+    outline-offset: 0px;
+}
+
+.checkBoxContainer .checkBox:active {
+    transition: border 0.2s;
+    border-color: var(--accent-color);
+}
+
+.checkBoxContainer .checkBox:checked {
+    transition: background-color 0.2s, border 0.26s;
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
+}
+
+
+/*.checkBoxContainer .checkBox::before {
+    content: "";
+    display: block;
+    width: 11px;
+    height: 11px;
+    margin: 2px;
+    background-color: var(--background-bold);
+    clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+    transform: rotate(8deg);
+    opacity: 0;
+}
+
+.checkBoxContainer .checkBox:checked::before {
+    transition: background-color 0.1s, opacity 0.05s;
+    opacity: 1;
+    background-color: white;
+}*/
+
+.checkBoxContainer .checkBox::before {
+    content: "";
+    display: block;
+    transform: rotate(45deg);
+    height: 8px;
+    width: 4px;
+    margin: 1px 4px;
+    border-bottom: 3px solid var(--accent-color);
+    border-right: 3px solid var(--accent-color);
+    opacity: 0;
+}
+
+.checkBoxContainer .checkBox:checked::before {
+    transition: border 0.16s;
+    opacity: 1;
+    border-bottom: 3px solid white;
+    border-right: 3px solid white;
+}
+
+.checkBoxContainer label {
+    font-size: inherit;
+    width: fit-content;
+    height: 1.2em;
+    cursor: pointer;
+    line-height: 1em;
+    padding-left: 0.5em;
+}
+
+
+/* <Radio> */
+
+.radioContainer {
+    font-size: inherit;
+    width: fit-content;
+    height: fit-content;
+    display: flex;
+    justify-content: center;
+    align-items: left;
+    font-weight: inherit;
+    margin: 10px 6px;
+}
+
+.radioContainer .radio {
+    -webkit-appearance: none;
+    appearance: none;
+    border-radius: 100%;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--background-bold);
+    position: relative;
+    transition: border 0.1s;
+    background-color: transparent;
+    margin-right: 10px;
+}
+
+.radioContainer .radio:before {
+    content: "";
+    display: block;
+    width: 2px;
+    height: 2px;
+    margin: 8px;
+    border-radius: 100%;
+    background-color: var(--accent-color);
+    opacity: 0;
+}
+
+.radioContainer .radio:focus {
+    outline: 5px solid var(--background-blend);
+    outline-offset: 0px;
+}
+
+.radioContainer .radio:checked {
+    border-color: var(--accent-color);
+}
+
+.radioContainer .radio:checked:before {
+    transition: all 0.1s linear, opacity 0s linear;
+    width: 8px;
+    height: 8px;
+    margin: 4px;
+    opacity: 1;
+}
+
+.radioContainer .radioLabel {
+    font-size: inherit;
+    line-height: 24px;
+}
+
+
+/* <Divider> */
+
+.divider {
+    width: 100%;
+    height: 0px;
+    border: none;
+    border-bottom: solid 2px var(--background-bold);
+    margin: 18px 0px;
+    opacity: 0.3;
+}
+
+
+/* <Dialog> */
+
+.dialogContainer {
+    position: fixed;
+    top: 0px;
+    bottom: 0px;
+    right: 0px;
+    left: 0px;
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--dialog-container-background);
+}
+
+.dialogContainer .dialogBox {
+    width: 360px;
+    max-width: calc(100% - 2 * var(--page-margin) - 3 * 24px);
+    max-height: 80%;
+    min-height: 50px;
+    height: fit-content;
+    background-color: var(--dialog-background);
+    box-shadow: 0px 2px 4px var(--dialog-shadow);
+    border-radius: 18px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    transform: scale(0.94);
+    animation-name: fadeInDialogBox;
+    animation-timing-function: ease-out;
+    animation-duration: 0.1s;
+    animation-fill-mode: forwards;
+    overflow: hidden;
+}
+
+@keyframes fadeInDialogBox {
+    from {
+        transform: scale(0.94);
+    }
+    to {
+        transform: scale(1);
+    }
+}
+
+.dialogContainer .dialogBox .dialogText {
+    flex-grow: 1;
+    text-align: left;
+    opacity: 0.9;
+}
+
+.dialogContainer .dialogBox .dialogText .dialogTitle {
+    display: block;
+    font-size: 18px;
+    font-weight: 500;
+    margin: 12px 0px;
+}
+
+.dialogContainer .dialogBox .dialogText .dialogDescription {
+    display: block;
+    font-size: 15px;
+    font-weight: 200;
+    margin: 8px 0px;
+}
+
+.dialogContainer .dialogBox .dialogContent {
+    margin-top: 12px;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: right;
+    align-items: center;
+    height: fit-content;
+}

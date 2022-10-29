@@ -1,0 +1,77 @@
+/**
+ *
+ * 'Connection status'-related styles
+ *
+ **/
+
+.cover {
+    position: fixed;
+    pointer-events: none;
+    background-color: var(--dialog-container-background);
+    opacity: 0;
+    top: 0px;
+    bottom: 0px;
+    right: 0px;
+    left: 0px;
+    animation: fadeIn 0.08s ease forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 0.7;
+    }
+}
+
+.box {
+    position: fixed;
+    background-color: var(--dialog-background);
+    box-shadow: 0px 0px 4px var(--dialog-shadow);
+    width: 360px;
+    max-width: calc(100% - 2 * var(--page-margin) - 3 * 24px);
+    margin: auto;
+    right: 0px;
+    left: 0px;
+    bottom: 0px;
+    height: 52px;
+    border-radius: 8px 8px 0px 0px;
+    animation: slideIn 0.06s ease-out forwards;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+}
+
+@media (pointer: fine) {
+    .box {
+        padding: 12px 0px;
+    }
+}
+
+@keyframes slideIn {
+    from {
+        margin-bottom: -26px;
+        transform: scale(1.01);
+    }
+    to {
+        margin-bottom: 0px;
+        transform: scale(1);
+    }
+}
+
+.box .text {
+    font-size: 16px;
+    font-weight: 600;
+    height: fit-content;
+}
+
+.box .icon {
+    --svg-color: var(--text-color);
+    margin: 6px;
+    margin-bottom: 4px;
+    margin-left: 0px;
+    width: 26px;
+    height: 26px;
+}

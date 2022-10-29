@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en" data-color-scheme="light">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <!--<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; child-src 'none';">-->
+    <!-- NOTE: use this website to generate the favicon once an icon has been selected: https://favicon.io/favicon-converter/ -->
+    <link rel="shortcut icon" type="image/ico" href="/images/favicon.ico">
+    <title>MyApp</title>
+
+    <!-- PWA minimal data -->
+    <meta name="description" content="MyApp is an app!">
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png" sizes="180x180">
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F7F8FA">
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0D0F11">
+
+    <script type="text/javascript">
+        /* Quick colour scheme detection */
+        let matchMedia = window.matchMedia('(prefers-color-scheme: dark)');
+        document.documentElement.dataset.colorScheme = matchMedia.matches ? "dark" : "light";
+        delete matchMedia;
+        /* Quick CSS tweaking */
+        function updateVHUnit() {
+            let vh = window.innerHeight * 0.01;
+            document.documentElement.style.setProperty('--vhu', `${vh}px`);
+        }
+        window.onresize = updateVHUnit;
+        updateVHUnit();
+    </script>
+
+    <style type="text/css">
+         :root {
+            --vh: var(--vhu, 1vh);
+        }
+        
+         :root[data-color-scheme=dark] {
+            color-scheme: dark;
+            --text-color: #F7F8FA;
+            --main-background: #0D0F11;
+            --accent-color: #ec3f6b;
+            --accent-color-active: #c23b5d;
+            --accent-color-lighter: #5a2e3b;
+            --accent-color-faint: #301c22;
+            --background-blend: #202529;
+            --background-blend-rgb: 32, 37, 41;
+            --background-bold: #96a4af;
+            --error-color: #e9564e;
+            --dialog-background: #1d2022;
+            --dialog-shadow: #0e0e0e;
+            --dialog-container-background: rgba(14, 14, 15, 0.85);
+        }
+        
+         :root[data-color-scheme=light] {
+            color-scheme: light;
+            --text-color: #0D0F11;
+            --main-background: #F7F8FA;
+            --accent-color: #C90C3B;
+            --accent-color-active: #e03a64;
+            --accent-color-lighter: #ffa6be;
+            --accent-color-faint: #ffdae4;
+            --background-blend: #e8ebf0;
+            --background-blend-rgb: 232, 235, 240;
+            --background-bold: #6b737a;
+            --error-color: #e7463e;
+            --dialog-background: #ffffff;
+            --dialog-shadow: #d6d6d6;
+            --dialog-container-background: rgba(247, 248, 250, 0.8);
+        }
+        
+        html {
+            width: 100%;
+            height: 100%;
+            margin: 0px;
+            background-color: var(--main-background);
+        }
+        
+        body {
+            --globalbar--height: 120px;
+            --globalfooter--height: 38px;
+            --page-margin: 60px;
+            margin: 0px;
+            padding: var(--page-margin);
+            min-height: calc(100 * var(--vh) - 2 * var(--page-margin));
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            color: var(--text-color);
+        }
+        
+        @media (pointer:none),
+        (pointer:coarse) {
+            body {
+                --page-margin: 24px;
+            }
+        }
+        
+        text,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        a,
+        .text {
+            color: var(--text-color);
+        }
+        
+        text,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        a,
+        .text,
+        input,
+        label,
+        textarea,
+        button,
+        select {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        [unselectable],
+        [disabled] {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            -o-user-select: none;
+            user-select: none;
+        }
+        
+        [disabled] {
+            opacity: 0.6;
+            pointer-events: none !important;
+        }
+        
+        * {
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+         ::selection {
+            background: var(--accent-color-lighter);
+        }
+        
+         ::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+         ::-webkit-scrollbar-track {
+            background: var(--background-blend);
+        }
+        /* Handle */
+        
+         ::-webkit-scrollbar-thumb {
+            background: var(--background-bold);
+        }
+        /* Handle on hover */
+        
+         ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-color);
+        }
+        
+         ::-webkit-scrollbar-thumb:active {
+            background: var(--accent-color-lighter);
+        }
+    </style>
+</head>
+
+<body>
+    <noscript>You must enable JavaScript In order to use this service.</noscript>
+    <script src="/src/initiate.jsx" type="module"></script>
+</body>
+
+</html>
