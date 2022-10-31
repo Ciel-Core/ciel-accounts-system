@@ -64,10 +64,11 @@ export function signUpPOST(data, callback){
     });
 }
 
-export function usernameCheckPOST(username, callback, getDisplayUsername = true, reserveUsername = false){
+export function usernameCheckPOST(username, callback, getDisplayUsername = true, reserveUsername = false, getCooldown = false){
     jsonPOST("/APIs/accounts/core/username.check.json.php",{
         username: username,
         getDisplayUsername: getDisplayUsername,
+        getCooldown: getCooldown,
         reserveUsername: reserveUsername
     }).then(function(data){
         callback(data.responseInfo.successful, data);

@@ -104,7 +104,10 @@ export default function RegisterUsername(props){
                             usernameCheckPOST(usernameInput.value, function(isSuccessful, response){
                                 if(isSuccessful){
                                     if(response.usernameExists){
-                                        setInputState(username, false, "Username already in-use!");
+                                        setInputState(username, false, "Username is already taken!");
+                                        setError();
+                                    }else if(response.usernameOnCooldown){
+                                        setInputState(username, false, "Username on cooldown, try again later!");
                                         setError();
                                     }
                                 }else{
@@ -116,14 +119,14 @@ export default function RegisterUsername(props){
                                     setError();
                                 }
                                 checkStatus();
-                            }, false, true);
+                            }, false, true, true);
                             // Note to self: add a server-side system to temp-reserve usernames for 5 minutes (with reserve time extensions for the user depending on the page)
                         }
                     }, function(){
                         registerData.username = username.children[0].children[0].value;
                         checkDataByOrder(2, function(error){
                             if(error){
-                                redoRegister(navigate);
+                                redoRegister(navigate, true);
                             }else{
                                 navigate("/user/register/password");
                             }

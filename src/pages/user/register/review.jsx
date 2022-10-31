@@ -131,12 +131,15 @@ export default function RegisterReview(props){
                             checkDataByOrder(8, function(error){
                                 if(error){
                                     isDone();
-                                    redoRegister(navigate);
+                                    redoRegister(navigate, true);
                                 }else{
                                     signUpPOST(registerData, function(isSuccessful, response){
                                         isDone();
                                         if(isSuccessful){
-                                            alert(":)");
+                                            showDialog("Account created!", "Now try to sign in to your account!", [["Sign in", function(dialog, remove){
+                                                navigate("/user/login");
+                                                remove();
+                                            }]]);
                                         }else{
                                             showDialog("Error!", "We couldn't create your Ciel account! Please try again at a later time.");
                                         }

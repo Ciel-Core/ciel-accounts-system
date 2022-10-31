@@ -78,14 +78,18 @@ export function nextCheck(button, callback, action){
     }, done, error);
 }
 
-export function redoRegister(navigate){
-    showDialog("Something went wrong!", "It looks like some of your registration data is missing!", [
-        ["Refill info", function(dialog, remove){
-            resetRegisterData();
-            navigate("/user/register");
-            remove();
-        }]
-    ]);
+export function redoRegister(navigate, prompt = false){
+    resetRegisterData();
+    if(prompt){
+        showDialog("Something went wrong!", "It looks like some of your registration data is missing!", [
+            ["Refill info", function(dialog, remove){
+                navigate("/user/register", { replace: true });
+                remove();
+            }]
+        ]);
+    }else{
+        navigate("/user/register", { replace: true });
+    }
 }
 
 export function ButtonsContainer(props){

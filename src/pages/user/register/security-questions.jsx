@@ -160,7 +160,7 @@ export default function RegisterSecurityQuestions(props){
                         registerData.securityQuestions.a3 = ansElm3.children[0].children[0].value;
                         checkDataByOrder(5, function(error){
                             if(error){
-                                redoRegister(navigate);
+                                redoRegister(navigate, true);
                             }else{
                                 navigate("/user/register/quick-settings");
                             }

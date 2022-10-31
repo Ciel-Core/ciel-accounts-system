@@ -117,7 +117,7 @@ export default function RegisterPassword(props){
                         checkDataByOrder(3, function(error){
                             if(error){
                                 emptyPassword();
-                                setTimeout(function(){redoRegister(navigate)}, 1);
+                                setTimeout(function(){redoRegister(navigate, true)}, 1);
                             }else{
                                 navigate("/user/register/personal");
                             }

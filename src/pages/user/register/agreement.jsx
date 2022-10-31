@@ -80,7 +80,7 @@ export default function RegisterAgreement(props){
                             registerData.agreement = true;
                             checkDataByOrder(7, function(error){
                                 if(error){
-                                    redoRegister(navigate);
+                                    redoRegister(navigate, true);
                                 }else{
                                     showDialog("Notice", "If you agree to create an account, you are effectively agreeing to the yet-to-be-written legal documents that are missing from this page!",
                                                 [
