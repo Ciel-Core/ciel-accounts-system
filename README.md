@@ -1,5 +1,3 @@
-> still editing!
-
 # The Ciel System (Ciel Accounts System)
 
 This is a project that aims to provide developers with an easy-to-use third-party accounts system and provide users with a secure, reliable, and private experiance with full control over their data.
@@ -24,18 +22,18 @@ This is a project that aims to provide developers with an easy-to-use third-part
 - [ ] Add an "about" section
 - [ ] Add an activity tracking system (Must be completely controlable by the user)
 - [ ] Make a library/API for developers
-    - [ ] Tracking functions
-    - [ ] Login/Logout functions
-    - [ ] Data-related requests channels (for account deletion/data copy requests)
+  - [ ] Tracking functions
+  - [ ] Login/Logout functions
+  - [ ] Data-related requests channels (for account deletion/data copy requests)
 - [ ] Add two-steps verification
-    - [ ] Add an "authenticator" to the PWA (with an in-app generated code)
-    - [ ] Add the option for an authentication promt to the PWA (a y/n screen)
-    - [ ] Support external authenticators (Like Google/Microsoft Authenticator)
-    - [ ] Support security keys
-    - [ ] Add mandatory back-up codes
-    > Do NOT allow SMS or email two-steps verification
+  - [ ] Add an "authenticator" to the PWA (with an in-app generated code)
+  - [ ] Add the option for an authentication promt to the PWA (a y/n screen)
+  - [ ] Support external authenticators (Like Google/Microsoft Authenticator)
+  - [ ] Support security keys
+  - [ ] Add mandatory back-up codes
+  > Do NOT allow SMS or email two-steps verification
 - [ ] Force the user to set up security questions (3 minimum)
-- [ ] Always require the user to do device authentication on new devices or when the user attempts to change important settings. (https://try-webauthn.appspot.com/)
+- [ ] Always require the user to do device authentication on new devices or when the user attempts to change important settings. (<https://try-webauthn.appspot.com/>)
 
 > The sign up process:
 >
@@ -93,14 +91,13 @@ This is a project that aims to provide developers with an easy-to-use third-part
 > 1. Must file the request through a trusted device
 > 2. Must enter their date of birth and gender
 > 3. Must answer all the security questions correctly
-
-
+>
 > Note 1: Add option to save auth codes for other services, passwords and emails, and important data (like bank info, hashes, etc)
-
+>
 > Note 2: Disable screenshots
-
+>
 > Note 2: Add page transitions
-
+>
 > Collected data (not provided by the user manually):
 >
 > 1. IP address, user location, and user agent. (For user login history, and active devices list)
@@ -113,17 +110,20 @@ In the project directory, you can run:
 
 ### `npm dev` or `npm start`
 
-Runs the app in the development mode.<br>
+Runs the app in the development mode.
+
 Open [http://localhost:4000](http://localhost:4000) to view it in the browser.
 
-The page will reload if you make edits.<br>
+The page will reload if you make edits.
 
 ### `npm run build`
 
-Builds the app for production to the `dist` folder.<br>
+Builds the app for production to the `dist` folder.
+
 It correctly bundles Solid in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.<br>
+The build is minified and the filenames include the hashes.
+
 Your app is ready to be deployed!
 
 ### `npm run php`
