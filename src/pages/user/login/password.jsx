@@ -7,11 +7,13 @@
 import { Title } from './../../../assets/components/Title.jsx';
 import { Input, Button, Mark, FlexContainer, CheckBox } from './../../../assets/components/CustomElements.jsx';
 import { onCleanup, onMount } from 'solid-js';
-import { InputFieldsContainer } from './../login.jsx';
+import { InputFieldsContainer, redoLogin } from './../login.jsx';
 import { loginData } from './../../../assets/scripts/pages/loginData.jsx';
+import { useNavigate } from '@solidjs/router';
 
 export default function LoginPassword(props){
-    let nextButton;
+    let nextButton,
+        navigate = useNavigate();
     onMount(() => {
         let passwordInput = document.getElementById("password"), check = () => {
             if(passwordInput.value.length < 10 || passwordInput.value.length > 128){
@@ -22,6 +24,9 @@ export default function LoginPassword(props){
         };
         check();
         passwordInput.oninput = check;
+        if(loginData.username == undefined){
+            redoLogin(navigate);
+        }
         props.pageLoaded();
     });
     onCleanup(() => {

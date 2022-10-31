@@ -216,7 +216,7 @@ export default function RegisterPersonalInfo(props){
                         }
                         checkDataByOrder(4, function(error){
                             if(error){
-                                redoRegister(navigate);
+                                redoRegister(navigate, true);
                             }else{
                                 navigate("/user/register/security-questions");
                             }

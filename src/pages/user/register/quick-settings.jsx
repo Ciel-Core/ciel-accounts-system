@@ -147,7 +147,7 @@ export default function RegisterQuickSettings(props){
                         registerData.quickSettings.colorScheme = Number(getRadioValueByNameGroup("color-scheme"));
                         checkDataByOrder(6, function(error){
                             if(error){
-                                redoRegister(navigate);
+                                redoRegister(navigate, true);
                             }else{
                                 navigate("/user/register/agreement");
                             }

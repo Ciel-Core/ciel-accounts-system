@@ -7,7 +7,7 @@ $PROFANITY_FILTER_status = true;
 require 'server.info.php';
 
 // Get the words list
-$PROFANITY_FILTER_wordsListString = file_get_contents("$SERVER_ROOT/lists/banned_words.txt"); // THIS IS NOT WORKING!
+$PROFANITY_FILTER_wordsListString = file_get_contents("$SERVER_ROOT/lists/banned_words.txt");
 $PROFANITY_FILTER_status = !($PROFANITY_FILTER_wordsListString == false);
 
 // Convert the list into an array and clean up the string list

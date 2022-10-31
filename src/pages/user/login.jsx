@@ -10,12 +10,25 @@ import { onCleanup, onMount } from 'solid-js';
 import { nextCheck } from './register.jsx';
 import { useNavigate } from '@solidjs/router';
 import { usernameCheckPOST } from './../../assets/scripts/communication/accounts.jsx';
-import { loginData } from './../../assets/scripts/pages/loginData.jsx';
+import { loginData, resetLoginData } from './../../assets/scripts/pages/loginData.jsx';
 
 export function InputFieldsContainer(props){
     return (<div style={{width: "100%", position: "relative", overflow: "hidden"}}>{props.children}</div>);
 }
 
+export function redoLogin(navigate, prompt = false){
+    resetLoginData();
+    if(prompt){
+        showDialog("Something went wrong!", "It looks like some of your login data went missing!", [
+            ["Refill login details", function(dialog, remove){
+                navigate("/user/login", { replace: true });
+                remove();
+            }]
+        ]);
+    }else{
+        navigate("/user/login", { replace: true });
+    }
+}
 export default function Login(props){
     let navigate = useNavigate(),
         nextButton,
@@ -56,24 +69,29 @@ export default function Login(props){
                 <Button ref={nextButton} type={"action"} function={function(){
                     // usernameCheckPOST
                     nextCheck(nextButton, function(setError, isDone){
-                        usernameCheckPOST(usernameInput.value, function(isSuccessful, response){
-                            if(isSuccessful){
-                                if(response.usernameExists){
-                                    isDone();
-                                    loginData.username = response.displayUsername;
+                        if(!/^[A-Za-z0-9_]{3,20}$/.test(usernameInput.value) || !/[a-zA-Z]/.test(usernameInput.value)){
+                            setInputState(username, false, "Invalid username!");
+                            setError();
+                        }else{
+                            usernameCheckPOST(usernameInput.value, function(isSuccessful, response){
+                                if(isSuccessful){
+                                    if(response.usernameExists){
+                                        isDone();
+                                        loginData.username = response.displayUsername;
+                                    }else{
+                                        setInputState(username, false, "User doesn't exist!");
+                                        setError();
+                                    }
                                 }else{
-                                    setInputState(username, false, "User doesn't exist!");
+                                    showDialog("Error!", "We couldn't get a valid response from the server!", [
+                                        ["Ok", function(dialog, remove){
+                                            remove();
+                                        }]
+                                    ]);
                                     setError();
                                 }
-                            }else{
-                                showDialog("Error!", "We couldn't get a valid response from the server!", [
-                                    ["Ok", function(dialog, remove){
-                                        remove();
-                                    }]
-                                ]);
-                                setError();
-                            }
-                        });
+                            });
+                        }
                     }, function(){
                         navigate("/user/login/password");
                     });

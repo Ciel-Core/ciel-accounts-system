@@ -6,25 +6,31 @@ require './../../_chips/comb.start_inputJSON.php';
 // Do a basic check for the input data!
 checkInputData(
     [$INPUT_DATA->getDisplayUsername, "boolean"],
+    [$INPUT_DATA->getCooldown, "boolean"],
     [$INPUT_DATA->reserveUsername, "boolean"],
-    [$INPUT_DATA->username, "string"]
+    [$INPUT_DATA->username, "string", true, "/^[A-Za-z0-9_]{3,20}$/", "/[a-zA-Z]/"]
 );
 
 $USERNAME_EXISTS = false;
+$USERNAME_ON_COOLDOWN = false;
 $USERNAME_DISPLAY = "";
 
 // Check if username is not taken
-if(strtolower($INPUT_DATA->username) == "temp"){ // TEMP
+require './../../tools/sql.username.php';
+if(usernameExists($INPUT_DATA->username)){
     $USERNAME_EXISTS = true;
     // Get display username from database
     if($INPUT_DATA->getDisplayUsername){
         $USERNAME_DISPLAY = "TemP";
     }
 }else{
-    // Reserve username for 10 minutes
     if($INPUT_DATA->reserveUsername){
-        //
+        cooldownUsername($INPUT_DATA->username);
     }
+}
+// Get username cooldown status
+if($INPUT_DATA->getCooldown){
+    $USERNAME_ON_COOLDOWN = usernameOnCooldown($INPUT_DATA->username);
 }
 
 ?>
@@ -34,6 +40,11 @@ if(strtolower($INPUT_DATA->username) == "temp"){ // TEMP
             echo '"displayUsername": "';
             echo $USERNAME_DISPLAY;
             echo '",';
+        }
+        if($INPUT_DATA->getCooldown){
+            echo '"usernameOnCooldown":';
+            echo ($USERNAME_ON_COOLDOWN) ? 'true' : 'false';
+            echo ',';
         }
     ?>
     "usernameExists": <?php echo ($USERNAME_EXISTS) ? 'true' : 'false' ?>,
