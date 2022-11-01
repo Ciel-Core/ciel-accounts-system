@@ -22,6 +22,7 @@ RewriteCond %{REQUEST_URI} !^(/const)
 RewriteCond %{REQUEST_URI} !^(/APIs)
 RewriteCond %{REQUEST_URI} !^(/locales)
 RewriteCond %{REQUEST_URI} !^(/cdn-cgi)
+RewriteCond %{REQUEST_URI} !^(/phpmyadmin)
 RewriteRule .* /index.html [L,NC]
 
 <IfModule mod_headers.c>

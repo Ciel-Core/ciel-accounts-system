@@ -137,9 +137,9 @@ export default function Register(props){
         <FlexContainer space={"around"} style={{width: "400px"}}>
             <InputFieldsContainer>
                 <Input ref={firstName} id={"first_name"} type={"text"} label={"First name"} autocomplete={"given-name"}
-                        style={{width: "calc(100% - 8px)"}}/>
+                        style={{width: "calc(100% - 8px)"}} maxlength={32}/>
                 <Input ref={lastName} id={"last_name"} type={"text"} label={"Last name"} autocomplete={"family-name"}
-                        style={{width: "calc(100% - 8px)"}}/>
+                        style={{width: "calc(100% - 8px)"}} maxlength={32}/>
             </InputFieldsContainer>
             <Notice>It's recommended to use a device that you own and use frequently to create your Ciel account!</Notice>
             <ButtonsContainer>
@@ -158,7 +158,10 @@ export default function Register(props){
                                 [firstNameInput, firstName],
                                 [lastNameInput, lastName]
                             ].forEach(function(elms){
-                                if(!/^[a-zA-Z]+$/.test(elms[0].value)){
+                                if(elms[0].value.length > 32){
+                                    setInputState(elms[1], false, "Can't be longer than 32 characters!");
+                                    setError();
+                                }else if(!/^[a-zA-Z]+$/.test(elms[0].value)){
                                     setInputState(elms[1], false, "Can only contain letters!");
                                     setError();
                                 }else{

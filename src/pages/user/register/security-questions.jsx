@@ -95,7 +95,7 @@ export default function RegisterSecurityQuestions(props){
                     <option value={6}>{securityQuestions()[1][5]}</option>
                 </Select>
                 <Input ref={ansElm1} id={"security-a1"} type={"text"} label={"Answer 1"}
-                        style={{width: "calc(100% - 8px)"}}/>
+                        style={{width: "calc(100% - 8px)"}} maxlength={255}/>
                 </InputFieldsContainer>
                 <InputFieldsContainer>
                 <Select ref={qusElm2} id={"security-q2"} label={"Question 2"} style={{width: "calc(100% - 8px)"}}
@@ -110,7 +110,7 @@ export default function RegisterSecurityQuestions(props){
                     <option value={6}>{securityQuestions()[2][5]}</option>
                 </Select>
                 <Input ref={ansElm2} id={"security-a2"} type={"text"} label={"Answer 2"}
-                        style={{width: "calc(100% - 8px)"}}/>
+                        style={{width: "calc(100% - 8px)"}} maxlength={255}/>
                 </InputFieldsContainer>
                 <InputFieldsContainer>
                 <Select ref={qusElm3} id={"security-q3"} label={"Question 3"} style={{width: "calc(100% - 8px)"}}
@@ -125,7 +125,7 @@ export default function RegisterSecurityQuestions(props){
                     <option value={6}>{securityQuestions()[3][5]}</option>
                 </Select>
                 <Input ref={ansElm3} id={"security-a3"} type={"text"} label={"Answer 3"}
-                        style={{width: "calc(100% - 8px)"}}/>
+                        style={{width: "calc(100% - 8px)"}} maxlength={255}/>
             </InputFieldsContainer>
             <Notice>Security questions are important. They can help you regain access to your account when you get locked out - so don't share them with anyone!</Notice>
             <Notice>When you answer your security questions, the answer needs to be in the format you first entered them. So try to write them down somewhere!</Notice>
@@ -139,11 +139,17 @@ export default function RegisterSecurityQuestions(props){
                             ansElm3
                         ].forEach(function(elm){
                             let input = elm.children[0].children[0];
-                            if(input.value[0] == " " || input.value[input.value.length - 1] == " "){
+                            if(input.value.length > 255){
+                                setInputState(elm, false, "Can't be longer than 255 characters!");
+                                setError();
+                            }else if(input.value[0] == " " || input.value[input.value.length - 1] == " "){
                                 setInputState(elm, false, "Can't start or end with whitespace!");
                                 setError();
                             }else if(input.value.indexOf("  ") != -1){
                                 setInputState(elm, false, "Can't contain consecutive whitespaces!");
+                                setError();
+                            }else if(!/^[a-zA-Z0-9!?@#$%&*(). ]*$/.test(input.value)){
+                                setInputState(elm, false, "Can only contain letters, whitespaces, and some special characters (!?@#$%&()*.)!");
                                 setError();
                             }else if(input.value.length < 5){
                                 setInputState(elm, false, "Too short!");

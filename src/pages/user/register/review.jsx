@@ -136,7 +136,7 @@ export default function RegisterReview(props){
                                     signUpPOST(registerData, function(isSuccessful, response){
                                         isDone();
                                         if(isSuccessful){
-                                            showDialog("Account created!", "Now try to sign in to your account!", [["Sign in", function(dialog, remove){
+                                            showDialog("Account created!", "You can sign in to your account!", [["Sign in", function(dialog, remove){
                                                 navigate("/user/login");
                                                 remove();
                                             }]]);
