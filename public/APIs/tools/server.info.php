@@ -7,6 +7,6 @@ $SERVER_PROTOCOL = stripos($_SERVER['SERVER_PROTOCOL'],'https') === 0 ? 'https:/
 $SERVER_NAME = $_SERVER['SERVER_NAME'];
 
 // Get the server's root
-$SERVER_ROOT = $_SERVER['DOCUMENT_ROOT']
+$SERVER_ROOT = $_SERVER['DOCUMENT_ROOT'];
 
 ?>

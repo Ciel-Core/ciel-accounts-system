@@ -21,7 +21,7 @@ if(usernameExists($INPUT_DATA->username)){
     $USERNAME_EXISTS = true;
     // Get display username from database
     if($INPUT_DATA->getDisplayUsername){
-        $USERNAME_DISPLAY = "TemP";
+        $USERNAME_DISPLAY = getDisplayUsername($INPUT_DATA->username);
     }
 }else{
     if($INPUT_DATA->reserveUsername){

@@ -57,14 +57,7 @@ export default function RegisterUsername(props){
                 <Button ref={nextButton} type={"action"} function={function(){
                     nextCheck(nextButton, function(setError, isDone){
                         let usernameInput = username.children[0].children[0],
-                            userValue = usernameInput.value.toLowerCase(),
-                            calls = 0,
-                            checkStatus = function(){
-                                calls++;
-                                if(calls == 3){
-                                    isDone();
-                                }
-                            };
+                            userValue = usernameInput.value.toLowerCase();
                         if(!/^[A-Za-z0-9_]*$/.test(userValue)){
                             setInputState(username, false, "Can only contain letters, numbers, and underscores!");
                             setError();
@@ -85,42 +78,41 @@ export default function RegisterUsername(props){
                                     if(reservedUsernames.includes(userValue)){
                                         setInputState(username, false, "Username is reserved by the system!");
                                         setError();
+                                    }else{
+                                        // Profanity Check
+                                        textProfanity(usernameInput.value).then(function(status){
+                                            if(status){
+                                                setInputState(username, false, "Profanity not allow!");
+                                                setError();
+                                            }else{
+                                                // Username status (taken or not)
+                                                usernameCheckPOST(usernameInput.value, function(isSuccessful, response){
+                                                    if(isSuccessful){
+                                                        if(response.usernameExists){
+                                                            setInputState(username, false, "Username is already taken!");
+                                                            setError();
+                                                        }else if(response.usernameOnCooldown){
+                                                            setInputState(username, false, "Username on cooldown, try again later!");
+                                                            setError();
+                                                        }
+                                                    }else{
+                                                        showDialog("Error!", "We couldn't get a valid response from the server!", [
+                                                            ["Ok", function(dialog, remove){
+                                                                remove();
+                                                            }]
+                                                        ]);
+                                                        setError();
+                                                    }
+                                                    isDone();
+                                                }, false, true, true);
+                                            }
+                                        });
                                     }
                                 }else{
                                     setInputState(username, false, "An error occured, please try again later!");
                                     setError();
                                 }
-                                checkStatus();
                             };
-                            // Profanity Check
-                            textProfanity(usernameInput.value).then(function(status){
-                                if(status){
-                                    setInputState(username, false, "Profanity not allow!");
-                                    setError();
-                                }
-                                checkStatus();
-                            });
-                            // Username status (taken or not)
-                            usernameCheckPOST(usernameInput.value, function(isSuccessful, response){
-                                if(isSuccessful){
-                                    if(response.usernameExists){
-                                        setInputState(username, false, "Username is already taken!");
-                                        setError();
-                                    }else if(response.usernameOnCooldown){
-                                        setInputState(username, false, "Username on cooldown, try again later!");
-                                        setError();
-                                    }
-                                }else{
-                                    showDialog("Error!", "We couldn't get a valid response from the server!", [
-                                        ["Ok", function(dialog, remove){
-                                            remove();
-                                        }]
-                                    ]);
-                                    setError();
-                                }
-                                checkStatus();
-                            }, false, true, true);
-                            // Note to self: add a server-side system to temp-reserve usernames for 5 minutes (with reserve time extensions for the user depending on the page)
                         }
                     }, function(){
                         registerData.username = username.children[0].children[0].value;
