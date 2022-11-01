@@ -13,10 +13,10 @@ function usernameOnCooldown($username){
     return false;
 }
 
-// Reserve username for 90 minutes (lock the username to the current IP address)
+// Reserve username for 240 minutes (lock the username to the current IP address)
 // - Should an account be created using the current IP address, drop all locked usernames
 //   attached to said IP address.
-// - Should an IP address have more than 24 usernames locked to it, prevent said IP address
+// - Should an IP address have more than 14 usernames locked to it, prevent said IP address
 //   from locking any more usernames for 240 minutes and drop all locked usernames attached to said
 //   IP address.
 function cooldownUsername($username){

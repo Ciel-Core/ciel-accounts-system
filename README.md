@@ -128,7 +128,7 @@ Your app is ready to be deployed!
 
 ### `npm run php`
 
-Builds the app in developer mode with a php server.
+Builds the app in developer mode with a php server (no database support).
 
 ## Deployment
 

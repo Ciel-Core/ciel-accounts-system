@@ -12,7 +12,7 @@ let userDataModule = {
         preferredColorScheme: 0, // 0 - system, 1 - light, 2 - dark
     },
     personal: {
-        profilePicture: "/images/icons/default_user.svg", // <String> - URL to profile picture
+        profilePicture: "/images/icons/default_user.svg", // <String> - URL to profile picture, /images/users/XXXXXXXXXXXXXXXXXXXXXXXXXX/...
         firstName: "First", // <String> - user's first name
         lastName: "Last", // <String> - user's last name
     },

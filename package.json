@@ -6,6 +6,7 @@
         "start": "vite",
         "dev": "vite --host",
         "build": "vite build && npm audit",
+        "dev-build": "vite build --mode development",
         "serve": "vite preview",
         "php": "vite build --mode development && cd dist/ && \"../php_server_folder/php.exe\" -S localhost:80"
     },

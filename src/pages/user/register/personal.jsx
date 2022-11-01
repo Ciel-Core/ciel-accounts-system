@@ -107,7 +107,7 @@ export default function RegisterPersonalInfo(props){
                 </Select>
                 <Input ref={customGenderName} id={"custom-gender-name"} type={"text"}
                         label={"Gender name"} style={{width: "calc(100% - 8px)", display: "none"}}
-                        value={"FILL"}/>
+                        value={"FILL"} maxlength={32}/>
                 <Select ref={customGenderPronouns} id={"custom-gender-pronouns"}
                         label={"Prefered pronouns"}
                         style={{width: "calc(100% - 8px)", display: "none"}} selectedIndex={1}>
@@ -173,7 +173,10 @@ export default function RegisterPersonalInfo(props){
                             }
                         }
                         if(genderInput.value == "custom"){
-                            if(!/^[a-zA-Z\s]+$/.test(customGenderNameInput.value)){
+                            if(customGenderNameInput.value.length > 32){
+                                setInputState(customGenderName, false, "Can't be longer than 32 characters!");
+                                setError();
+                            }else if(!/^[a-zA-Z\s]+$/.test(customGenderNameInput.value)){
                                 setInputState(customGenderName, false, "Can only contain letters and whitespaces!");
                                 setError();
                             }else if(customGenderNameInput.value[0] == " " || customGenderNameInput.value[customGenderNameInput.value.length - 1] == " "){
