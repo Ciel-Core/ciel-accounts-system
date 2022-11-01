@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 01, 2022 at 02:33 PM
+-- Generation Time: Nov 01, 2022 at 07:12 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -119,6 +119,7 @@ CREATE TABLE `trusteddevices` (
 CREATE TABLE `users` (
   `UID` bigint(11) UNSIGNED NOT NULL,
   `Username` varchar(20) NOT NULL,
+  `DisplayUsername` varchar(20) NOT NULL,
   `CreationDate` timestamp NOT NULL DEFAULT current_timestamp(),
   `CreationIPAddress` varchar(15) NOT NULL,
   `PasswordHash` varchar(32) NOT NULL,
@@ -128,15 +129,15 @@ CREATE TABLE `users` (
   `Birthdate` date NOT NULL,
   `GenderName` varchar(32) NOT NULL,
   `Pronounce` tinyint(1) NOT NULL DEFAULT 0,
-  `Language` varchar(24) NOT NULL
+  `Lang` varchar(24) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`UID`, `Username`, `CreationDate`, `CreationIPAddress`, `PasswordHash`, `FirstName`, `LastName`, `ProfilePicutre`, `Birthdate`, `GenderName`, `Pronounce`, `Language`) VALUES
-(10000000000, 'system', '2022-10-31 22:00:00', '0.0.0.0', 'f2a2dfcf765ae8df97f50f5f5feed926', 'Ciel', 'System', 'DEFAULT', '2022-11-01', 'Robot', 0, 'en-GB');
+INSERT INTO `users` (`UID`, `Username`, `DisplayUsername`, `CreationDate`, `CreationIPAddress`, `PasswordHash`, `FirstName`, `LastName`, `ProfilePicutre`, `Birthdate`, `GenderName`, `Pronounce`, `Lang`) VALUES
+(10000000000, 'system', 'system', '2022-10-31 22:00:00', '0.0.0.0', 'f2a2dfcf765ae8df97f50f5f5feed926', 'Ciel', 'System', 'DEFAULT', '2022-11-01', 'Robot', 0, 'en-GB');
 
 --
 -- Indexes for dumped tables
@@ -202,7 +203,7 @@ ALTER TABLE `trusteddevices`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `UID` bigint(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10000000003;
+  MODIFY `UID` bigint(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10000000001;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

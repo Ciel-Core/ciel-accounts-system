@@ -1,99 +1,99 @@
 <?php
 
+if(!function_exists("connectMySQL"))
+    require 'sql.database.php';
+
 // Attempt to register the user in the databse
 // return TRUE on success, FALSE on failure
 function registerUser($input){
-    //ucwords(strtolower($input->gender));
+    global $DATABASE_CoreTABLE__preferences, $DATABASE_CoreTABLE__security,
+        $DATABASE_CoreTABLE__users;
+    $connection = connectMySQL();
+
+    // Prevent SQL injections
+    require 'client.info.php';
+    $Username = mysqli_real_escape_string($connection, strtolower($input->username));
+    $DisplayUsername = mysqli_real_escape_string($connection, $input->username);
+    $PasswordHash = mysqli_real_escape_string($connection, $input->passwordHash);
+    $FirstName = mysqli_real_escape_string($connection, $input->name->first);
+    $LastName = mysqli_real_escape_string($connection, $input->name->last);
+    $Birthdate = $input->birthdate->year."-".$input->birthdate->month."-".$input->birthdate->day;
+    $GenderName = mysqli_real_escape_string($connection, ucwords(strtolower($input->gender)));
+    $Pronounce = $input->pronounce;
+    $Lang = mysqli_real_escape_string($connection, $input->extraData->registrationDisplayLanguage);
+
+    // Attempt to register basic user info 
+    if(executeQueryMySQL($connection,
+            "INSERT INTO `$DATABASE_CoreTABLE__users`
+                (`Username`,  `DisplayUsername`,  `CreationIPAddress`, `PasswordHash`,  `FirstName`,
+                 `LastName`,  `Birthdate`,  `GenderName`, `Pronounce`, `Lang`)
+            VALUES
+                ('$Username', '$DisplayUsername', '$CLIENT_IPAddress', '$PasswordHash', '$FirstName',
+                 '$LastName', '$Birthdate', '$GenderName', $Pronounce, '$Lang')"
+        )){
+
+        // Get the user ID (UID)
+        $result = executeQueryMySQL($connection, "SELECT `UID` FROM $DATABASE_CoreTABLE__users WHERE `Username` = '$Username'");
+        $UID = mysqli_fetch_assoc($result)["UID"];
+        $UIDStatus = (gettype($UID) == "string" && strlen($UID) > 10);
+        unset($result);
+
+        // Prevent SQL injections
+        $SecurityQuestion1 = $input->securityQuestions->q1;
+        $SecurityQuestion2 = $input->securityQuestions->q2;
+        $SecurityQuestion3 = $input->securityQuestions->q3;
+        $SecurityQuestionAns1 = mysqli_real_escape_string($connection, $input->securityQuestions->a1);
+        $SecurityQuestionAns2 = mysqli_real_escape_string($connection, $input->securityQuestions->a2);
+        $SecurityQuestionAns3 = mysqli_real_escape_string($connection, $input->securityQuestions->a3);
+
+        // Attempt to register the security questions
+        if($UIDStatus && executeQueryMySQL($connection,
+                "INSERT INTO `$DATABASE_CoreTABLE__security`
+                    (`UID`, `SecurityQuestion1`, `SecurityQuestion2`, `SecurityQuestion3`,
+                     `SecurityQuestionAns1`,  `SecurityQuestionAns2`,  `SecurityQuestionAns3`)
+                VALUES
+                    ($UID,  $SecurityQuestion1,  $SecurityQuestion2,  $SecurityQuestion3,
+                     '$SecurityQuestionAns1', '$SecurityQuestionAns2', '$SecurityQuestionAns3')"
+            )){
+
+            $ProfileVisibility = $input->quickSettings->profile;
+            $ActivityMode = $input->quickSettings->activity;
+            $LocationType = $input->quickSettings->location;
+            $ColorScheme = $input->quickSettings->colorScheme;
+
+            // Attempt to register the user's preferences
+            if(!executeQueryMySQL($connection,
+                    "INSERT INTO `$DATABASE_CoreTABLE__preferences`
+                        (`UID`, `ProfileVisibility`, `ActivityMode`, `LocationType`,
+                         `ColorScheme`)
+                    VALUES
+                        ($UID,  $ProfileVisibility,  $ActivityMode,  $LocationType,
+                          $ColorScheme)"
+                )){
+
+                // Delete user data
+                executeQueryMySQL($connection, "DELETE FROM `$DATABASE_CoreTABLE__users` WHERE `UID` = $UID");
+                executeQueryMySQL($connection, "DELETE FROM `$DATABASE_CoreTABLE__security` WHERE `UID` = $UID");
+                executeQueryMySQL($connection, "DELETE FROM `$DATABASE_CoreTABLE__preferences` WHERE `UID` = $UID"); // Just in case
+                $connection->close();
+                return false;
+            }
+        }else{
+            // Delete user data!
+            if($UIDStatus && executeQueryMySQL($connection, "DELETE FROM `$DATABASE_CoreTABLE__users` WHERE `UID` = $UID")){
+                executeQueryMySQL($connection, "DELETE FROM `$DATABASE_CoreTABLE__security` WHERE `UID` = $UID"); // Just in case
+            }else{
+                executeQueryMySQL($connection, "DELETE FROM `$DATABASE_CoreTABLE__users` WHERE `Username` = '$Username'");
+            }
+            $connection->close();
+            return false;
+        }
+    }else{
+        $connection->close();
+        return false;
+    }
+    $connection->close();
     return true;
 }
-
-/*
-
-(table) users:
-
-    UID:
-
-    Username:
-
-    creationDate:
-
-    creationIPAddress:
-
-    PasswordHash:
-
-    FirstName:
-    LastName:
-
-    profilePicutre:
-
-    Birthdate:
-
-    GenderName:
-    Pronounce:
-
-    Language:
-
-(table) preferences:
-
-    UID:
-
-    ProfileVisibility:
-
-    ActivityMode:
-
-    LocationType:
-
-    colourScheme
-
-(table) security:
-
-    UID:
-
-    SecurityQuestion1:
-    SecurityQuestion2:
-    SecurityQuestion3:
-
-    SecurityQuestionAns1:
-    SecurityQuestionAns2:
-    SecurityQuestionAns3:
-
-(table) sessions:
-
-    SID:
-
-    UID:
-
-    TimeoutTimestamp:
-
-    Country:
-    Region:
-    City:
-    Timezone:
-    LocationCoordinates:
-
-    UserAgent:
-
-(table) trustedDevices:
-
-    UID:
-
-    DeviceID:
-
-    CredentialID:
-    PublicKey:
-
-    DeviceName:
-
-    Environment:
-
-(table) reservedUsernames:
-
-    IPAddress:
-
-    Username:
-
-    TimeoutTimestamp:
-
-*/
 
 ?>

@@ -1,8 +1,31 @@
 <?php
 
+if(!function_exists("connectMySQL"))
+    require 'sql.database.php';
+
 // Check if the username already exists in the database as an ID
 function usernameExists($username){
-    return strtolower($username) == "temp";
+    $connection = connectMySQL(DATABASE_READ_ONLY);
+    // Prevent SQL injections
+    $EscapedUsername = mysqli_real_escape_string($connection, strtolower($username));
+
+    global $DATABASE_CoreTABLE__users;
+    $result = executeQueryMySQL($connection, "SELECT 1 FROM $DATABASE_CoreTABLE__users WHERE `Username` = '$EscapedUsername'");
+    $connection->close();
+    return (mysqli_fetch_assoc($result)[1]) == 1;
+}
+
+// Get display username (in upper and lower case format)
+function getDisplayUsername($username){
+    $connection = connectMySQL(DATABASE_READ_ONLY);
+    // Prevent SQL injections
+    $EscapedUsername = mysqli_real_escape_string($connection, strtolower($username));
+
+    global $DATABASE_CoreTABLE__users;
+    $result = executeQueryMySQL($connection, "SELECT `DisplayUsername` FROM $DATABASE_CoreTABLE__users WHERE `Username` = '$EscapedUsername'");
+    $DisplayUsername = mysqli_fetch_assoc($result)["DisplayUsername"];
+    $connection->close();
+    return $DisplayUsername;
 }
 
 // Return the cooldown status of a username
