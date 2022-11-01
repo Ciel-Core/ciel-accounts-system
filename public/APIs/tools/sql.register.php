@@ -1,6 +1,7 @@
 <?php
 
-require 'sql.database.php';
+if(!function_exists("connectMySQL"))
+    require 'sql.database.php';
 
 // Attempt to register the user in the databse
 // return TRUE on success, FALSE on failure

@@ -1,6 +1,7 @@
 <?php
 
-require 'sql.database.php';
+if(!function_exists("connectMySQL"))
+    require 'sql.database.php';
 
 // Check if the username already exists in the database as an ID
 function usernameExists($username){
