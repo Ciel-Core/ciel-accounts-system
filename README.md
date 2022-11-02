@@ -17,7 +17,7 @@ This is a project that aims to provide developers with an easy-to-use third-part
 
 - [x] Add a welcome screen
 - [ ] Add a sign in page
-- [ ] Add a sign up page
+- [x] Add a sign up page (fully complete)
 - [ ] Add a control panel (Home page)
 - [ ] Add an "about" section
 - [ ] Add an activity tracking system (Must be completely controlable by the user)
