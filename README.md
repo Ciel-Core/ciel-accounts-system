@@ -136,7 +136,7 @@ Use the `npm run dev-build` command, and host the output inside the `dist` folde
 
 > We recommend *[XAMPP](https://www.apachefriends.org/)* for local hosting
 
-## Databae
+## Database
 
 ![core_account](./github/images/core_accounts_db.png)
 
