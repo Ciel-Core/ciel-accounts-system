@@ -75,6 +75,8 @@ function registerUser($input){
                 executeQueryMySQL($connection, "DELETE FROM `$DATABASE_CoreTABLE__users` WHERE `UID` = $UID");
                 executeQueryMySQL($connection, "DELETE FROM `$DATABASE_CoreTABLE__security` WHERE `UID` = $UID");
                 executeQueryMySQL($connection, "DELETE FROM `$DATABASE_CoreTABLE__preferences` WHERE `UID` = $UID"); // Just in case
+                // Delete the username cooldown
+                executeQueryMySQL($connection, "DELETE FROM $DATABASE_CoreTABLE__reservedUsernames WHERE `IPAddress` = '$CLIENT_IPAddress'");
                 $connection->close();
                 return false;
             }else{
@@ -88,10 +90,14 @@ function registerUser($input){
             }else{
                 executeQueryMySQL($connection, "DELETE FROM `$DATABASE_CoreTABLE__users` WHERE `Username` = '$Username'");
             }
+            // Delete the username cooldown
+            executeQueryMySQL($connection, "DELETE FROM $DATABASE_CoreTABLE__reservedUsernames WHERE `IPAddress` = '$CLIENT_IPAddress'");
             $connection->close();
             return false;
         }
     }else{
+        // Delete the username cooldown
+        executeQueryMySQL($connection, "DELETE FROM $DATABASE_CoreTABLE__reservedUsernames WHERE `IPAddress` = '$CLIENT_IPAddress'");
         $connection->close();
         return false;
     }
