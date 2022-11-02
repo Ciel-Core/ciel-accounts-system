@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 01, 2022 at 07:12 PM
+-- Generation Time: Nov 02, 2022 at 09:15 AM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -49,7 +49,7 @@ INSERT INTO `preferences` (`UID`, `ProfileVisibility`, `ActivityMode`, `Location
 --
 
 CREATE TABLE `reservedusernames` (
-  `IPAddress` int(11) NOT NULL,
+  `IPAddress` varchar(15) NOT NULL,
   `Username` varchar(20) NOT NULL,
   `TimeoutTimestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

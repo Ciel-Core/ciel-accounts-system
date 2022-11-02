@@ -15,22 +15,20 @@ $USERNAME_EXISTS = false;
 $USERNAME_ON_COOLDOWN = false;
 $USERNAME_DISPLAY = "";
 
-// Check if username is not taken
 require './../../tools/sql.username.php';
-if(usernameExists($INPUT_DATA->username)){
-    $USERNAME_EXISTS = true;
-    // Get display username from database
-    if($INPUT_DATA->getDisplayUsername){
-        $USERNAME_DISPLAY = getDisplayUsername($INPUT_DATA->username);
-    }
-}else{
-    if($INPUT_DATA->reserveUsername){
+// Get username cooldown status
+$USERNAME_ON_COOLDOWN = usernameOnCooldown($INPUT_DATA->username);
+if(!($USERNAME_ON_COOLDOWN)){
+    // Check if username is not taken
+    if(usernameExists($INPUT_DATA->username)){
+        $USERNAME_EXISTS = true;
+        // Get display username from database
+        if($INPUT_DATA->getDisplayUsername){
+            $USERNAME_DISPLAY = getDisplayUsername($INPUT_DATA->username);
+        }
+    }else if($INPUT_DATA->reserveUsername && !usernameOnCooldown($INPUT_DATA->username, true)){
         cooldownUsername($INPUT_DATA->username);
     }
-}
-// Get username cooldown status
-if($INPUT_DATA->getCooldown){
-    $USERNAME_ON_COOLDOWN = usernameOnCooldown($INPUT_DATA->username);
 }
 
 ?>
