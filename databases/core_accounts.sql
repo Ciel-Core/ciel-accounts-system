@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 02, 2022 at 09:15 AM
+-- Generation Time: Nov 02, 2022 at 10:17 AM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -29,10 +29,10 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `preferences` (
   `UID` bigint(11) UNSIGNED NOT NULL,
-  `ProfileVisibility` tinyint(1) NOT NULL,
-  `ActivityMode` tinyint(1) NOT NULL,
-  `LocationType` tinyint(1) NOT NULL,
-  `ColorScheme` tinyint(1) NOT NULL
+  `ProfileVisibility` tinyint(1) UNSIGNED NOT NULL,
+  `ActivityMode` tinyint(1) UNSIGNED NOT NULL,
+  `LocationType` tinyint(1) UNSIGNED NOT NULL,
+  `ColorScheme` tinyint(1) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -62,9 +62,9 @@ CREATE TABLE `reservedusernames` (
 
 CREATE TABLE `security` (
   `UID` bigint(11) UNSIGNED NOT NULL,
-  `SecurityQuestion1` tinyint(1) NOT NULL,
-  `SecurityQuestion2` tinyint(1) NOT NULL,
-  `SecurityQuestion3` tinyint(1) NOT NULL,
+  `SecurityQuestion1` tinyint(1) UNSIGNED NOT NULL,
+  `SecurityQuestion2` tinyint(1) UNSIGNED NOT NULL,
+  `SecurityQuestion3` tinyint(1) UNSIGNED NOT NULL,
   `SecurityQuestionAns1` tinytext NOT NULL,
   `SecurityQuestionAns2` tinytext NOT NULL,
   `SecurityQuestionAns3` tinytext NOT NULL
@@ -128,7 +128,7 @@ CREATE TABLE `users` (
   `ProfilePicutre` varchar(26) NOT NULL DEFAULT 'DEFAULT',
   `Birthdate` date NOT NULL,
   `GenderName` varchar(32) NOT NULL,
-  `Pronounce` tinyint(1) NOT NULL DEFAULT 0,
+  `Pronounce` tinyint(1) UNSIGNED NOT NULL DEFAULT 0,
   `Lang` varchar(24) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
