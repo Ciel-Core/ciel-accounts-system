@@ -45,7 +45,7 @@ This is a project that aims to provide developers with an easy-to-use third-part
 > 6. User must choose their prefered quick settings
 > 7. User will be prompted to read the privacy policy and terms of service, and agree to them
 > 8. User will be promted to review their account creation settings (this data can be exported)
-> 9. User will be prompted to set up two-factor authentication, or go to the home page!
+> 9. User will be prompted to sign in!
 >
 > The sign in process (trusted device - with device auth):
 >
