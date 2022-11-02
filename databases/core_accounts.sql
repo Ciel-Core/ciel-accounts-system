@@ -2,8 +2,8 @@
 -- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Nov 02, 2022 at 10:17 AM
+-- Host: 127.0.0.1:4842
+-- Generation Time: Nov 02, 2022 at 01:27 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -67,15 +67,16 @@ CREATE TABLE `security` (
   `SecurityQuestion3` tinyint(1) UNSIGNED NOT NULL,
   `SecurityQuestionAns1` tinytext NOT NULL,
   `SecurityQuestionAns2` tinytext NOT NULL,
-  `SecurityQuestionAns3` tinytext NOT NULL
+  `SecurityQuestionAns3` tinytext NOT NULL,
+  `Require2FA` tinyint(1) UNSIGNED NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `security`
 --
 
-INSERT INTO `security` (`UID`, `SecurityQuestion1`, `SecurityQuestion2`, `SecurityQuestion3`, `SecurityQuestionAns1`, `SecurityQuestionAns2`, `SecurityQuestionAns3`) VALUES
-(10000000000, 1, 1, 1, '~answer~', '~answer~', '~answer~');
+INSERT INTO `security` (`UID`, `SecurityQuestion1`, `SecurityQuestion2`, `SecurityQuestion3`, `SecurityQuestionAns1`, `SecurityQuestionAns2`, `SecurityQuestionAns3`, `Require2FA`) VALUES
+(10000000000, 1, 1, 1, '~answer~', '~answer~', '~answer~', 0);
 
 -- --------------------------------------------------------
 
@@ -137,7 +138,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`UID`, `Username`, `DisplayUsername`, `CreationDate`, `CreationIPAddress`, `PasswordHash`, `FirstName`, `LastName`, `ProfilePicutre`, `Birthdate`, `GenderName`, `Pronounce`, `Lang`) VALUES
-(10000000000, 'system', 'system', '2022-10-31 22:00:00', '0.0.0.0', 'f2a2dfcf765ae8df97f50f5f5feed926', 'Ciel', 'System', 'DEFAULT', '2022-11-01', 'Robot', 0, 'en-GB');
+(10000000000, 'system', 'system', '2022-10-31 22:00:00', '0.0.0.0', '66a404d30cf21f16d4a0c561a801db06', 'Ciel', 'System', 'DEFAULT', '2022-11-01', 'Robot', 0, 'en-GB');
 
 --
 -- Indexes for dumped tables

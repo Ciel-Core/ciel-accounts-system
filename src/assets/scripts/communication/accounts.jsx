@@ -33,7 +33,7 @@ async function jsonPOST(url, json){
 export function signInPOST(username, password, callback){
     jsonPOST("/APIs/accounts/core/login.json.php", {
         username: username,
-        password: password
+        passwordHash: password
     }).then(function(data){
         callback(data.responseInfo.successful, data);
     }).catch(function(error){

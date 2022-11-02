@@ -8,7 +8,7 @@ checkInputData(
     [$INPUT_DATA->getDisplayUsername, "boolean"],
     [$INPUT_DATA->getCooldown, "boolean"],
     [$INPUT_DATA->reserveUsername, "boolean"],
-    [$INPUT_DATA->username, "string", true, "/^[A-Za-z0-9_]{3,20}$/", "/[a-zA-Z]/"]
+    [$INPUT_DATA->username, "string", false, "/^[A-Za-z0-9_]{3,20}$/", "/[a-zA-Z]/"]
 );
 
 $USERNAME_EXISTS = false;
