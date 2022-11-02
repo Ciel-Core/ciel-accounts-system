@@ -126,9 +126,15 @@ The build is minified and the filenames include the hashes.
 
 Your app is ready to be deployed!
 
-### `npm run php`
+### `npm run dev-build`
 
-Builds the app in developer mode with a php server (no database support).
+Builds the app for testing to the `dist` folder.
+
+## Local testing
+
+Use the `npm run dev-build` command, and host the output inside the `dist` folder. Remember to import the databases in the `databases` folder to your MySQL server!
+
+> We recommend *[XAMPP](https://www.apachefriends.org/)* for local hosting
 
 ## Deployment
 
