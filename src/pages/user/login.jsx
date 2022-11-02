@@ -12,6 +12,8 @@ import { useNavigate } from '@solidjs/router';
 import { usernameCheckPOST } from './../../assets/scripts/communication/accounts.jsx';
 import { loginData, resetLoginData } from './../../assets/scripts/pages/loginData.jsx';
 
+export { nextCheck };
+
 export function InputFieldsContainer(props){
     return (<div style={{width: "100%", position: "relative", overflow: "hidden"}}>{props.children}</div>);
 }
