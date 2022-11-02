@@ -136,6 +136,10 @@ Use the `npm run dev-build` command, and host the output inside the `dist` folde
 
 > We recommend *[XAMPP](https://www.apachefriends.org/)* for local hosting
 
+## Databae
+
+![core_account](./github/images/core_accounts_db.png)
+
 ## Deployment
 
 You can deploy the `dist` folder to any static host provider (netlify, surge, now, etc.)

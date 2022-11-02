@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 4.9.0.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1:4842
--- Generation Time: Nov 02, 2022 at 01:27 PM
--- Server version: 10.4.25-MariaDB
--- PHP Version: 8.1.10
+-- Host: -
+-- Generation Time: Nov 02, 2022 at 08:54 AM
+-- Server version: 10.3.27-MariaDB
+-- PHP Version: 7.2.22
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -205,6 +206,34 @@ ALTER TABLE `trusteddevices`
 --
 ALTER TABLE `users`
   MODIFY `UID` bigint(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10000000001;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `preferences`
+--
+ALTER TABLE `preferences`
+  ADD CONSTRAINT `preferences_ibfk_1` FOREIGN KEY (`UID`) REFERENCES `users` (`UID`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `security`
+--
+ALTER TABLE `security`
+  ADD CONSTRAINT `security_ibfk_1` FOREIGN KEY (`UID`) REFERENCES `users` (`UID`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `sessions`
+--
+ALTER TABLE `sessions`
+  ADD CONSTRAINT `sessions_ibfk_1` FOREIGN KEY (`UID`) REFERENCES `users` (`UID`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `trusteddevices`
+--
+ALTER TABLE `trusteddevices`
+  ADD CONSTRAINT `trusteddevices_ibfk_1` FOREIGN KEY (`UID`) REFERENCES `users` (`UID`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

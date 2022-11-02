@@ -74,8 +74,6 @@ function registerUser($input){
 
                 // Delete user data
                 executeQueryMySQL($connection, "DELETE FROM `$DATABASE_CoreTABLE__users` WHERE `UID` = $UID");
-                executeQueryMySQL($connection, "DELETE FROM `$DATABASE_CoreTABLE__security` WHERE `UID` = $UID");
-                executeQueryMySQL($connection, "DELETE FROM `$DATABASE_CoreTABLE__preferences` WHERE `UID` = $UID"); // Just in case
                 // Delete the username cooldown
                 executeQueryMySQL($connection, "DELETE FROM $DATABASE_CoreTABLE__reservedUsernames WHERE `IPAddress` = '$CLIENT_IPAddress'");
                 $connection->close();
@@ -86,9 +84,10 @@ function registerUser($input){
             }
         }else{
             // Delete user data!
-            if($UIDStatus && executeQueryMySQL($connection, "DELETE FROM `$DATABASE_CoreTABLE__users` WHERE `UID` = $UID")){
-                executeQueryMySQL($connection, "DELETE FROM `$DATABASE_CoreTABLE__security` WHERE `UID` = $UID"); // Just in case
-            }else{
+            // Note: all tables with the UID value are linked with the 'users' table! If a row in
+            // the 'users' table is deleted, the correlated rows in the other linked tables will
+            // also get deleted.
+            if(!($UIDStatus && executeQueryMySQL($connection, "DELETE FROM `$DATABASE_CoreTABLE__users` WHERE `UID` = $UID"))){
                 executeQueryMySQL($connection, "DELETE FROM `$DATABASE_CoreTABLE__users` WHERE `Username` = '$Username'");
             }
             // Delete the username cooldown
