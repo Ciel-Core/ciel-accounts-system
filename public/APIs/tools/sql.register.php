@@ -7,8 +7,8 @@ if(!function_exists("connectMySQL"))
 // return TRUE on success, FALSE on failure
 function registerUser($input){
     global $DATABASE_CoreTABLE__preferences, $DATABASE_CoreTABLE__security,
-        $DATABASE_CoreTABLE__users;
-    $connection = connectMySQL();
+        $DATABASE_CoreTABLE__users, $DATABASE_CoreTABLE__reservedUsernames;
+    $connection = connectMySQL(DATABASE_READ_AND_WRITE);
 
     // Prevent SQL injections
     require 'client.info.php';
@@ -77,6 +77,9 @@ function registerUser($input){
                 executeQueryMySQL($connection, "DELETE FROM `$DATABASE_CoreTABLE__preferences` WHERE `UID` = $UID"); // Just in case
                 $connection->close();
                 return false;
+            }else{
+                // Delete the username cooldown
+                executeQueryMySQL($connection, "DELETE FROM $DATABASE_CoreTABLE__reservedUsernames WHERE `IPAddress` = '$CLIENT_IPAddress'");
             }
         }else{
             // Delete user data!

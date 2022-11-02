@@ -14,7 +14,7 @@ $DATABASE_CoreTABLE__users = "users";
 const DATABASE_READ_ONLY = "R",
     DATABASE_WRITE_ONLY = "W",
     DATABASE_READ_AND_WRITE = "RW";
-function connectMySQL($mode = DATABASE_READ_AND_WRITE){
+function connectMySQL($mode){
     global $DATABASE_serverName, $DATABASE_name;
     $conn = NULL;
     if($mode == "RW"){

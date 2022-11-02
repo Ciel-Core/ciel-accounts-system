@@ -32,18 +32,54 @@ function getDisplayUsername($username){
 // - Should the username be locked to an IP address that is not the same as the current one, return
 //   true.
 // - Should the username be locked to the current IP address, return false
-function usernameOnCooldown($username){
+function usernameOnCooldown($username, $ignoreIP = false){
+    global $DATABASE_CoreTABLE__reservedUsernames;
+    $connection = connectMySQL(DATABASE_READ_ONLY);
+    require 'client.info.php';
+    $Username = mysqli_real_escape_string($connection, strtolower($username));
+    $result = executeQueryMySQL($connection, "SELECT `IPAddress`, `TimeoutTimestamp` FROM $DATABASE_CoreTABLE__reservedUsernames WHERE `Username` = '$Username'");
+    if($result){
+        $result = mysqli_fetch_assoc($result);
+        $timeoutTimestamp = DateTime::createFromFormat('Y-m-d H:i:s', $result["TimeoutTimestamp"]);
+        if($timeoutTimestamp === false){
+            $timeoutTimestamp = 0;
+        }else{
+            $timeoutTimestamp = $timeoutTimestamp->getTimestamp();
+        }
+        // Check if the username cooldown status is expired
+        if(time() >= $timeoutTimestamp){
+            executeQueryMySQL($connection, "DELETE FROM $DATABASE_CoreTABLE__reservedUsernames WHERE `Username` = '$Username'");
+        }else if(($result["IPAddress"] != $CLIENT_IPAddress) || $ignoreIP){ // Check if this is not the same user
+            $connection->close();
+            return true;
+        }
+    }
+    $connection->close();
     return false;
 }
 
 // Reserve username for 240 minutes (lock the username to the current IP address)
 // - Should an account be created using the current IP address, drop all locked usernames
 //   attached to said IP address.
-// - Should an IP address have more than 14 usernames locked to it, prevent said IP address
-//   from locking any more usernames for 240 minutes and drop all locked usernames attached to said
-//   IP address.
 function cooldownUsername($username){
-    //$_SERVER['REMOTE_ADDR'];
+    global $DATABASE_CoreTABLE__reservedUsernames;
+    $connection = connectMySQL(DATABASE_READ_AND_WRITE);
+    require 'client.info.php';
+
+    // First remove all previously cooldowned usernames!
+    executeQueryMySQL($connection, "DELETE FROM $DATABASE_CoreTABLE__reservedUsernames WHERE `IPAddress` = '$CLIENT_IPAddress'");
+
+    // Cooldown the new username!
+    $Username = mysqli_real_escape_string($connection, strtolower($username));
+    // Get the timestamp of the next 240 minutes
+    $TimeoutTimestamp = date('Y-m-d H:i:s', time() + 60*240); // Hmm, timezones...
+    executeQueryMySQL($connection,
+            "INSERT INTO `$DATABASE_CoreTABLE__reservedUsernames`
+                (`IPAddress`,         `Username`,  `TimeoutTimestamp`)
+            VALUES
+                ('$CLIENT_IPAddress', '$Username', '$TimeoutTimestamp')"
+            );
+    $connection->close();
 }
 
 ?>

@@ -5,7 +5,7 @@
  **/
 
 import { Title } from './../../../assets/components/Title.jsx';
-import { Input, Button, Mark, FlexContainer, CheckBox } from './../../../assets/components/CustomElements.jsx';
+import { Input, Button, Mark, FlexContainer, CheckBox, Notice, Link } from './../../../assets/components/CustomElements.jsx';
 import { onCleanup, onMount } from 'solid-js';
 import { InputFieldsContainer, redoLogin } from './../login.jsx';
 import { loginData } from './../../../assets/scripts/pages/loginData.jsx';
@@ -53,9 +53,16 @@ export default function LoginPassword(props){
                                         }}
                             />}
                         style={{width: "calc(100% - 8px)"}}/>
+                <Link href={"/user/recovery/password"}
+                        style={{
+                            "text-align": "left",
+                            display: "block",
+                            padding: "0px 5px",
+                            "font-size": "14px"
+                            }}>Forgot password?</Link>
             </InputFieldsContainer>
             <FlexContainer space={"between"} horozontal no-grow>
-                <Button type={"link"} href={"/user/recovery/password"}>Forgot password?</Button>
+                <Button type={"action"} function={function(){history.back()}}>Go back</Button>
                 <Button ref={nextButton} type={"link"} href={"/user/challenge"} primary>Next</Button>
             </FlexContainer>
         </FlexContainer>
