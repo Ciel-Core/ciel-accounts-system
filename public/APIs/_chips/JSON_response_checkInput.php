@@ -12,7 +12,7 @@ function responseReport($code, $text){
 }
 
 // Get the profanity filter
-require './../../tools/filter.profanity.php';
+require __DIR__.'/../tools/filter.profanity.php';
 
 // Check if the profanity filter is working or not
 if(!($PROFANITY_FILTER_status)){
