@@ -25,7 +25,7 @@ function removeSession(){
 function createSessionID($connection){
     global $DATABASE_CoreTABLE__sessions;
     require 'tool.strings.php';
-    $PlannedSID = randomString(255);
+    $PlannedSID = randomString(216);
     $result = executeQueryMySQL($connection, "SELECT 1 FROM $DATABASE_CoreTABLE__sessions WHERE `SID` = '$PlannedSID'");
     if((mysqli_fetch_assoc($result)[1]) == 1){
         unset($PlannedSID);
@@ -36,13 +36,15 @@ function createSessionID($connection){
 }
 
 // Add a session
+// Sessions can only stay valid for 20 days!
 function addSession($UID, $input){
+    checkSessionsLimit();
     global $DATABASE_CoreTABLE__sessions, $CLIENT_IPAddress;
     $connection = connectMySQL(DATABASE_WRITE_ONLY);
     // Prepare session data
     $SID = createSessionID($connection);
     $TimezoneOffset = $input->timezoneOffset;
-    $TimeoutTimestamp = date('Y-m-d H:i:s', time() + 60*60*24*16);
+    $TimeoutTimestamp = date('Y-m-d H:i:s', time() + 60*60*24*20);
     $UserAgent = mysqli_real_escape_string($connection, $_SERVER['HTTP_USER_AGENT']);
     // Get user's location data
     require 'tool.location.php';
@@ -90,6 +92,27 @@ function checkSessionStatus(){
     }else{
         $connection->close();
         return false;
+    }
+}
+
+// Check active sessions (Platform-wide)
+function checkActiveSessions(){
+    global $DATABASE_CoreTABLE__sessions;
+    $connection = connectMySQL(DATABASE_READ_ONLY);
+    $result = executeQueryMySQL($connection, "SELECT COUNT(*) FROM $DATABASE_CoreTABLE__sessions");
+    if($result){
+        $connection->close();
+        return (int)mysqli_fetch_assoc($result)["COUNT(*)"];
+    }else{
+        responseReport(BACKEND_ERROR, "Couldn't discern the number of active sessions!");
+    }
+}
+
+// Check the sessions and limit them
+// (Platform-wide sessions limit)
+function checkSessionsLimit($Limit = 10){
+    if(checkActiveSessions() >= $Limit){
+        responseReport(BLOCKED_REQUEST, "Server-wide sessions limit exceeded! ($Limit)");
     }
 }
     

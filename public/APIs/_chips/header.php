@@ -3,6 +3,8 @@
 // Mark this file as a JSON file
 header('Content-Type: application/json; charset=utf-8');
 
+require __DIR__.'/../tools/data.secret.php';
+
 // Disable warnings
 error_reporting(E_ERROR | E_PARSE);
 

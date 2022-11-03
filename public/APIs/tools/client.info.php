@@ -21,7 +21,7 @@ if(filter_var($client, FILTER_VALIDATE_IP)){
 }
 
 function CLIENT_isSessionValid(){
-    if(isset($_SESSION["SID"]) && strlen($_SESSION["SID"]) == 128){
+    if(isset($_SESSION["SID"]) && preg_match('/^[a-zA-Z0-9]{216}$/', $_SESSION["SID"])){
         if(!function_exists("removeSession"))
             require 'sql.sessions.php';
         if(!(checkSessionStatus())){

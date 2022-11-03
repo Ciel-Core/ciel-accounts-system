@@ -1,7 +1,5 @@
 <?php
 
-require 'sql.database.secret.php';
-
 // Tables
 $DATABASE_CoreTABLE__preferences = "preferences";
 $DATABASE_CoreTABLE__reservedUsernames = "reservedusernames";

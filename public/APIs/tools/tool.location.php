@@ -9,7 +9,11 @@ function getLocationFromIP($IPAddress){
     );
 
     // Get location info from external server
-    $response = file_get_contents("http://ipinfo.io/{$IPAddress}/json");
+    global $TOKEN_IPInfo, $STATE_HOSTED_LOCALLY;
+    $response = file_get_contents(
+            ($STATE_HOSTED_LOCALLY) ?
+                "http://ipinfo.io/$IPAddress/json" :
+                "http://ipinfo.io/$IPAddress?token=$TOKEN_IPInfo");
     if($response != false){
         $response = json_decode($response);
         // Only keep the needed data
