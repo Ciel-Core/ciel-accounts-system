@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.0.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: -
--- Generation Time: Nov 02, 2022 at 08:54 AM
--- Server version: 10.3.27-MariaDB
--- PHP Version: 7.2.22
+-- Host: 127.0.0.1:4842
+-- Generation Time: Nov 03, 2022 at 12:58 PM
+-- Server version: 10.4.25-MariaDB
+-- PHP Version: 8.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -52,7 +52,7 @@ INSERT INTO `preferences` (`UID`, `ProfileVisibility`, `ActivityMode`, `Location
 CREATE TABLE `reservedusernames` (
   `IPAddress` varchar(15) NOT NULL,
   `Username` varchar(20) NOT NULL,
-  `TimeoutTimestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `TimeoutTimestamp` timestamp NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -86,9 +86,10 @@ INSERT INTO `security` (`UID`, `SecurityQuestion1`, `SecurityQuestion2`, `Securi
 --
 
 CREATE TABLE `sessions` (
-  `SID` bigint(16) UNSIGNED NOT NULL,
+  `SID` varchar(128) NOT NULL,
   `UID` bigint(11) UNSIGNED NOT NULL,
-  `TimeoutTimestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `StartTimestamp` timestamp NOT NULL DEFAULT current_timestamp(),
+  `TimeoutTimestamp` timestamp NOT NULL,
   `UserAgent` text NOT NULL,
   `Country` tinytext NOT NULL,
   `Region` tinytext NOT NULL,
@@ -169,7 +170,7 @@ ALTER TABLE `security`
 --
 ALTER TABLE `sessions`
   ADD PRIMARY KEY (`SID`),
-  ADD UNIQUE KEY `UID` (`UID`);
+  ADD KEY `UID` (`UID`) USING BTREE;
 
 --
 -- Indexes for table `trusteddevices`
@@ -188,12 +189,6 @@ ALTER TABLE `users`
 --
 -- AUTO_INCREMENT for dumped tables
 --
-
---
--- AUTO_INCREMENT for table `sessions`
---
-ALTER TABLE `sessions`
-  MODIFY `SID` bigint(16) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `trusteddevices`
