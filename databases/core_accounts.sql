@@ -94,7 +94,7 @@ CREATE TABLE `sessions` (
   `Country` tinytext NOT NULL,
   `Region` tinytext NOT NULL,
   `City` tinytext NOT NULL,
-  `Timezone` tinytext NOT NULL,
+  `TimezoneOffset` smallint NOT NULL,
   `LocationCoordinates` tinytext NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
