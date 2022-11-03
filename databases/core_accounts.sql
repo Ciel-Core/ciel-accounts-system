@@ -140,7 +140,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`UID`, `Username`, `DisplayUsername`, `CreationDate`, `CreationIPAddress`, `PasswordHash`, `FirstName`, `LastName`, `ProfilePicutre`, `Birthdate`, `GenderName`, `Pronounce`, `Lang`) VALUES
-(10000000000, 'system', 'system', '2022-10-31 22:00:00', '0.0.0.0', '66a404d30cf21f16d4a0c561a801db06', 'Ciel', 'System', 'DEFAULT', '2022-11-01', 'Robot', 0, 'en-GB');
+(10000000000, 'system', 'SYSTEM', '2022-10-31 22:00:00', '0.0.0.0', '66a404d30cf21f16d4a0c561a801db06', 'Ciel', 'System', 'DEFAULT', '2022-11-01', 'Robot', 0, 'en-GB');
 
 --
 -- Indexes for dumped tables
