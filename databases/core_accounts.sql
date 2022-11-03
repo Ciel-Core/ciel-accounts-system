@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:4842
--- Generation Time: Nov 03, 2022 at 12:58 PM
+-- Generation Time: Nov 03, 2022 at 01:59 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -94,7 +94,7 @@ CREATE TABLE `sessions` (
   `Country` tinytext NOT NULL,
   `Region` tinytext NOT NULL,
   `City` tinytext NOT NULL,
-  `TimezoneOffset` smallint NOT NULL,
+  `TimezoneOffset` smallint(6) NOT NULL,
   `LocationCoordinates` tinytext NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
