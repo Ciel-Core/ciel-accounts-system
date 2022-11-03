@@ -34,8 +34,8 @@
                                              じじと ）
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-// Constants
-const IS_HOSTED_LOCALLY = false;
+// Server state
+$IS_HOSTED_LOCALLY = ($_SERVER['SERVER_NAME'] === "localhost");
 
 // All variables here should be global!
 global
@@ -55,7 +55,7 @@ $TOKEN__IPInfo;
 
 // core_accounts database
 /*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*/
-if(IS_HOSTED_LOCALLY){   /*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*/
+if($IS_HOSTED_LOCALLY){  /*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*/
 $DATABASE_serverName            =    $_SERVER['HTTP_HOST'].':PORT';        /*-*/
 $DATABASE_name                  =    "core_accounts";                      /*-*/
 $DATABASE_username_RW           =    "username"; // Read and write         /*-*/
