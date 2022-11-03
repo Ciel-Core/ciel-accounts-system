@@ -19,4 +19,14 @@ function dateDiffY($date1, $date2, $format = "Y-n-j"){
     return ($date1->diff($date2))->y;
 }
 
+function strToTimestamp($StrTimestamp){
+    $timestamp = DateTime::createFromFormat('Y-m-d H:i:s', $StrTimestamp);
+    if($timestamp === false){
+        $timestamp = 0;
+    }else{
+        $timestamp = $timestamp->getTimestamp();
+    }
+    return $timestamp;
+}
+
 ?>

@@ -6,6 +6,9 @@ if(!function_exists("connectMySQL"))
 if(!function_exists("CLIENT_isSessionValid"))
     require 'client.info.php';
 
+if(!function_exists("validateDate"))
+    require './../../tools/tool.dates.php';
+
 // Check if the username already exists in the database as an ID
 function usernameExists($username){
     $connection = connectMySQL(DATABASE_READ_ONLY);
@@ -42,12 +45,7 @@ function usernameOnCooldown($username, $ignoreIP = false){
     $result = executeQueryMySQL($connection, "SELECT `IPAddress`, `TimeoutTimestamp` FROM $DATABASE_CoreTABLE__reservedUsernames WHERE `Username` = '$Username'");
     if($result){
         $result = mysqli_fetch_assoc($result);
-        $timeoutTimestamp = DateTime::createFromFormat('Y-m-d H:i:s', $result["TimeoutTimestamp"]);
-        if($timeoutTimestamp === false){
-            $timeoutTimestamp = 0;
-        }else{
-            $timeoutTimestamp = $timeoutTimestamp->getTimestamp();
-        }
+        $timeoutTimestamp = strToTimestamp($result["TimeoutTimestamp"]);
         // Check if the username cooldown status is expired
         if(time() >= $timeoutTimestamp){
             executeQueryMySQL($connection, "DELETE FROM $DATABASE_CoreTABLE__reservedUsernames WHERE `Username` = '$Username'");

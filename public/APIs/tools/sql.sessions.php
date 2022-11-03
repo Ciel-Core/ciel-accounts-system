@@ -6,17 +6,26 @@ if(!function_exists("connectMySQL"))
 if(!function_exists("CLIENT_isSessionValid"))
     require 'client.info.php';
 
+if(!function_exists("validateDate"))
+    require './../../tools/tool.dates.php';
+
 // Start session
 session_start();
 
 // Remove a session from the database
-function removeSession(){
+function removeSession($InSID = "", $connection = ""){
     global $DATABASE_CoreTABLE__sessions;
-    $connection = connectMySQL(DATABASE_WRITE_ONLY);
-    $SID = mysqli_real_escape_string($connection, $_SESSION["SID"]);
+    $close = false;
+    if($connection == ""){
+        $connection = connectMySQL(DATABASE_WRITE_ONLY);
+        $close = true;
+    }
+    $SID = mysqli_real_escape_string($connection, ($InSID == "") ? $_SESSION["SID"] : $InSID);
     // Remove session
     executeQueryMySQL($connection, "DELETE FROM $DATABASE_CoreTABLE__sessions WHERE `SID` = '$SID'");
-    $connection->close();
+    if($close){
+        $connection->close();
+    }
 }
 
 // Create a safe session ID
@@ -39,6 +48,7 @@ function createSessionID($connection){
 // Sessions can only stay valid for 20 days!
 function addSession($UID, $input){
     checkSessionsLimit();
+    checkUserSessionsLimit($UID);
     global $DATABASE_CoreTABLE__sessions, $CLIENT_IPAddress;
     $connection = connectMySQL(DATABASE_WRITE_ONLY);
     // Prepare session data
@@ -73,13 +83,7 @@ function checkSessionStatus(){
     $SID = mysqli_real_escape_string($connection, $_SESSION["SID"]);
     $result = executeQueryMySQL($connection, "SELECT `TimeoutTimestamp` FROM $DATABASE_CoreTABLE__sessions WHERE `SID` = '$SID'");
     if($result){
-        $TimeoutTimestamp = mysqli_fetch_assoc($result)["TimeoutTimestamp"];
-        $timeoutTimestamp = DateTime::createFromFormat('Y-m-d H:i:s', $TimeoutTimestamp);
-        if($timeoutTimestamp === false){
-            $timeoutTimestamp = 0;
-        }else{
-            $timeoutTimestamp = $timeoutTimestamp->getTimestamp();
-        }
+        $timeoutTimestamp = strToTimestamp(mysqli_fetch_assoc($result)["TimeoutTimestamp"]);
         // Check if the session has expired!
         if(time() >= $timeoutTimestamp){
             executeQueryMySQL($connection, "DELETE FROM $DATABASE_CoreTABLE__sessions WHERE `SID` = '$SID'");
@@ -92,6 +96,41 @@ function checkSessionStatus(){
     }else{
         $connection->close();
         return false;
+    }
+}
+
+// Check active sessions (user-specific)
+// This function counts valid sessions, and removes expired sessions!
+function checkUserActiveSessions($UID){
+    global $DATABASE_CoreTABLE__sessions;
+    $connection = connectMySQL(DATABASE_READ_AND_WRITE);
+    $UID = mysqli_real_escape_string($connection, $UID);
+    $result = executeQueryMySQL($connection, "SELECT `SID`, `TimeoutTimestamp` FROM $DATABASE_CoreTABLE__sessions WHERE `UID` = $UID");
+
+    // Start counting active sessions
+    if($result){
+        $count = 0;
+        while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+            $timestamp = strToTimestamp($row["TimeoutTimestamp"]);
+            if(time() >= $timestamp){
+                // Remove expired sessions!
+                removeSession($row["SID"], $connection);
+            }else{
+                $count++;
+            }
+        }
+        $connection->close();
+        return $count;
+    }else{
+        responseReport(BACKEND_ERROR, "Couldn't discern the number of active sessions!");
+    }
+}
+
+// Check the sessions and limit them
+// Each user can sign in to a max of 3 devices at a given moment!
+function checkUserSessionsLimit($UID){
+    if(checkUserActiveSessions($UID) >= 3){
+        responseReport(BLOCKED_REQUEST, "Active sessions limit exceeded!");
     }
 }
 
