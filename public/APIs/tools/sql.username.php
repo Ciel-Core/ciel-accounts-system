@@ -35,7 +35,8 @@ function getDisplayUsername($username){
 function usernameOnCooldown($username, $ignoreIP = false){
     global $DATABASE_CoreTABLE__reservedUsernames;
     $connection = connectMySQL(DATABASE_READ_ONLY);
-    require 'client.info.php';
+    if(!function_exists("CLIENT_isSessionValid"))
+        require 'client.info.php';
     $Username = mysqli_real_escape_string($connection, strtolower($username));
     $result = executeQueryMySQL($connection, "SELECT `IPAddress`, `TimeoutTimestamp` FROM $DATABASE_CoreTABLE__reservedUsernames WHERE `Username` = '$Username'");
     if($result){
@@ -64,7 +65,8 @@ function usernameOnCooldown($username, $ignoreIP = false){
 function cooldownUsername($username){
     global $DATABASE_CoreTABLE__reservedUsernames;
     $connection = connectMySQL(DATABASE_READ_AND_WRITE);
-    require 'client.info.php';
+    if(!function_exists("CLIENT_isSessionValid"))
+        require 'client.info.php';
 
     // First remove all previously cooldowned usernames!
     executeQueryMySQL($connection, "DELETE FROM $DATABASE_CoreTABLE__reservedUsernames WHERE `IPAddress` = '$CLIENT_IPAddress'");

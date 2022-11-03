@@ -12,7 +12,8 @@ function registerUser($input){
     $connection = connectMySQL(DATABASE_READ_AND_WRITE);
 
     // Prevent SQL injections
-    require 'client.info.php';
+    if(!function_exists("CLIENT_isSessionValid"))
+        require 'client.info.php';
     $Username = mysqli_real_escape_string($connection, strtolower($input->username));
     $DisplayUsername = mysqli_real_escape_string($connection, $input->username);
     $PasswordHash = md5($DATABASE_secretSault1.($input->passwordHash).$DATABASE_secretSault2);

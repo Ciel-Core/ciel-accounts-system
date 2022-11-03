@@ -31,7 +31,7 @@ checkInputData(
 // Check data
 if($INPUT_DATA->agreement){
     // Only do more checks on public data
-    require './../../tools/dates.php';
+    require './../../tools/tool.dates.php';
     $birthdateStr = $INPUT_DATA->birthdate->year."-".$INPUT_DATA->birthdate->month."-".$INPUT_DATA->birthdate->day; // "year-month-day"
     if(!validateDate($birthdateStr)){
         $RESPONSE_SUCCESS_STATUS = false;
@@ -56,6 +56,9 @@ if($INPUT_DATA->agreement){
         }
         require './../../tools/sql.username.php';
         require './../../tools/sql.register.php';
+        if(!function_exists("CLIENT_isSessionValid"))
+            require './../../tools/client.info.php';
+
         if(checkUsernameRS($INPUT_DATA->username)){
             $RESPONSE_SUCCESS_STATUS = false;
             $RESPONSE_TEXT = "Username reserved by the system!";
@@ -68,6 +71,10 @@ if($INPUT_DATA->agreement){
             $RESPONSE_SUCCESS_STATUS = false;
             $RESPONSE_TEXT = "Username on cooldown!";
             $RESPONSE_CODE = BLOCKED_DATA;
+        }else if(CLIENT_isSessionValid()){ // Check if there is an active session
+            $RESPONSE_SUCCESS_STATUS = false;
+            $RESPONSE_TEXT = "Can't register users on devices with active sessions!";
+            $RESPONSE_CODE = BLOCKED_REQUEST;
         }else if(!(registerUser($INPUT_DATA))){ // User input seems fine, attempt to register the user
             $RESPONSE_SUCCESS_STATUS = false;
             $RESPONSE_TEXT = "Couldn't register user!";
