@@ -34,7 +34,7 @@ export function Radio(props){
     if(typeof props.name != "string"){
         throw new Error("<Radio> must always have a name attribute!");
     }
-    return (<div class={generalStyles.radioContainer}>
+    return (<div ref={props.ref} class={generalStyles.radioContainer}>
         <input type="radio" id={props.id} class={basicProps.class} name={props.name} value={props.value} style={basicProps.style} checked={props.checked} />
         <label class={generalStyles.radioLabel} for={props.id}>{props.children}</label>
     </div>);

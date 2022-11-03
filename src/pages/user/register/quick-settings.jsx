@@ -47,8 +47,14 @@ function recordOption(){
 
 export default function RegisterQuickSettings(props){
     let nextButton,
+        preciseLocationData,
         navigate = useNavigate();
     onMount(() => {
+        // Check if browser supports location API
+        if(!navigator.geolocation){
+            preciseLocationData.setAttribute("disabled", "");
+        }
+
         if(registerData.quickSettings.profile != undefined){
             document.getElementById("profile-" + registerData.quickSettings.profile).checked = true;
         }
@@ -82,14 +88,6 @@ export default function RegisterQuickSettings(props){
         <br/>
         <h3>Choose the settings that suit your <Mark>personal preferences</Mark>!</h3>
         <FlexContainer space={"around"} style={{width: "400px"}}>
-            {/*
-            > Collected data (not provided by the user manually):
->
-> 1. IP address, user aproximate location, and user agent. (For user login history, and active devices list)
-> 3. Precise location history
-> 4. Chose what others see
-
-            */}
             <InputFieldsContainer>
                 <SectionTitle>Privacy</SectionTitle>
                 <QuickSetting title={"Public profile"} description={"All Ciel users have a public Ciel profile. Ciel profiles include basic public information like the user's profile picture, username, and registration date. Rich profiles can include more data!<br><br>(Note that some of your information might be public on third-party services, no matter the status of your public profile)"}>
@@ -111,7 +109,7 @@ export default function RegisterQuickSettings(props){
                 <SectionDivider/>
                 <QuickSetting title={"Location data"} description={"Your location data can help us keep your Ciel account secure. More precise location data can help us keep track of your login activity better and make it hard for people to impersonate you.<br/><br/> (If you choose the precise data option, you won't be allowed to access your Ciel account on devices with no GPS access)"}>
                     <QuickOption id={"location-1"} name={"location"} value={1} checked>Collect approximate location data</QuickOption>
-                    <QuickOption id={"location-2"} name={"location"} value={2}>Collect precise location data</QuickOption>
+                    <QuickOption ref={preciseLocationData} id={"location-2"} name={"location"} value={2}>Collect precise location data</QuickOption>
                 </QuickSetting>
 
                 <SectionTitle>Extra</SectionTitle>
