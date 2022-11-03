@@ -34,11 +34,8 @@
                                              じじと ）
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-// Server state
-$IS_HOSTED_LOCALLY = ($_SERVER['SERVER_NAME'] === "localhost");
-
 // All variables here should be global!
-global
+global $STATE_HOSTED_LOCALLY,
 
 // Database-related secret variables
 $DATABASE_serverName, $DATABASE_name,
@@ -51,11 +48,14 @@ $DATABASE_secretSault2,
 // Secret tokens (for used third-party services)
 $TOKEN__IPInfo;
 
+// Server state
+$STATE_HOSTED_LOCALLY = ($_SERVER['SERVER_NAME'] === "localhost");
+
 // Don't forget to update the values!
 
 // core_accounts database
 /*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*/
-if($IS_HOSTED_LOCALLY){  /*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*/
+if($STATE_HOSTED_LOCALLY){    /*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*/
 $DATABASE_serverName            =    $_SERVER['HTTP_HOST'].':PORT';        /*-*/
 $DATABASE_name                  =    "core_accounts";                      /*-*/
 $DATABASE_username_RW           =    "username"; // Read and write         /*-*/
@@ -82,7 +82,7 @@ $DATABASE_password_W            =    "password";                           /*-*/
 $DATABASE_secretSault1          =    "XXXXXXXXXXXXXXXXXXXXXXXX";
 $DATABASE_secretSault2          =    "XXXXXXXXXXXXXXXXXXXXXXXX";
 
-// IPInfo service token (https://ipinfo.io/)
+// IPInfo service token (https://ipinfo.io/account/home)
 $TOKEN_IPInfo                   =    "your_access_token";
 
 ?>

@@ -86,7 +86,7 @@ INSERT INTO `security` (`UID`, `SecurityQuestion1`, `SecurityQuestion2`, `Securi
 --
 
 CREATE TABLE `sessions` (
-  `SID` varchar(255) NOT NULL,
+  `SID` varchar(216) NOT NULL,
   `UID` bigint(11) UNSIGNED NOT NULL,
   `StartTimestamp` timestamp NOT NULL DEFAULT current_timestamp(),
   `TimeoutTimestamp` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
