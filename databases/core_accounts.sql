@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 4.9.0.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1:4842
--- Generation Time: Nov 03, 2022 at 01:59 PM
--- Server version: 10.4.25-MariaDB
--- PHP Version: 8.1.10
+-- Host: -
+-- Generation Time: Nov 03, 2022 at 09:44 AM
+-- Server version: 10.3.27-MariaDB
+-- PHP Version: 7.2.22
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -86,10 +86,10 @@ INSERT INTO `security` (`UID`, `SecurityQuestion1`, `SecurityQuestion2`, `Securi
 --
 
 CREATE TABLE `sessions` (
-  `SID` varchar(128) NOT NULL,
+  `SID` varchar(255) NOT NULL,
   `UID` bigint(11) UNSIGNED NOT NULL,
   `StartTimestamp` timestamp NOT NULL DEFAULT current_timestamp(),
-  `TimeoutTimestamp` timestamp NOT NULL,
+  `TimeoutTimestamp` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `UserAgent` text NOT NULL,
   `Country` tinytext NOT NULL,
   `Region` tinytext NOT NULL,

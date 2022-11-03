@@ -8,7 +8,7 @@ if(!function_exists("connectMySQL"))
 function registerUser($input){
     global $DATABASE_CoreTABLE__preferences, $DATABASE_CoreTABLE__security,
         $DATABASE_CoreTABLE__users, $DATABASE_CoreTABLE__reservedUsernames,
-        $DATABASE_secretSault1, $DATABASE_secretSault2;
+        $DATABASE_secretSault1, $DATABASE_secretSault2, $CLIENT_IPAddress;
     $connection = connectMySQL(DATABASE_READ_AND_WRITE);
 
     // Prevent SQL injections

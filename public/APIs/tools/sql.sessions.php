@@ -3,6 +3,9 @@
 if(!function_exists("connectMySQL"))
     require 'sql.database.php';
 
+if(!function_exists("CLIENT_isSessionValid"))
+    require 'client.info.php';
+
 // Start session
 session_start();
 
@@ -22,7 +25,7 @@ function removeSession(){
 function createSessionID($connection){
     global $DATABASE_CoreTABLE__sessions;
     require 'tool.strings.php';
-    $PlannedSID = randomString(128);
+    $PlannedSID = randomString(255);
     $result = executeQueryMySQL($connection, "SELECT 1 FROM $DATABASE_CoreTABLE__sessions WHERE `SID` = '$PlannedSID'");
     if((mysqli_fetch_assoc($result)[1]) == 1){
         unset($PlannedSID);
@@ -33,18 +36,29 @@ function createSessionID($connection){
 }
 
 // Add a session
-function addSession($UID){
-    global $DATABASE_CoreTABLE__sessions;
+function addSession($UID, $input){
+    global $DATABASE_CoreTABLE__sessions, $CLIENT_IPAddress;
     $connection = connectMySQL(DATABASE_WRITE_ONLY);
+    // Prepare session data
     $SID = createSessionID($connection);
-    $TimeoutTimestamp = date('Y-m-d H:i:s', time() + 60*60*24*16); // Hmm, timezones...
+    $TimezoneOffset = $input->timezoneOffset;
+    $TimeoutTimestamp = date('Y-m-d H:i:s', time() + 60*60*24*16);
     $UserAgent = mysqli_real_escape_string($connection, $_SERVER['HTTP_USER_AGENT']);
-    // Remove session
+    // Get user's location data
+    require 'tool.location.php';
+    $locData = getLocationFromIP($CLIENT_IPAddress);
+    $Country = mysqli_real_escape_string($connection, $locData->country);
+    $Region = mysqli_real_escape_string($connection, $locData->region);
+    $City = mysqli_real_escape_string($connection, $locData->city);
+    $LocationCoordinates = mysqli_real_escape_string($connection, $locData->loc);
+    // Insert session into DB
     executeQueryMySQL($connection,
             "INSERT INTO `$DATABASE_CoreTABLE__sessions`
-                (`SID`,  `UID`, `TimeoutTimestamp`,  `UserAgent`,  `Country`, `Region`, `City`, `Timezone`, `LocationCoordinates`)
+                (`SID`,  `UID`, `TimeoutTimestamp`,  `UserAgent`,  `TimezoneOffset`, `Country`,
+                `Region`,  `City`,  `LocationCoordinates`)
             VALUES
-                ('$SID', $UID,  '$TimeoutTimestamp', '$UserAgent', '2', '3', '4', '5', '6')"
+                ('$SID', $UID,  '$TimeoutTimestamp', '$UserAgent', $TimezoneOffset,  '$Country',
+                '$Region', '$City', '$LocationCoordinates')"
             );
     $connection->close();
     return $SID;

@@ -3,6 +3,9 @@
 if(!function_exists("connectMySQL"))
     require 'sql.database.php';
 
+if(!function_exists("CLIENT_isSessionValid"))
+    require 'client.info.php';
+
 // Check if the username already exists in the database as an ID
 function usernameExists($username){
     $connection = connectMySQL(DATABASE_READ_ONLY);
@@ -33,10 +36,8 @@ function getDisplayUsername($username){
 //   true.
 // - Should the username be locked to the current IP address, return false
 function usernameOnCooldown($username, $ignoreIP = false){
-    global $DATABASE_CoreTABLE__reservedUsernames;
+    global $DATABASE_CoreTABLE__reservedUsernames, $CLIENT_IPAddress;
     $connection = connectMySQL(DATABASE_READ_ONLY);
-    if(!function_exists("CLIENT_isSessionValid"))
-        require 'client.info.php';
     $Username = mysqli_real_escape_string($connection, strtolower($username));
     $result = executeQueryMySQL($connection, "SELECT `IPAddress`, `TimeoutTimestamp` FROM $DATABASE_CoreTABLE__reservedUsernames WHERE `Username` = '$Username'");
     if($result){
@@ -63,10 +64,8 @@ function usernameOnCooldown($username, $ignoreIP = false){
 // - Should an account be created using the current IP address, drop all locked usernames
 //   attached to said IP address.
 function cooldownUsername($username){
-    global $DATABASE_CoreTABLE__reservedUsernames;
+    global $DATABASE_CoreTABLE__reservedUsernames, $CLIENT_IPAddress;
     $connection = connectMySQL(DATABASE_READ_AND_WRITE);
-    if(!function_exists("CLIENT_isSessionValid"))
-        require 'client.info.php';
 
     // First remove all previously cooldowned usernames!
     executeQueryMySQL($connection, "DELETE FROM $DATABASE_CoreTABLE__reservedUsernames WHERE `IPAddress` = '$CLIENT_IPAddress'");
