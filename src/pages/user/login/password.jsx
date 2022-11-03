@@ -77,7 +77,11 @@ export default function LoginPassword(props){
                                     if(error){
                                         setError();
                                     }else{
-                                        signInPOST(loginData.username, hash(data[0] + passwordInput.value + data[1]), function(isSuccessful, data){
+                                        signInPOST({
+                                            username: loginData.username,
+                                            passwordHash: hash(data[0] + passwordInput.value + data[1]),
+                                            timezoneOffset: (new Date()).getTimezoneOffset()
+                                        }, function(isSuccessful, data){
                                             if(isSuccessful){
                                                 isDone(data);
                                             }else{

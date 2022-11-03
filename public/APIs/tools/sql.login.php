@@ -12,7 +12,7 @@ function signInStage1($input){
     $PasswordHash = md5($DATABASE_secretSault1.($input->passwordHash).$DATABASE_secretSault2);
 
     // Prepare return object
-    $return = (object)array("validUser" =>false, "require2FA" => 0);
+    $return = (object)array("validUser" =>false, "require2FA" => 0, "UID" => "");
 
     // Check if the login info are correct
     $result = executeQueryMySQL($connection, "SELECT `UID` FROM $DATABASE_CoreTABLE__users WHERE `Username` = '$EscapedUsername' AND `PasswordHash` = '$PasswordHash'");
@@ -22,6 +22,7 @@ function signInStage1($input){
     // Check if the user is valid
     if(gettype($UID) == "string" && strlen($UID) > 10){
         $return->validUser = true;
+        $return->UID = $UID;
         $result = executeQueryMySQL($connection, "SELECT `Require2FA` from $DATABASE_CoreTABLE__security WHERE `UID` = $UID");
         if($result){
             $return->require2FA = mysqli_fetch_assoc($result)["Require2FA"];

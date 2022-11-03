@@ -30,11 +30,8 @@ async function jsonPOST(url, json){
     });
 }
 
-export function signInPOST(username, password, callback){
-    jsonPOST("/APIs/accounts/core/login.json.php", {
-        username: username,
-        passwordHash: password
-    }).then(function(data){
+export function signInPOST(data, callback){
+    jsonPOST("/APIs/accounts/core/login.json.php", data).then(function(data){
         callback(data.responseInfo.successful, data);
     }).catch(function(error){
         callback(false, undefined);

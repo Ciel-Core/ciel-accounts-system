@@ -8,11 +8,12 @@ if(!function_exists("connectMySQL"))
 function registerUser($input){
     global $DATABASE_CoreTABLE__preferences, $DATABASE_CoreTABLE__security,
         $DATABASE_CoreTABLE__users, $DATABASE_CoreTABLE__reservedUsernames,
-        $DATABASE_secretSault1, $DATABASE_secretSault2;
+        $DATABASE_secretSault1, $DATABASE_secretSault2, $CLIENT_IPAddress;
     $connection = connectMySQL(DATABASE_READ_AND_WRITE);
 
     // Prevent SQL injections
-    require 'client.info.php';
+    if(!function_exists("CLIENT_isSessionValid"))
+        require 'client.info.php';
     $Username = mysqli_real_escape_string($connection, strtolower($input->username));
     $DisplayUsername = mysqli_real_escape_string($connection, $input->username);
     $PasswordHash = md5($DATABASE_secretSault1.($input->passwordHash).$DATABASE_secretSault2);

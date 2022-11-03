@@ -28,56 +28,66 @@ checkInputData(
     [$INPUT_DATA->agreement, "boolean"]
 );
 
-// Check data
-if($INPUT_DATA->agreement){
-    // Only do more checks on public data
-    require './../../tools/dates.php';
-    $birthdateStr = $INPUT_DATA->birthdate->year."-".$INPUT_DATA->birthdate->month."-".$INPUT_DATA->birthdate->day; // "year-month-day"
-    if(!validateDate($birthdateStr)){
-        $RESPONSE_SUCCESS_STATUS = false;
-        $RESPONSE_TEXT = "Invalid birth date!";
-        $RESPONSE_CODE = INVALID_DATA;
-    }else if($INPUT_DATA->birthdate->year < ($DATE_currentYear - 120) || $INPUT_DATA->birthdate->year > $DATE_currentYear){
-        $RESPONSE_SUCCESS_STATUS = false;
-        $RESPONSE_TEXT = "Invalid birth year!";
-        $RESPONSE_CODE = INVALID_DATA;
-    }else if(dateDiffY($birthdateStr, $DATE_current) < 13){
-        $RESPONSE_SUCCESS_STATUS = false;
-        $RESPONSE_TEXT = "Must be 13+ years old to register!";
-        $RESPONSE_CODE = BLOCKED_DATA;
-    }else if($INPUT_DATA->gender[strlen($INPUT_DATA->gender) - 1] == " " || $INPUT_DATA->gender[0] == " " || strpos($INPUT_DATA->gender, "  ") !== false){
-        $RESPONSE_SUCCESS_STATUS = false;
-        $RESPONSE_TEXT = "Gender can't start or end with whitespace or contain consecutive whitespaces!";
-        $RESPONSE_CODE = INVALID_DATA;
+// Check if there is an active session
+if(!(function_exists("CLIENT_isSessionValid")))
+    require './../../tools/client.info.php';
+if(!(CLIENT_isSessionValid())){
+    // Check data
+    if($INPUT_DATA->agreement){
+        // Only do more checks on public data
+        require './../../tools/tool.dates.php';
+        $birthdateStr = $INPUT_DATA->birthdate->year."-".$INPUT_DATA->birthdate->month."-".$INPUT_DATA->birthdate->day; // "year-month-day"
+        if(!validateDate($birthdateStr)){
+            $RESPONSE_SUCCESS_STATUS = false;
+            $RESPONSE_TEXT = "Invalid birth date!";
+            $RESPONSE_CODE = INVALID_DATA;
+        }else if($INPUT_DATA->birthdate->year < ($DATE_currentYear - 120) || $INPUT_DATA->birthdate->year > $DATE_currentYear){
+            $RESPONSE_SUCCESS_STATUS = false;
+            $RESPONSE_TEXT = "Invalid birth year!";
+            $RESPONSE_CODE = INVALID_DATA;
+        }else if(dateDiffY($birthdateStr, $DATE_current) < 13){
+            $RESPONSE_SUCCESS_STATUS = false;
+            $RESPONSE_TEXT = "Must be 13+ years old to register!";
+            $RESPONSE_CODE = BLOCKED_DATA;
+        }else if($INPUT_DATA->gender[strlen($INPUT_DATA->gender) - 1] == " " || $INPUT_DATA->gender[0] == " " || strpos($INPUT_DATA->gender, "  ") !== false){
+            $RESPONSE_SUCCESS_STATUS = false;
+            $RESPONSE_TEXT = "Gender can't start or end with whitespace or contain consecutive whitespaces!";
+            $RESPONSE_CODE = INVALID_DATA;
+        }else{
+            require './../../tools/filter.reserved.php';
+            if(!($RESERVE_FILTER__status)){
+                responseReport(BACKEND_ERROR, "Couldn't load reserved usernames list!");
+            }
+            require './../../tools/sql.username.php';
+            require './../../tools/sql.register.php';
+    
+            if(checkUsernameRS($INPUT_DATA->username)){
+                $RESPONSE_SUCCESS_STATUS = false;
+                $RESPONSE_TEXT = "Username reserved by the system!";
+                $RESPONSE_CODE = BLOCKED_DATA;
+            }else if(usernameExists($INPUT_DATA->username)){
+                $RESPONSE_SUCCESS_STATUS = false;
+                $RESPONSE_TEXT = "Username in-use!";
+                $RESPONSE_CODE = BLOCKED_DATA;
+            }else if(usernameOnCooldown($INPUT_DATA->username)){
+                $RESPONSE_SUCCESS_STATUS = false;
+                $RESPONSE_TEXT = "Username on cooldown!";
+                $RESPONSE_CODE = BLOCKED_DATA;
+            }else if(!(registerUser($INPUT_DATA))){ // User input seems fine, attempt to register the user
+                $RESPONSE_SUCCESS_STATUS = false;
+                $RESPONSE_TEXT = "Couldn't register user!";
+                $RESPONSE_CODE = BACKEND_ERROR;
+            }
+        }
     }else{
-        require './../../tools/filter.reserved.php';
-        if(!($RESERVE_FILTER__status)){
-            responseReport(BACKEND_ERROR, "Couldn't load reserved usernames list!");
-        }
-        require './../../tools/sql.username.php';
-        require './../../tools/sql.register.php';
-        if(checkUsernameRS($INPUT_DATA->username)){
-            $RESPONSE_SUCCESS_STATUS = false;
-            $RESPONSE_TEXT = "Username reserved by the system!";
-            $RESPONSE_CODE = BLOCKED_DATA;
-        }else if(usernameExists($INPUT_DATA->username)){
-            $RESPONSE_SUCCESS_STATUS = false;
-            $RESPONSE_TEXT = "Username in-use!";
-            $RESPONSE_CODE = BLOCKED_DATA;
-        }else if(usernameOnCooldown($INPUT_DATA->username)){
-            $RESPONSE_SUCCESS_STATUS = false;
-            $RESPONSE_TEXT = "Username on cooldown!";
-            $RESPONSE_CODE = BLOCKED_DATA;
-        }else if(!(registerUser($INPUT_DATA))){ // User input seems fine, attempt to register the user
-            $RESPONSE_SUCCESS_STATUS = false;
-            $RESPONSE_TEXT = "Couldn't register user!";
-            $RESPONSE_CODE = BACKEND_ERROR;
-        }
+        $RESPONSE_SUCCESS_STATUS = false;
+        $RESPONSE_TEXT = "Missing user agreement!";
+        $RESPONSE_CODE = MISSING_DATA;
     }
 }else{
     $RESPONSE_SUCCESS_STATUS = false;
-    $RESPONSE_TEXT = "Missing user agreement!";
-    $RESPONSE_CODE = MISSING_DATA;
+    $RESPONSE_TEXT = "Can't register users on devices with active sessions!";
+    $RESPONSE_CODE = BLOCKED_REQUEST;
 }
 
 ?>
