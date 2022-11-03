@@ -36,13 +36,14 @@ function createSessionID($connection){
 }
 
 // Add a session
+// Sessions can only stay valid for 20 days!
 function addSession($UID, $input){
     global $DATABASE_CoreTABLE__sessions, $CLIENT_IPAddress;
     $connection = connectMySQL(DATABASE_WRITE_ONLY);
     // Prepare session data
     $SID = createSessionID($connection);
     $TimezoneOffset = $input->timezoneOffset;
-    $TimeoutTimestamp = date('Y-m-d H:i:s', time() + 60*60*24*16);
+    $TimeoutTimestamp = date('Y-m-d H:i:s', time() + 60*60*24*20);
     $UserAgent = mysqli_real_escape_string($connection, $_SERVER['HTTP_USER_AGENT']);
     // Get user's location data
     require 'tool.location.php';
