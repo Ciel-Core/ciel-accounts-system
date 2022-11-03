@@ -1,8 +1,5 @@
 <?php
 
-// Start session
-session_start();
-
 $CLIENT_IPAddress = '';
 // Get real visitor IP behind CloudFlare network
 if (isset($_SERVER["HTTP_CF_CONNECTING_IP"])) {
@@ -21,17 +18,17 @@ if(filter_var($client, FILTER_VALIDATE_IP)){
 }
 
 function CLIENT_isSessionValid(){
-    if(isset($_SESSION["SID"]) && preg_match('/^[a-zA-Z0-9]{216}$/', $_SESSION["SID"])){
+    if(isset($_COOKIE["SID"]) && preg_match('/^[a-zA-Z0-9]{216}$/', $_COOKIE["SID"])){
         if(!function_exists("removeSession"))
             require 'sql.sessions.php';
         if(!(checkSessionStatus())){
-            unset($_SESSION["SID"]);
+            setcookie('SID', null, -1, '/');
             return false;
         }else{
             return true;
         }
     }else{
-        unset($_SESSION["SID"]);
+        setcookie('SID', null, -1, '/');
         return false;
     }
 }

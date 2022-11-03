@@ -3,9 +3,6 @@
 // Initiate the page
 require './../../_chips/comb.start_inputJSON.php';
 
-// Start session
-// session_start();
-
 // Get client info
 require './../../tools/client.info.php';
 
@@ -18,10 +15,6 @@ if(CLIENT_isSessionValid()){
     $RESPONSE_TEXT = "No active session detected!";
     $RESPONSE_CODE = BLOCKED_REQUEST;
 }
-
-// remove all session variables and end session
-session_unset();
-session_destroy();
 
 ?>
 {

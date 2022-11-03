@@ -9,8 +9,10 @@ if(!function_exists("CLIENT_isSessionValid"))
 if(!function_exists("validateDate"))
     require './../../tools/tool.dates.php';
 
-// Start session
-session_start();
+function setBrowserCookie($name, $value, $expireDate){
+    global $STATE_HOSTED_LOCALLY;
+    setcookie($name, $value, $expireDate, "/", $_SERVER['SERVER_NAME'], !$STATE_HOSTED_LOCALLY, true); // 86400 = 1 day
+}
 
 // Remove a session from the database
 function removeSession($InSID = "", $connection = ""){
@@ -20,11 +22,12 @@ function removeSession($InSID = "", $connection = ""){
         $connection = connectMySQL(DATABASE_WRITE_ONLY);
         $close = true;
     }
-    $SID = mysqli_real_escape_string($connection, ($InSID == "") ? $_SESSION["SID"] : $InSID);
+    $SID = mysqli_real_escape_string($connection, ($InSID == "") ? $_COOKIE["SID"] : $InSID);
     // Remove session
     executeQueryMySQL($connection, "DELETE FROM $DATABASE_CoreTABLE__sessions WHERE `SID` = '$SID'");
     if($close){
         $connection->close();
+        setBrowserCookie("SID", '', -1);
     }
 }
 
@@ -44,11 +47,30 @@ function createSessionID($connection){
     return $PlannedSID;
 }
 
+function clearServerSession(){
+    if(session_status() == PHP_SESSION_ACTIVE){
+        session_start();
+        session_unset();
+        if(ini_get("session.use_cookies")){
+            $params = session_get_cookie_params();
+            setcookie(session_name(), '', -1,
+                $params["path"], $params["domain"],
+                $params["secure"], $params["httponly"]
+            );
+        }
+        session_destroy();
+    }
+}
+
 // Add a session
 // Sessions can only stay valid for 20 days!
 function addSession($UID, $input){
+    clearServerSession();
+    // Check session limits
     checkSessionsLimit();
     checkUserSessionsLimit($UID);
+
+    // Create a new session
     global $DATABASE_CoreTABLE__sessions, $CLIENT_IPAddress;
     $connection = connectMySQL(DATABASE_WRITE_ONLY);
     // Prepare session data
@@ -72,6 +94,8 @@ function addSession($UID, $input){
                 ('$SID', $UID,  '$TimeoutTimestamp', '$UserAgent', $TimezoneOffset,  '$Country',
                 '$Region', '$City', '$LocationCoordinates')"
             );
+    // Set a cookie to recover the session ID when the server's session ends
+    setBrowserCookie("SID", $SID, time() + (86400 * 20)); // 86400 = 1 day
     $connection->close();
     return $SID;
 }
@@ -80,7 +104,7 @@ function addSession($UID, $input){
 function checkSessionStatus(){
     global $DATABASE_CoreTABLE__sessions;
     $connection = connectMySQL(DATABASE_READ_AND_WRITE);
-    $SID = mysqli_real_escape_string($connection, $_SESSION["SID"]);
+    $SID = mysqli_real_escape_string($connection, $_COOKIE["SID"]);
     $result = executeQueryMySQL($connection, "SELECT `TimeoutTimestamp` FROM $DATABASE_CoreTABLE__sessions WHERE `SID` = '$SID'");
     if($result){
         $timeoutTimestamp = strToTimestamp(mysqli_fetch_assoc($result)["TimeoutTimestamp"]);
