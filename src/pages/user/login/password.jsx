@@ -99,9 +99,9 @@ export default function LoginPassword(props){
                     }, function(data){
                         if(data.validUser){
                             if(data.require2FA){
-                                navigate("/user/login/trust");
+                                navigate("/user/challenge");
                             }else{
-                                showDialog("Notice", "You have the correct login credentials, but you can't access your account now. We're still working on this!");
+                                navigate("/user/device/setup");
                             }
                         }else{
                             setInputState(password, false, "Incorrect password!");

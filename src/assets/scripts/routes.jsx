@@ -21,7 +21,9 @@ const Pages = {
     RegisterSecurityQuestions: lazy(() => import("./../../pages/user/register/security-questions.jsx")),
     RegisterQuickSettings: lazy(() => import("./../../pages/user/register/quick-settings.jsx")),
     RegisterAgreement: lazy(() => import("./../../pages/user/register/agreement.jsx")),
-    RegisterReview: lazy(() => import("./../../pages/user/register/review.jsx"))
+    RegisterReview: lazy(() => import("./../../pages/user/register/review.jsx")),
+    DeviceAuthSetup: lazy(() => import("./../../pages/user/device/setup.jsx")),
+    DeviceAuth: lazy(() => import("./../../pages/user/device/auth.jsx"))
 }, Error = {
     NotFound: lazy(() => import("./../../pages/error/404.jsx"))
 };
@@ -33,8 +35,11 @@ export function WebRoutes(props){
         {/* The error page */}
         <Route path={"*"} element={<Error.NotFound {...reports}></Error.NotFound>} />
 
-        {/* Pages that require the user to be signed in, and can be used when signed in */}
+        {/* Pages that require the user to be signed in, and can be used only when signed in */}
         <Route path={"/"} element={<Pages.Home {...reports}></Pages.Home>} />
+
+        <Route path={"/user/device/setup"} element={<Pages.DeviceAuthSetup {...reports}></Pages.DeviceAuthSetup>} />
+        <Route path={"/user/device/auth"} element={<Pages.DeviceAuth {...reports}></Pages.DeviceAuth>} />
 
         {/* Pages that DON'T require the user to be signed in, and the user can't use while signed in */}
         <Route path={"/new"} element={<Pages.New {...reports}></Pages.New>} />

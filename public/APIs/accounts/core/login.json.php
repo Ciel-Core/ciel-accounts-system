@@ -3,9 +3,6 @@
 // Initiate the page
 require './../../_chips/comb.start_inputJSON.php';
 
-// Start session
-session_start();
-
 // Do a basic check for the input data!
 checkInputData(
     [$INPUT_DATA->username, "string", false, "/^[A-Za-z0-9_]{3,20}$/", "/[a-zA-Z]/"],
@@ -30,6 +27,9 @@ if(!(CLIENT_isSessionValid())){
         $result = signInStage1($INPUT_DATA);
         if($result->validUser){
             if($result->require2FA){
+                // Start a session
+                session_start();
+                $_SESSION["AUTH_UID"] = $result->UID;
                 $RESPONSE_SUCCESS_STATUS = false;
                 $RESPONSE_TEXT = "Backend does not support 2FA yet!";
                 $RESPONSE_CODE = TEMPORARY;
@@ -39,7 +39,6 @@ if(!(CLIENT_isSessionValid())){
                     require './../../tools/sql.sessions.php';
                 // Create a session
                 $SID = addSession($result->UID, $INPUT_DATA);
-                $_SESSION["SID"] = $SID;
             }
         }
     }
@@ -47,6 +46,7 @@ if(!(CLIENT_isSessionValid())){
     $RESPONSE_SUCCESS_STATUS = false;
     $RESPONSE_TEXT = "Device already has one on-going session!";
     $RESPONSE_CODE = BLOCKED_REQUEST;
+
 }
 
 ?>
