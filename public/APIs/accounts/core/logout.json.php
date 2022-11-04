@@ -3,17 +3,15 @@
 // Initiate the page
 require './../../_chips/comb.start_inputJSON.php';
 
-// Get client info
-require './../../tools/client.info.php';
-
+if(!(function_exists("CLIENT_isSessionValid")))
+    require './../../tools/client.info.php';
 if(CLIENT_isSessionValid()){
     // Remove session from database!
-    require './../../tools/sql.sessions.php';
+    if(!function_exists("removeSession"))
+        require './../../tools/sql.sessions.php';
     removeSession();
 }else{
-    $RESPONSE_SUCCESS_STATUS = false;
     $RESPONSE_TEXT = "No active session detected!";
-    $RESPONSE_CODE = BLOCKED_REQUEST;
 }
 
 ?>

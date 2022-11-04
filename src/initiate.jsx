@@ -21,12 +21,10 @@ import { Router } from "@solidjs/router";
 //              -> Get the user's relative data
 //              -> Initiate the process of loading the main page content!
 //              -O Stop untill further notice!
-import { isSignedIn, userData, updateUserState } from './assets/scripts/user.jsx';
-updateUserState(); // Update the user's data
+import { updateUserState, userData } from './assets/scripts/user.jsx';
 
 // Step 4: Update the components that are relavent to the user's data
 import { updateColorScheme } from './assets/scripts/colourScheme.jsx';
-updateColorScheme(userData().visual.preferredColorScheme);
 
 // Step 5: Import the required components
 import GlobalBar from './assets/components/GlobalBar.jsx';
@@ -39,13 +37,14 @@ import { checkConnection } from './assets/scripts/internetConnection.jsx';
 import { detectDevTools, alertDevMode } from './assets/scripts/console.jsx';
 
 render(() =>{
+
     // Wait for the page's content to finish loading
     const [showContent, setShowContent] = createSignal(false);
 
-    let contentLoadData = {GlobalBar: false, LocalContent: false},
+    let contentLoadData = {GlobalBar: false, LocalContent: false, UserState: false},
         contentLoadReport = (context) => { // context - "GlobalBar", "LocalContent"
             contentLoadData[context] = true;
-            if(contentLoadData.GlobalBar && contentLoadData.LocalContent){
+            if(contentLoadData.GlobalBar && contentLoadData.LocalContent && contentLoadData.UserState){
                 // Must run this when the user's basic info are aquired from the server and fully loaded!
                 // setTimeout(() => setShowContent(true), 1500); // TMP
                 setShowContent(true);
@@ -73,11 +72,20 @@ render(() =>{
         showDialog("Caution!", "Do NOT paste anything into your console, and don't show your console to anyone you don't trust. Your data could be stolen by attackers should you proceed without knowing what you're doing!");
     });
 
+    // Update the user's state and profile
+    const [loadedUserData, setLUD] = createSignal(false);
+    updateUserState(() => {
+        contentLoadReport("UserState");
+        setLUD(true);
+    });
+
+    // Update colour scheme
+    updateColorScheme(userData().visual.preferredColorScheme);
 
     // Return the global page content
     return <Router>
         <GlobalBar userProfile={userData().personal.profilePicture} showContent={showContent()} report={() => { contentLoadReport("GlobalBar"); }}/>
-        <LocalContent userData={userData()} isSignedIn={isSignedIn()} showContent={showContent()} report={() => { contentLoadReport("LocalContent"); }}/>
+        <LocalContent userData={userData()} showContent={showContent()} report={() => { contentLoadReport("LocalContent"); }} userDataLoaded={loadedUserData()}/>
         <GlobalFooter showContent={showContent()}/>
         <Scrollbar/>
     </Router>;

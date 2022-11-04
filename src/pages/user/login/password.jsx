@@ -11,6 +11,7 @@ import { InputFieldsContainer, redoLogin, nextCheck } from './../login.jsx';
 import { loginData, loadAES, hash } from './../../../assets/scripts/pages/loginData.jsx';
 import { useNavigate } from '@solidjs/router';
 import { getSalts, signInPOST } from './../../../assets/scripts/communication/accounts.jsx';
+import { updateUserState } from './../../../assets/scripts/user.jsx';
 
 export default function LoginPassword(props){
     let nextButton,
@@ -102,6 +103,7 @@ export default function LoginPassword(props){
                                 navigate("/user/challenge");
                             }else{
                                 navigate("/user/device/setup");
+                                updateUserState();
                             }
                         }else{
                             setInputState(password, false, "Incorrect password!");
