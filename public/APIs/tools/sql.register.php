@@ -60,16 +60,16 @@ function registerUser($input){
 
             $ProfileVisibility = $input->quickSettings->profile;
             $ActivityMode = $input->quickSettings->activity;
-            $LocationType = $input->quickSettings->location;
+            $Location = $input->quickSettings->location;
             $ColorScheme = $input->quickSettings->colorScheme;
 
             // Attempt to register the user's preferences
             if(!executeQueryMySQL($connection,
                     "INSERT INTO `$DATABASE_CoreTABLE__preferences`
-                        (`UID`, `ProfileVisibility`, `ActivityMode`, `LocationType`,
+                        (`UID`, `ProfileVisibility`, `ActivityMode`, `Location`,
                          `ColorScheme`)
                     VALUES
-                        ($UID,  $ProfileVisibility,  $ActivityMode,  $LocationType,
+                        ($UID,  $ProfileVisibility,  $ActivityMode,  $Location,
                           $ColorScheme)"
                 )){
 

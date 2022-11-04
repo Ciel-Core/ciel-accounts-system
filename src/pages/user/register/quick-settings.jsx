@@ -47,14 +47,8 @@ function recordOption(){
 
 export default function RegisterQuickSettings(props){
     let nextButton,
-        preciseLocationData,
         navigate = useNavigate();
     onMount(() => {
-        // Check if browser supports location API
-        if(!navigator.geolocation){
-            preciseLocationData.setAttribute("disabled", "");
-        }
-
         if(registerData.quickSettings.profile != undefined){
             document.getElementById("profile-" + registerData.quickSettings.profile).checked = true;
         }
@@ -107,9 +101,9 @@ export default function RegisterQuickSettings(props){
                     <QuickOption id={"activity-3"} name={"activity"} value={3}>Collect data only from the Ciel service</QuickOption>
                 </QuickSetting>
                 <SectionDivider/>
-                <QuickSetting title={"Location data"} description={"Your location data can help us keep your Ciel account secure. More precise location data can help us keep track of your login activity better and make it hard for people to impersonate you.<br/><br/> (If you choose the precise data option, you won't be allowed to access your Ciel account on devices with no GPS access)"}>
+                <QuickSetting title={"Location data"} description={"Your location data can help us keep your Ciel account secure. Location data can help us keep track of your login activity better and make it hard for people to impersonate you."}>
                     <QuickOption id={"location-1"} name={"location"} value={1} checked>Collect approximate location data</QuickOption>
-                    <QuickOption ref={preciseLocationData} id={"location-2"} name={"location"} value={2}>Collect precise location data</QuickOption>
+                    <QuickOption id={"location-2"} name={"location"} value={2}>Do not collect location data</QuickOption>
                 </QuickSetting>
 
                 <SectionTitle>Extra</SectionTitle>
