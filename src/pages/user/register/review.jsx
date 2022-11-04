@@ -110,7 +110,7 @@ export default function RegisterReview(props){
                     // 1 - Ciel.affiliated.third-party, 2 - Ciel.affiliated, 3 - Ciel
                     return null;
                 })()}</ReviewItem>
-                <ReviewItem title={"Location"}>{(registerData.quickSettings.location == 1) ? "Approximate" : "Precise"}</ReviewItem>
+                <ReviewItem title={"Location"}>{(registerData.quickSettings.location == 1) ? "Approximate" : "Disabled"}</ReviewItem>
                 <ReviewItem title={"Colour Scheme"}>{(function(){
                     //
                     if(registerData.quickSettings.colorScheme == 1){
