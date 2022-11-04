@@ -22,15 +22,16 @@ function registerUser($input){
     $Birthdate = $input->birthdate->year."-".$input->birthdate->month."-".$input->birthdate->day;
     $GenderName = mysqli_real_escape_string($connection, ucwords(strtolower($input->gender)));
     $Pronounce = $input->pronounce;
+    $CreationIPAddress = mysqli_real_escape_string($connection, $CLIENT_IPAddress);
     $Lang = mysqli_real_escape_string($connection, $input->extraData->registrationDisplayLanguage);
 
     // Attempt to register basic user info 
     if(executeQueryMySQL($connection,
             "INSERT INTO `$DATABASE_CoreTABLE__users`
-                (`Username`,  `DisplayUsername`,  `CreationIPAddress`, `PasswordHash`,  `FirstName`,
+                (`Username`,  `DisplayUsername`,  `CreationIPAddress`,  `PasswordHash`,  `FirstName`,
                  `LastName`,  `Birthdate`,  `GenderName`, `Pronounce`, `Lang`)
             VALUES
-                ('$Username', '$DisplayUsername', '$CLIENT_IPAddress', '$PasswordHash', '$FirstName',
+                ('$Username', '$DisplayUsername', '$CreationIPAddress', '$PasswordHash', '$FirstName',
                  '$LastName', '$Birthdate', '$GenderName', $Pronounce, '$Lang')"
         )){
 
@@ -76,12 +77,12 @@ function registerUser($input){
                 // Delete user data
                 executeQueryMySQL($connection, "DELETE FROM `$DATABASE_CoreTABLE__users` WHERE `UID` = $UID");
                 // Delete the username cooldown
-                executeQueryMySQL($connection, "DELETE FROM $DATABASE_CoreTABLE__reservedUsernames WHERE `IPAddress` = '$CLIENT_IPAddress'");
+                executeQueryMySQL($connection, "DELETE FROM $DATABASE_CoreTABLE__reservedUsernames WHERE `IPAddress` = '$CreationIPAddress'");
                 $connection->close();
                 return false;
             }else{
                 // Delete the username cooldown
-                executeQueryMySQL($connection, "DELETE FROM $DATABASE_CoreTABLE__reservedUsernames WHERE `IPAddress` = '$CLIENT_IPAddress'");
+                executeQueryMySQL($connection, "DELETE FROM $DATABASE_CoreTABLE__reservedUsernames WHERE `IPAddress` = '$CreationIPAddress'");
             }
         }else{
             // Delete user data!
@@ -92,13 +93,13 @@ function registerUser($input){
                 executeQueryMySQL($connection, "DELETE FROM `$DATABASE_CoreTABLE__users` WHERE `Username` = '$Username'");
             }
             // Delete the username cooldown
-            executeQueryMySQL($connection, "DELETE FROM $DATABASE_CoreTABLE__reservedUsernames WHERE `IPAddress` = '$CLIENT_IPAddress'");
+            executeQueryMySQL($connection, "DELETE FROM $DATABASE_CoreTABLE__reservedUsernames WHERE `IPAddress` = '$CreationIPAddress'");
             $connection->close();
             return false;
         }
     }else{
         // Delete the username cooldown
-        executeQueryMySQL($connection, "DELETE FROM $DATABASE_CoreTABLE__reservedUsernames WHERE `IPAddress` = '$CLIENT_IPAddress'");
+        executeQueryMySQL($connection, "DELETE FROM $DATABASE_CoreTABLE__reservedUsernames WHERE `IPAddress` = '$CreationIPAddress'");
         $connection->close();
         return false;
     }

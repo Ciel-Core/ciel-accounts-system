@@ -78,6 +78,7 @@ function addSession($UID, $input){
     $SID = createSessionID($connection);
     $TimeoutTimestamp = date('Y-m-d H:i:s', time() + 60*60*24*20);
     $UserAgent = mysqli_real_escape_string($connection, $_SERVER['HTTP_USER_AGENT']);
+    $ClientIPAddress = mysqli_real_escape_string($connection, $CLIENT_IPAddress);
     // Get user's location data
     require 'tool.location.php';
     $locData = getLocationFromIP($CLIENT_IPAddress, $input->timezoneOffset, $UID);
@@ -89,11 +90,11 @@ function addSession($UID, $input){
     // Insert session into DB
     executeQueryMySQL($connection,
             "INSERT INTO `$DATABASE_CoreTABLE__sessions`
-                (`SID`,  `UID`, `TimeoutTimestamp`,  `UserAgent`,  `TimezoneOffset`, `Country`,
-                `Region`,  `City`,  `LocationCoordinates`)
+                (`SID`,  `UID`, `TimeoutTimestamp`,  `IPAddress`,        `UserAgent`,
+                `TimezoneOffset`, `Country`,  `Region`,  `City`,  `LocationCoordinates`)
             VALUES
-                ('$SID', $UID,  '$TimeoutTimestamp', '$UserAgent', $TimezoneOffset,  '$Country',
-                '$Region', '$City', '$LocationCoordinates')"
+                ('$SID', $UID,  '$TimeoutTimestamp', `$ClientIPAddress`, '$UserAgent',
+                $TimezoneOffset,  '$Country', '$Region', '$City', '$LocationCoordinates')"
             );
     // Set a cookie to recover the session ID when the server's session ends
     setBrowserCookie("SID", $SID, time() + (86400 * 20)); // 86400 = 1 day

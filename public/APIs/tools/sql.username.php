@@ -64,9 +64,10 @@ function usernameOnCooldown($username, $ignoreIP = false){
 function cooldownUsername($username){
     global $DATABASE_CoreTABLE__reservedUsernames, $CLIENT_IPAddress;
     $connection = connectMySQL(DATABASE_READ_AND_WRITE);
+    $ClientIPAddress = mysqli_real_escape_string($connection, $CLIENT_IPAddress);
 
     // First remove all previously cooldowned usernames!
-    executeQueryMySQL($connection, "DELETE FROM $DATABASE_CoreTABLE__reservedUsernames WHERE `IPAddress` = '$CLIENT_IPAddress'");
+    executeQueryMySQL($connection, "DELETE FROM $DATABASE_CoreTABLE__reservedUsernames WHERE `IPAddress` = '$ClientIPAddress'");
 
     // Cooldown the new username!
     $Username = mysqli_real_escape_string($connection, strtolower($username));
@@ -74,9 +75,9 @@ function cooldownUsername($username){
     $TimeoutTimestamp = date('Y-m-d H:i:s', time() + 60*240); // Hmm, timezones...
     executeQueryMySQL($connection,
             "INSERT INTO `$DATABASE_CoreTABLE__reservedUsernames`
-                (`IPAddress`,         `Username`,  `TimeoutTimestamp`)
+                (`IPAddress`,        `Username`,  `TimeoutTimestamp`)
             VALUES
-                ('$CLIENT_IPAddress', '$Username', '$TimeoutTimestamp')"
+                ('$ClientIPAddress', '$Username', '$TimeoutTimestamp')"
             );
     $connection->close();
 }
