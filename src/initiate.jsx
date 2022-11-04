@@ -80,7 +80,9 @@ render(() =>{
     });
 
     // Update colour scheme
-    updateColorScheme(userData().visual.preferredColorScheme);
+    createEffect(() => {
+        updateColorScheme(userData().visual.preferredColorScheme);
+    });
 
     // Return the global page content
     return <Router>
