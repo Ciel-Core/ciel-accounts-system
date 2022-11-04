@@ -93,6 +93,3 @@ export function userDataPOST(callback, fullRequest = true){
         throwError(error);
     });
 }
-
-// Temp
-window.requestUserData = function(full = true){userDataPOST(function(...d){console.log(d)}, full)};
