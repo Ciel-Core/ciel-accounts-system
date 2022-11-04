@@ -126,7 +126,7 @@ CREATE TABLE `users` (
   `DisplayUsername` varchar(20) NOT NULL,
   `CreationDate` timestamp NOT NULL DEFAULT current_timestamp(),
   `CreationIPAddress` varchar(15) NOT NULL,
-  `PasswordHash` varchar(32) NOT NULL,
+  `PasswordHash` varchar(64) NOT NULL,
   `FirstName` varchar(32) NOT NULL,
   `LastName` varchar(32) NOT NULL,
   `ProfilePicutre` varchar(26) NOT NULL DEFAULT 'DEFAULT',
@@ -141,7 +141,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`UID`, `Username`, `DisplayUsername`, `CreationDate`, `CreationIPAddress`, `PasswordHash`, `FirstName`, `LastName`, `ProfilePicutre`, `Birthdate`, `GenderName`, `Pronounce`, `Lang`) VALUES
-(10000000000, 'system', 'SYSTEM', '2022-10-31 22:00:00', '0.0.0.0', '66a404d30cf21f16d4a0c561a801db06', 'Ciel', 'System', 'DEFAULT', '2022-11-01', 'Robot', 0, 'en-GB');
+(10000000000, 'system', 'SYSTEM', '2022-10-31 22:00:00', '0.0.0.0', 'aa839b55020c3932f704a15c68740cec4e506f4beb80038e6195fcba74e59d33', 'Ciel', 'System', 'DEFAULT', '2022-11-01', 'Robot', 0, 'en-GB');
 
 --
 -- Indexes for dumped tables

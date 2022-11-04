@@ -16,7 +16,7 @@ function registerUser($input){
         require 'client.info.php';
     $Username = mysqli_real_escape_string($connection, strtolower($input->username));
     $DisplayUsername = mysqli_real_escape_string($connection, $input->username);
-    $PasswordHash = md5($DATABASE_secretSault1.($input->passwordHash).$DATABASE_secretSault2);
+    $PasswordHash = hash("sha256", $DATABASE_secretSault1.($input->passwordHash).$DATABASE_secretSault2);
     $FirstName = mysqli_real_escape_string($connection, $input->name->first);
     $LastName = mysqli_real_escape_string($connection, $input->name->last);
     $Birthdate = $input->birthdate->year."-".$input->birthdate->month."-".$input->birthdate->day;
