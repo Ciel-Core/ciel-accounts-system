@@ -41,7 +41,7 @@ function connectMySQL($mode){
 function executeQueryMySQL($connection, $query, $die = true){
     $result = mysqli_query($connection, $query);
     if($die && !($result)){
-        responseReport(BACKEND_ERROR, "Couldn't add user to database!");
+        responseReport(BACKEND_ERROR, "Couldn't execute query!");
     }
     return $result;
 }
