@@ -82,3 +82,17 @@ export function getSalts(callback){
         callback(error, (error) ? data : data.replace(/\r/g, "").split(/\n/g));
     });
 }
+
+export function userDataPOST(callback, fullRequest = true){
+    jsonPOST("/APIs/accounts/core/userData.request.json.php",{
+        fullRequest: fullRequest
+    }).then(function(data){
+        callback(data.responseInfo.successful, data);
+    }).catch(function(error){
+        callback(false, undefined);
+        throwError(error);
+    });
+}
+
+// Temp
+window.requestUserData = function(full = true){userDataPOST(function(...d){console.log(d)}, full)};

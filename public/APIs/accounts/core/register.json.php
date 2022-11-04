@@ -31,11 +31,12 @@ checkInputData(
 // Check if there is an active session
 if(!(function_exists("CLIENT_isSessionValid")))
     require './../../tools/client.info.php';
+if(!function_exists("validateDate"))
+    require './../../tools/tool.dates.php';
 if(!(CLIENT_isSessionValid())){
     // Check data
     if($INPUT_DATA->agreement){
         // Only do more checks on public data
-        require './../../tools/tool.dates.php';
         $birthdateStr = $INPUT_DATA->birthdate->year."-".$INPUT_DATA->birthdate->month."-".$INPUT_DATA->birthdate->day; // "year-month-day"
         if(!validateDate($birthdateStr)){
             $RESPONSE_SUCCESS_STATUS = false;

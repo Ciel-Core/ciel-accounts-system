@@ -8,7 +8,7 @@ import styles from './../styles/localContent.module.css';
 import LoadingSpinner from './LoadingSpinner.jsx';
 
 // import { Routes, Route, useLocation } from "@solidjs/router"; /*Link*/
-import { createSignal, onMount } from "solid-js";
+import { createEffect, createSignal, onMount } from "solid-js";
 
 import { landingCheck, afterURLChange } from './../scripts/traffic.jsx';
 import { WebRoutes } from './../scripts/routes.jsx';
@@ -16,10 +16,11 @@ import { WebRoutes } from './../scripts/routes.jsx';
 function LocalContent(props){
 
     // Check the landing request
-    landingCheck(props.isSignedIn);
-    //log(props.userData);
-
-    // props.userData;
+    createEffect(() => {
+        if(props.userDataLoaded){
+            landingCheck(props.signedIn);
+        }
+    });
 
     let loadingContainer,
         containerRef,

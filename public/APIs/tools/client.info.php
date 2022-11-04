@@ -17,18 +17,18 @@ if(filter_var($client, FILTER_VALIDATE_IP)){
     $CLIENT_IPAddress = $remote;
 }
 
+if(!function_exists("removeSession"))
+    require 'sql.sessions.php';
 function CLIENT_isSessionValid(){
     if(isset($_COOKIE["SID"]) && preg_match('/^[a-zA-Z0-9]{216}$/', $_COOKIE["SID"])){
-        if(!function_exists("removeSession"))
-            require 'sql.sessions.php';
         if(!(checkSessionStatus())){
-            setcookie('SID', null, -1, '/');
+            setBrowserCookie('SID', '', 0);
             return false;
         }else{
             return true;
         }
     }else{
-        setcookie('SID', null, -1, '/');
+        setBrowserCookie('SID', '', 0);
         return false;
     }
 }

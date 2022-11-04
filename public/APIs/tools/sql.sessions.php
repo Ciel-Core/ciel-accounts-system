@@ -11,7 +11,8 @@ if(!function_exists("validateDate"))
 
 function setBrowserCookie($name, $value, $expireDate){
     global $STATE_HOSTED_LOCALLY;
-    setcookie($name, $value, $expireDate, "/", $_SERVER['SERVER_NAME'], !$STATE_HOSTED_LOCALLY, true); // 86400 = 1 day
+    setcookie($name, '', 0, "/", $_SERVER['SERVER_NAME'], !$STATE_HOSTED_LOCALLY, true); // 86400 = 1 day
+    setcookie($name, $value, $expireDate, "/", $_SERVER['SERVER_NAME'], !$STATE_HOSTED_LOCALLY, true);
 }
 
 // Remove a session from the database
@@ -27,7 +28,7 @@ function removeSession($InSID = "", $connection = ""){
     executeQueryMySQL($connection, "DELETE FROM $DATABASE_CoreTABLE__sessions WHERE `SID` = '$SID'");
     if($close){
         $connection->close();
-        setBrowserCookie("SID", '', -1);
+        setBrowserCookie("SID", '', 0);
     }
 }
 
@@ -75,24 +76,25 @@ function addSession($UID, $input){
     $connection = connectMySQL(DATABASE_WRITE_ONLY);
     // Prepare session data
     $SID = createSessionID($connection);
-    $TimezoneOffset = $input->timezoneOffset;
     $TimeoutTimestamp = date('Y-m-d H:i:s', time() + 60*60*24*20);
     $UserAgent = mysqli_real_escape_string($connection, $_SERVER['HTTP_USER_AGENT']);
+    $ClientIPAddress = mysqli_real_escape_string($connection, $CLIENT_IPAddress);
     // Get user's location data
     require 'tool.location.php';
-    $locData = getLocationFromIP($CLIENT_IPAddress);
+    $locData = getLocationFromIP($CLIENT_IPAddress, $input->timezoneOffset, $UID);
     $Country = mysqli_real_escape_string($connection, $locData->country);
     $Region = mysqli_real_escape_string($connection, $locData->region);
     $City = mysqli_real_escape_string($connection, $locData->city);
     $LocationCoordinates = mysqli_real_escape_string($connection, $locData->loc);
+    $TimezoneOffset = mysqli_real_escape_string($connection, $locData->timezoneOffset);
     // Insert session into DB
     executeQueryMySQL($connection,
             "INSERT INTO `$DATABASE_CoreTABLE__sessions`
-                (`SID`,  `UID`, `TimeoutTimestamp`,  `UserAgent`,  `TimezoneOffset`, `Country`,
-                `Region`,  `City`,  `LocationCoordinates`)
+                (`SID`,  `UID`, `TimeoutTimestamp`,  `IPAddress`,        `UserAgent`,
+                `TimezoneOffset`, `Country`,  `Region`,  `City`,  `LocationCoordinates`)
             VALUES
-                ('$SID', $UID,  '$TimeoutTimestamp', '$UserAgent', $TimezoneOffset,  '$Country',
-                '$Region', '$City', '$LocationCoordinates')"
+                ('$SID', $UID,  '$TimeoutTimestamp', '$ClientIPAddress', '$UserAgent',
+                $TimezoneOffset,  '$Country', '$Region', '$City', '$LocationCoordinates')"
             );
     // Set a cookie to recover the session ID when the server's session ends
     setBrowserCookie("SID", $SID, time() + (86400 * 20)); // 86400 = 1 day

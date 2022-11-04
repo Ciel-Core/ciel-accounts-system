@@ -6,6 +6,7 @@
 
 import { Title } from './../assets/components/Title.jsx';
 import { onCleanup, onMount } from 'solid-js';
+import { signOut } from './../assets/scripts/user.jsx';
 
 export default function Home(props){
     onCleanup(() => {
@@ -16,6 +17,7 @@ export default function Home(props){
     });
     return <>
         <Title>Home</Title>
+        <button onClick={signOut}>Sign Out</button>
         "/"!
     </>;
 }

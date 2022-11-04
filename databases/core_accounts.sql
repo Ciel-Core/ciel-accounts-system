@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.0.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: -
--- Generation Time: Nov 03, 2022 at 09:44 AM
--- Server version: 10.3.27-MariaDB
--- PHP Version: 7.2.22
+-- Host: 127.0.0.1:4842
+-- Generation Time: Nov 04, 2022 at 09:13 AM
+-- Server version: 10.4.25-MariaDB
+-- PHP Version: 8.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -32,7 +32,7 @@ CREATE TABLE `preferences` (
   `UID` bigint(11) UNSIGNED NOT NULL,
   `ProfileVisibility` tinyint(1) UNSIGNED NOT NULL,
   `ActivityMode` tinyint(1) UNSIGNED NOT NULL,
-  `LocationType` tinyint(1) UNSIGNED NOT NULL,
+  `Location` tinyint(1) UNSIGNED NOT NULL,
   `ColorScheme` tinyint(1) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -40,7 +40,7 @@ CREATE TABLE `preferences` (
 -- Dumping data for table `preferences`
 --
 
-INSERT INTO `preferences` (`UID`, `ProfileVisibility`, `ActivityMode`, `LocationType`, `ColorScheme`) VALUES
+INSERT INTO `preferences` (`UID`, `ProfileVisibility`, `ActivityMode`, `Location`, `ColorScheme`) VALUES
 (10000000000, 1, 1, 1, 0);
 
 -- --------------------------------------------------------
@@ -52,7 +52,7 @@ INSERT INTO `preferences` (`UID`, `ProfileVisibility`, `ActivityMode`, `Location
 CREATE TABLE `reservedusernames` (
   `IPAddress` varchar(15) NOT NULL,
   `Username` varchar(20) NOT NULL,
-  `TimeoutTimestamp` timestamp NOT NULL
+  `TimeoutTimestamp` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -89,7 +89,8 @@ CREATE TABLE `sessions` (
   `SID` varchar(216) NOT NULL,
   `UID` bigint(11) UNSIGNED NOT NULL,
   `StartTimestamp` timestamp NOT NULL DEFAULT current_timestamp(),
-  `TimeoutTimestamp` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `TimeoutTimestamp` timestamp NULL DEFAULT NULL,
+  `IPAddress` varchar(15) NOT NULL,
   `UserAgent` text NOT NULL,
   `Country` tinytext NOT NULL,
   `Region` tinytext NOT NULL,

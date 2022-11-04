@@ -1,6 +1,10 @@
 <?php
 
 // Tables
+global $DATABASE_CoreTABLE__preferences, $DATABASE_CoreTABLE__reservedUsernames,
+    $DATABASE_CoreTABLE__security, $DATABASE_CoreTABLE__sessions,
+    $DATABASE_CoreTABLE__trustedDevices, $DATABASE_CoreTABLE__users;
+
 $DATABASE_CoreTABLE__preferences = "preferences";
 $DATABASE_CoreTABLE__reservedUsernames = "reservedusernames";
 $DATABASE_CoreTABLE__security = "security";
@@ -37,7 +41,7 @@ function connectMySQL($mode){
 function executeQueryMySQL($connection, $query, $die = true){
     $result = mysqli_query($connection, $query);
     if($die && !($result)){
-        responseReport(BACKEND_ERROR, "Couldn't add user to database!");
+        responseReport(BACKEND_ERROR, "Couldn't execute query!");
     }
     return $result;
 }
