@@ -29,7 +29,7 @@ const Pages = {
 };
 
 export function WebRoutes(props){
-    let reports = {pageLoaded: props.pageLoad, pageUnloading: props.pageUnload}
+    let reports = {pageLoaded: props.pageLoad, pageUnloading: props.pageUnload, userData: props.userData}
     return (
     <Routes>
         {/* The error page */}

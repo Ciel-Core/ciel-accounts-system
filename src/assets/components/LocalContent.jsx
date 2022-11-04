@@ -16,8 +16,10 @@ import { WebRoutes } from './../scripts/routes.jsx';
 function LocalContent(props){
 
     // Check the landing request
+    let checked = false;
     createEffect(() => {
-        if(props.userDataLoaded){
+        if(!checked && props.userDataLoaded){
+            checked = true;
             landingCheck(props.signedIn);
         }
     });
@@ -32,7 +34,7 @@ function LocalContent(props){
         }} pageUnload={function(){
             loadingContainer.dataset.show = true;
             containerRef.dataset.show = false;
-        }}/>
+        }} userData={props.userData}/>
     </div>
     ), localContent;
 

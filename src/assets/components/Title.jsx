@@ -5,7 +5,7 @@
  **/
 
 export function Title(props){
-    document.title = props.children + " | MyApp";
+    document.title = props.children + " | " + window.websiteName;
     return <></>;
 }
 
