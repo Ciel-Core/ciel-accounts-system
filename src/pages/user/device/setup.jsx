@@ -7,8 +7,11 @@
 import { Title } from './../../../assets/components/Title.jsx';
 import { Button, Mark, FlexContainer, Notice } from './../../../assets/components/CustomElements.jsx';
 import { onCleanup, onMount } from 'solid-js';
+import { createPublicKey } from './../../../assets/scripts/deviceCredential.jsx';
 
 export default function New(props){
+    let setupButton,
+        localContent = document.getElementById("local-content");
     onCleanup(() => {
         props.pageUnloading();
     });
@@ -24,8 +27,14 @@ export default function New(props){
             <Notice>You can only set up devices with passwords or other similar security measures as trusted devices!</Notice>
             <FlexContainer space={"between"} horozontal no-grow>
                 <Button type={"link"} href={"/"}>Skip</Button>
-                <Button type={"action"} function={function(){
-                    alert(":(");
+                <Button ref={setupButton} type={"action"} function={function(){
+                    localContent.dataset.processing = true;
+                    setupButton.setAttribute("disabled", "");
+                    createPublicKey("KEY_" + Math.round(Math.random()*100000000), props.userData, "USER_ID", function(...a){
+                        console.log(a);
+                        localContent.dataset.processing = false;
+                        setupButton.removeAttribute("disabled");
+                    });
                 }} primary>Setup Auth</Button>
             </FlexContainer>
         </FlexContainer>

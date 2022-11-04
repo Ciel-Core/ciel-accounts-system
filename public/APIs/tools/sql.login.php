@@ -9,7 +9,7 @@ function signInStage1($input){
     $connection = connectMySQL(DATABASE_READ_ONLY);
 
     $EscapedUsername = mysqli_real_escape_string($connection, strtolower($input->username));
-    $PasswordHash = md5($DATABASE_secretSault1.($input->passwordHash).$DATABASE_secretSault2);
+    $PasswordHash = hash("sha256", $DATABASE_secretSault1.($input->passwordHash).$DATABASE_secretSault2);
 
     // Prepare return object
     $return = (object)array("validUser" =>false, "require2FA" => 0, "UID" => "");
