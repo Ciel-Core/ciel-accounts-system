@@ -16,7 +16,17 @@ require './../../tools/tool.strings.php';
 require './../../tools/sql.sessions.php';
 
 //
-"ES256"
+/*openssl_decrypt(
+    string $data,
+    string $cipher_algo,
+    string $passphrase,
+    int $options = 0,
+    string $iv = "",
+    ?string $tag = null,
+    string $aad = ""
+);*/
+"ES256";
+"RS256";
 
 ?>
 {
