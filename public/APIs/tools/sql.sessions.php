@@ -9,10 +9,10 @@ if(!function_exists("CLIENT_isSessionValid"))
 if(!function_exists("validateDate"))
     require './../../tools/tool.dates.php';
 
-function setBrowserCookie($name, $value, $expireDate){
+function setBrowserCookie($name, $value, $expireDate, $HTTP_ONLY = true){
     global $STATE_HOSTED_LOCALLY;
-    setcookie($name, '', 0, "/", $_SERVER['SERVER_NAME'], !$STATE_HOSTED_LOCALLY, true); // 86400 = 1 day
-    setcookie($name, $value, $expireDate, "/", $_SERVER['SERVER_NAME'], !$STATE_HOSTED_LOCALLY, true);
+    setcookie($name, '', 0, "/", $_SERVER['SERVER_NAME'], !$STATE_HOSTED_LOCALLY, $HTTP_ONLY); // 86400 = 1 day
+    setcookie($name, $value, $expireDate, "/", $_SERVER['SERVER_NAME'], !$STATE_HOSTED_LOCALLY, $HTTP_ONLY);
 }
 
 // Remove a session from the database

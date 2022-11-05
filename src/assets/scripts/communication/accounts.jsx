@@ -93,3 +93,26 @@ export function userDataPOST(callback, fullRequest = true){
         throwError(error);
     });
 }
+
+export function challengeKeyPOST(callback, isNew = true){
+    jsonPOST("/APIs/accounts/authn/get.challenge.json.php",{
+        new: isNew
+    }).then(function(data){
+        callback(data.responseInfo.successful, data);
+    }).catch(function(error){
+        callback(false, undefined);
+        throwError(error);
+    });
+}
+
+export function challengeCheckPOST(credentialId, publicKey, callback){
+    jsonPOST("/APIs/accounts/authn/check.challenge.json.php",{
+        credentialId: credentialId,
+        publicKey: publicKey
+    }).then(function(data){
+        callback(data.responseInfo.successful, data);
+    }).catch(function(error){
+        callback(false, undefined);
+        throwError(error);
+    });
+}

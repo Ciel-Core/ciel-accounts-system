@@ -24,8 +24,9 @@ export default function DeviceAuth(props){
     onMount(() => {
         props.pageLoaded();
         setTimeout(function(){
-            checkCreditential("", undefined, function(error, assertion){
-                //
+            //
+            checkCreditential(challengeKey, data.credentialId, function(error, assertion){
+                console.log([error, assertion]);
             });
         }, 1000);
     });
