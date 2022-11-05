@@ -5,7 +5,7 @@
  **/
 
 import { Title } from './../../../assets/components/Title.jsx';
-import { Button, Mark, FlexContainer, Notice } from './../../../assets/components/CustomElements.jsx';
+import { Button, Mark, FlexContainer, Notice, showDialog } from './../../../assets/components/CustomElements.jsx';
 import { onCleanup, onMount } from 'solid-js';
 import { createPublicKey } from './../../../assets/scripts/deviceCredential.jsx';
 
@@ -30,10 +30,14 @@ export default function New(props){
                 <Button ref={setupButton} type={"action"} function={function(){
                     localContent.dataset.processing = true;
                     setupButton.setAttribute("disabled", "");
-                    createPublicKey("KEY_" + Math.round(Math.random()*100000000), props.userData, "USER_ID", function(...a){
-                        console.log(a);
+                    createPublicKey("KEY_" + Math.round(Math.random()*100000000), props.userData, "USER_ID", function(error, credential){
                         localContent.dataset.processing = false;
                         setupButton.removeAttribute("disabled");
+                        if(error){
+                            showDialog("Something went wrong!", "We couldn't get a valid response from your device!");
+                        }else{
+                            alert(credential);
+                        }
                     });
                 }} primary>Setup Auth</Button>
             </FlexContainer>
