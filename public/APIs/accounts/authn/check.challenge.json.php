@@ -6,7 +6,8 @@ require './../../_chips/comb.start_inputJSON.php';
 // Do a basic check for the input data!
 checkInputData(
     [$INPUT_DATA->credentialId, "string", false, "/^.|\n|\r{16,65535}$/"],
-    [$INPUT_DATA->publicKey, "string", false, "/^.|\n|\r{16,65535}$/"]
+    [$INPUT_DATA->publicKey, "string", false, "/^.|\n|\r{16,65535}$/"],
+    [$INPUT_DATA->signedChallenge, "string", false, "/^.|\n|\r{16,65535}$/"]
 );
 
 // Include challenge key generator

@@ -90,7 +90,7 @@ export function createPublicKey(user, callback){
                         window.DATA = {credentialId, publicKeyBytes};
                         let decoder = new TextDecoder();
                         alert(`${decoder.decode(credentialId).length}-${decoder.decode(publicKeyBytes).length}`);
-                        challengeCheckPOST(decoder.decode(credentialId), decoder.decode(publicKeyBytes), function(success, data){
+                        challengeCheckPOST(decoder.decode(credentialId), decoder.decode(publicKeyBytes), "???", function(success, data){
                             if(!success){
                                 throw new Error("Couldn't validate auth data!");
                             }
