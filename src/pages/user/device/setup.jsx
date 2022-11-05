@@ -7,7 +7,7 @@
 import { Title } from './../../../assets/components/Title.jsx';
 import { Button, Mark, FlexContainer, Notice, showDialog } from './../../../assets/components/CustomElements.jsx';
 import { onCleanup, onMount } from 'solid-js';
-import { createPublicKey } from './../../../assets/scripts/deviceCredential.jsx';
+import { createPublicKey, loadCBOR } from './../../../assets/scripts/deviceCredential.jsx';
 
 export default function New(props){
     let setupButton,
@@ -30,14 +30,35 @@ export default function New(props){
                 <Button ref={setupButton} type={"action"} function={function(){
                     localContent.dataset.processing = true;
                     setupButton.setAttribute("disabled", "");
-                    createPublicKey("KEY_" + Math.round(Math.random()*100000000), props.userData, "USER_ID", function(error, credential){
-                        localContent.dataset.processing = false;
-                        setupButton.removeAttribute("disabled");
-                        if(error){
-                            showDialog("Something went wrong!", "We couldn't get a valid response from your device!");
-                        }else{
-                            alert(credential);
-                        }
+                    loadCBOR(function(){
+                        createPublicKey("KEY_" + Math.round(Math.random()*100000000), props.userData, "USER_ID", function(error, credential){
+                            console.log([error, credential]);
+                            localContent.dataset.processing = false;
+                            setupButton.removeAttribute("disabled");
+                            if(error){
+                                showDialog("Something went wrong!", "We couldn't get a valid response from your device!");
+                            }else{
+
+                                //
+                                //
+                                // decode the clientDataJSON into a utf-8 string
+                                const utf8Decoder = new TextDecoder('utf-8');
+                                const decodedClientData = utf8Decoder.decode(
+                                    credential.response.clientDataJSON)
+
+                                // parse the string as an object
+                                const clientDataObj = JSON.parse(decodedClientData);
+
+                                console.log(clientDataObj)
+                                //
+                                // note: a CBOR decoder library is needed here.
+                                const decodedAttestationObj = CBOR.decode(
+                                    credential.response.attestationObject);
+
+                                console.log(decodedAttestationObj);
+                                //
+                            }
+                        });
                     });
                 }} primary>Setup Auth</Button>
             </FlexContainer>

@@ -4,7 +4,8 @@
  * 
  **/
 
-import { loadAES, hash } from './registerData.jsx';
+import { hash } from './registerData.jsx';
+import { loadAES } from './../loader.jsx';
 
 function cleanLoginDataObject () {
     return {

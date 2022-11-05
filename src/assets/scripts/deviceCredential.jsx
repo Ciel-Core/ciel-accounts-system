@@ -6,6 +6,10 @@
 
 // Read https://webauthn.guide/
 
+import { loadCBOR } from "./loader";
+
+export { loadCBOR };
+
 export async function createPublicKey(challengeKey, userData, userIdentifier, callback){
     try {
         // Get credential
