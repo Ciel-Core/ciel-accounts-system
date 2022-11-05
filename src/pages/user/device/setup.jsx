@@ -7,16 +7,24 @@
 import { Title } from './../../../assets/components/Title.jsx';
 import { Button, Mark, FlexContainer, Notice, showDialog } from './../../../assets/components/CustomElements.jsx';
 import { onCleanup, onMount } from 'solid-js';
-import { createPublicKey, loadCBOR } from './../../../assets/scripts/deviceCredential.jsx';
+import { checkCreditential, checkPlatformSupport, createPublicKey } from './../../../assets/scripts/deviceCredential.jsx';
+import { useNavigate } from '@solidjs/router';
 
-export default function New(props){
-    let setupButton,
+export default function DeviceAuthSetup(props){
+    let navigate = useNavigate(),
+        setupButton,
         localContent = document.getElementById("local-content");
+    checkPlatformSupport(function(error, supported){
+        if(!supported){
+            navigate("/");
+        }
+    });
     onCleanup(() => {
         props.pageUnloading();
     });
     onMount(() => {
         props.pageLoaded();
+        // Check if WebAuthn platform credential is supported
     });
     return (<>
         <Title>Device Auth</Title>
@@ -30,37 +38,25 @@ export default function New(props){
                 <Button ref={setupButton} type={"action"} function={function(){
                     localContent.dataset.processing = true;
                     setupButton.setAttribute("disabled", "");
-                    loadCBOR(function(){
-                        createPublicKey("KEY_" + Math.round(Math.random()*100000000), props.userData, "USER_ID", function(error, credential){
-                            console.log([error, credential]);
+                    let challengeKey = "KEY_" + Math.round(Math.random()*100000000);
+                    createPublicKey(challengeKey, {
+                            ID: "dsadfgds" + props.userData.UID,
+                            name: props.userData.displayUsername,
+                            displayName: props.userData.FirstName + " " + props.userData.LastName
+                        }, function(error, data){
                             localContent.dataset.processing = false;
                             setupButton.removeAttribute("disabled");
                             if(error){
                                 showDialog("Something went wrong!", "We couldn't get a valid response from your device!");
+                                throw error;
                             }else{
-
-                                //
-                                //
-                                // decode the clientDataJSON into a utf-8 string
-                                const utf8Decoder = new TextDecoder('utf-8');
-                                const decodedClientData = utf8Decoder.decode(
-                                    credential.response.clientDataJSON)
-
-                                // parse the string as an object
-                                const clientDataObj = JSON.parse(decodedClientData);
-
-                                console.log(clientDataObj)
-                                //
-                                // note: a CBOR decoder library is needed here.
-                                const decodedAttestationObj = CBOR.decode(
-                                    credential.response.attestationObject);
-
-                                console.log(decodedAttestationObj);
-                                //
+                                //window.DATA = data;
+                                checkCreditential(challengeKey, data.credentialId, function(error, assertion){
+                                    console.log([error, assertion]);
+                                });
                             }
                         });
-                    });
-                }} primary>Setup Auth</Button>
+               }} primary>Setup Auth</Button>
             </FlexContainer>
         </FlexContainer>
     </>);

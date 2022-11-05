@@ -9,13 +9,25 @@
 import { Title } from './../../../assets/components/Title.jsx';
 import { Button, Mark, FlexContainer, Notice } from './../../../assets/components/CustomElements.jsx';
 import { onCleanup, onMount } from 'solid-js';
+import { checkCreditential, checkPlatformSupport } from './../../../assets/scripts/deviceCredential.jsx';
 
-export default function New(props){
+export default function DeviceAuth(props){
+    let navigate = useNavigate();
+    checkPlatformSupport(function(error, supported){
+        if(!supported){
+            navigate("/");
+        }
+    });
     onCleanup(() => {
         props.pageUnloading();
     });
     onMount(() => {
         props.pageLoaded();
+        setTimeout(function(){
+            checkCreditential("", undefined, function(error, assertion){
+                //
+            });
+        }, 1000);
     });
     return (<>
         <Title>Device Auth</Title>

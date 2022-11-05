@@ -12,6 +12,7 @@ import { loginData, loadAES, hash } from './../../../assets/scripts/pages/loginD
 import { useNavigate } from '@solidjs/router';
 import { getSalts, signInPOST } from './../../../assets/scripts/communication/accounts.jsx';
 import { updateUserState } from './../../../assets/scripts/user.jsx';
+import { checkPlatformSupport } from './../../../assets/scripts/deviceCredential.jsx';
 
 export default function LoginPassword(props){
     let nextButton,
@@ -84,7 +85,9 @@ export default function LoginPassword(props){
                                             timezoneOffset: (new Date()).getTimezoneOffset()
                                         }, function(isSuccessful, data){
                                             if(isSuccessful){
-                                                isDone(data);
+                                                checkPlatformSupport(function(error, supported){
+                                                    isDone(data, supported);
+                                                });
                                             }else{
                                                 setError();
                                                 showDialog("Error!", "We couldn't sign you in, please try again later!");
@@ -97,12 +100,26 @@ export default function LoginPassword(props){
                             setError();
                             redoLogin(navigate, true);
                         }
-                    }, function(data){
+                    }, function(data, webAuthnSupport){
                         if(data.validUser){
                             if(data.require2FA){
                                 navigate("/user/challenge");
                             }else{
-                                navigate("/user/device/setup");
+                                if(webAuthnSupport){
+                                    navigate("/user/device/setup");
+                                }else{
+                                    showDialog("Untrusted session!",
+                                        "It seems your device lacks the required security measures for this session to be trusted by the server!",
+                                        [
+                                            ["Continue", function(dialog, remove){
+                                                remove();
+                                                navigate("/");
+                                            }], ["Learn more", function(dialog, remove){
+                                                remove();
+                                                navigate("/support/sessions/trust#automatically-untrusted-session");
+                                            }]
+                                        ]);
+                                }
                                 updateUserState();
                             }
                         }else{
