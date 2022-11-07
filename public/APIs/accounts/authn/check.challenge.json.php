@@ -7,7 +7,7 @@ require './../../_chips/comb.start_inputJSON.php';
 checkInputData(
     [$INPUT_DATA->credentialId, "string", false, "/^.|\n|\r{16,65535}$/"],
     [$INPUT_DATA->publicKey, "string", false, "/^.|\n|\r{16,65535}$/"],
-    [$INPUT_DATA->signedChallenge, "string", false, "/^.|\n|\r{16,65535}$/"]
+    [$INPUT_DATA->challenge, "string", false, "/^.|\n|\r{16,65535}$/"]
 );
 
 // Include challenge key generator
@@ -15,6 +15,9 @@ require './../../tools/tool.strings.php';
 
 // Include sessions functions
 require './../../tools/sql.sessions.php';
+
+// Include WebAuthn library
+require './../../../libraries/WebAuthn/WebAuthn.php';
 
 //
 /*openssl_decrypt(
@@ -26,11 +29,18 @@ require './../../tools/sql.sessions.php';
     ?string $tag = null,
     string $aad = ""
 );*/
-"ES256";
+"ES256"; // aes256
 "RS256";
+// echo "\n'";
+// var_dump($INPUT_DATA->challenge);
+// echo "'\n'";
+// var_dump(openssl_decrypt($INPUT_DATA->challenge, ""));
+// echo "'\n";
+// $_COOKIE["AUTHN__challengeKey"]
+$isValid = false;
 
 ?>
 {
-    "valid": "<?php echo $_COOKIE["AUTHN__challengeKey"]; ?>",
+    "valid": <?php echo ($isValid) ? 'true' : 'false'; ?>,
     <?php require './../../_chips/JSON_response_attachment.php'; ?>
 }
