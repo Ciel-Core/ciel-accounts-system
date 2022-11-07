@@ -58,7 +58,6 @@ export function createPublicKey(user, callback){
 
                 // Check for invalid data
                 if(!(credential.response instanceof AuthenticatorAttestationResponse) ||
-                    clientDataObj.challenge.replace(/=/gi, "") != btoa(challengeKey).replace(/=/gi, "") ||
                     clientDataObj.type != "webauthn.create" ||
                     clientDataObj.origin != location.origin){
                     throw new Error("Unexpected client data!");
@@ -89,8 +88,8 @@ export function createPublicKey(user, callback){
                         // Validate the data with the server!
                         window.DATA = {credentialId, publicKeyBytes};
                         let decoder = new TextDecoder();
-                        alert(`${decoder.decode(credentialId).length}-${decoder.decode(publicKeyBytes).length}`);
-                        challengeCheckPOST(decoder.decode(credentialId), decoder.decode(publicKeyBytes), "???", function(success, data){
+                        // alert(`${decoder.decode(credentialId).length}-${decoder.decode(publicKeyBytes).length}`);
+                        challengeCheckPOST(decoder.decode(credentialId), decoder.decode(publicKeyBytes), clientDataObj.challenge, function(success, data){
                             if(!success){
                                 throw new Error("Couldn't validate auth data!");
                             }
