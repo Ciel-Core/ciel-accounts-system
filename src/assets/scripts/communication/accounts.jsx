@@ -105,8 +105,8 @@ export function challengeKeyPOST(callback, isNew = true){
     });
 }
 
-export function challengeCheckPOST(credentialId, publicKey, challenge, callback){
-    jsonPOST("/APIs/accounts/authn/check.challenge.json.php",{
+export function challengeRegisterPOST(credentialId, publicKey, challenge, callback){
+    jsonPOST("/APIs/accounts/authn/register.challenge.json.php",{
         credentialId: credentialId,
         publicKey: publicKey,
         challenge: challenge

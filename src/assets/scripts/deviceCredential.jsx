@@ -4,7 +4,7 @@
  * 
  **/
 
-import { challengeCheckPOST, challengeKeyPOST } from "./communication/accounts.jsx";
+import { challengeRegisterPOST, challengeKeyPOST } from "./communication/accounts.jsx";
 import { loadCBOR } from "./loader.jsx";
 
 // Read https://webauthn.guide/
@@ -89,7 +89,7 @@ export function createPublicKey(user, callback){
                         window.DATA = {credentialId, publicKeyBytes};
                         let decoder = new TextDecoder();
                         // alert(`${decoder.decode(credentialId).length}-${decoder.decode(publicKeyBytes).length}`);
-                        challengeCheckPOST(decoder.decode(credentialId), decoder.decode(publicKeyBytes), clientDataObj.challenge, function(success, data){
+                        challengeRegisterPOST(decoder.decode(credentialId), decoder.decode(publicKeyBytes), clientDataObj.challenge, function(success, data){
                             if(!success){
                                 throw new Error("Couldn't validate auth data!");
                             }
