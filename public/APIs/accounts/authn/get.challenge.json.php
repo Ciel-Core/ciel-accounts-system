@@ -10,13 +10,14 @@ require './../../_chips/comb.start_inputJSON.php';
 require './../../tools/tool.strings.php';
 
 // Include sessions functions
-require './../../tools/sql.sessions.php';
+// require './../../tools/sql.sessions.php';
 
-$challengeKey = randomHexString(32);
-setBrowserCookie("AUTHN__challengeKey", $challengeKey, time() + 360); // Only valid for 6 minutes
+session_start();
+$_SESSION["AUTHN__challengeKey"] = randomHexString(32);
+// setBrowserCookie("AUTHN__challengeKey", $challengeKey, time() + 360); // Only valid for 6 minutes
 
 ?>
 {
-    "challengeKey": "<?php echo $challengeKey; ?>",
+    "challengeKey": "<?php echo $_SESSION["AUTHN__challengeKey"]; ?>",
     <?php require './../../_chips/JSON_response_attachment.php'; ?>
 }

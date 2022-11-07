@@ -14,10 +14,7 @@ checkInputData(
 require './../../tools/tool.strings.php';
 
 // Include sessions functions
-require './../../tools/sql.sessions.php';
-
-// Include WebAuthn library
-require './../../../libraries/WebAuthn/WebAuthn.php';
+// require './../../tools/sql.sessions.php';
 
 //
 /*openssl_decrypt(
@@ -36,8 +33,10 @@ require './../../../libraries/WebAuthn/WebAuthn.php';
 // echo "'\n'";
 // var_dump(openssl_decrypt($INPUT_DATA->challenge, ""));
 // echo "'\n";
-// $_COOKIE["AUTHN__challengeKey"]
+// session_start();
+// $_SESSION["AUTHN__challengeKey"]
 $isValid = false;
+
 
 ?>
 {
