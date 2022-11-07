@@ -1,13 +1,10 @@
 <?php
 
-if(!function_exists("connectMySQL"))
-    require 'sql.database.php';
+require_once 'sql.database.php';
 
-if(!function_exists("CLIENT_isSessionValid"))
-    require 'client.info.php';
+require_once 'client.info.php';
 
-if(!function_exists("validateDate"))
-    require './../../tools/tool.dates.php';
+require_once './../../tools/tool.dates.php';
 
 function setBrowserCookie($name, $value, $expireDate, $HTTP_ONLY = true){
     global $STATE_HOSTED_LOCALLY;

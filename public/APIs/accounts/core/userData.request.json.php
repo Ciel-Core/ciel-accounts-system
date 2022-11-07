@@ -18,8 +18,7 @@ $DisplayUsername    = "USERNAME";
 $ColorScheme        = 0;
 
 // Check if the user has a valid session going on!
-if(!(function_exists("CLIENT_isSessionValid")))
-    require './../../tools/client.info.php';
+require_once './../../tools/client.info.php';
 if(CLIENT_isSessionValid()){
     if($INPUT_DATA->fullRequest){
         require './../../tools/sql.user.data.php';

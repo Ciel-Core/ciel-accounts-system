@@ -1,7 +1,6 @@
 <?php
 
-if(!function_exists("connectMySQL"))
-    require 'sql.database.php';
+require_once 'sql.database.php';
 
 function getDataFromTable($connection, $table, $UID, $data){
     $result = executeQueryMySQL($connection, "SELECT $data FROM $table WHERE `UID` = '$UID'");

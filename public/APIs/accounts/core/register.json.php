@@ -29,10 +29,8 @@ checkInputData(
 );
 
 // Check if there is an active session
-if(!(function_exists("CLIENT_isSessionValid")))
-    require './../../tools/client.info.php';
-if(!function_exists("validateDate"))
-    require './../../tools/tool.dates.php';
+require_once './../../tools/client.info.php';
+require_once './../../tools/tool.dates.php';
 if(!(CLIENT_isSessionValid())){
     // Check data
     if($INPUT_DATA->agreement){

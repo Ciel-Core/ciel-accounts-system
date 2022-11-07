@@ -35,8 +35,7 @@ if(!(CLIENT_isSessionValid())){
                 $RESPONSE_CODE = TEMPORARY;
             }else{
                 // The user is good to go, initialise a new session!
-                if(!function_exists("removeSession"))
-                    require './../../tools/sql.sessions.php';
+                require_once './../../tools/sql.sessions.php';
                 // Create a session
                 $SID = addSession($result->UID, $INPUT_DATA);
             }

@@ -1,7 +1,6 @@
 <?php
 
-if(!function_exists("connectMySQL"))
-    require 'sql.database.php';
+require_once 'sql.database.php';
 
 function signInStage1($input){
     global $DATABASE_CoreTABLE__users, $DATABASE_CoreTABLE__security,
