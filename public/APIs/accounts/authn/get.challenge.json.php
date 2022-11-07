@@ -13,11 +13,12 @@ require './../../tools/tool.strings.php';
 // require './../../tools/sql.sessions.php';
 
 session_start();
-$_SESSION["AUTHN__challengeKey"] = randomHexString(32);
+$KEY = randomHexString(32);
+$_SESSION["AUTHN__challengeKey"] = $KEY;
 // setBrowserCookie("AUTHN__challengeKey", $challengeKey, time() + 360); // Only valid for 6 minutes
 
 ?>
 {
-    "challengeKey": "<?php echo $_SESSION["AUTHN__challengeKey"]; ?>",
+    "challengeKey": "<?php echo $KEY; ?>",
     <?php require './../../_chips/JSON_response_attachment.php'; ?>
 }
