@@ -33,13 +33,19 @@ require './../../tools/tool.strings.php';
 // echo "'\n'";
 // var_dump(openssl_decrypt($INPUT_DATA->challenge, ""));
 // echo "'\n";
-// session_start();
+session_start();
 // $_SESSION["AUTHN__challengeKey"]
-$isValid = false;
 
+// Check if challenge key is valid
+if(base64_decode($INPUT_DATA->challenge) == $_SESSION["AUTHN__challengeKey"]){
+    //
+}else{
+    $RESPONSE_SUCCESS_STATUS = false;
+    $RESPONSE_TEXT = "Challenge key is invalid!";
+    $RESPONSE_CODE = INVALID_DATA;
+}
 
 ?>
 {
-    "valid": <?php echo ($isValid) ? 'true' : 'false'; ?>,
     <?php require './../../_chips/JSON_response_attachment.php'; ?>
 }
