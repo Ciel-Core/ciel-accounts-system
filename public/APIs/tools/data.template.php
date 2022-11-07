@@ -50,7 +50,7 @@ $DATABASE_encryptionKey,
 $TOKEN__IPInfo;
 
 // Server state
-$STATE_HOSTED_LOCALLY = ($_SERVER['SERVER_NAME'] === "localhost");
+$STATE_HOSTED_LOCALLY           =    ($_SERVER['SERVER_NAME'] === "localhost");
 
 // Don't forget to update the values!
 
