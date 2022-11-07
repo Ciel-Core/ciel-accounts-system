@@ -87,9 +87,9 @@ export function createPublicKey(user, callback){
 
                         // Validate the data with the server!
                         window.DATA = {credentialId, publicKeyBytes};
-                        let decoder = new TextDecoder();
+                        // let decoder = new TextDecoder();
                         // alert(`${decoder.decode(credentialId).length}-${decoder.decode(publicKeyBytes).length}`);
-                        challengeRegisterPOST(decoder.decode(credentialId), decoder.decode(publicKeyBytes), clientDataObj.challenge, function(success, data){
+                        challengeRegisterPOST(btoa(JSON.stringify(credentialId)), btoa(JSON.stringify(publicKeyBytes)), clientDataObj.challenge, function(success, data){
                             if(!success){
                                 throw new Error("Couldn't validate auth data!");
                             }
