@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:4655
--- Generation Time: Nov 08, 2022 at 11:18 AM
+-- Generation Time: Nov 08, 2022 at 11:23 AM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -177,7 +177,8 @@ ALTER TABLE `sessions`
 -- Indexes for table `trusteddevices`
 --
 ALTER TABLE `trusteddevices`
-  ADD PRIMARY KEY (`DeviceID`);
+  ADD PRIMARY KEY (`DeviceID`),
+  ADD KEY `USER_ID` (`UID`);
 
 --
 -- Indexes for table `users`
