@@ -4,23 +4,22 @@
  * 
  **/
 
-import { challengeRegisterPOST, challengeKeyPOST } from "./communication/accounts.jsx";
+import { challengeRegisterPOST, getRegisterDataPOST } from "./communication/accounts.jsx";
 import { loadCBOR } from "./loader.jsx";
 
 // Read https://webauthn.guide/
 
-export function createPublicKey(user, callback){
+export function createPublicKey(username, callback){
 
     // Get a challenge key from the server
-    challengeKeyPOST(async function(success, data){
+    getRegisterDataPOST(username, async function(success, data){
         if(success){
-            let challengeKey = data.challengeKey,
-                error = false;
+            let challengeKey = data.challengeKey;
 
             // Start the client-side setup
             try {
 
-                let credentialId, publicKeyBytes;
+                let credentialId, publicKeyBytes, user = data.user;
 
                 // Get credential
                 let credential = await navigator.credentials.create({
@@ -32,7 +31,7 @@ export function createPublicKey(user, callback){
                             id: location.hostname
                         },
                         user: {
-                            id: Uint8Array.from(user.ID, c => c.charCodeAt(0)),
+                            id: Uint8Array.from(String(user.id), c => c.charCodeAt(0)),
                             name: user.name,
                             displayName: user.displayName
                         },
@@ -47,62 +46,66 @@ export function createPublicKey(user, callback){
                     }
                 });
 
-                // let clientExtensionResults = credential.getClientExtensionResults();
+                if(credential instanceof PublicKeyCredential){
 
-                // decode the clientDataJSON into a utf-8 string
-                let utf8Decoder = new TextDecoder('utf-8'),
-                    decodedClientData = utf8Decoder.decode(credential.response.clientDataJSON);
+                    // let clientExtensionResults = credential.getClientExtensionResults();
 
-                // parse the string as an object
-                let clientDataObj = JSON.parse(decodedClientData);
+                    // decode the clientDataJSON into a utf-8 string
+                    let utf8Decoder = new TextDecoder('utf-8'),
+                        decodedClientData = utf8Decoder.decode(credential.response.clientDataJSON);
 
-                // Check for invalid data
-                if(!(credential.response instanceof AuthenticatorAttestationResponse) ||
-                    clientDataObj.type != "webauthn.create" ||
-                    clientDataObj.origin != location.origin){
-                    throw new Error("Unexpected client data!");
-                }else{
-                    loadCBOR(function(){
-                        // note: a CBOR decoder library is needed here.
-                        let decodedAttestationObj = CBOR.decode(
-                            credential.response.attestationObject);
+                    // parse the string as an object
+                    let clientDataObj = JSON.parse(decodedClientData);
 
-                        //
-                        let {authData} = decodedAttestationObj;
+                    // Check for invalid data
+                    if(!(credential.response instanceof AuthenticatorAttestationResponse) ||
+                        clientDataObj.type != "webauthn.create" ||
+                        clientDataObj.origin != location.origin){
+                        throw new Error("Unexpected client data!");
+                    }else{
+                        loadCBOR(function(){
+                            // note: a CBOR decoder library is needed here.
+                            let decodedAttestationObj = CBOR.decode(
+                                credential.response.attestationObject);
 
-                        // get the length of the credential ID
-                        let dataView = new DataView(new ArrayBuffer(2));
-                        let idLenBytes = authData.slice(53, 55);
-                        idLenBytes.forEach((value, index) => dataView.setUint8(index, value));
-                        let credentialIdLength = dataView.getUint16();
+                            //
+                            let {authData} = decodedAttestationObj;
 
-                        // get the credential ID
-                        credentialId = authData.slice(55, 55 + credentialIdLength);
+                            // get the length of the credential ID
+                            let dataView = new DataView(new ArrayBuffer(2));
+                            let idLenBytes = authData.slice(53, 55);
+                            idLenBytes.forEach((value, index) => dataView.setUint8(index, value));
+                            let credentialIdLength = dataView.getUint16();
 
-                        // get the public key object
-                        publicKeyBytes = authData.slice(55 + credentialIdLength);
+                            // get the credential ID
+                            credentialId = authData.slice(55, 55 + credentialIdLength);
 
-                        // the publicKeyBytes are encoded again as CBOR
-                        // let publicKeyObject = CBOR.decode(publicKeyBytes.buffer);
+                            // get the public key object
+                            publicKeyBytes = authData.slice(55 + credentialIdLength);
 
-                        // Validate the data with the server!
-                        window.DATA = {credentialId, publicKeyBytes};
-                        // let decoder = new TextDecoder();
-                        // alert(`${decoder.decode(credentialId).length}-${decoder.decode(publicKeyBytes).length}`);
-                        challengeRegisterPOST(btoa(JSON.stringify(credentialId)), btoa(JSON.stringify(publicKeyBytes)), clientDataObj.challenge, function(success, data){
-                            if(!success){
-                                throw new Error("Couldn't validate auth data!");
-                            }
+                            // the publicKeyBytes are encoded again as CBOR
+                            // let publicKeyObject = CBOR.decode(publicKeyBytes.buffer);
+
+                            // Validate the data with the server!
+                            // window.DATA = {credentialId, publicKeyBytes};
+                            // let decoder = new TextDecoder();
+                            // alert(`${decoder.decode(credentialId).length}-${decoder.decode(publicKeyBytes).length}`);
+                            challengeRegisterPOST(btoa(JSON.stringify(credentialId)), btoa(JSON.stringify(publicKeyBytes)), clientDataObj.challenge, function(success, data){
+                                callback(!success, {
+                                    ...data,
+                                    user: {
+                                        ...user
+                                    }
+                                });
+                            });
                         });
-                    });
+                    }
                 }
             }catch(e){
-                error = e;
-            }finally{
-                callback(error);
+                callback(e, undefined);
             }
         }else{
-           callback(new Error("Couldn't get a challenge key!"));
+            callback(new Error("Couldn't get a challenge key!"), undefined);
         }
     });
 }

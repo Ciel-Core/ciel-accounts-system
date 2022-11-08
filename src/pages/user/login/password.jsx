@@ -106,6 +106,7 @@ export default function LoginPassword(props){
                                 navigate("/user/challenge");
                             }else{
                                 if(webAuthnSupport){
+                                    // localStorage.getItem(`DEVICE_TRUSTED_${props.userData.UID}`); // "DEVICE_ID"
                                     navigate("/user/device/setup");
                                 }else{
                                     showDialog("Untrusted session!",

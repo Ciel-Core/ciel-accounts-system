@@ -9,7 +9,7 @@ import { Button, Mark, FlexContainer, Notice, showDialog } from './../../../asse
 import { onCleanup, onMount } from 'solid-js';
 import { checkPlatformSupport, createPublicKey } from './../../../assets/scripts/deviceCredential.jsx';
 import { useNavigate } from '@solidjs/router';
-import { throwError } from './../../../assets/scripts/console.jsx';
+import { loginData } from './../../../assets/scripts/pages/loginData.jsx';
 
 export default function DeviceAuthSetup(props){
     let navigate = useNavigate(),
@@ -17,7 +17,7 @@ export default function DeviceAuthSetup(props){
         localContent = document.getElementById("local-content");
     checkPlatformSupport(function(error, supported){
         if(!supported){
-            navigate("/");
+            navigate("/", {replace: true});
         }
     });
     onCleanup(() => {
@@ -39,18 +39,25 @@ export default function DeviceAuthSetup(props){
                 <Button ref={setupButton} type={"action"} function={function(){
                     localContent.dataset.processing = true;
                     setupButton.setAttribute("disabled", "");
-                    createPublicKey({
-                        ID: "CIEL_AUTH_" + props.userData.UID,
-                        name: props.userData.displayUsername,
-                        displayName: `${props.userData.FirstName} ${props.userData.LastName}`
-                    }, function(error){
-                          localContent.dataset.processing = false;
+                    createPublicKey(loginData.username, function(error, data){
+                        localContent.dataset.processing = false;
                         setupButton.removeAttribute("disabled");
                         if(error){
-                            showDialog("Something went wrong!", "We couldn't authenticate this session!");
-                            throwError(error);
+                            showDialog("Something went wrong!", "We couldn't verify this authentication!",
+                                [
+                                    ["Ok", function(dialog, remove){
+                                        remove();
+                                        navigate("/", {replace: true});
+                                    }], ["Retry", function(dialog, remove){
+                                        remove();
+                                        setupButton.click();
+                                    }]
+                                ]);
                         }else{
                             // Success!
+                            // Remember that this device is trusted
+                            localStorage.setItem(`DEVICE_TRUSTED_${data.user.id}`, data.deviceID);
+                            navigate("/", {replace: true});
                         }
                     });
                }} primary>Setup Auth</Button>

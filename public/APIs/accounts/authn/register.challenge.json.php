@@ -14,7 +14,10 @@ checkInputData(
 require './../../tools/tool.strings.php';
 
 // Include sessions functions
-// require './../../tools/sql.sessions.php';
+require './../../tools/sql.sessions.php';
+
+// Include WebAuthn-related functions
+require './../../tools/sql.register.device.php';
 
 //
 /*openssl_decrypt(
@@ -37,8 +40,15 @@ session_start();
 // $_SESSION["AUTHN__challengeKey"]
 
 // Check if challenge key is valid
+$DeviceID = "";
 if(base64_decode($INPUT_DATA->challenge) == $_SESSION["AUTHN__challengeKey"]){
-    //
+    if(time() < $_SESSION["AUTHN__challengeKey_timeout"]){
+        $DeviceID = addTrustedDevice($INPUT_DATA->credentialId, $INPUT_DATA->publicKey);
+    }else{
+        $RESPONSE_SUCCESS_STATUS = false;
+        $RESPONSE_TEXT = "Challenge key expired!";
+        $RESPONSE_CODE = BLOCKED_REQUEST;
+    }
 }else{
     $RESPONSE_SUCCESS_STATUS = false;
     $RESPONSE_TEXT = "Challenge key is invalid!";
@@ -47,5 +57,6 @@ if(base64_decode($INPUT_DATA->challenge) == $_SESSION["AUTHN__challengeKey"]){
 
 ?>
 {
+    "deviceID": "<?php echo $DeviceID; ?>",
     <?php require './../../_chips/JSON_response_attachment.php'; ?>
 }

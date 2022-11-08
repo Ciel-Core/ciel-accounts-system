@@ -78,7 +78,8 @@ export function landingCheck(){
                 resetRegisterData();
             }
         }
-        if(location.pathname.substring(0, 11) != "/user/login"){
+        if(location.pathname.substring(0, 11) != "/user/login" &&
+            location.pathname.substring(0, 12) != "/user/device"){
             if(loginData.username != undefined){
                 resetLoginData();
             }

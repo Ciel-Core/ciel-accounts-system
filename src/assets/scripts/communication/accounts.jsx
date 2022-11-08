@@ -94,9 +94,9 @@ export function userDataPOST(callback, fullRequest = true){
     });
 }
 
-export function challengeKeyPOST(callback, isNew = true){
-    jsonPOST("/APIs/accounts/authn/get.challenge.json.php",{
-        new: isNew
+export function getRegisterDataPOST(username, callback){
+    jsonPOST("/APIs/accounts/authn/get.data.json.php",{
+        username: username
     }).then(function(data){
         callback(data.responseInfo.successful, data);
     }).catch(function(error){
