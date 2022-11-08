@@ -2,8 +2,8 @@
 -- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1:4842
--- Generation Time: Nov 04, 2022 at 09:13 AM
+-- Host: 127.0.0.1:4655
+-- Generation Time: Nov 08, 2022 at 11:18 AM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -106,7 +106,7 @@ CREATE TABLE `sessions` (
 --
 
 CREATE TABLE `trusteddevices` (
-  `DeviceID` bigint(16) UNSIGNED NOT NULL,
+  `DeviceID` varchar(216) NOT NULL,
   `UID` bigint(11) UNSIGNED NOT NULL,
   `CredentialID` text NOT NULL,
   `PublicKey` text NOT NULL,
@@ -177,8 +177,7 @@ ALTER TABLE `sessions`
 -- Indexes for table `trusteddevices`
 --
 ALTER TABLE `trusteddevices`
-  ADD PRIMARY KEY (`DeviceID`),
-  ADD UNIQUE KEY `UID` (`UID`);
+  ADD PRIMARY KEY (`DeviceID`);
 
 --
 -- Indexes for table `users`
@@ -190,12 +189,6 @@ ALTER TABLE `users`
 --
 -- AUTO_INCREMENT for dumped tables
 --
-
---
--- AUTO_INCREMENT for table `trusteddevices`
---
-ALTER TABLE `trusteddevices`
-  MODIFY `DeviceID` bigint(16) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `users`
