@@ -4,8 +4,10 @@
  * 
  **/
 
+import generalStyles from './../../../assets/styles/general.module.css';
+
 import { Title } from './../../../assets/components/Title.jsx';
-import { Input, Button, Mark, FlexContainer, CheckBox, Link, showDialog, setInputState } from './../../../assets/components/CustomElements.jsx';
+import { Input, Button, Mark, FlexContainer, CheckBox, Link, showDialog, setInputState, Notice } from './../../../assets/components/CustomElements.jsx';
 import { onCleanup, onMount } from 'solid-js';
 import { InputFieldsContainer, redoLogin, nextCheck } from './../login.jsx';
 import { loginData, loadAES, hash } from './../../../assets/scripts/pages/loginData.jsx';
@@ -58,15 +60,9 @@ export default function LoginPassword(props){
                                 document.getElementById("password").type = "password";
                             }}
                         />
-                <Link href={"/user/recovery/password"}
-                        style={{
-                            width: "fit-content",
-                            "text-align": "left",
-                            display: "block",
-                            padding: "0px 6px",
-                            "font-size": "14px",
-                            margin: "18px 0px"
-                            }}>Forgot password?</Link>
+                <Notice>
+                    If you've used this device before as a trusted device, even on a diffrent browser/app, you can <Link href={"/user/device/auth"}>sign in using your device's authenticator</Link>!
+                </Notice>
             </InputFieldsContainer>
             <FlexContainer space={"between"} horozontal no-grow>
                 <Button type={"action"} function={function(){history.back()}}>Go back</Button>
@@ -124,7 +120,10 @@ export default function LoginPassword(props){
                                 updateUserState();
                             }
                         }else{
-                            setInputState(password, false, "Incorrect password!");
+                            // For some reason, using the <Link> element breaks the render function!
+                            setInputState(password, false, () => <>
+                                Incorrect password! Try again or try to <a class={generalStyles.link} href={"/user/recovery/password"}>reset the password</a>!
+                            </>);
                         }
                     });
                 }} href={"/user/challenge"} primary>Next</Button>

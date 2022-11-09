@@ -8,12 +8,12 @@
 /* Buttons */
 
 .button {
-    font-size: 16px;
+    font-size: 15px;
     line-height: 1.5em;
-    padding: 12px 24px;
+    padding: 15px 30px;
     margin: 4px;
     border: solid 1px transparent;
-    border-radius: 40px;
+    border-radius: 14px;
     background-color: var(--accent-color-faint);
     width: fit-content;
     transition: box-shadow 0.12s;
@@ -156,6 +156,7 @@
     max-width: 100%;
     margin: 16px 4px;
     margin-top: 20px;
+    font-size: 15px;
     padding: 0px;
     position: relative;
 }
@@ -204,9 +205,9 @@
     max-width: 100%;
     height: fit-content;
     text-align: left;
-    font-size: 14px;
+    font-size: inherit;
     padding: 4px;
-    padding-top: 8px;
+    padding-top: 9px;
     opacity: 0.8;
 }
 
@@ -226,12 +227,12 @@
 
 .selectContainer .selectDataContainer .selectField,
 .inputField {
-    font-size: 16px;
-    padding: 14px 16px;
+    font-size: inherit;
+    padding: 15px 16px;
     border: solid 2px var(--background-blend);
     background-color: var(--background-blend);
     border-bottom: solid 2px var(--background-bold);
-    border-radius: 4px 4px 0px 0px;
+    border-radius: 10px;
     color: var(--text-color);
     width: calc(100% - 4px - 16px - 16px);
 }
@@ -279,7 +280,6 @@ input[type=number]::-webkit-outer-spin-button {
     border: solid 0px transparent;
     background-color: var(--main-background);
     border: solid 2px var(--accent-color);
-    border-radius: 4px;
     outline: none;
 }
 
@@ -324,9 +324,13 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .inputFieldContainer.invalidData .inputFieldHint {
-    color: var(--error-color);
     font-weight: 600;
     opacity: 1;
+}
+
+.inputFieldContainer.invalidData .inputFieldHint,
+.inputFieldContainer.invalidData .inputFieldHint * {
+    color: var(--error-color);
 }
 
 
@@ -338,13 +342,22 @@ input[type=number]::-webkit-outer-spin-button {
     text-align: left;
     font-size: 16px;
     padding: 4px;
-    opacity: 0.5;
+    margin: 26px 0px;
+}
+
+.notice+.notice {
+    margin-top: 0px;
+}
+
+.notice,
+.notice text {
+    color: var(--text-color-faint);
 }
 
 .notice.smallerNotice {
     font-size: 14px;
     padding: 8px;
-    opacity: 0.8;
+    margin: 0px;
 }
 
 
@@ -430,7 +443,7 @@ input[type=number]::-webkit-outer-spin-button {
     cursor: pointer;
     border: solid 2px var(--background-bold);
     background-color: transparent;
-    border-radius: 2px;
+    border-radius: 5px;
 }
 
 .checkBoxContainer .checkBox:focus {
