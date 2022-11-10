@@ -64,7 +64,7 @@ if(!(CLIENT_isSessionValid())){
                 $RESPONSE_SUCCESS_STATUS = false;
                 $RESPONSE_TEXT = "Username reserved by the system!";
                 $RESPONSE_CODE = BLOCKED_DATA;
-            }else if(usernameExists($INPUT_DATA->username)){
+            }else if(usernameExists($INPUT_DATA->username) != "0"){
                 $RESPONSE_SUCCESS_STATUS = false;
                 $RESPONSE_TEXT = "Username in-use!";
                 $RESPONSE_CODE = BLOCKED_DATA;

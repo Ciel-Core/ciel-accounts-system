@@ -13,9 +13,15 @@ function usernameExists($username){
     $EscapedUsername = mysqli_real_escape_string($connection, strtolower($username));
 
     global $DATABASE_CoreTABLE__users;
-    $result = executeQueryMySQL($connection, "SELECT 1 FROM $DATABASE_CoreTABLE__users WHERE `Username` = '$EscapedUsername'");
-    $connection->close();
-    return (mysqli_fetch_assoc($result)[1]) == 1;
+    $result = executeQueryMySQL($connection, "SELECT `UID` FROM $DATABASE_CoreTABLE__users WHERE `Username` = '$EscapedUsername'");
+    if($result){
+        $result = mysqli_fetch_assoc($result);
+        $connection->close();
+        return ($result["UID"] == NULL) ? "0" : $result["UID"];
+    }else{
+        $connection->close();
+        return "0";
+    }
 }
 
 // Get display username (in upper and lower case format)

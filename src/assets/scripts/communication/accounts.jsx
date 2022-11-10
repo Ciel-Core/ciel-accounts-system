@@ -61,12 +61,13 @@ export function signUpPOST(data, callback){
     });
 }
 
-export function usernameCheckPOST(username, callback, getDisplayUsername = true, reserveUsername = false, getCooldown = false){
+export function usernameCheckPOST(username, callback, getDisplayUsername = true, reserveUsername = false, getCooldown = false, getTrustedDevices = false){
     jsonPOST("/APIs/accounts/core/username.check.json.php",{
         username: username,
         getDisplayUsername: getDisplayUsername,
         getCooldown: getCooldown,
-        reserveUsername: reserveUsername
+        reserveUsername: reserveUsername,
+        getTrustedDevices: getTrustedDevices
     }).then(function(data){
         callback(data.responseInfo.successful, data);
     }).catch(function(error){

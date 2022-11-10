@@ -7,9 +7,10 @@
 // import styles from './../assets/styles/pages/device.auth.module.css';
 
 import { Title } from './../../../assets/components/Title.jsx';
-import { Button, Mark, FlexContainer, Notice } from './../../../assets/components/CustomElements.jsx';
+import { Mark, FlexContainer, Notice } from './../../../assets/components/CustomElements.jsx';
 import { onCleanup, onMount } from 'solid-js';
 import { checkCreditential, checkPlatformSupport } from './../../../assets/scripts/deviceCredential.jsx';
+import { useNavigate } from '@solidjs/router';
 
 export default function DeviceAuth(props){
     let navigate = useNavigate();
@@ -25,7 +26,7 @@ export default function DeviceAuth(props){
         props.pageLoaded();
         setTimeout(function(){
             //
-            checkCreditential(challengeKey, data.credentialId, function(error, assertion){
+            checkCreditential("challengeKey", data.credentialId, function(error, assertion){
                 console.log([error, assertion]);
             });
         }, 1000);
