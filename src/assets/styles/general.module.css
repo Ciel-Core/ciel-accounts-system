@@ -165,9 +165,9 @@
 .selectContainer .selectLabel {
     color: var(--background-bold);
     position: absolute;
-    font-size: 16px;
-    margin-top: 16px;
-    margin-left: 12px;
+    font-size: 15px;
+    margin-top: 17px;
+    margin-left: 11px;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -206,7 +206,7 @@
     height: fit-content;
     text-align: left;
     font-size: inherit;
-    padding: 4px;
+    padding: 5px;
     padding-top: 9px;
     opacity: 0.8;
 }
@@ -307,20 +307,16 @@ input[type=number]::-webkit-outer-spin-button {
     display: none;
 }
 
-.invalidData .inputFieldDataContainer:not(:focus-within) .inputField {
+.invalidData .inputFieldDataContainer .inputField {
     border-bottom: solid 2px var(--error-color);
 }
 
 .invalidData .inputFieldLabel {
-    color: var(--error-color);
+    color: var(--error-color) !important;
 }
 
-.invalidData .inputField:not(:placeholder-shown):not(:focus) {
-    border-color: var(--error-color);
-}
-
-.invalidData .inputField:not(:placeholder-shown):not(:focus)+.inputFieldLabel {
-    color: var(--error-color);
+.invalidData .inputField {
+    border-color: var(--error-color) !important;
 }
 
 .inputFieldContainer.invalidData .inputFieldHint {
