@@ -97,6 +97,7 @@ export default function Login(props){
                     }, function(UID, trustedDevices){
                         let DeviceID = localStorage.getItem(`DEVICE_TRUSTED_${UID}`);
                         if(DeviceID != undefined){
+                            // Check if the device ID exists within the trusted devices array!
                             navigate("/user/device/auth");
                         }else{
                             navigate("/user/login/password");
