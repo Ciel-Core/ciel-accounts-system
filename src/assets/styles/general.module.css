@@ -13,7 +13,7 @@
     padding: 15px 30px;
     margin: 4px;
     border: solid 1px transparent;
-    border-radius: 14px;
+    border-radius: 15px;
     background-color: var(--accent-color-faint);
     width: fit-content;
     transition: box-shadow 0.12s;
@@ -338,7 +338,7 @@ input[type=number]::-webkit-outer-spin-button {
     text-align: left;
     font-size: 16px;
     padding: 4px;
-    margin: 26px 0px;
+    margin: 18px 0px;
 }
 
 .notice+.notice {
