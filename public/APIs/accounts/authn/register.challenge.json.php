@@ -7,7 +7,8 @@ require './../../_chips/comb.start_inputJSON.php';
 checkInputData(
     [$INPUT_DATA->credentialId, "string", false, "/^.|\n|\r{16,65535}$/"],
     [$INPUT_DATA->publicKey, "string", false, "/^.|\n|\r{16,65535}$/"],
-    [$INPUT_DATA->challenge, "string", false, "/^.|\n|\r{16,65535}$/"]
+    [$INPUT_DATA->challenge, "string", false, "/^.|\n|\r{16,65535}$/"],
+    [$INPUT_DATA->environment, "string", false, "/^[a-zA-Z0-9 ]{1,255}$/"]
 );
 
 // Include challenge key generator
@@ -43,7 +44,7 @@ session_start();
 $DeviceID = "";
 if(base64_decode($INPUT_DATA->challenge) == $_SESSION["AUTHN__challengeKey"]){
     if(time() < $_SESSION["AUTHN__challengeKey_timeout"]){
-        $DeviceID = addTrustedDevice($INPUT_DATA->credentialId, $INPUT_DATA->publicKey);
+        $DeviceID = addTrustedDevice($INPUT_DATA->credentialId, $INPUT_DATA->publicKey, $INPUT_DATA->environment);
     }else{
         $RESPONSE_SUCCESS_STATUS = false;
         $RESPONSE_TEXT = "Challenge key expired!";

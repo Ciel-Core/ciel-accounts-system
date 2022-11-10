@@ -105,11 +105,12 @@ export function getRegisterDataPOST(username, callback){
     });
 }
 
-export function challengeRegisterPOST(credentialId, publicKey, challenge, callback){
-    jsonPOST("/APIs/accounts/authn/register.challenge.json.php",{
+export function challengeRegisterPOST(credentialId, publicKey, challenge, environment, callback){
+    jsonPOST("/APIs/accounts/authn/register.challenge.json.php", {
         credentialId: credentialId,
         publicKey: publicKey,
-        challenge: challenge
+        challenge: challenge,
+        environment: environment
     }).then(function(data){
         callback(data.responseInfo.successful, data);
     }).catch(function(error){

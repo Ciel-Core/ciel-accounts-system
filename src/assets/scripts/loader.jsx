@@ -39,3 +39,12 @@ export function loadAES(callback){
         callback();
     }
 }
+
+export function loadPlatformJS(callback){
+    if(typeof platform != "object"){
+        loadLibraryJS('/libraries/platform.js', callback);
+    }else{
+        callback();
+    }
+}
+window.loadPlatformJS = loadPlatformJS;

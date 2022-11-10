@@ -5,7 +5,7 @@
  **/
 
 import { challengeRegisterPOST, getRegisterDataPOST } from "./communication/accounts.jsx";
-import { loadCBOR } from "./loader.jsx";
+import { loadCBOR, loadPlatformJS } from "./loader.jsx";
 
 // Read https://webauthn.guide/
 
@@ -90,12 +90,18 @@ export function createPublicKey(username, callback){
                             // window.DATA = {credentialId, publicKeyBytes};
                             // let decoder = new TextDecoder();
                             // alert(`${decoder.decode(credentialId).length}-${decoder.decode(publicKeyBytes).length}`);
-                            challengeRegisterPOST(btoa(JSON.stringify(credentialId)), btoa(JSON.stringify(publicKeyBytes)), clientDataObj.challenge, function(success, data){
-                                callback(!success, {
-                                    ...data,
-                                    user: {
-                                        ...user
-                                    }
+                            loadPlatformJS(function(){
+                                challengeRegisterPOST(
+                                    btoa(JSON.stringify(credentialId)),
+                                    btoa(JSON.stringify(publicKeyBytes)),
+                                    clientDataObj.challenge,
+                                    platform.os.family, function(success, data){
+                                    callback(!success, {
+                                        ...data,
+                                        user: {
+                                            ...user
+                                        }
+                                    });
                                 });
                             });
                         });

@@ -25,7 +25,7 @@ function createDeviceID($connection){
 }
 
 // Add a trusted device
-function addTrustedDevice($credentialId, $publicKey){
+function addTrustedDevice($credentialId, $publicKey, $environment){
     // Connect to DB
     $connection = connectMySQL(DATABASE_READ_AND_WRITE);
     global $DATABASE_CoreTABLE__trustedDevices;
@@ -40,12 +40,13 @@ function addTrustedDevice($credentialId, $publicKey){
         }else{
             unset($result);
             $UID = getUID($connection);
+            $Environment = mysqli_real_escape_string($connection, $environment);
             $DeviceID = createDeviceID($connection);
             executeQueryMySQL($connection,
                 "INSERT INTO `$DATABASE_CoreTABLE__trustedDevices`
                     (`DeviceID`,  `UID`, `CredentialID`,  `PublicKey`,  `DeviceName`, `Environment`)
                 VALUES
-                    ('$DeviceID', $UID,  '$CredentialID', '$PublicKey', '',           '')");
+                    ('$DeviceID', $UID,  '$CredentialID', '$PublicKey', '',           '$Environment')");
             $connection->close();
             return $DeviceID;
         }
