@@ -28,15 +28,11 @@ function checkInputData(...$data){
             responseReport(MISSING_DATA, "Missing data!");
         }else if(gettype($arg[0]) != $arg[1]){ // Check if the data type is as expected
             responseReport(INVALID_DATA, "Invalid data type detected!");
-        }else if(strip_tags($arg[0]) != $arg[0]){ // Check for HTML injections
-            responseReport(BLOCKED_DATA, "HTML/JS injection detected!");
         }else if($arg[1] == "string"){ // Special string checks
             if($arg[2] && checkProfanity($arg[0])){ // Prevent profanity in public data
                 responseReport(BLOCKED_DATA, "Profanity detected in 'public' data!");
             }else if($arg[2] && preg_match('/(http|ftp|mailto)/', $arg[0])){ // Block URLs
                 responseReport(BLOCKED_DATA, "URL detected in 'public' data!");
-            }else if(preg_match("/[\r\t\n]/", $arg[0])){ // ?
-                responseReport(BLOCKED_DATA, "Unsafe characters detected!");
             }
         }
         // Check if the data follows the expected patterns

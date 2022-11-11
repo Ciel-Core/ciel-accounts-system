@@ -10,6 +10,7 @@ import { processProps } from './_custom.jsx';
 
 import ErrorIcon from './../icons/input_error.svg';
 import { onCleanup, onMount } from 'solid-js';
+import { render } from 'solid-js/web';
 
 // Check "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input" if you wish to support
 // a new input type!
@@ -76,25 +77,31 @@ export function Input(props){
     }
 }
 
-export function setInputState(Input, isValid, msg){
+export function setInputState(Input, isValid, msg = undefined){
     if(isValid){
         Input.classList.remove(generalStyles.invalidData);
         Input.children[0].children[0].onchange = undefined;
         let hint = Input.children[1];
-        hint.textContent = Input.dataset.hint;
+        hint.innerHTML = Input.dataset.hint;
         hint.style.display = Input.dataset.hintDisplay;
         Input.removeAttribute("data-hint");
         Input.removeAttribute("data-hint-display");
     }else{
         Input.classList.add(generalStyles.invalidData);
-        if(typeof msg == "string"){
+        if(msg != undefined){
             let hintElm = Input.children[1];
             if(!Input.hasAttribute("data-hint")){
-                Input.dataset.hint = hintElm.textContent;
+                Input.dataset.hint = hintElm.innerHTML;
                 Input.dataset.hintDisplay = hintElm.style.display;
             }
-            hintElm.textContent = msg;
-            hintElm.style.display = (msg.replace(/\s/gi, "") != "") ? null : "none";
+            if(typeof msg == "function"){
+                hintElm.innerHTML = "";
+                hintElm.style.display = null;
+                render(msg, hintElm);
+            }else{
+                hintElm.innerHTML = msg;
+                hintElm.style.display = (msg.replace(/\s/gi, "") != "") ? null : "none";
+            }
         }else {
             throw new Error("Must attach an error message!");
         }

@@ -4,19 +4,23 @@
  * 
  **/
 
+import generalStyles from './../../../assets/styles/general.module.css';
+
 import { Title } from './../../../assets/components/Title.jsx';
-import { Input, Button, Mark, FlexContainer, CheckBox, Link, showDialog, setInputState } from './../../../assets/components/CustomElements.jsx';
+import { Input, Button, Mark, FlexContainer, CheckBox, Link, showDialog, setInputState, Notice } from './../../../assets/components/CustomElements.jsx';
 import { onCleanup, onMount } from 'solid-js';
 import { InputFieldsContainer, redoLogin, nextCheck } from './../login.jsx';
 import { loginData, loadAES, hash } from './../../../assets/scripts/pages/loginData.jsx';
-import { useNavigate } from '@solidjs/router';
+import { useLocation, useNavigate } from '@solidjs/router';
 import { getSalts, signInPOST } from './../../../assets/scripts/communication/accounts.jsx';
 import { updateUserState } from './../../../assets/scripts/user.jsx';
+import { checkPlatformSupport } from './../../../assets/scripts/deviceCredential.jsx';
 
 export default function LoginPassword(props){
     let nextButton,
         password, passwordInput,
-        navigate = useNavigate();
+        navigate = useNavigate(),
+        location = useLocation();
     onMount(() => {
         passwordInput = document.getElementById("password");
         let check = () => {
@@ -57,15 +61,9 @@ export default function LoginPassword(props){
                                 document.getElementById("password").type = "password";
                             }}
                         />
-                <Link href={"/user/recovery/password"}
-                        style={{
-                            width: "fit-content",
-                            "text-align": "left",
-                            display: "block",
-                            padding: "0px 6px",
-                            "font-size": "14px",
-                            margin: "18px 0px"
-                            }}>Forgot password?</Link>
+                    {/*<Notice>
+                    If you've used this device before as a trusted device, even on a diffrent browser/app, you can <Link href={"/user/device/auth"}>sign in using your device's authenticator</Link>!
+                    </Notice>*/}
             </InputFieldsContainer>
             <FlexContainer space={"between"} horozontal no-grow>
                 <Button type={"action"} function={function(){history.back()}}>Go back</Button>
@@ -84,7 +82,9 @@ export default function LoginPassword(props){
                                             timezoneOffset: (new Date()).getTimezoneOffset()
                                         }, function(isSuccessful, data){
                                             if(isSuccessful){
-                                                isDone(data);
+                                                checkPlatformSupport(function(error, supported){
+                                                    isDone(data, supported);
+                                                });
                                             }else{
                                                 setError();
                                                 showDialog("Error!", "We couldn't sign you in, please try again later!");
@@ -97,16 +97,25 @@ export default function LoginPassword(props){
                             setError();
                             redoLogin(navigate, true);
                         }
-                    }, function(data){
+                    }, function(data, webAuthnSupport){
                         if(data.validUser){
                             if(data.require2FA){
                                 navigate("/user/challenge");
                             }else{
-                                navigate("/user/device/setup");
-                                updateUserState();
+                                // Sign the user in!
+                                updateUserState(function(){
+                                    if(webAuthnSupport){
+                                        navigate("/user/device/setup");
+                                    }else{
+                                        navigate("/");
+                                    }
+                                }, true);
                             }
                         }else{
-                            setInputState(password, false, "Incorrect password!");
+                            // For some reason, using the <Link> element breaks the render function!
+                            setInputState(password, false, () => <>
+                                Incorrect password! Try again or try to <a class={generalStyles.link} href={"/user/recovery/password"}>reset the password</a>!
+                            </>);
                         }
                     });
                 }} href={"/user/challenge"} primary>Next</Button>

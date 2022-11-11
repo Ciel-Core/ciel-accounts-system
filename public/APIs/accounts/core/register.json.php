@@ -29,10 +29,8 @@ checkInputData(
 );
 
 // Check if there is an active session
-if(!(function_exists("CLIENT_isSessionValid")))
-    require './../../tools/client.info.php';
-if(!function_exists("validateDate"))
-    require './../../tools/tool.dates.php';
+require_once './../../tools/client.info.php';
+require_once './../../tools/tool.dates.php';
 if(!(CLIENT_isSessionValid())){
     // Check data
     if($INPUT_DATA->agreement){
@@ -66,7 +64,7 @@ if(!(CLIENT_isSessionValid())){
                 $RESPONSE_SUCCESS_STATUS = false;
                 $RESPONSE_TEXT = "Username reserved by the system!";
                 $RESPONSE_CODE = BLOCKED_DATA;
-            }else if(usernameExists($INPUT_DATA->username)){
+            }else if(usernameExists($INPUT_DATA->username) != "0"){
                 $RESPONSE_SUCCESS_STATUS = false;
                 $RESPONSE_TEXT = "Username in-use!";
                 $RESPONSE_CODE = BLOCKED_DATA;

@@ -20,16 +20,35 @@
 
     <script type="text/javascript">
         /* Quick colour scheme detection */
-        let matchMedia = window.matchMedia('(prefers-color-scheme: dark)');
-        document.documentElement.dataset.colorScheme = matchMedia.matches ? "dark" : "light";
-        delete matchMedia;
-        /* Quick CSS tweaking */
-        function updateVHUnit() {
-            let vh = window.innerHeight * 0.01;
-            document.documentElement.style.setProperty('--vhu', `${vh}px`);
+        {
+            let matchMedia = window.matchMedia('(prefers-color-scheme: dark)');
+            document.documentElement.dataset.colorScheme = matchMedia.matches ? "dark" : "light";
+            delete matchMedia;
         }
-        window.onresize = updateVHUnit;
-        updateVHUnit();
+        /* Quick CSS tweaking */
+        {
+            function updateVHUnit() {
+                let vh = window.innerHeight * 0.01;
+                document.documentElement.style.setProperty('--vhu', `${vh}px`);
+            }
+            window.onresize = updateVHUnit;
+            updateVHUnit();
+        }
+        /* Add "stateupdate" evvent */
+        {
+            // Source: https://stackoverflow.com/questions/5129386/how-to-detect-when-history-pushstate-and-history-replacestate-are-used
+            var _hEv = function(type) {
+                var orig = history[type];
+                return function() {
+                    var rv = orig.apply(this, arguments);
+                    var e = new Event("stateupdate");
+                    e.arguments = arguments;
+                    window.dispatchEvent(e);
+                    return rv;
+                };
+            };
+            history.pushState = _hEv('pushState'), history.replaceState = _hEv('replaceState');
+        }
     </script>
 
     <style type="text/css">
@@ -40,6 +59,7 @@
          :root[data-color-scheme=dark] {
             color-scheme: dark;
             --text-color: #F7F8FA;
+            --text-color-faint: #868c94;
             --main-background: #0D0F11;
             --accent-color: #ec3f6b;
             --accent-color-active: #c23b5d;
@@ -57,6 +77,7 @@
          :root[data-color-scheme=light] {
             color-scheme: light;
             --text-color: #0D0F11;
+            --text-color-faint: #747f8a;
             --main-background: #F7F8FA;
             --accent-color: #C90C3B;
             --accent-color-active: #e03a64;

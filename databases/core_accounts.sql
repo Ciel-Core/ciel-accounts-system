@@ -2,8 +2,8 @@
 -- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1:4842
--- Generation Time: Nov 04, 2022 at 09:13 AM
+-- Host: 127.0.0.1
+-- Generation Time: Nov 11, 2022 at 04:03 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -106,7 +106,7 @@ CREATE TABLE `sessions` (
 --
 
 CREATE TABLE `trusteddevices` (
-  `DeviceID` bigint(16) UNSIGNED NOT NULL,
+  `DeviceID` varchar(216) NOT NULL,
   `UID` bigint(11) UNSIGNED NOT NULL,
   `CredentialID` text NOT NULL,
   `PublicKey` text NOT NULL,
@@ -178,7 +178,7 @@ ALTER TABLE `sessions`
 --
 ALTER TABLE `trusteddevices`
   ADD PRIMARY KEY (`DeviceID`),
-  ADD UNIQUE KEY `UID` (`UID`);
+  ADD KEY `USER_ID` (`UID`);
 
 --
 -- Indexes for table `users`
@@ -192,16 +192,11 @@ ALTER TABLE `users`
 --
 
 --
--- AUTO_INCREMENT for table `trusteddevices`
---
-ALTER TABLE `trusteddevices`
-  MODIFY `DeviceID` bigint(16) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `users`
+-- (UID 10000000000-10000000099 reserved for system accounts)
 --
 ALTER TABLE `users`
-  MODIFY `UID` bigint(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10000000001;
+  MODIFY `UID` bigint(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10000000100;
 
 --
 -- Constraints for dumped tables

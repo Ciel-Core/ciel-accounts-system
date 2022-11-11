@@ -78,8 +78,9 @@ export default function Login(props){
                             usernameCheckPOST(usernameInput.value, function(isSuccessful, response){
                                 if(isSuccessful){
                                     if(response.usernameExists){
-                                        isDone();
+                                        isDone(response.UID, response.trustedDevices);
                                         loginData.username = response.displayUsername;
+                                        loginData.UID = response.UID;
                                     }else{
                                         setInputState(username, false, "User doesn't exist!");
                                         setError();
@@ -92,10 +93,16 @@ export default function Login(props){
                                     ]);
                                     setError();
                                 }
-                            });
+                            }, true, false, false, true);
                         }
-                    }, function(){
-                        navigate("/user/login/password");
+                    }, function(UID, trustedDevices){
+                        let deviceID = localStorage.getItem(`DEVICE_TRUSTED_${UID}`);
+                        if(deviceID != undefined && trustedDevices.includes(deviceID)){
+                            navigate("/user/device/auth");
+                        }else{
+                            localStorage.removeItem(`DEVICE_TRUSTED_${UID}`);
+                            navigate("/user/login/password");
+                        }
                     });
                 }} primary>Next</Button>
             </FlexContainer>

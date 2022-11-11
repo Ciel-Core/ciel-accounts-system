@@ -61,12 +61,13 @@ export function signUpPOST(data, callback){
     });
 }
 
-export function usernameCheckPOST(username, callback, getDisplayUsername = true, reserveUsername = false, getCooldown = false){
+export function usernameCheckPOST(username, callback, getDisplayUsername = true, reserveUsername = false, getCooldown = false, getTrustedDevices = false){
     jsonPOST("/APIs/accounts/core/username.check.json.php",{
         username: username,
         getDisplayUsername: getDisplayUsername,
         getCooldown: getCooldown,
-        reserveUsername: reserveUsername
+        reserveUsername: reserveUsername,
+        getTrustedDevices: getTrustedDevices
     }).then(function(data){
         callback(data.responseInfo.successful, data);
     }).catch(function(error){
@@ -86,6 +87,43 @@ export function getSalts(callback){
 export function userDataPOST(callback, fullRequest = true){
     jsonPOST("/APIs/accounts/core/userData.request.json.php",{
         fullRequest: fullRequest
+    }).then(function(data){
+        callback(data.responseInfo.successful, data);
+    }).catch(function(error){
+        callback(false, undefined);
+        throwError(error);
+    });
+}
+
+export function getAuthnChallengeDataPOST(username, callback, getUserData = false){
+    jsonPOST("/APIs/accounts/authn/get.data.json.php",{
+        username: username,
+        getUserData: getUserData
+    }).then(function(data){
+        callback(data.responseInfo.successful, data);
+    }).catch(function(error){
+        callback(false, undefined);
+        throwError(error);
+    });
+}
+
+export function getAuthnLoginDataPOST(deviceID, callback){
+    jsonPOST("/APIs/accounts/authn/get.credential.json.php",{
+        deviceID: deviceID
+    }).then(function(data){
+        callback(data.responseInfo.successful, data);
+    }).catch(function(error){
+        callback(false, undefined);
+        throwError(error);
+    });
+}
+
+export function challengeRegisterPOST(credentialId, publicKey, challenge, environment, callback){
+    jsonPOST("/APIs/accounts/authn/register.challenge.json.php", {
+        credentialId: credentialId,
+        publicKey: publicKey,
+        challenge: challenge,
+        environment: environment
     }).then(function(data){
         callback(data.responseInfo.successful, data);
     }).catch(function(error){

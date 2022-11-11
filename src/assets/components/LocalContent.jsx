@@ -8,9 +8,9 @@ import styles from './../styles/localContent.module.css';
 import LoadingSpinner from './LoadingSpinner.jsx';
 
 // import { Routes, Route, useLocation } from "@solidjs/router"; /*Link*/
-import { createEffect, createSignal, onMount } from "solid-js";
+import { createEffect, onMount } from "solid-js";
 
-import { landingCheck, afterURLChange } from './../scripts/traffic.jsx';
+import { landingCheck } from './../scripts/traffic.jsx';
 import { WebRoutes } from './../scripts/routes.jsx';
 
 function LocalContent(props){

@@ -17,8 +17,7 @@ if(filter_var($client, FILTER_VALIDATE_IP)){
     $CLIENT_IPAddress = $remote;
 }
 
-if(!function_exists("removeSession"))
-    require 'sql.sessions.php';
+require_once 'sql.sessions.php';
 function CLIENT_isSessionValid(){
     if(isset($_COOKIE["SID"]) && preg_match('/^[a-zA-Z0-9]{216}$/', $_COOKIE["SID"])){
         if(!(checkSessionStatus())){

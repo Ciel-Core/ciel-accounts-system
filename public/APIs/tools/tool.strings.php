@@ -30,4 +30,9 @@ function randomString($length = 64, $keyspace = '0123456789abcdefghijklmnopqrstu
     return implode('', $pieces);
 }
 
+// Source: https://codereview.stackexchange.com/questions/59096/random-string-generator-using-openssl-in-php
+function randomHexString($length = 64) {
+    return substr(bin2hex(openssl_random_pseudo_bytes(ceil($length / 2))), 0, $length);
+}
+
 ?>

@@ -16,3 +16,35 @@ export function makeRequest(url, callback){
         }
     };
 }
+
+export function loadLibraryJS(src, callback){
+    let script = document.createElement('script');
+    script.onload = callback;
+    script.src = src;
+    document.head.appendChild(script);
+}
+
+export function loadCBOR(callback){
+    if(typeof CBOR != "object"){
+        loadLibraryJS('/libraries/cbor.js', callback);
+    }else{
+        callback();
+    }
+}
+
+export function loadAES(callback){
+    if(typeof CryptoJS != "object"){
+        loadLibraryJS('/libraries/aes.js', callback);
+    }else{
+        callback();
+    }
+}
+
+export function loadPlatformJS(callback){
+    if(typeof platform != "object"){
+        loadLibraryJS('/libraries/platform.js', callback);
+    }else{
+        callback();
+    }
+}
+window.loadPlatformJS = loadPlatformJS;

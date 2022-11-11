@@ -1,18 +1,15 @@
 <?php
 
-if(!function_exists("connectMySQL"))
-    require 'sql.database.php';
+require_once 'sql.database.php';
 
-if(!function_exists("CLIENT_isSessionValid"))
-    require 'client.info.php';
+require_once 'client.info.php';
 
-if(!function_exists("validateDate"))
-    require './../../tools/tool.dates.php';
+require_once './../../tools/tool.dates.php';
 
-function setBrowserCookie($name, $value, $expireDate){
+function setBrowserCookie($name, $value, $expireDate, $HTTP_ONLY = true){
     global $STATE_HOSTED_LOCALLY;
-    setcookie($name, '', 0, "/", $_SERVER['SERVER_NAME'], !$STATE_HOSTED_LOCALLY, true); // 86400 = 1 day
-    setcookie($name, $value, $expireDate, "/", $_SERVER['SERVER_NAME'], !$STATE_HOSTED_LOCALLY, true);
+    setcookie($name, '', 0, "/", $_SERVER['SERVER_NAME'], !$STATE_HOSTED_LOCALLY, $HTTP_ONLY); // 86400 = 1 day
+    setcookie($name, $value, $expireDate, "/", $_SERVER['SERVER_NAME'], !$STATE_HOSTED_LOCALLY, $HTTP_ONLY);
 }
 
 // Remove a session from the database
@@ -37,13 +34,17 @@ function removeSession($InSID = "", $connection = ""){
 // a thing happening is very small. May be better off without this!
 function createSessionID($connection){
     global $DATABASE_CoreTABLE__sessions;
-    require 'tool.strings.php';
+    require_once 'tool.strings.php';
     $PlannedSID = randomString(216);
     $result = executeQueryMySQL($connection, "SELECT 1 FROM $DATABASE_CoreTABLE__sessions WHERE `SID` = '$PlannedSID'");
-    if((mysqli_fetch_assoc($result)[1]) == 1){
-        unset($PlannedSID);
-        unset($result);
-        return createSessionID($SID);
+    if($result){
+        if((mysqli_fetch_assoc($result)[1]) == 1){
+            unset($PlannedSID);
+            unset($result);
+            return createSessionID($connection);
+        }
+    }else{
+        responseReport(BACKEND_ERROR, "Couldn't get data from database!");
     }
     return $PlannedSID;
 }

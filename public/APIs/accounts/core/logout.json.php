@@ -3,12 +3,10 @@
 // Initiate the page
 require './../../_chips/comb.start_inputJSON.php';
 
-if(!(function_exists("CLIENT_isSessionValid")))
-    require './../../tools/client.info.php';
+require_once './../../tools/client.info.php';
 if(CLIENT_isSessionValid()){
     // Remove session from database!
-    if(!function_exists("removeSession"))
-        require './../../tools/sql.sessions.php';
+    require_once './../../tools/sql.sessions.php';
     removeSession();
 }else{
     $RESPONSE_TEXT = "No active session detected!";

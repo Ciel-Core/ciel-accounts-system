@@ -5,17 +5,9 @@
  **/
 
 import { log } from './../console.jsx';
+import { loadAES } from './../loader.jsx';
 
-export function loadAES(callback){
-    if(typeof CryptoJS != "object"){
-        let script = document.createElement('script');
-        script.onload = callback;
-        script.src = '/libraries/aes.js';
-        document.head.appendChild(script);
-    }else{
-        callback();
-    }
-}
+export { loadAES };
 
 export function hash(data){
     return CryptoJS.MD5(data).toString();

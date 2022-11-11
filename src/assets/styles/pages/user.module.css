@@ -1,0 +1,12 @@
+/*
+    login/register shared css code
+*/
+
+.noticeLink {
+    width: fit-content;
+    text-align: left;
+    display: block;
+    padding: 0px 6px;
+    font-size: 16px;
+    margin: 18px 0px;
+}
