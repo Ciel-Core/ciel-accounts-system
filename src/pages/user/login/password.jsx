@@ -61,9 +61,9 @@ export default function LoginPassword(props){
                                 document.getElementById("password").type = "password";
                             }}
                         />
-                <Notice>
+                    {/*<Notice>
                     If you've used this device before as a trusted device, even on a diffrent browser/app, you can <Link href={"/user/device/auth"}>sign in using your device's authenticator</Link>!
-                </Notice>
+                    </Notice>*/}
             </InputFieldsContainer>
             <FlexContainer space={"between"} horozontal no-grow>
                 <Button type={"action"} function={function(){history.back()}}>Go back</Button>

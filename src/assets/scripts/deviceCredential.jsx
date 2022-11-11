@@ -121,8 +121,10 @@ export function createPublicKey(username, callback){
 }
 
 export async function checkCreditential(callback){
+    // Get device ID
     let deviceID = localStorage.getItem(`DEVICE_TRUSTED_${loginData.UID}`);
-    getAuthnChallengeDataPOST("EMPTY", function(success, data){
+    // Get a challenge key
+    getAuthnChallengeDataPOST(loginData.username, function(success, data){
         if(success){
             let challengeKey = data.challengeKey;
             getAuthnLoginDataPOST(deviceID, async function(success, data){

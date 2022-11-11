@@ -34,6 +34,7 @@ export default function DeviceAuth(props){
             //getAuthnLoginDataPOST
             checkCreditential(function(error, assertion){
                 if(error){
+                    throwError(error);
                     showDialog("Something went wrong!", "We couldn't verify your identity using this device!", [
                         ["Ok", function(dialog, remove){
                             remove();
