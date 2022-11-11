@@ -80,6 +80,7 @@ export default function Login(props){
                                     if(response.usernameExists){
                                         isDone(response.UID, response.trustedDevices);
                                         loginData.username = response.displayUsername;
+                                        loginData.UID = response.UID;
                                     }else{
                                         setInputState(username, false, "User doesn't exist!");
                                         setError();
@@ -95,11 +96,11 @@ export default function Login(props){
                             }, true, false, false, true);
                         }
                     }, function(UID, trustedDevices){
-                        let DeviceID = localStorage.getItem(`DEVICE_TRUSTED_${UID}`);
-                        if(DeviceID != undefined){
-                            // Check if the device ID exists within the trusted devices array!
+                        let deviceID = localStorage.getItem(`DEVICE_TRUSTED_${UID}`);
+                        if(deviceID != undefined && trustedDevices.includes(deviceID)){
                             navigate("/user/device/auth");
                         }else{
+                            localStorage.removeItem(`DEVICE_TRUSTED_${UID}`);
                             navigate("/user/login/password");
                         }
                     });

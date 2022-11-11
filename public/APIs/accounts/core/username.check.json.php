@@ -16,6 +16,7 @@ $USERNAME_EXISTS        = false;
 $USERNAME_ON_COOLDOWN   = false;
 $USERNAME_DISPLAY       = "";
 $USER_ID                = "-1";
+$TRUSTED_DEVICES        = array();
 
 require './../../tools/sql.username.php';
 // Get username cooldown status
@@ -28,6 +29,11 @@ if(!($USERNAME_ON_COOLDOWN)){
         // Get display username from database
         if($INPUT_DATA->getDisplayUsername){
             $USERNAME_DISPLAY = getDisplayUsername($INPUT_DATA->username);
+        }
+        // Get trusted devices
+        if($INPUT_DATA->getTrustedDevices){
+            require './../../tools/sql.trusted.devices.php';
+            $TRUSTED_DEVICES = getTrustedDevices($USER_ID);
         }
     }else if($INPUT_DATA->reserveUsername && !usernameOnCooldown($INPUT_DATA->username, true)){
         cooldownUsername($INPUT_DATA->username);
@@ -50,6 +56,16 @@ if(!($USERNAME_ON_COOLDOWN)){
         if($INPUT_DATA->getTrustedDevices){
             echo '"trustedDevices":';
             echo '[';
+            $i = 0;
+            while($i < count($TRUSTED_DEVICES)){
+                echo '"';
+                echo $TRUSTED_DEVICES[$i];
+                echo '"';
+                $i++;
+                if($i < count($TRUSTED_DEVICES)){
+                    echo ',';
+                }
+            }
             // List...
             echo '],';
         }

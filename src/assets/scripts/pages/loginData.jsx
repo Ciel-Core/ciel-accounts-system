@@ -9,7 +9,8 @@ import { loadAES } from './../loader.jsx';
 
 function cleanLoginDataObject () {
     return {
-        username: undefined
+        username: undefined,
+        UID: undefined
     };
 }
 

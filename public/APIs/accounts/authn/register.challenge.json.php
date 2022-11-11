@@ -56,6 +56,9 @@ if(base64_decode($INPUT_DATA->challenge) == $_SESSION["AUTHN__challengeKey"]){
     $RESPONSE_CODE = INVALID_DATA;
 }
 
+// End session
+clearServerSession();
+
 ?>
 {
     "deviceID": "<?php echo $DeviceID; ?>",

@@ -95,9 +95,21 @@ export function userDataPOST(callback, fullRequest = true){
     });
 }
 
-export function getRegisterDataPOST(username, callback){
+export function getAuthnChallengeDataPOST(username, callback, getUserData = false){
     jsonPOST("/APIs/accounts/authn/get.data.json.php",{
-        username: username
+        username: username,
+        getUserData: getUserData
+    }).then(function(data){
+        callback(data.responseInfo.successful, data);
+    }).catch(function(error){
+        callback(false, undefined);
+        throwError(error);
+    });
+}
+
+export function getAuthnLoginDataPOST(deviceID, callback){
+    jsonPOST("/APIs/accounts/authn/get.credential.json.php",{
+        deviceID: deviceID
     }).then(function(data){
         callback(data.responseInfo.successful, data);
     }).catch(function(error){

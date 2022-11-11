@@ -4,15 +4,16 @@
  * 
  **/
 
-import { challengeRegisterPOST, getRegisterDataPOST } from "./communication/accounts.jsx";
+import { challengeRegisterPOST, getAuthnLoginDataPOST, getAuthnChallengeDataPOST } from "./communication/accounts.jsx";
 import { loadCBOR, loadPlatformJS } from "./loader.jsx";
+import { loginData } from "./pages/loginData.jsx";
 
 // Read https://webauthn.guide/
 
 export function createPublicKey(username, callback){
 
     // Get a challenge key from the server
-    getRegisterDataPOST(username, async function(success, data){
+    getAuthnChallengeDataPOST(username, async function(success, data){
         if(success){
             let challengeKey = data.challengeKey;
 
@@ -24,8 +25,7 @@ export function createPublicKey(username, callback){
                 // Get credential
                 let credential = await navigator.credentials.create({
                     publicKey: {
-                        challenge: Uint8Array.from(
-                            challengeKey, c => c.charCodeAt(0)),
+                        challenge: Uint8Array.from(challengeKey, c => c.charCodeAt(0)),
                         rp: {
                             name: window.websiteName,
                             id: location.hostname
@@ -90,6 +90,10 @@ export function createPublicKey(username, callback){
                             // window.DATA = {credentialId, publicKeyBytes};
                             // let decoder = new TextDecoder();
                             // alert(`${decoder.decode(credentialId).length}-${decoder.decode(publicKeyBytes).length}`);
+
+                            // Convert credential ID to array
+                            credentialId = Array.from ? Array.from(credentialId)
+                                                    : [].map.call(credentialId, (v => v));
                             loadPlatformJS(function(){
                                 challengeRegisterPOST(
                                     btoa(JSON.stringify(credentialId)),
@@ -113,30 +117,45 @@ export function createPublicKey(username, callback){
         }else{
             callback(new Error("Couldn't get a challenge key!"), undefined);
         }
-    });
+    }, true);
 }
 
-export async function checkCreditential(challengeKey, credentialId, callback){
-    try {
-        // Get credential
-        let assertion = await navigator.credentials.get({
-            publicKey: {
-                challenge: Uint8Array.from(
-                    challengeKey, c => c.charCodeAt(0)),
-                allowCredentials: [{
-                    id: credentialId,
-                    type: 'public-key',
-                    transports: ["internal"]
-                }],
-                userVerification: "required",
-                timeout: 60000,
-            }
-        });
+export async function checkCreditential(callback){
+    let deviceID = localStorage.getItem(`DEVICE_TRUSTED_${loginData.UID}`);
+    getAuthnChallengeDataPOST("EMPTY", function(success, data){
+        if(success){
+            let challengeKey = data.challengeKey;
+            getAuthnLoginDataPOST(deviceID, async function(success, data){
+                if(success){
+                    try {
+                        // Get credential
+                        let credentialID = JSON.parse(atob(data.credentialID));
+                        let assertion = await navigator.credentials.get({
+                            publicKey: {
+                                challenge: Uint8Array.from(challengeKey, c => c.charCodeAt(0)),
+                                allowCredentials: [{
+                                    id: new Uint8Array(credentialID),
+                                    type: 'public-key',
+                                    transports: ["internal"]
+                                }],
+                                userVerification: "required",
+                                timeout: 60000,
+                            }
+                        });
+                
+                        callback(false, assertion);
+                    }catch(e){
+                        callback(e, undefined);
+                    }
+                }else{
+                    callback(new Error("Couldn't get creditential ID!"), undefined);
+                }
+            });
+        }else{
+            callback(new Error("Couldn't get a challenge key!"), undefined);
+        }
+    });
 
-        callback(false, assertion);
-    }catch(e){
-        callback(e, undefined);
-    }
 }
 
 // Source: https://www.twilio.com/blog/detect-browser-support-webauthn

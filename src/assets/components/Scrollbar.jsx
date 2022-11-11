@@ -5,6 +5,7 @@
  **/
 
 import { onMount } from 'solid-js';
+import { afterURLChange } from './../scripts/traffic';
 import style from './../styles/scrollbar.module.css';
 
 let handle, handleHeight;
@@ -63,7 +64,7 @@ export default function Scrollbar(){
     let scrollbarContainer;
 
     onMount(() => {
-        observeBody(function(){
+        let updateScrollbar = function(){
             if(document.body.scrollHeight <= window.innerHeight){
                 scrollbarContainer.style.display = "none";
             }else{
@@ -72,7 +73,9 @@ export default function Scrollbar(){
                 handle.style.height = `${handleHeight}px`;
                 scrollbarContainer.style.display = null;
             }
-        });
+        };
+        observeBody(updateScrollbar);
+        afterURLChange(updateScrollbar);
         setUpScroll();
         setupScrollStart();
         setupScrollEnd();
