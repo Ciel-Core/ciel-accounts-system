@@ -2,8 +2,8 @@
 -- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1:4655
--- Generation Time: Nov 08, 2022 at 11:25 AM
+-- Host: 127.0.0.1
+-- Generation Time: Nov 11, 2022 at 04:03 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -193,9 +193,10 @@ ALTER TABLE `users`
 
 --
 -- AUTO_INCREMENT for table `users`
+-- (UID 10000000000-10000000099 reserved for system accounts)
 --
 ALTER TABLE `users`
-  MODIFY `UID` bigint(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10000000001;
+  MODIFY `UID` bigint(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10000000100;
 
 --
 -- Constraints for dumped tables
