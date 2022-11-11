@@ -11,7 +11,7 @@ import { Input, Button, Mark, FlexContainer, CheckBox, Link, showDialog, setInpu
 import { onCleanup, onMount } from 'solid-js';
 import { InputFieldsContainer, redoLogin, nextCheck } from './../login.jsx';
 import { loginData, loadAES, hash } from './../../../assets/scripts/pages/loginData.jsx';
-import { useNavigate } from '@solidjs/router';
+import { useLocation, useNavigate } from '@solidjs/router';
 import { getSalts, signInPOST } from './../../../assets/scripts/communication/accounts.jsx';
 import { updateUserState } from './../../../assets/scripts/user.jsx';
 import { checkPlatformSupport } from './../../../assets/scripts/deviceCredential.jsx';
@@ -19,7 +19,8 @@ import { checkPlatformSupport } from './../../../assets/scripts/deviceCredential
 export default function LoginPassword(props){
     let nextButton,
         password, passwordInput,
-        navigate = useNavigate();
+        navigate = useNavigate(),
+        location = useLocation();
     onMount(() => {
         passwordInput = document.getElementById("password");
         let check = () => {
@@ -101,23 +102,14 @@ export default function LoginPassword(props){
                             if(data.require2FA){
                                 navigate("/user/challenge");
                             }else{
-                                if(webAuthnSupport){
-                                    // localStorage.getItem(`DEVICE_TRUSTED_${props.userData.UID}`); // "DEVICE_ID"
-                                    navigate("/user/device/setup");
-                                }else{
-                                    showDialog("Untrusted session!",
-                                        "It seems your device lacks the required security measures for this session to be trusted by the server!",
-                                        [
-                                            ["Continue", function(dialog, remove){
-                                                remove();
-                                                navigate("/");
-                                            }], ["Learn more", function(dialog, remove){
-                                                remove();
-                                                navigate("/support/sessions/trust#automatically-untrusted-session");
-                                            }]
-                                        ]);
-                                }
-                                updateUserState();
+                                // Sign the user in!
+                                updateUserState(function(){
+                                    if(webAuthnSupport){
+                                        navigate("/user/device/setup");
+                                    }else{
+                                        navigate("/");
+                                    }
+                                }, true);
                             }
                         }else{
                             // For some reason, using the <Link> element breaks the render function!

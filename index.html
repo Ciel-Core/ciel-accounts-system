@@ -20,16 +20,35 @@
 
     <script type="text/javascript">
         /* Quick colour scheme detection */
-        let matchMedia = window.matchMedia('(prefers-color-scheme: dark)');
-        document.documentElement.dataset.colorScheme = matchMedia.matches ? "dark" : "light";
-        delete matchMedia;
-        /* Quick CSS tweaking */
-        function updateVHUnit() {
-            let vh = window.innerHeight * 0.01;
-            document.documentElement.style.setProperty('--vhu', `${vh}px`);
+        {
+            let matchMedia = window.matchMedia('(prefers-color-scheme: dark)');
+            document.documentElement.dataset.colorScheme = matchMedia.matches ? "dark" : "light";
+            delete matchMedia;
         }
-        window.onresize = updateVHUnit;
-        updateVHUnit();
+        /* Quick CSS tweaking */
+        {
+            function updateVHUnit() {
+                let vh = window.innerHeight * 0.01;
+                document.documentElement.style.setProperty('--vhu', `${vh}px`);
+            }
+            window.onresize = updateVHUnit;
+            updateVHUnit();
+        }
+        /* Add "stateupdate" evvent */
+        {
+            // Source: https://stackoverflow.com/questions/5129386/how-to-detect-when-history-pushstate-and-history-replacestate-are-used
+            var _hEv = function(type) {
+                var orig = history[type];
+                return function() {
+                    var rv = orig.apply(this, arguments);
+                    var e = new Event("stateupdate");
+                    e.arguments = arguments;
+                    window.dispatchEvent(e);
+                    return rv;
+                };
+            };
+            history.pushState = _hEv('pushState'), history.replaceState = _hEv('replaceState');
+        }
     </script>
 
     <style type="text/css">

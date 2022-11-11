@@ -7,6 +7,7 @@
 import { createSignal } from "solid-js";
 import { showDialog } from "./../components/Dialog.jsx";
 import { signOutPOST, userDataPOST } from "./communication/accounts.jsx";
+import { afterURLChange } from "./traffic.jsx";
 
 // user data module (default data)
 function defaultUserProfile(){
@@ -26,6 +27,7 @@ function defaultUserProfile(){
 }
 
 export const [isSignedIn, setSignedIn] = createSignal(null); // Must replace this value with a condition
+export const [isUpdatingUserState, setUUS] = createSignal(null);
 export const [userData, setUserData] = createSignal(defaultUserProfile());
 
 function convertUserData(userData){
@@ -46,9 +48,18 @@ function convertUserData(userData){
     return profile;
 }
 
-export function updateUserState(callback = function(){}){
+export function updateUserState(callback = undefined, expectURLChange = false){
+    // Disable page interactions (only when callback is defined)
+    let localContent = document.getElementById("local-content"),
+        enable = false;
+    if(localContent != undefined && callback != undefined){
+        enable = (localContent.dataset.processing == "false");
+        localContent.dataset.processing = true;
+    }
     // Make a request for the user's data
     userDataPOST(function(isSuccessful, data){
+        // Updating user state
+        setUUS(true);
         if(isSuccessful){
             // Set user state to signed in and add the user's profile
             setUserData(convertUserData(data));
@@ -58,17 +69,44 @@ export function updateUserState(callback = function(){}){
             setUserData(defaultUserProfile());
             setSignedIn(false);
         }
-        callback();
+        // Enable page interactions
+        if(enable){
+            localContent.dataset.processing = false;
+        }
+        if(typeof callback == "function"){
+            callback();
+        }
+        if(expectURLChange){
+            afterURLChange(function(){
+                setUUS(false);
+            }, true);
+        }else{
+            setUUS(false);
+        }
     });
 }
 
 export function signOut(){
+    // Disable page interactions
+    let localContent = document.getElementById("local-content"),
+        enable = false;
+    if(localContent != undefined){
+        enable = (localContent.dataset.processing == "false");
+        localContent.dataset.processing = true;
+    }
     signOutPOST(function(isSuccessful, data){
+        // Enable page interactions
+        if(enable){
+            localContent.dataset.processing = false;
+        }
+        // Updating user state
+        setUUS(true);
         if(!isSuccessful){
             showDialog("Something went wrong!", "We couldn't end this session!");
         }else{
             setUserData(defaultUserProfile());
             setSignedIn(false);
         }
+        setUUS(false);
     });
 }
