@@ -51,7 +51,6 @@ export function createPublicKey(username, callback){
                             displayName: user.displayName
                         },
                         // Read: https://chromium.googlesource.com/chromium/src/+/master/content/browser/webauth/pub_key_cred_params.md
-                        // pubKeyCredParams: [{alg: -7, type: "public-key"}, {alg: -257, type: "public-key"}], // ES256 (-7),  RS256 (-257)
                         pubKeyCredParams: [{alg: -7, type: "public-key"}, {alg: -257, type: "public-key"}], // ES256 (-7),  RS256 (-257)
                         authenticatorSelection: {
                             authenticatorAttachment: "platform",
