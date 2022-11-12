@@ -37,7 +37,7 @@ if(!(CLIENT_isSessionValid())){
                 // The user is good to go, initialise a new session!
                 require_once './../../tools/sql.sessions.php';
                 // Create a session
-                $SID = addSession($result->UID, $INPUT_DATA);
+                addSession($result->UID, $INPUT_DATA);
             }
         }
     }
@@ -45,7 +45,6 @@ if(!(CLIENT_isSessionValid())){
     $RESPONSE_SUCCESS_STATUS = false;
     $RESPONSE_TEXT = "Device already has one on-going session!";
     $RESPONSE_CODE = BLOCKED_REQUEST;
-
 }
 
 ?>

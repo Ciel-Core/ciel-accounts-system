@@ -7,7 +7,7 @@
 // Step 1: Ready the render function
 /* @refresh reload */
 import { render } from 'solid-js/web';
-import { createEffect, createSignal, onMount } from "solid-js";
+import { createEffect, createSignal } from "solid-js";
 
 // Step 2: Ready the router
 import { Router } from "@solidjs/router";

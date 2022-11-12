@@ -58,13 +58,17 @@ export function nextCheck(button, callback, action){
     let localContent = document.getElementById("local-content");
 
     // Disable the button to prevent duplicate requests
-    button.setAttribute("disabled", "");
+    if(button != undefined){
+        button.setAttribute("disabled", "");
+    }
     localContent.dataset.processing = true;
 
     let error = [false], calledDone = false, done = function(...args){
         if(!calledDone){
             calledDone = true;
-            button.removeAttribute("disabled");
+            if(button != undefined){
+                button.removeAttribute("disabled");
+            }
             localContent.dataset.processing = false;
             if(!error[0]){
                 action(...args);

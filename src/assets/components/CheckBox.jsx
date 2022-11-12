@@ -22,9 +22,9 @@ export function CheckBox(props){
     </div>);
     // Check if the checkbox is checked
     if(checkbox.checked){
-        // props.onActive();
+        props.onActive();
     }else{
-        // props.onInactive();
+        props.onInactive();
     }
     checkbox.addEventListener("change", function(){
         (checkbox.checked) ? props.onActive() : props.onInactive();

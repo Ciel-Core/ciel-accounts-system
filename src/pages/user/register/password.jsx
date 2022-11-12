@@ -94,24 +94,17 @@ export default function RegisterPassword(props){
                             setTimeout(updateButton, 1);
                             passwordConfirmInput.focus();
                             setError();
+                        }else{
+                            loadAES(function(){
+                                getSalts(function(error, data){
+                                    if(error){
+                                        setError();
+                                    }else{
+                                        isDone(data);
+                                    }
+                                });
+                            });    
                         }
-
-                        /*            if(!/^[A-Za-z0-9_]*$/.test(usernameInput.value)){
-                            setInputState(username, false, "Can only contain letters, numbers, and underscores!");
-                            setError();
-                        }else if(!/[a-zA-Z]/.test(usernameInput.value)){
-                            setInputState(username, false, "Must at least contain one letter!");
-                            setError();*/
-
-                        loadAES(function(){
-                            getSalts(function(error, data){
-                                if(error){
-                                    setError();
-                                }else{
-                                    isDone(data);
-                                }
-                            });
-                        });
                     }, function(salts){
                         registerData.passwordHash = hash(salts[0] + password.children[0].children[0].value + salts[1]);
                         checkDataByOrder(3, function(error){

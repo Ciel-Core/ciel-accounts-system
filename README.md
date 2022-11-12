@@ -32,8 +32,8 @@ This is a project that aims to provide developers with an easy-to-use third-part
   - [ ] Support security keys
   - [ ] Add mandatory back-up codes
   > Do NOT allow SMS or email two-steps verification
-- [ ] Force the user to set up security questions (3 minimum)
-- [ ] Always require the user to do device authentication on new devices or when the user attempts to change important settings. (<https://try-webauthn.appspot.com/>)
+- [x] Force the user to set up security questions (3 minimum)
+- [x] Always require the user to do device authentication on new devices or when the user attempts to change important settings. (<https://try-webauthn.appspot.com/>)
 
 > The sign up process:
 >

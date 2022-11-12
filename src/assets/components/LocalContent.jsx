@@ -6,10 +6,7 @@
 
 import styles from './../styles/localContent.module.css';
 import LoadingSpinner from './LoadingSpinner.jsx';
-
-// import { Routes, Route, useLocation } from "@solidjs/router"; /*Link*/
 import { createEffect, onMount } from "solid-js";
-
 import { landingCheck } from './../scripts/traffic.jsx';
 import { WebRoutes } from './../scripts/routes.jsx';
 
@@ -26,7 +23,7 @@ function LocalContent(props){
 
     let loadingContainer,
         containerRef,
-        container = (<div ref={containerRef} class={styles.container} onEmptied={function(){alert(0);}} data-show={false}>
+        container = (<div ref={containerRef} class={styles.container} data-show={false}>
         <WebRoutes pageLoad={function(){
             props.report();
             loadingContainer.dataset.show = false;

@@ -34,4 +34,18 @@ function getTrustedDeviceCredential($deviceID){
     }
 }
 
+// Get trusted device public key
+function getTrustedDevicePublicKey($deviceID){
+    global $DATABASE_CoreTABLE__trustedDevices;
+    $connection = connectMySQL(DATABASE_READ_ONLY);
+    $DeviceID = mysqli_real_escape_string($connection, $deviceID);
+    $result = executeQueryMySQL($connection, "SELECT `PublicKey` FROM $DATABASE_CoreTABLE__trustedDevices WHERE `DeviceID` = '$DeviceID'");
+    if($result){
+        $connection->close();
+        return mysqli_fetch_assoc($result)["PublicKey"];
+    }else{
+        responseReport(BACKEND_ERROR, "Couldn't get public key!");
+    }
+}
+
 ?>
