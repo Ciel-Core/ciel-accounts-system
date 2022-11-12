@@ -8,7 +8,7 @@ import generalStyles from './../styles/general.module.css';
 
 import { Link } from "@solidjs/router";
 import { processProps } from './_custom.jsx';
-import { createEffect, createSignal, onMount } from 'solid-js';
+import { createEffect, createSignal } from 'solid-js';
 
 // <Button type="link" href="/"></Button>
 // <Button type="action" function={<function>}></Button>

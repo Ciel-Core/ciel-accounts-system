@@ -26,6 +26,14 @@ export default function DeviceAuthSetup(props){
     onMount(() => {
         props.pageLoaded();
         // Check if WebAuthn platform credential is supported
+        checkPlatformSupport(function(error, supported){
+            if(!supported){
+                showDialog("Unsupported!", "This device doesn't support WebAuthn!", ["Ok", function(dialog, remove){
+                    remove();
+                    history.back();
+                }]);
+            }
+        });
     });
     return (<>
         <Title>Device Auth</Title>

@@ -45,7 +45,6 @@ if(!(CLIENT_isSessionValid())){
     $RESPONSE_SUCCESS_STATUS = false;
     $RESPONSE_TEXT = "Device already has one on-going session!";
     $RESPONSE_CODE = BLOCKED_REQUEST;
-
 }
 
 ?>

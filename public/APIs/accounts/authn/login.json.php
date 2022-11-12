@@ -19,22 +19,6 @@ require './../../tools/sql.sessions.php';
 // Include WebAuthn-related functions
 require './../../tools/sql.trusted.devices.php';
 
-//
-/*openssl_decrypt(
-    string $data,
-    string $cipher_algo,
-    string $passphrase,
-    int $options = 0,
-    string $iv = "",
-    ?string $tag = null,
-    string $aad = ""
-);*/
-// "ES256"; // aes256
-// "RS256";
-
-// Include CBOR decoder
-// require "./../../../libraries/CBOR/CBOREncoder.php";
-
 // Include WebAuthn-related functions
 require './../../tools/sql.register.device.php';
 

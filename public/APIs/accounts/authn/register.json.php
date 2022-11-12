@@ -57,23 +57,6 @@ if(base64_decode($INPUT_DATA->challenge) == $_SESSION["AUTHN__challengeKey"]){
     $RESPONSE_CODE = INVALID_DATA;
 }
 
-
-
-/*
-if(base64_decode($INPUT_DATA->challenge) == $_SESSION["AUTHN__challengeKey"]){
-    if(time() < $_SESSION["AUTHN__challengeKey_timeout"]){
-        $DeviceID = addTrustedDevice($INPUT_DATA->credentialId, $INPUT_DATA->publicKey, $INPUT_DATA->environment);
-    }else{
-        $RESPONSE_SUCCESS_STATUS = false;
-        $RESPONSE_TEXT = "Challenge key expired!";
-        $RESPONSE_CODE = BLOCKED_REQUEST;
-    }
-}else{
-    $RESPONSE_SUCCESS_STATUS = false;
-    $RESPONSE_TEXT = "Challenge key is invalid!";
-    $RESPONSE_CODE = INVALID_DATA;
-}*/
-
 // End session
 clearServerSession();
 
