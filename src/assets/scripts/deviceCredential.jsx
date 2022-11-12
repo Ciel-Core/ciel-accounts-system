@@ -51,7 +51,6 @@ export function createPublicKey(username, callback){
                             displayName: user.displayName
                         },
                         // Read: https://chromium.googlesource.com/chromium/src/+/master/content/browser/webauth/pub_key_cred_params.md
-                        // pubKeyCredParams: [{alg: -7, type: "public-key"}, {alg: -257, type: "public-key"}], // ES256 (-7),  RS256 (-257)
                         pubKeyCredParams: [{alg: -7, type: "public-key"}, {alg: -257, type: "public-key"}], // ES256 (-7),  RS256 (-257)
                         authenticatorSelection: {
                             authenticatorAttachment: "platform",
@@ -89,77 +88,6 @@ export function createPublicKey(username, callback){
                                 });
                             });
                     });
-
-                    /*
-
-                    // let clientExtensionResults = credential.getClientExtensionResults();
-
-                    // decode the clientDataJSON into a utf-8 string
-                    let utf8Decoder = new TextDecoder('utf-8'),
-                        decodedClientData = utf8Decoder.decode(credential.response.clientDataJSON);
-
-                    // parse the string as an object
-                    let clientDataObj = JSON.parse(decodedClientData);
-
-                    // Check for invalid data
-                    if(!(credential.response instanceof AuthenticatorAttestationResponse) ||
-                        clientDataObj.type != "webauthn.create" ||
-                        clientDataObj.origin != location.origin){
-                        throw new Error("Unexpected client data!");
-                    }else{
-                        loadCBOR(function(){
-                            // note: a CBOR decoder library is needed here.
-                            let decodedAttestationObj = CBOR.decode(
-                                credential.response.attestationObject);
-
-                            //
-                            let {authData} = decodedAttestationObj;
-
-                            // get the length of the credential ID
-                            let dataView = new DataView(new ArrayBuffer(2));
-                            let idLenBytes = authData.slice(53, 55);
-                            idLenBytes.forEach((value, index) => dataView.setUint8(index, value));
-                            let credentialIdLength = dataView.getUint16();
-
-                            // get the credential ID
-                            credentialId = authData.slice(55, 55 + credentialIdLength);
-
-                            // get the public key object
-                            publicKeyBytes = authData.slice(55 + credentialIdLength);
-
-                            // the publicKeyBytes are encoded again as CBOR
-                            let publicKeyObject = CBOR.decode(publicKeyBytes.buffer);
-
-                            // Verify key type
-                            // publicKeyObject[3];
-
-                            // Validate the data with the server!
-                            // window.DATA = {credentialId, publicKeyBytes};
-                            // let decoder = new TextDecoder();
-                            // alert(`${decoder.decode(credentialId).length}-${decoder.decode(publicKeyBytes).length}`);
-
-                            // Convert credential ID and public key to arrays
-                            credentialId = Array.from ? Array.from(credentialId)
-                                                    : [].map.call(credentialId, (v => v));
-                            // publicKeyBytes = Array.from ? Array.from(publicKeyBytes)
-                            //                         : [].map.call(publicKeyBytes, (v => v));
-                            loadPlatformJS(function(){
-                                authnRegisterPOST(
-                                    btoa(JSON.stringify(credentialId)),
-                                    btoa(JSON.stringify(publicKeyBytes)),
-                                    clientDataObj.challenge,
-                                    platform.os.family, function(success, data){
-                                    callback(!success, {
-                                        ...data,
-                                        user: {
-                                            ...user
-                                        }
-                                    });
-                                });
-                            });
-                        });
-                    }
-                    */
                 }else{
                     throw new Error("Invalid client response object!");
                 }
@@ -167,7 +95,7 @@ export function createPublicKey(username, callback){
                 callback(e, undefined);
             }
         }else{
-            callback(new Error("Couldn't get a challenge key!"), undefined);
+            callback(new Error("Couldn't get a challenge key!"), data);
         }
     }, true);
 }

@@ -4,6 +4,7 @@
  * 
  **/
 
+import { onMount } from 'solid-js';
 import generalStyles from './../styles/general.module.css';
 
 import { processProps } from './_custom.jsx';
@@ -20,12 +21,14 @@ export function CheckBox(props){
         <input ref={checkbox} type="checkbox" id={props.id} class={generalStyles.checkBox} checked={props.checked} />
         <label for={props.id}>{props.label}</label>
     </div>);
-    // Check if the checkbox is checked
-    if(checkbox.checked){
-        props.onActive();
-    }else{
-        props.onInactive();
-    }
+    onMount(() => {
+        // Check if the checkbox is checked
+        if(checkbox.checked){
+            props.onActive();
+        }else{
+            props.onInactive();
+        }
+    });
     checkbox.addEventListener("change", function(){
         (checkbox.checked) ? props.onActive() : props.onInactive();
     });
