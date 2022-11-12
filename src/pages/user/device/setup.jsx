@@ -9,7 +9,7 @@ import { Button, Mark, FlexContainer, Notice, showDialog } from './../../../asse
 import { onCleanup, onMount } from 'solid-js';
 import { checkPlatformSupport, createPublicKey } from './../../../assets/scripts/deviceCredential.jsx';
 import { useNavigate } from '@solidjs/router';
-import { loginData } from './../../../assets/scripts/pages/loginData.jsx';
+import { userData } from './../../../assets/scripts/user.jsx';
 
 export default function DeviceAuthSetup(props){
     let navigate = useNavigate(),
@@ -39,7 +39,7 @@ export default function DeviceAuthSetup(props){
                 <Button ref={setupButton} type={"action"} function={function(){
                     localContent.dataset.processing = true;
                     setupButton.setAttribute("disabled", "");
-                    createPublicKey(loginData.username, function(error, data){
+                    createPublicKey(userData().username, function(error, data){
                         localContent.dataset.processing = false;
                         setupButton.removeAttribute("disabled");
                         if(error){
