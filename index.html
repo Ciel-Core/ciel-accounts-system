@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-color-scheme="light">
+<html lang="en" data-color-scheme="light" data-display-mode="tab">
 
 <head>
     <meta charset="utf-8">
@@ -15,6 +15,18 @@
                 try {
                     let matchMedia = window.matchMedia('(prefers-color-scheme: dark)');
                     document.documentElement.dataset.colorScheme = matchMedia.matches ? "dark" : "light";
+                    delete matchMedia;
+                } catch {}
+            }
+        }
+        /* Quick display mode detection */
+        {
+            if (location.hash == "#standalone") {
+                document.documentElement.dataset.displayMode = "standalone";
+            } else {
+                try {
+                    let matchMedia = window.matchMedia('(display-mode: standalone)');
+                    document.documentElement.dataset.displayMode = matchMedia.matches ? "standalone" : "tab";
                     delete matchMedia;
                 } catch {}
             }

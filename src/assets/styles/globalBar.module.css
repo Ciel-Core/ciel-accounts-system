@@ -47,6 +47,7 @@
     justify-content: center;
     overflow: hidden;
     opacity: 0.4;
+    position: absolute;
 }
 
 .globalbar[data-show-content=false] .userprofile {
@@ -102,10 +103,60 @@
     }
 }
 
-.leftControls {
+.globalbar .leftControls {
     margin-right: auto
 }
 
-.rightControls {
+.globalbar .rightControls {
     margin-left: auto;
+}
+
+.globalbar .rightControls,
+.globalbar .leftControls {
+    opacity: 0;
+    animation-name: fadeIn;
+    animation-duration: 0.2s;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: forwards;
+    animation-delay: 1.3s;
+}
+
+.globalbar .rightControls svg,
+.globalbar .leftControls svg {
+    height: 28px;
+    width: 28px;
+    margin: 0px 8px;
+    --svg-color: var(--text-color);
+    --svg-color-2: var(--accent-color);
+    display: inline-block;
+    cursor: pointer;
+}
+
+.globalbar .rightControls .bellContainer {
+    display: inline-block;
+    cursor: pointer;
+}
+
+.globalbar .rightControls .bellContainer[data-pin=true] .bell,
+.globalbar .rightControls .bellContainer[data-pin=false] .bellPin {
+    display: none;
+}
+
+.globalbar[data-show-content=false] .leftControls,
+.globalbar[data-show-content=false] .rightControls,
+[data-display-mode=tab] .globalbar .leftControls .navControl {
+    display: none;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.94);
+        padding: 0px 4px;
+    }
+    to {
+        padding: unset;
+        opacity: 1;
+        transform: scale(1);
+    }
 }
