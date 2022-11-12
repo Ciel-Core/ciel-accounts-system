@@ -95,7 +95,7 @@ export function createPublicKey(username, callback){
                 callback(e, undefined);
             }
         }else{
-            callback(new Error("Couldn't get a challenge key!"), undefined);
+            callback(new Error("Couldn't get a challenge key!"), data);
         }
     }, true);
 }
