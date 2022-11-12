@@ -77,11 +77,10 @@ render(() =>{
     updateUserState(() => {
         contentLoadReport("UserState");
         setLUD(true);
-    });
-
-    // Update colour scheme
-    createEffect(() => {
-        updateColorScheme(userData().visual.preferredColorScheme);
+        // Update colour scheme
+        createEffect(() => {
+            updateColorScheme(userData().visual.preferredColorScheme);
+        });
     });
 
     // Return the global page content
