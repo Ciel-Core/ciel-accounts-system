@@ -26,7 +26,7 @@ function LocalContent(props){
 
     let loadingContainer,
         containerRef,
-        container = (<div ref={containerRef} class={styles.container} onEmptied={function(){alert(0);}} data-show={false}>
+        container = (<div ref={containerRef} class={styles.container} data-show={false}>
         <WebRoutes pageLoad={function(){
             props.report();
             loadingContainer.dataset.show = false;

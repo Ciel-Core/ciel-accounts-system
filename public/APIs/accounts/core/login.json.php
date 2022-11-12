@@ -37,7 +37,7 @@ if(!(CLIENT_isSessionValid())){
                 // The user is good to go, initialise a new session!
                 require_once './../../tools/sql.sessions.php';
                 // Create a session
-                $SID = addSession($result->UID, $INPUT_DATA);
+                addSession($result->UID, $INPUT_DATA);
             }
         }
     }

@@ -4,11 +4,26 @@
  * 
  **/
 
-import { challengeRegisterPOST, getAuthnLoginDataPOST, getAuthnChallengeDataPOST } from "./communication/accounts.jsx";
+import { authnRegisterPOST, getAuthnLoginDataPOST, getAuthnChallengeDataPOST } from "./communication/accounts.jsx";
 import { loadCBOR, loadPlatformJS } from "./loader.jsx";
 import { loginData } from "./pages/loginData.jsx";
 
 // Read https://webauthn.guide/
+
+/**
+ * Convert a ArrayBuffer to Base64
+ * @param {ArrayBuffer} buffer
+ * @returns {String}
+ */
+export function arrayBufferToBase64(buffer) {
+    let binary = '';
+    let bytes = new Uint8Array(buffer);
+    let len = bytes.byteLength;
+    for (let i = 0; i < len; i++) {
+        binary += String.fromCharCode(bytes[i]);
+    }
+    return window.btoa(binary);
+}
 
 export function createPublicKey(username, callback){
 
@@ -20,7 +35,7 @@ export function createPublicKey(username, callback){
             // Start the client-side setup
             try {
 
-                let credentialId, publicKeyBytes, user = data.user;
+                let user = data.user;
 
                 // Get credential
                 let credential = await navigator.credentials.create({
@@ -36,6 +51,7 @@ export function createPublicKey(username, callback){
                             displayName: user.displayName
                         },
                         // Read: https://chromium.googlesource.com/chromium/src/+/master/content/browser/webauth/pub_key_cred_params.md
+                        // pubKeyCredParams: [{alg: -7, type: "public-key"}, {alg: -257, type: "public-key"}], // ES256 (-7),  RS256 (-257)
                         pubKeyCredParams: [{alg: -7, type: "public-key"}, {alg: -257, type: "public-key"}], // ES256 (-7),  RS256 (-257)
                         authenticatorSelection: {
                             authenticatorAttachment: "platform",
@@ -46,7 +62,35 @@ export function createPublicKey(username, callback){
                     }
                 });
 
-                if(credential instanceof PublicKeyCredential){
+                if(credential instanceof PublicKeyCredential &&
+                    credential.response instanceof AuthenticatorAttestationResponse){
+
+                    // Read data for server verification
+                    let clientDataJSON = credential.response.clientDataJSON ? arrayBufferToBase64(credential.response.clientDataJSON) : null,
+                        attestationObject = credential.response.attestationObject ? arrayBufferToBase64(credential.response.attestationObject) : null;
+                    // Get user challenge
+                    // decode the clientDataJSON into a utf-8 string
+                    let utf8Decoder = new TextDecoder('utf-8'),
+                        decodedClientData = utf8Decoder.decode(credential.response.clientDataJSON),
+                        clientDataObj = JSON.parse(decodedClientData),
+                        challenge = clientDataObj.challenge;
+
+                    loadPlatformJS(function(){
+                        authnRegisterPOST(
+                            clientDataJSON,
+                            attestationObject,
+                            challenge,
+                            platform.os.family, function(success, data){
+                                callback(!success, {
+                                    ...data,
+                                    user: {
+                                        ...user
+                                    }
+                                });
+                            });
+                    });
+
+                    /*
 
                     // let clientExtensionResults = credential.getClientExtensionResults();
 
@@ -84,18 +128,23 @@ export function createPublicKey(username, callback){
                             publicKeyBytes = authData.slice(55 + credentialIdLength);
 
                             // the publicKeyBytes are encoded again as CBOR
-                            // let publicKeyObject = CBOR.decode(publicKeyBytes.buffer);
+                            let publicKeyObject = CBOR.decode(publicKeyBytes.buffer);
+
+                            // Verify key type
+                            // publicKeyObject[3];
 
                             // Validate the data with the server!
                             // window.DATA = {credentialId, publicKeyBytes};
                             // let decoder = new TextDecoder();
                             // alert(`${decoder.decode(credentialId).length}-${decoder.decode(publicKeyBytes).length}`);
 
-                            // Convert credential ID to array
+                            // Convert credential ID and public key to arrays
                             credentialId = Array.from ? Array.from(credentialId)
                                                     : [].map.call(credentialId, (v => v));
+                            // publicKeyBytes = Array.from ? Array.from(publicKeyBytes)
+                            //                         : [].map.call(publicKeyBytes, (v => v));
                             loadPlatformJS(function(){
-                                challengeRegisterPOST(
+                                authnRegisterPOST(
                                     btoa(JSON.stringify(credentialId)),
                                     btoa(JSON.stringify(publicKeyBytes)),
                                     clientDataObj.challenge,
@@ -110,6 +159,9 @@ export function createPublicKey(username, callback){
                             });
                         });
                     }
+                    */
+                }else{
+                    throw new Error("Invalid client response object!");
                 }
             }catch(e){
                 callback(e, undefined);
@@ -131,12 +183,12 @@ export async function checkCreditential(callback){
                 if(success){
                     try {
                         // Get credential
-                        let credentialID = JSON.parse(atob(data.credentialID));
+                        let credentialID = atob(data.credentialID);
                         let assertion = await navigator.credentials.get({
                             publicKey: {
                                 challenge: Uint8Array.from(challengeKey, c => c.charCodeAt(0)),
                                 allowCredentials: [{
-                                    id: new Uint8Array(credentialID),
+                                    id: Uint8Array.from(credentialID, c => c.charCodeAt(0)),
                                     type: 'public-key',
                                     transports: ["internal"]
                                 }],
@@ -144,8 +196,8 @@ export async function checkCreditential(callback){
                                 timeout: 60000,
                             }
                         });
-                
-                        callback(false, assertion);
+
+                        callback(false, challengeKey, assertion);
                     }catch(e){
                         callback(e, undefined);
                     }

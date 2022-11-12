@@ -40,6 +40,35 @@ function getUID($connection = null){
     return $UID;
 }
 
+// Get UID by username
+function getUIDByDeviceID($deviceID, $connection = null){
+    // Connect to database
+    global $DATABASE_CoreTABLE__trustedDevices;
+    $closeCon = false;
+    if($connection == null){
+        $connection = connectMySQL(DATABASE_READ_ONLY);
+        $closeCon = true;
+    }
+    $DeviceID = mysqli_real_escape_string($connection, $deviceID);
+
+    // Get UID
+    $UID = 0;
+    $result = executeQueryMySQL($connection,
+        "SELECT `UID` FROM $DATABASE_CoreTABLE__trustedDevices WHERE `DeviceID` = '$DeviceID'");
+    if($result){
+        $UID = mysqli_fetch_assoc($result)["UID"];
+        unset($result);
+    }else{
+        responseReport(BACKEND_ERROR, "Couldn't get user ID");
+    }
+
+    // Return result
+    if($closeCon){
+        $connection->close();
+    }
+    return $UID;
+}
+
 // Get all the user data needed by the client!
 function getUserDataC(){
     // Connect to database
