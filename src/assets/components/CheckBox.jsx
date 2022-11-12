@@ -21,11 +21,11 @@ export function CheckBox(props){
         <label for={props.id}>{props.label}</label>
     </div>);
     // Check if the checkbox is checked
-    if(checkbox.checked){
-        props.onActive();
-    }else{
-        props.onInactive();
-    }
+    // if(checkbox.checked){
+    //     props.onActive();
+    // }else{
+    //     props.onInactive();
+    // }
     checkbox.addEventListener("change", function(){
         (checkbox.checked) ? props.onActive() : props.onInactive();
     });
