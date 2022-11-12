@@ -44,9 +44,9 @@ export default function RegisterPassword(props){
             <input ref={usernameHiddenInput} id={"username-hidden"} type={"username"} style={"display: none;"} value={"TestUsername"}/>
             <InputFieldsContainer>
                 <Input ref={password} id={"password"} type={"password"} label={"Password"} autocomplete={"new-password"}
-                        style={{width: "calc(100% - 8px)"}}/>
+                        style={{width: "calc(100% - 8px)"}} onSumbit={() => nextButton}/>
                 <Input ref={passwordConfirm} id={"password_confirm"} type={"password"} label={"Confirmation"} autocomplete={"new-password"}
-                        style={{width: "calc(100% - 8px)"}}/>
+                        style={{width: "calc(100% - 8px)"}} onSumbit={() => nextButton}/>
                 <CheckBox id={"showPassword"} label={"Show password"}
                             style={{"margin": "8px", "margin-right": "auto"}}
                             checked={false}

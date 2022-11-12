@@ -49,6 +49,18 @@ export function Input(props){
         inputElm.onclick = function(){
             allowScrollToElmFunc = true;
         };
+        if(props.onSumbit){
+            if(props.onSumbit() instanceof HTMLElement){
+                input.addEventListener("keypress", function(event){
+                    if(event.key === "Enter"){
+                        event.preventDefault();
+                        props.onSumbit().click();
+                    }
+                });    
+            }else{
+                throw new Error("Unsupported input sumbit type");
+            }
+        }
     });
     onCleanup(() => {
         window.removeEventListener("resize", scrollToElm);

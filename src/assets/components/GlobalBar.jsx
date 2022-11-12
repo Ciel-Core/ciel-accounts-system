@@ -18,10 +18,28 @@ function UserProfile(props){
     );
 }
 
+function LeftControls(props){
+    return (
+        <div class={styles.leftControls}>
+            {0}
+        </div>
+    );
+}
+
+function RightControls(props){
+    return (
+        <div class={styles.rightControls}>
+            {1}
+        </div>
+    );
+}
+
 function GlobalBar(props){
     return (
         <div id="global-bar" class={styles.globalbar} data-show-content={props.showContent}>
+            <LeftControls/>
             <UserProfile picture={props.userProfile} report={props.report}/>
+            <RightControls/>
         </div>
     );
 }

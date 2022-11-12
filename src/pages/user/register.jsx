@@ -141,9 +141,9 @@ export default function Register(props){
         <FlexContainer space={"around"} style={{width: "400px"}}>
             <InputFieldsContainer>
                 <Input ref={firstName} id={"first_name"} type={"text"} label={"First name"} autocomplete={"given-name"}
-                        style={{width: "calc(100% - 8px)"}} maxlength={32}/>
+                        style={{width: "calc(100% - 8px)"}} maxlength={32} onSumbit={() => nextButton}/>
                 <Input ref={lastName} id={"last_name"} type={"text"} label={"Last name"} autocomplete={"family-name"}
-                        style={{width: "calc(100% - 8px)"}} maxlength={32}/>
+                        style={{width: "calc(100% - 8px)"}} maxlength={32} onSumbit={() => nextButton}/>
             </InputFieldsContainer>
             <Notice>It's recommended to use a device that you own and use frequently to create your Ciel account!</Notice>
             <ButtonsContainer>

@@ -50,7 +50,7 @@ export default function LoginPassword(props){
             <InputFieldsContainer>
                 <Input ref={password} id={"password"} type={"password"} label={"Password"}
                         autocomplete={"current-password"}
-                        style={{width: "calc(100% - 8px)"}}/>
+                        style={{width: "calc(100% - 8px)"}} onSumbit={() => nextButton}/>
                 <CheckBox id={"showPassword"} label={"Show password"}
                             style={{margin: "8px auto 8px 8px"}}
                             checked={false}

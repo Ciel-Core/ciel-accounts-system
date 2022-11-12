@@ -63,7 +63,7 @@ export default function Login(props){
         <FlexContainer space={"around"} style={{width: "400px"}}>
             <InputFieldsContainer>
                 <Input ref={username} id={"username"} type={"text"} label={"Username"} autocomplete={"username"}
-                        style={{width: "calc(100% - 8px)"}} maxlength={20}/>
+                        style={{width: "calc(100% - 8px)"}} maxlength={20} onSumbit={() => nextButton}/>
             </InputFieldsContainer>
             <Notice>Not using your own device? Use Guest mode or Incognito mode to sign in privately.</Notice>
             <FlexContainer space={"between"} horozontal no-grow>

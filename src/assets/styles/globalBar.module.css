@@ -101,3 +101,11 @@
         transform: scale(1);
     }
 }
+
+.leftControls {
+    margin-right: auto
+}
+
+.rightControls {
+    margin-left: auto;
+}
