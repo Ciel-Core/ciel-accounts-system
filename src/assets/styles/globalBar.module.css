@@ -119,13 +119,17 @@
     animation-timing-function: ease-in-out;
     animation-fill-mode: forwards;
     animation-delay: 1.1s;
+    max-width: calc((100% - 70px) / 2 - 5px);
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
 .globalbar .rightControls svg,
 .globalbar .leftControls svg {
     height: 28px;
     width: 28px;
-    margin: 0px 6px;
+    margin: 6px;
     --svg-color: var(--text-color);
     --svg-color-2: var(--accent-color);
     display: inline-block;
@@ -135,7 +139,7 @@
 .globalbar .rightControls .bellContainer {
     display: inline-block;
     cursor: pointer;
-    margin: 0px 6px;
+    margin: 6px;
 }
 
 .globalbar .rightControls .bellContainer svg {
@@ -175,7 +179,7 @@
 .globalbar .leftControls .navControl,
 .globalbar .leftControls .otherControl {
     display: inline-block;
-    margin: 0px 6px;
+    margin: 6px;
 }
 
 .globalbar .leftControls .navControl svg:first-child,
