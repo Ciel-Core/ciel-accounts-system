@@ -125,7 +125,7 @@
 .globalbar .leftControls svg {
     height: 28px;
     width: 28px;
-    margin: 0px 8px;
+    margin: 0px 6px;
     --svg-color: var(--text-color);
     --svg-color-2: var(--accent-color);
     display: inline-block;
@@ -135,11 +135,30 @@
 .globalbar .rightControls .bellContainer {
     display: inline-block;
     cursor: pointer;
-    margin: 0px 8px;
+    margin: 0px 6px;
 }
 
 .globalbar .rightControls .bellContainer svg {
     margin: 0px;
+}
+
+.globalbar svg {
+    position: relative;
+    border-radius: 50%;
+    padding: 6px;
+    box-shadow: 0 0 0 4px transparent;
+    transition: background-color 0.08s, opacity 0.1s, box-shadow 0.08s;
+    overflow: visible;
+}
+
+.globalbar svg:hover,
+.globalbar svg:active {
+    background-color: var(--background-blend);
+    box-shadow: 0 0 0 4px var(--background-blend);
+}
+
+.globalbar svg:active {
+    opacity: 0.6;
 }
 
 .globalbar .rightControls .bellContainer[data-pin=true] .bell,
@@ -156,7 +175,7 @@
 .globalbar .leftControls .navControl,
 .globalbar .leftControls .otherControl {
     display: inline-block;
-    margin: 0px 8px;
+    margin: 0px 6px;
 }
 
 .globalbar .leftControls .navControl svg:first-child,

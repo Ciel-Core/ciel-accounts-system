@@ -29,10 +29,10 @@ function LeftControls(props){
     return (
         <div class={styles.leftControls}>
             <div class={styles.navControl}>
-                <BackArrowIcon onClick={() => history.back()}/>
+                <BackArrowIcon onClick={() => history.back()} unselectable/>
             </div>
-            <div class={styles.otherControl} style={{display: (isSignedIn()) ? "inline-block" : "none"}} disabled>
-                <HelpIcon/>
+            <div class={styles.otherControl} style={{display: (isSignedIn()) ? "inline-block" : "none"}}>
+                <HelpIcon unselectable/>
             </div>
         </div>
     );
@@ -41,11 +41,11 @@ function LeftControls(props){
 function RightControls(props){
     return (
         <div class={styles.rightControls} data-signed-in={isSignedIn()}>
-            <div class={styles.bellContainer} data-pin={false} disabled>
-                <BellIcon class={styles.bell}/>
-                <BellPinIcon class={styles.bellPin}/>
+            <div class={styles.bellContainer} data-pin={false}>
+                <BellIcon class={styles.bell} unselectable/>
+                <BellPinIcon class={styles.bellPin} unselectable/>
             </div>
-            <SignOutIcon onClick={signOut}/>
+            <SignOutIcon onClick={signOut} unselectable/>
         </div>
     );
 }
