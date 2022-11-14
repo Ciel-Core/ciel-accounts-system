@@ -62,7 +62,7 @@ export function landingCheck(){
 
     createEffect(() => {
 
-        log(`Updating user state: ${isUpdatingUserState()}\nUser signed in: ${isSignedIn()}`);
+        // log(`Updating user state: ${isUpdatingUserState()}\nUser signed in: ${isSignedIn()}`);
 
         if(!isUpdatingUserState()){
 

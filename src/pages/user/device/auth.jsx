@@ -76,7 +76,7 @@ export default function DeviceAuth(props){
         }
     });
     return (<>
-        <Title>Device Auth</Title>
+        <Title>Sign In</Title>
         <h1>Welcome back, {loginData.username}!</h1>
         <br/>
         <h3>Verify your identity using <Mark>your device</Mark>!</h3>

@@ -8,6 +8,7 @@ import { render } from "solid-js/web";
 
 let changeCallback = event => {
     document.documentElement.dataset.colorScheme = event.matches ? "dark" : "light";
+    localStorage.setItem("last-color-scheme", document.documentElement.dataset.colorScheme)
 }, matchMedia = undefined;
 
 export function isForcedDarkMode(){
@@ -37,4 +38,5 @@ export function updateColorScheme(preference){ // 0 - system, 1 - light, 2 - dar
         document.documentElement.dataset.colorScheme = matchMedia.matches ? "dark" : "light";
         matchMedia.addEventListener('change', changeCallback);
     }
+    localStorage.setItem("last-color-scheme", document.documentElement.dataset.colorScheme)
 }

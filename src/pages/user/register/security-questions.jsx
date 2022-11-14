@@ -95,7 +95,7 @@ export default function RegisterSecurityQuestions(props){
                     <option value={6}>{securityQuestions()[1][5]}</option>
                 </Select>
                 <Input ref={ansElm1} id={"security-a1"} type={"text"} label={"Answer 1"}
-                        style={{width: "calc(100% - 8px)"}} maxlength={255}/>
+                        style={{width: "calc(100% - 8px)"}} maxlength={255} onSumbit={() => nextButton}/>
                 </InputFieldsContainer>
                 <InputFieldsContainer>
                 <Select ref={qusElm2} id={"security-q2"} label={"Question 2"} style={{width: "calc(100% - 8px)"}}
@@ -110,7 +110,7 @@ export default function RegisterSecurityQuestions(props){
                     <option value={6}>{securityQuestions()[2][5]}</option>
                 </Select>
                 <Input ref={ansElm2} id={"security-a2"} type={"text"} label={"Answer 2"}
-                        style={{width: "calc(100% - 8px)"}} maxlength={255}/>
+                        style={{width: "calc(100% - 8px)"}} maxlength={255} onSumbit={() => nextButton}/>
                 </InputFieldsContainer>
                 <InputFieldsContainer>
                 <Select ref={qusElm3} id={"security-q3"} label={"Question 3"} style={{width: "calc(100% - 8px)"}}
@@ -125,7 +125,7 @@ export default function RegisterSecurityQuestions(props){
                     <option value={6}>{securityQuestions()[3][5]}</option>
                 </Select>
                 <Input ref={ansElm3} id={"security-a3"} type={"text"} label={"Answer 3"}
-                        style={{width: "calc(100% - 8px)"}} maxlength={255}/>
+                        style={{width: "calc(100% - 8px)"}} maxlength={255} onSumbit={() => nextButton}/>
             </InputFieldsContainer>
             <Notice>Security questions are important. They can help you regain access to your account when you get locked out - so don't share them with anyone!</Notice>
             <Notice>When you answer your security questions, the answer needs to be in the format you first entered them. So try to write them down somewhere!</Notice>

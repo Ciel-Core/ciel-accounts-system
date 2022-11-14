@@ -93,9 +93,9 @@ export default function RegisterPersonalInfo(props){
                                 <option value={"12"}>December</option>
                             </Select>
                     <Input ref={bDay} id={"birthday_day"} type={"number"} label={"Day"} autocomplete={"bday-day"}
-                            style={{"margin-bottom": "auto"}}/>
+                            style={{"margin-bottom": "auto"}} onSumbit={() => nextButton}/>
                     <Input ref={bYear} id={"birthday_year"} type={"number"} label={"Year"} autocomplete={"bday-year"}
-                            style={{"margin-bottom": "auto", "min-width": "calc(28% + 8px)"}}/>
+                            style={{"margin-bottom": "auto", "min-width": "calc(28% + 8px)"}} onSumbit={() => nextButton}/>
                 </FlexContainer>
                 <Notice smaller>Enter your birthday</Notice>
                 <Select ref={gender} id={"gender"} label={"Gender"} style={{width: "calc(100% - 8px)"}}
@@ -107,7 +107,7 @@ export default function RegisterPersonalInfo(props){
                 </Select>
                 <Input ref={customGenderName} id={"custom-gender-name"} type={"text"}
                         label={"Gender name"} style={{width: "calc(100% - 8px)", display: "none"}}
-                        value={"FILL"} maxlength={32}/>
+                        value={"FILL"} maxlength={32} onSumbit={() => nextButton}/>
                 <Select ref={customGenderPronouns} id={"custom-gender-pronouns"}
                         label={"Prefered pronouns"}
                         style={{width: "calc(100% - 8px)", display: "none"}} selectedIndex={1}>

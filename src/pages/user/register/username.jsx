@@ -49,7 +49,7 @@ export default function RegisterUsername(props){
         <FlexContainer space={"around"} style={{width: "400px"}}>
             <InputFieldsContainer>
                 <Input ref={username} id={"username"} type={"text"} label={"Username"} autocomplete={"off"}
-                        style={{width: "calc(100% - 8px)"}} maxlength={20}/>
+                        style={{width: "calc(100% - 8px)"}} maxlength={20} onSumbit={() => nextButton}/>
             </InputFieldsContainer>
             <Notice>Your username is public, make sure it does not contain any sensitive or personal information!</Notice>
             <ButtonsContainer>

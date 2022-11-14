@@ -77,18 +77,27 @@ render(() =>{
     updateUserState(() => {
         contentLoadReport("UserState");
         setLUD(true);
+        // Update colour scheme
+        createEffect(() => {
+            updateColorScheme(userData().visual.preferredColorScheme);
+        });
     });
 
-    // Update colour scheme
+    // Detect when the content animation is finished
+    const [showAnimFinished, setSAF] = createSignal(false);
     createEffect(() => {
-        updateColorScheme(userData().visual.preferredColorScheme);
+        if(showContent() && !showAnimFinished()){
+            setTimeout(function(){
+                setSAF(true);
+            }, 1500);
+        }
     });
 
     // Return the global page content
     return <Router>
-        <GlobalBar userProfile={userData().personal.profilePicture} showContent={showContent()} report={() => { contentLoadReport("GlobalBar"); }}/>
-        <LocalContent userData={userData()} showContent={showContent()} report={() => { contentLoadReport("LocalContent"); }} userDataLoaded={loadedUserData()}/>
-        <GlobalFooter showContent={showContent()}/>
+        <GlobalBar userProfile={userData().personal.profilePicture} showAnimationFinished={showAnimFinished()} showContent={showContent()} report={() => { contentLoadReport("GlobalBar"); }}/>
+        <LocalContent userData={userData()} showAnimationFinished={showAnimFinished()} showContent={showContent()} report={() => { contentLoadReport("LocalContent"); }} userDataLoaded={loadedUserData()}/>
+        <GlobalFooter showAnimationFinished={showAnimFinished()} showContent={showContent()}/>
         <Scrollbar/>
     </Router>;
 }, document.body);

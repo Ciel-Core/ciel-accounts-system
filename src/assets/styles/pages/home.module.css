@@ -1,0 +1,15 @@
+/**
+ *
+ * The style of the "home" page
+ *
+**/
+
+.userWelcome {
+    margin-top: 0px;
+}
+
+.userMessage {
+    font-weight: normal;
+    margin-top: 0px;
+    color: var(--text-color-faint);
+}

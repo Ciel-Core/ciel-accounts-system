@@ -1,29 +1,35 @@
 <!DOCTYPE html>
-<html lang="en" data-color-scheme="light">
+<html lang="en" data-color-scheme="light" data-display-mode="tab">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <!--<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; child-src 'none';">-->
-    <!-- NOTE: use this website to generate the favicon once an icon has been selected: https://favicon.io/favicon-converter/ -->
-    <link rel="shortcut icon" type="image/ico" href="/images/favicon.ico">
-    <title>Ciel</title>
-    <script type="text/javascript">
-        window.websiteName = "Ciel";
-    </script>
-
-    <!-- PWA minimal data -->
-    <meta name="description" content="Ciel accounts system!">
-    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png" sizes="180x180">
-    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F7F8FA">
-    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0D0F11">
 
     <script type="text/javascript">
         /* Quick colour scheme detection */
         {
-            let matchMedia = window.matchMedia('(prefers-color-scheme: dark)');
-            document.documentElement.dataset.colorScheme = matchMedia.matches ? "dark" : "light";
-            delete matchMedia;
+            let lastColorScheme = localStorage.getItem("last-color-scheme");
+            if (lastColorScheme != undefined) {
+                document.documentElement.dataset.colorScheme = lastColorScheme;
+            } else {
+                try {
+                    let matchMedia = window.matchMedia('(prefers-color-scheme: dark)');
+                    document.documentElement.dataset.colorScheme = matchMedia.matches ? "dark" : "light";
+                    delete matchMedia;
+                } catch {}
+            }
+        }
+        /* Quick display mode detection */
+        {
+            if (location.hash == "#standalone") {
+                document.documentElement.dataset.displayMode = "standalone";
+            } else {
+                try {
+                    let matchMedia = window.matchMedia('(display-mode: standalone)');
+                    document.documentElement.dataset.displayMode = matchMedia.matches ? "standalone" : "tab";
+                    delete matchMedia;
+                } catch {}
+            }
         }
         /* Quick CSS tweaking */
         {
@@ -50,6 +56,20 @@
             history.pushState = _hEv('pushState'), history.replaceState = _hEv('replaceState');
         }
     </script>
+
+    <!--<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; child-src 'none';">-->
+    <!-- NOTE: use this website to generate the favicon once an icon has been selected: https://favicon.io/favicon-converter/ -->
+    <link rel="shortcut icon" type="image/ico" href="/images/favicon.ico">
+    <title>Ciel</title>
+    <script type="text/javascript">
+        window.websiteName = "Ciel";
+    </script>
+
+    <!-- PWA minimal data -->
+    <meta name="description" content="Ciel accounts system!">
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png" sizes="180x180">
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F7F8FA">
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0D0F11">
 
     <style type="text/css">
          :root {
@@ -162,7 +182,7 @@
         }
         
         [disabled] {
-            opacity: 0.4;
+            opacity: 0.3;
             pointer-events: none !important;
         }
         

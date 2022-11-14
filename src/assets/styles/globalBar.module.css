@@ -47,6 +47,7 @@
     justify-content: center;
     overflow: hidden;
     opacity: 0.4;
+    position: absolute;
 }
 
 .globalbar[data-show-content=false] .userprofile {
@@ -100,4 +101,102 @@
         opacity: 1;
         transform: scale(1);
     }
+}
+
+.globalbar .leftControls {
+    margin-right: auto
+}
+
+.globalbar .rightControls {
+    margin-left: auto;
+}
+
+.globalbar .rightControls,
+.globalbar .leftControls {
+    opacity: 0;
+    animation-name: fadeIn;
+    animation-duration: 0.2s;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: forwards;
+    animation-delay: 1.1s;
+}
+
+.globalbar .rightControls svg,
+.globalbar .leftControls svg {
+    height: 28px;
+    width: 28px;
+    margin: 0px 8px;
+    --svg-color: var(--text-color);
+    --svg-color-2: var(--accent-color);
+    display: inline-block;
+    cursor: pointer;
+}
+
+.globalbar .rightControls .bellContainer {
+    display: inline-block;
+    cursor: pointer;
+    margin: 0px 8px;
+}
+
+.globalbar .rightControls .bellContainer svg {
+    margin: 0px;
+}
+
+.globalbar .rightControls .bellContainer[data-pin=true] .bell,
+.globalbar .rightControls .bellContainer[data-pin=false] .bellPin {
+    display: none;
+}
+
+.globalbar[data-show-content=false] .leftControls,
+.globalbar[data-show-content=false] .rightControls,
+[data-display-mode=tab] .globalbar .leftControls .navControl {
+    display: none;
+}
+
+.globalbar .leftControls .navControl,
+.globalbar .leftControls .otherControl {
+    display: inline-block;
+    margin: 0px 8px;
+}
+
+.globalbar .leftControls .navControl svg:first-child,
+.globalbar .leftControls .otherControl svg:first-child {
+    margin-left: 0px;
+}
+
+.globalbar .leftControls .navControl svg:last-child,
+.globalbar .leftControls .otherControl svg:last-child {
+    margin-right: 0px;
+}
+
+.globalbar[data-show-content-finished=true] .rightControls,
+.globalbar[data-show-content-finished=true] .leftControls {
+    animation-name: fadeIn;
+    animation-duration: 0.2s;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: forwards;
+    animation-delay: 0s;
+}
+
+.globalbar .rightControls[data-signed-in=false] {
+    display: none;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+        padding: 0px 4px;
+    }
+    to {
+        padding: 0px;
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.globalbar[data-processing=true] .leftControls,
+.globalbar[data-processing=true] .rightControls {
+    opacity: 0.4 !important;
+    pointer-events: none !important;
 }
