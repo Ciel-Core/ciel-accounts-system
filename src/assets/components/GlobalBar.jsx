@@ -52,7 +52,8 @@ function RightControls(props){
 
 function GlobalBar(props){
     return (
-        <div id="global-bar" class={styles.globalbar} data-show-content={props.showContent} data-show-content-finished={props.showAnimationFinished}>
+        <div id="global-bar" class={styles.globalbar} data-show-content={props.showContent} data-show-content-finished={props.showAnimationFinished}
+            data-processing={false}>
             <LeftControls/>
             <UserProfile picture={props.userProfile} report={props.report}/>
             <RightControls/>

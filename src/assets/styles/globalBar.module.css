@@ -194,3 +194,9 @@
         transform: scale(1);
     }
 }
+
+.globalbar[data-processing=true] .leftControls,
+.globalbar[data-processing=true] .rightControls {
+    opacity: 0.4 !important;
+    pointer-events: none !important;
+}

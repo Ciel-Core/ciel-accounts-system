@@ -51,10 +51,12 @@ function convertUserData(userData){
 export function updateUserState(callback = undefined, expectURLChange = false){
     // Disable page interactions (only when callback is defined)
     let localContent = document.getElementById("local-content"),
+        globalBar = document.getElementById("global-bar"),
         enable = false;
     if(localContent != undefined && callback != undefined){
         enable = (localContent.dataset.processing == "false");
         localContent.dataset.processing = true;
+        globalBar.dataset.processing = true;
     }
     // Make a request for the user's data
     userDataPOST(function(isSuccessful, data){
@@ -72,6 +74,7 @@ export function updateUserState(callback = undefined, expectURLChange = false){
         // Enable page interactions
         if(enable){
             localContent.dataset.processing = false;
+            globalBar.dataset.processing = false;
         }
         if(typeof callback == "function"){
             callback();
@@ -89,15 +92,18 @@ export function updateUserState(callback = undefined, expectURLChange = false){
 export function signOut(){
     // Disable page interactions
     let localContent = document.getElementById("local-content"),
+        globalBar = document.getElementById("global-bar"),
         enable = false;
     if(localContent != undefined){
         enable = (localContent.dataset.processing == "false");
         localContent.dataset.processing = true;
+        globalBar.dataset.processing = true;
     }
     signOutPOST(function(isSuccessful, data){
         // Enable page interactions
         if(enable){
             localContent.dataset.processing = false;
+            globalBar.dataset.processing = false;
         }
         // Updating user state
         setUUS(true);
