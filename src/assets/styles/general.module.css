@@ -658,3 +658,49 @@ input[type=number]::-webkit-outer-spin-button {
     align-items: center;
     height: fit-content;
 }
+
+
+/* <SearchBox> */
+
+.searchBoxContainer {
+    position: relative;
+    height: fit-content;
+    width: -moz-available;
+    width: -webkit-fill-available;
+    width: fill-available;
+    max-width: 500px;
+}
+
+.searchBoxContainer .searchBox {
+    background-color: var(--background-blend);
+    border: none;
+    font-size: 16px;
+    padding: 12px 20px;
+    padding-left: calc(20px + 16px + 6px);
+    border-radius: 10px;
+    outline: none;
+    margin: 18px;
+    width: -moz-available;
+    width: -webkit-fill-available;
+    width: fill-available;
+    max-width: 500px;
+    color: var(--text-color);
+    border: solid 2px var(--background-blend);
+}
+
+.searchBoxContainer .searchBox::placeholder {
+    color: var(--background-bold);
+}
+
+.searchBoxContainer:focus-within .searchBox {
+    background-color: var(--main-background);
+}
+
+.searchBoxContainer .searchIcon {
+    width: 18px;
+    height: 18px;
+    --svg-color: var(--background-bold);
+    position: absolute;
+    top: calc(18px + 16px);
+    left: calc(20px + 16px);
+}

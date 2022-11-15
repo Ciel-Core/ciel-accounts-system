@@ -14,7 +14,7 @@ import { registerData, checkDataByOrder } from './../../../assets/scripts/pages/
 import { ButtonsContainer, InputFieldsContainer, nextCheck, redoRegister } from './../register.jsx';
 
 import PaperIcon from './../../../assets/icons/paper.svg';
-import InfoIcon from './../../../assets/icons/info.svg';
+import InfoIcon from './../../../assets/icons/info_alt.svg';
 
 function AgreementItem(props){
     let desc;

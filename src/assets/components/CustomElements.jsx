@@ -17,6 +17,7 @@ import { FlexContainer } from './FlexContainer.jsx';
 import { CheckBox } from './CheckBox.jsx';
 import { Radio, getRadioValueByNameGroup, onRadioGroupChange } from './Radio.jsx';
 import { Dialog, setDialogState, showDialog } from './Dialog.jsx';
+import { SearchBox } from './SearchBox.jsx';
 
 export function Divider(props){
     let basicProps = processProps(props, generalStyles.divider);
@@ -41,5 +42,6 @@ export {
     Notice,
     Mark,
     FlexContainer,
-    CheckBox
+    CheckBox,
+    SearchBox
 };

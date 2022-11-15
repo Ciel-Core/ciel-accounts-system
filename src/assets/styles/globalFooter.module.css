@@ -8,10 +8,13 @@
     min-height: var(--globalfooter--height);
     height: fit-content;
     text-align: center;
-    line-height: 18px;
+    line-height: 12px;
     font-size: 12px;
     opacity: 0;
     font-weight: 400;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .globalfooter,
@@ -36,5 +39,14 @@
 .link {
     text-decoration: none;
     color: inherit;
-    margin: 0px 6px;
+    margin: 0px 8px;
+}
+
+.icon {
+    --svg-color: var(--background-bold);
+    width: 13px;
+    height: 13px;
+    padding: 3px;
+    cursor: pointer;
+    margin: 0px 4px;
 }
