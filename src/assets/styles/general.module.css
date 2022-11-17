@@ -617,6 +617,7 @@ input[type=number]::-webkit-outer-spin-button {
     animation-name: fadeInDialogBox;
     animation-timing-function: ease-out;
     animation-duration: 0.1s;
+    animation-delay: 0.01s;
     animation-fill-mode: forwards;
     overflow: hidden;
 }
@@ -686,6 +687,8 @@ input[type=number]::-webkit-outer-spin-button {
     max-width: 500px;
     color: var(--text-color);
     border: solid 2px var(--background-blend);
+    position: relative;
+    z-index: 2;
 }
 
 .searchBoxContainer .searchBox::placeholder {
@@ -696,6 +699,10 @@ input[type=number]::-webkit-outer-spin-button {
     background-color: var(--main-background);
 }
 
+.searchBoxContainer[data-results-visible=true] .searchBox {
+    border-radius: 10px 10px 0px 0px;
+}
+
 .searchBoxContainer .searchIcon {
     width: 18px;
     height: 18px;
@@ -703,4 +710,44 @@ input[type=number]::-webkit-outer-spin-button {
     position: absolute;
     top: calc(18px + 16px);
     left: calc(20px + 16px);
+    pointer-events: none;
+    z-index: 3;
+}
+
+.searchBoxContainer:not(:focus-within) .searchBoxResultsContainer {
+    display: none;
+}
+
+.searchBoxContainer .searchBoxResultsContainer {
+    position: absolute;
+    top: 47px;
+    width: -moz-available;
+    width: -webkit-fill-available;
+    width: fill-available;
+    background-color: var(--main-background);
+    border: solid 2px var(--background-blend);
+    border-radius: 0px 0px 10px 10px;
+    box-shadow: 0px 2px 2px var(--background-blend);
+    animation-name: fadeInSearchBox;
+    animation-timing-function: ease-out;
+    animation-duration: 0.12s;
+}
+
+@keyframes fadeInSearchBox {
+    from {
+        top: 42px;
+        opacity: 0;
+    }
+    to {
+        top: 47px;
+        opacity: 1;
+    }
+}
+
+@media (pointer:none),
+(pointer:coarse) {
+    .searchBoxContainer .searchBoxResultsContainer {
+        min-width: calc(100vw - 2*2px);
+        margin: 0px;
+    }
 }

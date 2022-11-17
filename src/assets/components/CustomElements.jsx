@@ -18,6 +18,7 @@ import { CheckBox } from './CheckBox.jsx';
 import { Radio, getRadioValueByNameGroup, onRadioGroupChange } from './Radio.jsx';
 import { Dialog, setDialogState, showDialog } from './Dialog.jsx';
 import { SearchBox } from './SearchBox.jsx';
+import { LoadingSpinner } from './LoadingSpinner.jsx';
 
 export function Divider(props){
     let basicProps = processProps(props, generalStyles.divider);
@@ -43,5 +44,6 @@ export {
     Mark,
     FlexContainer,
     CheckBox,
-    SearchBox
+    SearchBox,
+    LoadingSpinner
 };

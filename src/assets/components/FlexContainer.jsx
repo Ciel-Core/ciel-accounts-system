@@ -15,7 +15,7 @@ export function FlexContainer(props){
                                     (props.horozontal) ? generalStyles.horozontal : undefined,
                                     (props["no-grow"]) ? generalStyles.noFlexGrow : undefined);
     return (
-        <div ref={props.ref} class={basicProps.class} style={basicProps.style}>{props.children}</div>
+        <div ref={props.ref} class={basicProps.class} style={basicProps.style} tabindex={props.tabindex}>{props.children}</div>
     );
 }
  
