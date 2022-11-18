@@ -8,7 +8,7 @@
     min-height: var(--globalfooter--height);
     height: fit-content;
     text-align: center;
-    line-height: 12px;
+    line-height: 15px;
     font-size: 12px;
     opacity: 0;
     font-weight: 400;
@@ -40,14 +40,18 @@
 .link {
     text-decoration: none;
     color: inherit;
-    margin: 0px 8px;
+    padding: 10px;
 }
 
 .icon {
     --svg-color: var(--background-bold);
-    width: 13px;
-    height: 13px;
-    padding: 3px;
+    width: 14px;
+    height: 14px;
+    padding: 10px;
     cursor: pointer;
-    margin: 0px 4px;
+}
+
+.link,
+.icon {
+    margin: 0px 12px;
 }
