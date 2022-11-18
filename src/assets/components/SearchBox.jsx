@@ -18,32 +18,46 @@ const [results, setResults] = createSignal(undefined);
 
 let searchTimeout;
 function updateSearchBox(isURLUpdate, container, input, results, resultsLoading, resultsContent){
+    // Clear timeout
     if(searchTimeout != undefined){
         clearTimeout(searchTimeout);
     }
-    // Check the input value
-    if(input.value.replace(/\s/g, "") != ""){
-        if(media.matches){
+    // Update URL on mobile devices
+    if(media.matches){
+        if(input.value.replace(/\s/g, "") != ""){
             if(location.hash.substring(0, 7) != "#search"){
                 location.hash = "#search=" + encodeURIComponent(input.value);
             }else{
                 window.history.replaceState(undefined, document.title,
                     `${location.pathname}#search=${encodeURIComponent(input.value)}`);
-            }
+            }    
+        }else if(!isURLUpdate){
+            if(location.hash.substring(0, 7) != "#search"){
+                location.hash = "#search";
+            }else{
+                window.history.replaceState(undefined, document.title,
+                    `${location.pathname}#search`);
+            }    
         }
+    }
+    // Check the input value
+    if((input.value.replace(/\s/g, "") != "") &&
+            (resultsLoading.style.display != "" ||
+            container.dataset.resultsVisible != "true" ||
+            resultsContent.style.display != "none")){
+
+        resultsLoading.style.display = null;
+        resultsContent.style.display = "none";
+        container.dataset.resultsVisible = true;
+    }
+    // Update search results
+    if(input.value.replace(/\s/g, "") != ""){
         searchTimeout = setTimeout(function(){
-            // Get search results
             resultsLoading.style.display = "none";
             resultsContent.style.display = null;
+            // Get search results
             setResults("The results!");
         }, (isURLUpdate) ? 100 : 500);
-        if(resultsLoading.style.display != "" ||
-            container.dataset.resultsVisible != "true" ||
-            resultsContent.style.display != "none"){
-            resultsLoading.style.display = null;
-            resultsContent.style.display = "none";
-            container.dataset.resultsVisible = true;
-        }
     }else if(!media.matches){
         container.dataset.resultsVisible = false;
     }
@@ -79,7 +93,9 @@ function updateSearch(container, input, results, resultsLoading, resultsContent)
     input.onfocus = function(){
         if(input.value.replace(/\s/g, "") != "" || media.matches){
             container.dataset.resultsVisible = true;
-            location.hash = "#search";
+            if(location.hash.substring(0, 7) != "#search"){
+                location.hash = "#search";
+            }
         }
     };
     results.onblur = function(){
