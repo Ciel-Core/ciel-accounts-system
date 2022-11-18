@@ -5,10 +5,7 @@
 **/
 
 .localcontent {
-    /*background-color: #fafafa;*/
     flex-grow: 1;
-    /*box-shadow: 0px 0px 4px #cacaca;
-    border-radius: 12px;*/
     max-width: 86%;
     margin: 0px 10%;
     position: relative;
@@ -18,12 +15,11 @@
 }
 
 @media (pointer:none),
-(pointer:coarse) {
+(pointer:coarse),
+screen and (max-width: 500px) {
     .localcontent {
         max-width: 100%;
         margin: 0px;
-        /*background-color: unset;
-        box-shadow: unset;*/
     }
 }
 

@@ -76,24 +76,7 @@
             --vh: var(--vhu, 1vh);
         }
         
-         :root[data-color-scheme=dark] {
-            color-scheme: dark;
-            --text-color: #F7F8FA;
-            --text-color-faint: #868c94;
-            --main-background: #131516;
-            --accent-color: #ec3f6b;
-            --accent-color-active: #c23b5d;
-            --accent-color-lighter: #5a2e3b;
-            --accent-color-faint: #301c22;
-            --background-blend: #202529;
-            --background-blend-rgb: 32, 37, 41;
-            --background-bold: #96a4af;
-            --error-color: #e9564e;
-            --dialog-background: #1d2022;
-            --dialog-shadow: #0e0e0e;
-            --dialog-container-background: rgba(14, 14, 15, 0.85);
-        }
-        
+         :root,
          :root[data-color-scheme=light] {
             color-scheme: light;
             --text-color: #0D0F11;
@@ -101,6 +84,7 @@
             --main-background: #f9fafc;
             --accent-color: #C90C3B;
             --accent-color-active: #e03a64;
+            --accent-color-activeO: #e03a6357;
             --accent-color-lighter: #ffa6be;
             --accent-color-faint: #ffdae4;
             --background-blend: #e8ebf0;
@@ -110,6 +94,25 @@
             --dialog-background: #ffffff;
             --dialog-shadow: #d6d6d6;
             --dialog-container-background: rgba(247, 248, 250, 0.8);
+        }
+        
+         :root[data-color-scheme=dark] {
+            color-scheme: dark;
+            --text-color: #F7F8FA;
+            --text-color-faint: #868c94;
+            --main-background: #131516;
+            --accent-color: #ec3f6b;
+            --accent-color-active: #c23b5d;
+            --accent-color-activeO: #c23b5d57;
+            --accent-color-lighter: #5a2e3b;
+            --accent-color-faint: #301c22;
+            --background-blend: #202529;
+            --background-blend-rgb: 32, 37, 41;
+            --background-bold: #96a4af;
+            --error-color: #e9564e;
+            --dialog-background: #1d2022;
+            --dialog-shadow: #0e0e0e;
+            --dialog-container-background: rgba(14, 14, 15, 0.85);
         }
         
         html {
@@ -133,7 +136,8 @@
         }
         
         @media (pointer:none),
-        (pointer:coarse) {
+        (pointer:coarse),
+        screen and (max-width: 500px) {
             body {
                 --page-margin: 24px;
             }
@@ -219,7 +223,15 @@
 </head>
 
 <body>
-    <noscript>You must enable JavaScript In order to use this service.</noscript>
+    <noscript>
+        <h4 style="display: flex;
+                    width: 100%;
+                    height: calc(100vh - var(--page-margin) * 2);
+                    margin: 0px; padding: 0px;
+                    justify-content: center; align-items: center;">
+            You must enable JavaScript In order to use the Ciel service!
+        </h4>
+    </noscript>
     <script src="/src/initiate.jsx" type="module"></script>
 </body>
 
