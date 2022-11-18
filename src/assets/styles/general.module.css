@@ -670,6 +670,7 @@ input[type=number]::-webkit-outer-spin-button {
     width: -webkit-fill-available;
     width: fill-available;
     max-width: 500px;
+    z-index: 2;
 }
 
 .searchBoxContainer .searchBox {
@@ -703,18 +704,28 @@ input[type=number]::-webkit-outer-spin-button {
     border-radius: 10px 10px 0px 0px;
 }
 
-.searchBoxContainer .searchIcon {
-    width: 18px;
-    height: 18px;
+.searchBoxContainer .searchIcon,
+.searchBoxContainer .backIcon {
+    width: 24px;
+    height: 24px;
     --svg-color: var(--background-bold);
     position: absolute;
-    top: calc(18px + 16px);
-    left: calc(20px + 16px);
-    pointer-events: none;
-    z-index: 3;
+    top: 24px;
+    left: 24px;
+    padding: 6px;
+    z-index: 10;
 }
 
-.searchBoxContainer:not(:focus-within) .searchBoxResultsContainer {
+.searchBoxContainer .searchIcon {
+    pointer-events: none;
+}
+
+.searchBoxContainer .backIcon {
+    display: none;
+}
+
+.searchBoxContainer:not(:focus-within) .searchBoxResultsContainer,
+.searchBoxContainer[data-results-visible=false] .searchBoxResultsContainer {
     display: none;
 }
 
@@ -731,6 +742,8 @@ input[type=number]::-webkit-outer-spin-button {
     animation-name: fadeInSearchBox;
     animation-timing-function: ease-out;
     animation-duration: 0.12s;
+    outline: none;
+    max-height: calc(var(--vh)*100 - var(--page-margin) * 2 - var(--globalbar--height) - var(--globalfooter--height) - 100px);
 }
 
 @keyframes fadeInSearchBox {
@@ -746,8 +759,59 @@ input[type=number]::-webkit-outer-spin-button {
 
 @media (pointer:none),
 (pointer:coarse) {
+    .searchBoxContainer[data-results-visible=true]:before {
+        content: "";
+        display: block;
+        position: fixed;
+        top: 0px;
+        bottom: 0px;
+        right: 0px;
+        left: 0px;
+        background-color: var(--main-background);
+    }
     .searchBoxContainer .searchBoxResultsContainer {
         min-width: calc(100vw - 2*2px);
         margin: 0px;
+        position: fixed;
+        top: calc(var(--globalbar--height) + var(--page-margin));
+        right: 0px;
+        left: 0px;
+        animation: unset;
+        height: calc(var(--vh)*100 - var(--globalbar--height) - var(--page-margin));
+        max-height: unset;
+        border-color: transparent;
+    }
+    .searchBoxContainer[data-results-visible=true] .searchIcon {
+        display: none;
+    }
+    .searchBoxContainer[data-results-visible=true] .backIcon {
+        display: block;
+        top: calc(var(--page-margin) + (var(--globalbar--height) - 36px) / 2);
+    }
+    .searchBoxContainer[data-results-visible=true] .searchBox {
+        margin-top: calc(var(--page-margin) + (var(--globalbar--height) - 49px) / 2);
+        border-radius: 10px;
+    }
+    .searchBoxContainer[data-results-visible=true] {
+        background-color: var(--main-background);
+        position: fixed;
+        top: 0px;
+        animation-name: searchBoxIn;
+        animation-timing-function: ease-out;
+        animation-duration: 0.06s;
+        animation-fill-mode: forwards;
+    }
+    @keyframes searchBoxIn {
+        from {
+            position: fixed;
+            top: 12px;
+        }
+        to {
+            position: fixed;
+            top: 0px;
+        }
+    }
+    .searchBoxContainer:not(:focus-within):not([data-results-visible=false]) .searchBoxResultsContainer {
+        display: flex;
     }
 }
