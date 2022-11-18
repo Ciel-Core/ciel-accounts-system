@@ -12,7 +12,7 @@ import { FlexContainer, LoadingSpinner } from './CustomElements.jsx';
 import SearchIcon from './../icons/search.svg';
 import BackArrowIcon from './../icons/arrow_back.svg';
 
-let media = window.matchMedia('(pointer:none), (pointer:coarse)');
+let media = window.matchMedia('(pointer:none), (pointer:coarse), screen and (max-width: 500px)');
 
 const [results, setResults] = createSignal(undefined);
 
