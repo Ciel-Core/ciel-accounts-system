@@ -208,8 +208,8 @@
 @keyframes fadeIn {
     from {
         opacity: 0;
-        transform: scale(0.9);
-        padding: 0px 4px;
+        transform: scale(0.95);
+        padding: 0px 3px;
     }
     to {
         padding: 0px;

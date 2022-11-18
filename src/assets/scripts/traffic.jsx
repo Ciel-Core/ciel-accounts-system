@@ -54,11 +54,25 @@ function loopList(array, callback, navigate){
     });
 }
 
+// Wait for elements to be defined!
+// This is needed in case the user reloads the page and the content needs a bit more time to load!
+function waitForElement(elm, callback){
+    let element = elm();
+    if(element == undefined){
+        setTimeout(function(){
+            waitForElement(elm, callback);
+        }, 100);
+    }else{
+        callback(element);
+    }
+}
+
 // Check if the current page landing request is valid
 export function landingCheck(){
 
     const location = useLocation(),
           navigate = useNavigate();
+    let searchHash = false;
 
     createEffect(() => {
 
@@ -96,6 +110,24 @@ export function landingCheck(){
                 if(loginData.username != undefined){
                     resetLoginData();
                 }
+            }
+
+            // Manage search box mobile navigation
+            if(searchHash && location.hash.substring(0, 7) != "#search"){
+                waitForElement(() => document.getElementById("searchBox"), function(searchBox){
+                    searchBox.dataset.resultsVisible = false;
+                    searchBox.children[2].setValue("");
+                    searchBox.children[2].blur();
+                });
+            }else if(location.hash.substring(0, 7) == "#search"){
+                searchHash = true;
+                waitForElement(() => document.getElementById("searchBox"), function(searchBox){
+                    searchBox.dataset.resultsVisible = true;
+                    searchBox.children[2].setValue(decodeURIComponent(location.hash.substring(8)));
+                    searchBox.children[2].focus();
+                });
+            }else{
+                searchHash = false;
             }
 
             log(location.pathname);

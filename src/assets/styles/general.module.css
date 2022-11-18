@@ -617,6 +617,7 @@ input[type=number]::-webkit-outer-spin-button {
     animation-name: fadeInDialogBox;
     animation-timing-function: ease-out;
     animation-duration: 0.1s;
+    animation-delay: 0.01s;
     animation-fill-mode: forwards;
     overflow: hidden;
 }
@@ -657,4 +658,169 @@ input[type=number]::-webkit-outer-spin-button {
     justify-content: right;
     align-items: center;
     height: fit-content;
+}
+
+
+/* <SearchBox> */
+
+.searchBoxContainer {
+    position: relative;
+    height: fit-content;
+    width: -moz-available;
+    width: -webkit-fill-available;
+    width: fill-available;
+    max-width: 500px;
+    z-index: 2;
+}
+
+.searchBoxContainer .searchBox {
+    background-color: var(--background-blend);
+    border: none;
+    font-size: 16px;
+    padding: 12px 20px;
+    padding-left: calc(20px + 16px + 6px);
+    border-radius: 10px;
+    outline: none;
+    margin: 18px;
+    width: -moz-available;
+    width: -webkit-fill-available;
+    width: fill-available;
+    max-width: 500px;
+    color: var(--text-color);
+    border: solid 2px var(--background-blend);
+    position: relative;
+    z-index: 2;
+}
+
+.searchBoxContainer .searchBox::placeholder {
+    color: var(--background-bold);
+}
+
+.searchBoxContainer:focus-within .searchBox {
+    background-color: var(--main-background);
+}
+
+.searchBoxContainer[data-results-visible=true] .searchBox {
+    border-radius: 10px 10px 0px 0px;
+}
+
+.searchBoxContainer .searchIcon,
+.searchBoxContainer .backIcon {
+    width: 24px;
+    height: 24px;
+    --svg-color: var(--background-bold);
+    position: absolute;
+    top: 22px;
+    left: 22px;
+    padding: 8px;
+    z-index: 10;
+}
+
+.searchBoxContainer .searchIcon {
+    pointer-events: none;
+}
+
+.searchBoxContainer .backIcon {
+    display: none;
+}
+
+.searchBoxContainer:not(:focus-within) .searchBoxResultsContainer,
+.searchBoxContainer[data-results-visible=false] .searchBoxResultsContainer {
+    display: none;
+}
+
+.searchBoxContainer .searchBoxResultsContainer {
+    position: absolute;
+    top: 47px;
+    width: -moz-available;
+    width: -webkit-fill-available;
+    width: fill-available;
+    background-color: var(--main-background);
+    border: solid 2px var(--background-blend);
+    border-radius: 0px 0px 10px 10px;
+    box-shadow: 0px 2px 2px var(--background-blend);
+    animation-name: fadeInSearchBox;
+    animation-timing-function: ease-out;
+    animation-duration: 0.12s;
+    outline: none;
+    max-height: calc(var(--vh)*100 - var(--page-margin) * 2 - var(--globalbar--height) - var(--globalfooter--height) - 100px);
+}
+
+.searchBoxContainer .searchBoxResultsContainer .searchBoxResultsContent {
+    padding: var(--page-margin);
+}
+
+.searchBoxContainer .searchBoxResultsContainer .searchBoxLoading {
+    margin: 34px;
+}
+
+@keyframes fadeInSearchBox {
+    from {
+        top: 42px;
+        opacity: 0;
+    }
+    to {
+        top: 47px;
+        opacity: 1;
+    }
+}
+
+@media (pointer:none),
+(pointer:coarse) {
+    .searchBoxContainer[data-results-visible=true]:before {
+        content: "";
+        display: block;
+        position: fixed;
+        top: 0px;
+        bottom: 0px;
+        right: 0px;
+        left: 0px;
+        background-color: var(--main-background);
+    }
+    .searchBoxContainer .searchBoxResultsContainer {
+        min-width: calc(100vw - 2*2px);
+        margin: 0px;
+        position: fixed;
+        top: calc(var(--globalbar--height) + var(--page-margin));
+        right: 0px;
+        left: 0px;
+        animation: unset;
+        height: calc(var(--vh)*100 - var(--globalbar--height) - var(--page-margin));
+        max-height: unset;
+        border-color: transparent;
+    }
+    .searchBoxContainer[data-results-visible=true] .searchIcon {
+        display: none;
+    }
+    .searchBoxContainer[data-results-visible=true] .backIcon {
+        display: block;
+        top: calc(var(--page-margin) + (var(--globalbar--height) - 40px) / 2);
+    }
+    .searchBoxContainer[data-results-visible=true] .searchBox {
+        margin-top: calc(var(--page-margin) + (var(--globalbar--height) - 49px) / 2);
+        border-radius: 10px;
+    }
+    .searchBoxContainer[data-results-visible=true] {
+        background-color: var(--main-background);
+        position: fixed;
+        top: 0px;
+        animation-name: searchBoxIn;
+        animation-timing-function: ease-out;
+        animation-duration: 0.06s;
+        animation-fill-mode: forwards;
+        margin: 0px var(--page-margin);
+    }
+    @keyframes searchBoxIn {
+        from {
+            position: fixed;
+            top: 12px;
+        }
+        to {
+            position: fixed;
+            top: 0px;
+        }
+    }
+    .searchBoxContainer:not(:focus-within):not([data-results-visible=false]) .searchBoxResultsContainer {
+        display: flex;
+    }
 }
