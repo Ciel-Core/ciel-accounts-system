@@ -56,7 +56,7 @@ function updateSearchBox(isURLUpdate, container, input, results, resultsLoading,
             resultsLoading.style.display = "none";
             resultsContent.style.display = null;
             // Get search results
-            setResults("The results!");
+            setResults(`Results for "${input.value}"!`);
         }, (isURLUpdate) ? 100 : 500);
     }else if(!media.matches){
         container.dataset.resultsVisible = false;
@@ -93,7 +93,7 @@ function updateSearch(container, input, results, resultsLoading, resultsContent)
     input.onfocus = function(){
         if(input.value.replace(/\s/g, "") != "" || media.matches){
             container.dataset.resultsVisible = true;
-            if(location.hash.substring(0, 7) != "#search"){
+            if(media.matches && location.hash.substring(0, 7) != "#search"){
                 location.hash = "#search";
             }
         }
@@ -134,9 +134,9 @@ export function SearchBox(props){
         <input ref={searchInput} class={basicProps.class} style={basicProps.style} placeholder={(props.placeholder) ? props.placeholder : "Search"} maxLength={255} />
         <FlexContainer ref={searchResults} class={generalStyles.searchBoxResultsContainer} horizontal tabindex={0}>
             <FlexContainer ref={searchResultsLoading} style={{display: "none"}}>
-                <LoadingSpinner />
+                <LoadingSpinner class={generalStyles.searchBoxLoading} />
             </FlexContainer>
-            <FlexContainer ref={searchResultsContent}>
+            <FlexContainer ref={searchResultsContent} class={generalStyles.searchBoxResultsContent}>
                 {results()}
             </FlexContainer>
         </FlexContainer>

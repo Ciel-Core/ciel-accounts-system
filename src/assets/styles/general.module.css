@@ -746,6 +746,14 @@ input[type=number]::-webkit-outer-spin-button {
     max-height: calc(var(--vh)*100 - var(--page-margin) * 2 - var(--globalbar--height) - var(--globalfooter--height) - 100px);
 }
 
+.searchBoxContainer .searchBoxResultsContainer .searchBoxResultsContent {
+    padding: var(--page-margin);
+}
+
+.searchBoxContainer .searchBoxResultsContainer .searchBoxLoading {
+    margin: 34px;
+}
+
 @keyframes fadeInSearchBox {
     from {
         top: 42px;
@@ -800,6 +808,7 @@ input[type=number]::-webkit-outer-spin-button {
         animation-timing-function: ease-out;
         animation-duration: 0.06s;
         animation-fill-mode: forwards;
+        margin: 0px var(--page-margin);
     }
     @keyframes searchBoxIn {
         from {
