@@ -169,7 +169,7 @@ export function landingCheck(){
                 })
             }
 
-            log(location.pathname);
+            log("Traffic", location.pathname);
 
         }
 
