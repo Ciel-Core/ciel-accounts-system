@@ -12,6 +12,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.globalbar[data-prioritize=true] {
     z-index: 5;
 }
 
@@ -115,6 +118,7 @@
 .globalbar .rightControls,
 .globalbar .leftControls {
     opacity: 0;
+    z-index: 1;
     animation-name: fadeIn;
     animation-duration: 0.2s;
     animation-timing-function: ease-in-out;

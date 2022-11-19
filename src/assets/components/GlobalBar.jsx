@@ -27,8 +27,9 @@ function UserProfile(props){
     );
 }
 
-function showNavContent(navigate, pathname, container, spinner, mainTimeout){
+function showNavContent(navigate, pathname, container, spinner, mainTimeout, bar){
     if(!window.mobileView.matches){
+        bar.dataset.prioritize = true;
         container.dataset.show = true;
         clearTimeout(mainTimeout[0]);
         mainTimeout[0] = setTimeout(function(){
@@ -43,6 +44,7 @@ function showNavContent(navigate, pathname, container, spinner, mainTimeout){
                         window.contentLoaded = undefined;
                     };
                     document.body.onfocus = () => {
+                        bar.dataset.prioritize = false;
                         iframe.remove();
                         container.dataset.show = false;
                         spinner.style.display = null;
@@ -71,7 +73,7 @@ function LeftControls(props){
             </div>
             <div class={styles.otherControl} style={{display: (isSignedIn()) ? "inline-block" : "none"}}>
                 <HelpIcon id="help-icon" onClick={function(){
-                    showNavContent(navigate, "/help", helpContainer, helpLoadingSpinner, helpTimeout);
+                    showNavContent(navigate, "/help", helpContainer, helpLoadingSpinner, helpTimeout, props.bar);
                 }} unselectable/>
             </div>
             <div ref={helpContainer} class={styles.helpContainer} data-show={false}>
@@ -89,7 +91,7 @@ function RightControls(props){
     return (
         <div class={styles.rightControls} data-signed-in={isSignedIn()}>
             <div id="alerts-icon" class={styles.bellContainer} data-pin={false} onClick={function(){
-                    showNavContent(navigate, "/notifications", alertsContainer, alertsLoadingSpinner, alertsTimeout);
+                    showNavContent(navigate, "/notifications", alertsContainer, alertsLoadingSpinner, alertsTimeout, props.bar);
                 }}>
                 <BellIcon class={styles.bell} unselectable/>
                 <BellPinIcon class={styles.bellPin} unselectable/>
@@ -103,12 +105,15 @@ function RightControls(props){
 }
 
 function GlobalBar(props){
+    let globalBar;
     return (
-        <div id="global-bar" class={styles.globalbar} data-show-content={props.showContent} data-show-content-finished={props.showAnimationFinished}
+        <div id="global-bar" ref={globalBar} class={styles.globalbar}
+            data-show-content={props.showContent}
+            data-show-content-finished={props.showAnimationFinished}
             data-processing={false}>
-            <LeftControls/>
+            <LeftControls bar={globalBar}/>
             <UserProfile picture={props.userProfile} report={props.report}/>
-            <RightControls/>
+            <RightControls bar={globalBar}/>
         </div>
     );
 }
