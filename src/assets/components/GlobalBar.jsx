@@ -46,8 +46,13 @@ function showNavContent(navigate, pathname, container, spinner, mainTimeout, bar
                         iframe.dataset.loaded = true;
                         window.contentLoaded = undefined;
                     };
+                    // Detect size updates
+                    window.sizeChange = function(){
+                        container.style.height = `${iframe.contentWindow.document.documentElement.scrollHeight}px`
+                    };
                     // Remove iframe when the body is focused
                     document.body.onfocus = function(){
+                        window.sizeChange = undefined;
                         bar.dataset.prioritize = false;
                         iframe.remove();
                         container.dataset.show = false;

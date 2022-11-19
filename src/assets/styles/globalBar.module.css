@@ -260,6 +260,12 @@
 .globalbar .helpContainer iframe,
 .globalbar .alertsContainer iframe {
     border: none;
+    width: -moz-available;
+    width: -webkit-fill-available;
+    width: fill-available;
+    height: -moz-available;
+    height: -webkit-fill-available;
+    height: fill-available;
 }
 
 .globalbar .helpContainer iframe:not([data-loaded=true]),
