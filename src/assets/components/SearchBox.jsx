@@ -12,8 +12,6 @@ import { FlexContainer, LoadingSpinner } from './CustomElements.jsx';
 import SearchIcon from './../icons/search.svg';
 import BackArrowIcon from './../icons/arrow_back.svg';
 
-let media = window.matchMedia('(pointer:none), (pointer:coarse), screen and (max-width: 500px)');
-
 const [results, setResults] = createSignal(undefined);
 
 let searchTimeout;
@@ -23,7 +21,7 @@ function updateSearchBox(isURLUpdate, container, input, results, resultsLoading,
         clearTimeout(searchTimeout);
     }
     // Update URL on mobile devices
-    if(media.matches){
+    if(window.mobileView.matches){
         if(input.value.replace(/\s/g, "") != ""){
             if(location.hash.substring(0, 7) != "#search"){
                 location.hash = "#search=" + encodeURIComponent(input.value);
@@ -57,8 +55,8 @@ function updateSearchBox(isURLUpdate, container, input, results, resultsLoading,
             resultsContent.style.display = null;
             // Get search results
             setResults(`Results for "${input.value}"!`);
-        }, (isURLUpdate) ? 100 : 500);
-    }else if(!media.matches){
+        }, (isURLUpdate) ? 200 : 600);
+    }else if(!window.mobileView.matches){
         container.dataset.resultsVisible = false;
     }
     // Reset search results
@@ -76,7 +74,7 @@ function updateSearch(container, input, results, resultsLoading, resultsContent)
         updateSearchBox(false, container, input, results, resultsLoading, resultsContent);
     };
     input.onkeyup = function(e){
-        if(media.matches && e.keyCode == 13){
+        if(window.mobileView.matches && e.keyCode == 13){
             input.blur();
         }
     };
@@ -85,22 +83,22 @@ function updateSearch(container, input, results, resultsLoading, resultsContent)
     input.onblur = function(){
         // For some reason, the code breaks without the timeout function!
         setTimeout(function(){
-            if(!media.matches && document.activeElement != results){
+            if(!window.mobileView.matches && document.activeElement != results){
                 container.dataset.resultsVisible = false;
             }
         }, 0);
     };
     input.onfocus = function(){
-        if(input.value.replace(/\s/g, "") != "" || media.matches){
+        if(input.value.replace(/\s/g, "") != "" || window.mobileView.matches){
             container.dataset.resultsVisible = true;
-            if(media.matches && location.hash.substring(0, 7) != "#search"){
+            if(window.mobileView.matches && location.hash.substring(0, 7) != "#search"){
                 location.hash = "#search";
             }
         }
     };
     results.onblur = function(){
         setTimeout(function(){
-            if(!media.matches && document.activeElement != input){
+            if(!window.mobileView.matches && document.activeElement != input){
                 container.dataset.resultsVisible = false;
             }
         }, 0);

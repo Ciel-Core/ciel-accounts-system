@@ -56,14 +56,17 @@ function loopList(array, callback, navigate){
 
 // Wait for elements to be defined!
 // This is needed in case the user reloads the page and the content needs a bit more time to load!
+let loadStart = undefined;
 function waitForElement(elm, callback){
-    let element = elm();
-    if(element == undefined){
-        setTimeout(function(){
-            waitForElement(elm, callback);
-        }, 100);
-    }else{
-        callback(element);
+    if((new Date()) - loadStart < 15000){
+        let element = elm();
+        if(element == undefined){
+            setTimeout(function(){
+                waitForElement(elm, callback);
+            }, 150);
+        }else{
+            callback(element);
+        }
     }
 }
 
@@ -75,6 +78,8 @@ export function landingCheck(){
     let searchHash = false;
 
     createEffect(() => {
+
+        loadStart = new Date();
 
         // log(`Updating user state: ${isUpdatingUserState()}\nUser signed in: ${isSignedIn()}`);
 
@@ -128,6 +133,28 @@ export function landingCheck(){
                 });
             }else{
                 searchHash = false;
+            }
+
+            // Hide help button in the help section
+            if(location.pathname.substring(0, 5) == "/help"){
+                waitForElement(() => document.getElementById("help-icon"), function(helpIcon){
+                    helpIcon.setAttribute("disabled", "");
+                })
+            }else{
+                waitForElement(() => document.getElementById("help-icon"), function(helpIcon){
+                    helpIcon.removeAttribute("disabled");
+                })
+            }
+
+            // Hide alerts button in the notifications page
+            if(location.pathname.substring(0, 14) == "/notifications"){
+                waitForElement(() => document.getElementById("alerts-icon"), function(alertsIcon){
+                    alertsIcon.setAttribute("disabled", "");
+                })
+            }else{
+                waitForElement(() => document.getElementById("alerts-icon"), function(alertsIcon){
+                    alertsIcon.removeAttribute("disabled");
+                })
             }
 
             log(location.pathname);

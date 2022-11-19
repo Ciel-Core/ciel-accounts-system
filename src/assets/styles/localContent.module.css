@@ -16,7 +16,8 @@
 
 @media (pointer:none),
 (pointer:coarse),
-screen and (max-width: 500px) {
+screen and (max-width: 500px),
+screen and (max-height: 450px) {
     .localcontent {
         max-width: 100%;
         margin: 0px;
@@ -37,6 +38,10 @@ screen and (max-width: 500px) {
 
 .localcontent[data-show-content=true] {
     flex-grow: 1;
+    opacity: 1;
+}
+
+.localcontent[data-show-content=true][data-view-mode=full] {
     animation-name: showContent;
     animation-duration: 0.8s;
     animation-timing-function: cubic-bezier(.37, 0, 0, .99);
@@ -46,7 +51,11 @@ screen and (max-width: 500px) {
     transition-duration: 0.5s;
     transition-delay: 1.1s;
     transition-timing-function: linear;
-    opacity: 1;
+}
+
+.localcontent[data-show-content=true]:not([data-view-mode=full]) {
+    max-height: unset;
+    overflow: visible;
 }
 
 .localcontent[data-processing=true] .container {

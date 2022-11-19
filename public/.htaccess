@@ -33,5 +33,5 @@ RewriteRule .* /index.html [L,NC]
     # Strict-Transport-Security
 	Header always set Strict-Transport-Security "max-age=63072000; includeSubDomains"
     # Content-Security-Policy
-	Header set Content-Security-Policy "default-src 'self' 'unsafe-inline'; worker-src 'self'; child-src 'none'; object-src 'none'"
+	Header set Content-Security-Policy "default-src 'self' 'unsafe-inline'; worker-src 'self'; child-src 'none'; object-src 'none'; frame-src 'self';"
 </IfModule>

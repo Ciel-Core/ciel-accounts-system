@@ -55,6 +55,11 @@
             };
             history.pushState = _hEv('pushState'), history.replaceState = _hEv('replaceState');
         }
+        /* Add mobile CSS detection media query to window object */
+        {
+            window.mobileView =
+                window.matchMedia('(pointer:none), (pointer:coarse), screen and (max-width: 500px), screen and (max-height: 450px)');
+        }
     </script>
 
     <!--<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; child-src 'none';">-->
@@ -124,7 +129,7 @@
         
         body {
             --globalbar--height: 120px;
-            --globalfooter--height: 24px;
+            --globalfooter--height: 35px;
             --page-margin: 60px;
             margin: 0px;
             padding: var(--page-margin);
@@ -137,7 +142,8 @@
         
         @media (pointer:none),
         (pointer:coarse),
-        screen and (max-width: 500px) {
+        screen and (max-width: 500px),
+        screen and (max-height: 450px) {
             body {
                 --page-margin: 24px;
             }
