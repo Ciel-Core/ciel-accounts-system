@@ -380,7 +380,7 @@ input[type=number]::-webkit-outer-spin-button {
 
 @media (pointer:none),
 (pointer:coarse),
-screen and (max-width: 500px),
+screen and (max-width: 920px),
 screen and (max-height: 450px) {
     .flexContainer {
         margin: 18px 0px;
@@ -770,7 +770,7 @@ screen and (max-height: 450px) {
 
 @media (pointer:none),
 (pointer:coarse),
-screen and (max-width: 500px),
+screen and (max-width: 920px),
 screen and (max-height: 450px) {
     .searchBoxContainer[data-results-visible=true]:before {
         content: "";

@@ -16,7 +16,7 @@
 
 @media (pointer:none),
 (pointer:coarse),
-screen and (max-width: 500px),
+screen and (max-width: 920px),
 screen and (max-height: 450px) {
     .localcontent {
         max-width: 100%;
