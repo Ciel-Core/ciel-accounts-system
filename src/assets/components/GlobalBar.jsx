@@ -4,9 +4,10 @@
  * 
  **/
 
+import styles from './../styles/globalBar.module.css';
+ 
 import { createSignal, onCleanup, onMount } from "solid-js";
 import { isSignedIn, signOut } from "./../scripts/user.jsx";
-import styles from './../styles/globalBar.module.css';
 import LoadingSpinner from './LoadingSpinner.jsx';
 
 import SignOutIcon from './../icons/sign_out.svg';
