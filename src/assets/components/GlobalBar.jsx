@@ -17,33 +17,37 @@ import BackArrowIcon from './../icons/arrow_back.svg';
 import { render } from "solid-js/web";
 import { useNavigate } from "@solidjs/router";
 
-function UserProfile(props){
-    const [showImage, setShowImage] = createSignal(false);
-    return (
-        <div class={styles.userprofile} unselectable>
-            <LoadingSpinner style={{display: !showImage() ? null : 'none'}}/>
-            <img alt={"Profile Icon"} draggable={false} class={styles.userProfileImage} width={70} height={70} style={{display: showImage() ? null : 'none'}} onLoad={function(e){ setShowImage(true); props.report(); }} src={props.picture}/>
-        </div>
-    );
-}
-
 function showNavContent(navigate, pathname, container, spinner, mainTimeout, bar){
     if(!window.mobileView.matches){
+        // Show dialog above global bar
         bar.dataset.prioritize = true;
         container.dataset.show = true;
+        // Cancel loading process if user clicks anywhere again
+        document.body.onclick = function(){
+            document.body.onclick = undefined;
+            clearTimeout(mainTimeout[0]);
+            bar.dataset.prioritize = false;
+            container.dataset.show = false;
+        };
         clearTimeout(mainTimeout[0]);
+        // Cooldown the loading process to prevent server-overload
         mainTimeout[0] = setTimeout(function(){
+            document.body.onclick = undefined;
+            // Render the iframe
             render(() =>{
                 let iframe,
                     timeout;
                 onMount(() => {
+                    // Focus iframe
                     iframe.contentWindow.focus();
+                    // Wait for the signal from the iframe
                     window.contentLoaded = function(){
                         spinner.style.display = "none";
                         iframe.dataset.loaded = true;
                         window.contentLoaded = undefined;
                     };
-                    document.body.onfocus = () => {
+                    // Remove iframe when the body is focused
+                    document.body.onfocus = function(){
                         bar.dataset.prioritize = false;
                         iframe.remove();
                         container.dataset.show = false;
@@ -100,6 +104,16 @@ function RightControls(props){
                 <LoadingSpinner ref={alertsLoadingSpinner} style={{margin: "60px"}} />
             </div>
             <SignOutIcon onClick={signOut} unselectable/>
+        </div>
+    );
+}
+
+function UserProfile(props){
+    const [showImage, setShowImage] = createSignal(false);
+    return (
+        <div class={styles.userprofile} unselectable>
+            <LoadingSpinner style={{display: !showImage() ? null : 'none'}}/>
+            <img alt={"Profile Icon"} draggable={false} class={styles.userProfileImage} width={70} height={70} style={{display: showImage() ? null : 'none'}} onLoad={function(e){ setShowImage(true); props.report(); }} src={props.picture}/>
         </div>
     );
 }
