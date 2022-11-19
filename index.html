@@ -23,6 +23,8 @@
         {
             if (location.hash == "#standalone") {
                 document.documentElement.dataset.displayMode = "standalone";
+            } else if (location.hash == "#in-frame") {
+                document.documentElement.dataset.displayMode = "frame";
             } else {
                 try {
                     let matchMedia = window.matchMedia('(display-mode: standalone)');
