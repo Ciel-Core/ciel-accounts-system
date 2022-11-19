@@ -29,26 +29,32 @@ StructuredMessage.parse = function(string){
 };
 
 // Open socket connection
-// NOTE: only allow one active socket at a time!
-// NOTE: make sure to share the socket object with iframes
+// NOTE 1: only allow one active socket at a time!
+// NOTE 2: make sure to share the socket object with iframes
+// NOTE 3: there is no need to secure the connection for now
 let socket = undefined;
 window.activeWebSocket = undefined;
-export function openSocket(pathname = "/"){
-    if(parent.activeWebSocket != undefined && parent.activeWebSocket.url == `wss://${location.host}${pathname}`){
+export function openSocket(callback){
+    if(parent.activeWebSocket != undefined && parent.activeWebSocket.url == `ws://${location.host}:81`){
         socket = parent.activeWebSocket;
         window.activeWebSocket = socket;
     }else if(socket == undefined && parent.activeWebSocket == undefined){
-        socket = new WebSocket(`wss://${location.host}}${pathname}`);
+        log("Socket", "Attempting to open connection...");
+        socket = new WebSocket(`ws://${location.host}:81`);
         window.activeWebSocket = socket;
 
         socket.onopen = function(e){
             log("Socket", "connection open");
+            callback(true);
         };
 
         socket.onmessage = function(event){
             log("Socket", `Data received from server!`, event.data);
             let message = StructuredMessage.parse(event.data);
-            channelsCallbacks[channel].forEach(callback => callback(message));
+            log("Socket", `Data processed!`, message);
+            if(channelsCallbacks[message.channel] != undefined){
+                channelsCallbacks[message.channel].forEach(callback => callback(message));
+            }
         };
 
         socket.onclose = function(event){
@@ -63,9 +69,22 @@ export function openSocket(pathname = "/"){
 
         socket.onerror = function(error) {
             log("Socket", error);
+            callback(false);
         };
     }else{
         throwError(new Error("Can't open more than one socket at a time!"));
+    }
+}
+
+// Close socket
+export function closeSocket(){
+    if(socket != undefined){
+        socket.close();
+        socket = undefined;
+    }
+    if(window.activeWebSocket != undefined){
+        window.activeWebSocket.close();
+        window.activeWebSocket = undefined;
     }
 }
 

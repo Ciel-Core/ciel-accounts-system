@@ -8,6 +8,7 @@ import { createSignal } from "solid-js";
 import { showDialog } from "./../components/Dialog.jsx";
 import { signOutPOST, userDataPOST } from "./communication/accounts.jsx";
 import { afterURLChange } from "./traffic.jsx";
+import { openSocket } from "./communication/sockets.jsx";
 
 // user data module (default data)
 function defaultUserProfile(){
@@ -49,6 +50,14 @@ function convertUserData(userData){
 }
 
 export function updateUserState(callback = undefined, expectURLChange = false){
+    // Share user data with iframes!
+    if(window.sharedUserData != undefined){
+        setUserData(window.sharedUserData);
+        setSignedIn(window.sharedUserState);
+        if(typeof callback == "function"){
+            callback();
+        }
+    }else{
     // Disable page interactions (only when callback is defined)
     let localContent = document.getElementById("local-content"),
         globalBar = document.getElementById("global-bar"),
@@ -65,7 +74,14 @@ export function updateUserState(callback = undefined, expectURLChange = false){
         if(isSuccessful){
             // Set user state to signed in and add the user's profile
             setUserData(convertUserData(data));
-            setSignedIn(true);
+            setSignedIn(true);    
+
+            // Open a WebSocket to keep communicating with the server
+            openSocket(function(success){
+                if(!success){
+                    showDialog("Warning!", "We can't sync your data on this device!");
+                }
+            });
         }else{
             // Set user state to signed out and switch to the default profile
             setUserData(defaultUserProfile());
@@ -87,6 +103,7 @@ export function updateUserState(callback = undefined, expectURLChange = false){
             setUUS(false);
         }
     });
+    }
 }
 
 export function signOut(){

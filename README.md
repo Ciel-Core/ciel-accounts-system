@@ -144,6 +144,10 @@ Use the `npm run dev-build` command, and host the output inside the `dist` folde
 
 You can deploy the `dist` folder to any static host provider (netlify, surge, now, etc.)
 
+> Must enable php_sockets extension (add `extension=php_sockets.dll` to `php.ini`)
+>
+> Run the command `C:\xampp1\php\php.exe -q socket.php` before trying the website
+
 ## License
 
 [

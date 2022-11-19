@@ -7,7 +7,7 @@
 import styles from './../styles/globalBar.module.css';
  
 import { createSignal, onCleanup, onMount } from "solid-js";
-import { isSignedIn, signOut } from "./../scripts/user.jsx";
+import { isSignedIn, signOut, userData } from "./../scripts/user.jsx";
 import LoadingSpinner from './LoadingSpinner.jsx';
 
 import SignOutIcon from './../icons/sign_out.svg';
@@ -41,6 +41,8 @@ function showNavContent(navigate, pathname, container, spinner, mainTimeout, bar
                 onMount(() => {
                     // Focus iframe
                     iframe.contentWindow.focus();
+                    iframe.contentWindow.sharedUserData = userData();
+                    iframe.contentWindow.sharedUserState = isSignedIn();        
                     // Wait for the signal from the iframe
                     window.contentLoaded = function(){
                         spinner.style.display = "none";
