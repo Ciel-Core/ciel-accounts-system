@@ -18,7 +18,8 @@ function FooterLink(props){
 function GlobalFooter(props){
     let navigate = useNavigate();
     return (
-        <div id="global-footer" class={styles.globalfooter} data-show-content={props.showContent}>
+        <div id="global-footer" class={styles.globalfooter} data-show-content={props.showContent}
+                unselectable>
             <FooterLink href={"/about/legal"}>Legal</FooterLink>
             <FooterLink href={"/about/services"}>Services</FooterLink>
             <InfoIcon class={styles.icon} onClick={() => showDialog("About Ciel", (<FlexContainer horizontal>

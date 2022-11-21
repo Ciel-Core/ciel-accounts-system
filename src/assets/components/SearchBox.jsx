@@ -82,7 +82,7 @@ function updateSearch(container, input, results, resultsLoading, resultsContent)
     container.hideResults = function(){
         container.dataset.resultsVisible = false;
         resultsLoading.style.display = "none";
-        resultsContent.style.display = "none";
+        resultsContent.style.display = null;
     };
 
     // Manage other interactions
