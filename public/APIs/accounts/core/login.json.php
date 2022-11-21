@@ -16,7 +16,15 @@ require './../../tools/sql.login.php';
 // Get client info
 require './../../tools/client.info.php';
 
+// Start a session
+session_start();
+
 if(!(CLIENT_isSessionValid())){
+    // Remove registered Auth UID
+    if(isset($_SESSION["AUTH_UID"])){
+        $_SESSION["AUTH_UID"] = NULL;
+        unset($_SESSION["AUTH_UID"]);
+    }
     // Validate extra data
     if($INPUT_DATA->timezoneOffset > 32767 || $INPUT_DATA->timezoneOffset < -32768){
         $RESPONSE_SUCCESS_STATUS = false;
@@ -27,12 +35,10 @@ if(!(CLIENT_isSessionValid())){
         $result = signInStage1($INPUT_DATA);
         if($result->validUser){
             if($result->require2FA){
-                // Start a session
-                session_start();
                 $_SESSION["AUTH_UID"] = $result->UID;
-                $RESPONSE_SUCCESS_STATUS = false;
-                $RESPONSE_TEXT = "Backend does not support 2FA yet!";
-                $RESPONSE_CODE = TEMPORARY;
+                // $RESPONSE_SUCCESS_STATUS = false;
+                // $RESPONSE_TEXT = "Backend does not support 2FA yet!";
+                // $RESPONSE_CODE = TEMPORARY;
             }else{
                 // The user is good to go, initialise a new session!
                 require_once './../../tools/sql.sessions.php';
