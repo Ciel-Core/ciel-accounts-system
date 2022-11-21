@@ -76,12 +76,14 @@ export function updateUserState(callback = undefined, expectURLChange = false){
             setUserData(convertUserData(data));
             setSignedIn(true);    
 
-            // Open a WebSocket to keep communicating with the server
+            // Open a WebSocket to keep communicating with the server and wait for any updates
+            /*
             openSocket(function(success){
                 if(!success){
                     showDialog("Warning!", "We can't sync your data on this device!");
                 }
             });
+            */
         }else{
             // Set user state to signed out and switch to the default profile
             setUserData(defaultUserProfile());
