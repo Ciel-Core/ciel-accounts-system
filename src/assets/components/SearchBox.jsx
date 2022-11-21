@@ -79,12 +79,18 @@ function updateSearch(container, input, results, resultsLoading, resultsContent)
         }
     };
 
+    container.hideResults = function(){
+        container.dataset.resultsVisible = false;
+        resultsLoading.style.display = "none";
+        resultsContent.style.display = "none";
+    };
+
     // Manage other interactions
     input.onblur = function(){
         // For some reason, the code breaks without the timeout function!
         setTimeout(function(){
             if(!window.mobileView.matches && document.activeElement != results){
-                container.dataset.resultsVisible = false;
+                container.hideResults();
             }
         }, 0);
     };
@@ -99,7 +105,7 @@ function updateSearch(container, input, results, resultsLoading, resultsContent)
     results.onblur = function(){
         setTimeout(function(){
             if(!window.mobileView.matches && document.activeElement != input){
-                container.dataset.resultsVisible = false;
+                container.hideResults();
             }
         }, 0);
     };

@@ -125,7 +125,7 @@ export function landingCheck(){
             if(searchHash && location.hash.substring(0, 7) != "#search"){
                 blockElmWait = true;
                 waitForElement(() => document.getElementById("searchBox"), function(searchBox){
-                    searchBox.dataset.resultsVisible = false;
+                    searchBox.hideResults();
                     if(searchBox.children[2] instanceof HTMLElement &&
                         typeof searchBox.children[2].setValue == "function"){
                         searchBox.children[2].setValue("");
