@@ -116,7 +116,7 @@ export default function RegisterPersonalInfo(props){
                             <option value={0}>they/them</option>
                 </Select>
             </InputFieldsContainer>
-            <Notice>Make sure to use your real date of birth. You can create a Ciel account as long as you are 13+ years old! (access to external services will be limited depending on your age)</Notice>
+            <Notice>Make sure to use your real date of birth. You can create a {import.meta.env.VITE_NAME} account as long as you are 13+ years old! (access to external services will be limited depending on your age)</Notice>
             <ButtonsContainer>
                 <Button type={"action"} function={function(){history.back()}}>Go back</Button>
                 <Button ref={nextButton} type={"action"} function={function(){
@@ -163,7 +163,7 @@ export default function RegisterPersonalInfo(props){
                             let ageInMilliseconds = new Date() - new Date(`${bYearInput.value}-${bMonthInput.value}-${bDayInput.value}`),
                                 ageInYears = Math.floor(ageInMilliseconds/1000/60/60/24/365);
                             if(ageInYears < 13){
-                                showDialog("Cannot create an account!", "You cannot use Ciel or any of its affiliated services when you're under the age of 13.", [
+                                showDialog("Cannot create an account!", `You cannot use ${import.meta.env.VITE_NAME} or any of its affiliated services when you're under the age of 13.`, [
                                     ["Ok", function(dialog, remove){
                                         setInputState(bYear, false, "");
                                         remove();

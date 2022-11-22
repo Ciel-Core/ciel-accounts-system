@@ -42,7 +42,7 @@ export function createPublicKey(username, callback){
                     publicKey: {
                         challenge: Uint8Array.from(challengeKey, c => c.charCodeAt(0)),
                         rp: {
-                            name: window.websiteName,
+                            name: import.meta.env.VITE_NAME,
                             id: location.hostname
                         },
                         user: {

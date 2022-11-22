@@ -101,11 +101,11 @@ export default function RegisterReview(props){
                 })()}</ReviewItem>
                 <ReviewItem title={"Activity History"}>{(function(){
                     if(registerData.quickSettings.activity == 1){
-                        return "Ciel, Affiliated, and third-party";
+                        return `${import.meta.env.VITE_NAME}, Affiliated, and third-party`;
                     }else if(registerData.quickSettings.activity == 2){
-                        return "Ciel & Affiliated";
+                        return `${import.meta.env.VITE_NAME} & Affiliated`;
                     }else if(registerData.quickSettings.activity == 3){
-                        return "Only Ciel";
+                        return `Only ${import.meta.env.VITE_NAME}`;
                     }
                     // 1 - Ciel.affiliated.third-party, 2 - Ciel.affiliated, 3 - Ciel
                     return null;
@@ -141,7 +141,7 @@ export default function RegisterReview(props){
                                                 remove();
                                             }]]);
                                         }else{
-                                            showDialog("Error!", "We couldn't create your Ciel account! Please try again at a later time.");
+                                            showDialog("Error!", `We couldn't create your ${import.meta.env.VITE_NAME} account! Please try again at a later time.`);
                                         }
                                     });
                                     //showDialog("Unavailable!", "The accounts system infrastructure is not ready yet!");

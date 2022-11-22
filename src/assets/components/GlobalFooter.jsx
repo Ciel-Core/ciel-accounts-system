@@ -22,7 +22,7 @@ function GlobalFooter(props){
                 unselectable>
             <FooterLink href={"/about/legal"}>Legal</FooterLink>
             <FooterLink href={"/about/services"}>Services</FooterLink>
-            <InfoIcon class={styles.icon} onClick={() => showDialog("About Ciel", (<FlexContainer horizontal>
+            <InfoIcon class={styles.icon} onClick={() => showDialog(`About ${import.meta.env.VITE_NAME}`, (<FlexContainer horizontal>
                 <h4>Version 0.00.00 (beta)</h4>
                 <a>LICENSES</a>
             </FlexContainer>))}/>

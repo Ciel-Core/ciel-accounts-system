@@ -57,17 +57,17 @@ export default function RegisterAgreement(props){
         <Title>Sign Up</Title>
         <h1>User agreement</h1>
         <br/>
-        <h3>To create a <Mark>Ciel account</Mark> and use all related services you must <Mark>agree</Mark> to the following:</h3>
+        <h3>To create a <Mark>{import.meta.env.VITE_NAME} account</Mark> and use all related services you must <Mark>agree</Mark> to the following:</h3>
         <FlexContainer space={"around"} style={{width: "400px"}}>
             <InputFieldsContainer>
                 {/* https://www.freeprivacypolicy.com/free-privacy-policy-generator/ */}
                 <AgreementItem link={0} title={"Terms and Conditions"} icon={<PaperIcon/>}/>
                 <AgreementItem link={0} title={"Privacy Policy"} icon={<PaperIcon/>}/>
                 <AgreementItem link={0} title={"Disclaimer"} icon={<PaperIcon/>}/>
-                <AgreementItem link={0} title={"Cookies Policy"} icon={<PaperIcon/>} description={"Applies to the Ciel website and all login/permission prompts."}/>
-                <AgreementItem link={0} title={"End-user license agreement (EULA)"} icon={<PaperIcon/>} description={"Applies when using software created by, or officially affiliated with, Ciel."}/>
-                <AgreementItem title={"Cookie Consent"} icon={<InfoIcon/>} description={"Ciel requires the use of cookies in order to function as intended. We use cookies to keep track of your ongoing sessions, analyse our website's traffic, and understand where our visitors are coming from. By using any of our services, you consent to us using cookies."}/>
-                <AgreementItem title={"Notice"} icon={<InfoIcon/>} description={"Ciel and all of its officially affiliated services are a part of an open beta. Once this beta ends, all the collected data across the aforementioned services will be deleted permanently. This means you will lose access to all of your data and third-party services connected to your Ciel account once the open beta ends. (You will be notified of the end of the open beta 14 days in advance)"}/>
+                <AgreementItem link={0} title={"Cookies Policy"} icon={<PaperIcon/>} description={`Applies to the ${import.meta.env.VITE_NAME} website and all login/permission prompts.`}/>
+                <AgreementItem link={0} title={"End-user license agreement (EULA)"} icon={<PaperIcon/>} description={`Applies when using software created by, or officially affiliated with, ${import.meta.env.VITE_NAME}.`}/>
+                <AgreementItem title={"Cookie Consent"} icon={<InfoIcon/>} description={`${import.meta.env.VITE_NAME} requires the use of cookies in order to function as intended. We use cookies to keep track of your ongoing sessions, analyse our website's traffic, and understand where our visitors are coming from. By using any of our services, you consent to us using cookies.`}/>
+                <AgreementItem title={"Notice"} icon={<InfoIcon/>} description={`${import.meta.env.VITE_NAME} and all of its officially affiliated services are a part of an open beta. Once this beta ends, all the collected data across the aforementioned services will be deleted permanently. This means you will lose access to all of your data and third-party services connected to your ${import.meta.env.VITE_NAME} account once the open beta ends. (You will be notified of the end of the open beta 14 days in advance)`}/>
                 <AgreementItem title={"Notice"} icon={<InfoIcon/>} description={"This is an experimental project. We do NOT hold responsibility for any data loss, data leaks, or any misuse of this service at the hand of third-party developers."}/>
             </InputFieldsContainer>
             <Notice>Note that all of the provided legal content above could change at any time. You will be notified one month prior to any change.</Notice>
