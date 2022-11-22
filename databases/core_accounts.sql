@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 11, 2022 at 04:03 PM
+-- Generation Time: Nov 22, 2022 at 11:13 AM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -69,15 +69,17 @@ CREATE TABLE `security` (
   `SecurityQuestionAns1` tinytext NOT NULL,
   `SecurityQuestionAns2` tinytext NOT NULL,
   `SecurityQuestionAns3` tinytext NOT NULL,
-  `Require2FA` tinyint(1) UNSIGNED NOT NULL DEFAULT 0
+  `Require2FA` tinyint(1) UNSIGNED NOT NULL DEFAULT 0,
+  `FailedLoginAttempts` tinyint(3) UNSIGNED NOT NULL DEFAULT 0,
+  `LoginCooldownTimeout` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `security`
 --
 
-INSERT INTO `security` (`UID`, `SecurityQuestion1`, `SecurityQuestion2`, `SecurityQuestion3`, `SecurityQuestionAns1`, `SecurityQuestionAns2`, `SecurityQuestionAns3`, `Require2FA`) VALUES
-(10000000000, 1, 1, 1, '~answer~', '~answer~', '~answer~', 0);
+INSERT INTO `security` (`UID`, `SecurityQuestion1`, `SecurityQuestion2`, `SecurityQuestion3`, `SecurityQuestionAns1`, `SecurityQuestionAns2`, `SecurityQuestionAns3`, `Require2FA`, `FailedLoginAttempts`, `LoginCooldownTimeout`) VALUES
+(10000000000, 1, 1, 1, '~answer~', '~answer~', '~answer~', 0, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -193,10 +195,10 @@ ALTER TABLE `users`
 
 --
 -- AUTO_INCREMENT for table `users`
--- (UID 10000000000-10000000099 reserved for system accounts)
+-- (UID 10000000000-10000009999 reserved for system accounts)
 --
 ALTER TABLE `users`
-  MODIFY `UID` bigint(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10000000100;
+  MODIFY `UID` bigint(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10000010000;
 
 --
 -- Constraints for dumped tables
