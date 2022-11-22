@@ -19,7 +19,7 @@ import WidgetIcon from './../../assets/icons/widget.svg';
 
 function ChallengeOption(props){
     return (
-        <Button light class={style.challengeOptionButton} type={"action"}
+        <Button light class={style.challengeOptionButton} type={"link"}
                 icon={props.icon} {...props}
                 function={props.action}>
             {props.children}
@@ -61,11 +61,11 @@ export default function Challenge(props){
         <br/>
         <h3>For your safety please <Mark>verify your identity</Mark> further using one of the following methods:</h3>
         <FlexContainer style={{width: "400px"}}>
-            <SecurityKey disabled/>
-            <AppPrompt/>
-            <OfflineAppCode/>
-            <BackupCodes/>
-            <AuthApp name={"[App_Name]"}/>
+            <SecurityKey href={"/user/challenge/key"} disabled />
+            <AppPrompt  href={"/user/challenge/app-prompt"} />
+            <OfflineAppCode href={"/user/challenge/app-code"} />
+            <BackupCodes href={"/user/challenge/backup"} />
+            <AuthApp name={"[App_Name]"} href={"/user/challenge/auth-app/#id"} />
             {/*<AuthApp name={"[App_Name_2]"}/>
             <AuthApp name={"[App_Name_3]"}/>
             <AuthApp name={"[App_Name_4]"}/>

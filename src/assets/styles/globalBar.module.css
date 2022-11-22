@@ -14,6 +14,10 @@
     justify-content: center;
 }
 
+.globalbar[data-prioritize=true] {
+    z-index: 5;
+}
+
 .globalbar[disabled] {
     opacity: 1;
 }
@@ -114,6 +118,7 @@
 .globalbar .rightControls,
 .globalbar .leftControls {
     opacity: 0;
+    z-index: 1;
     animation-name: fadeIn;
     animation-duration: 0.2s;
     animation-timing-function: ease-in-out;
@@ -222,4 +227,64 @@
 .globalbar[data-processing=true] .rightControls {
     opacity: 0.4 !important;
     pointer-events: none !important;
+}
+
+.globalbar .helpContainer,
+.globalbar .alertsContainer {
+    display: none;
+    position: absolute;
+    z-index: 50;
+    top: 60px;
+    left: 0px;
+    background-color: var(--main-background);
+    box-shadow: 0px 2px 2px var(--background-blend);
+    border: solid 2px var(--background-blend);
+    border-radius: 10px;
+    width: 350px;
+    height: fit-content;
+    max-height: 450px;
+    min-height: 172px;
+    overflow: hidden;
+    animation-name: fadeInBox;
+    animation-timing-function: ease-out;
+    animation-duration: 0.12s;
+    justify-content: center;
+    align-items: center;
+}
+
+.globalbar .alertsContainer {
+    left: unset;
+    right: 0px;
+}
+
+.globalbar .helpContainer iframe,
+.globalbar .alertsContainer iframe {
+    border: none;
+    width: -moz-available;
+    width: -webkit-fill-available;
+    width: fill-available;
+    height: -moz-available;
+    height: -webkit-fill-available;
+    height: fill-available;
+}
+
+.globalbar .helpContainer iframe:not([data-loaded=true]),
+.globalbar .alertsContainer iframe:not([data-loaded=true]) {
+    display: none;
+}
+
+.globalbar .helpContainer[data-show=true],
+.globalbar .alertsContainer[data-show=true] {
+    display: flex;
+}
+
+@keyframes fadeInBox {
+    from {
+        top: 55px;
+        opacity: 0;
+    }
+    to {
+        top: 60px;
+        opacity: 1;
+    }
 }

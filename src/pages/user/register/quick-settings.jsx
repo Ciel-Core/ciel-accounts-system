@@ -84,7 +84,7 @@ export default function RegisterQuickSettings(props){
         <FlexContainer space={"around"} style={{width: "400px"}}>
             <InputFieldsContainer>
                 <SectionTitle>Privacy</SectionTitle>
-                <QuickSetting title={"Public profile"} description={"All Ciel users have a public Ciel profile. Ciel profiles include basic public information like the user's profile picture, username, and registration date. Rich profiles can include more data!<br><br>(Note that some of your information might be public on third-party services, no matter the status of your public profile)"}>
+                <QuickSetting title={"Public profile"} description={`All ${import.meta.env.VITE_NAME} users have a public ${import.meta.env.VITE_NAME} profile. ${import.meta.env.VITE_NAME} profiles include basic public information like the user's profile picture, username, and registration date. Rich profiles can include more data!<br><br>(Note that some of your information might be public on third-party services, no matter the status of your public profile)`}>
                     <QuickOption id={"profile-1"} name={"profile"} value={1} checked>Show profile with rich data</QuickOption>
                     <QuickOption id={"profile-2"} name={"profile"} value={2}>Show profile with limited data</QuickOption>
                     <QuickOption id={"profile-3"} name={"profile"} value={3}>Hide profile</QuickOption>
@@ -93,15 +93,15 @@ export default function RegisterQuickSettings(props){
                 <QuickSetting title={"Activity history"} description={
                     `The activity history can only be accessed by the owner of this account. It cannot be shared with any of your connected third-party services or any external servers.<br/><br/>
                     There are three types of activity records:<br/>
-                    ${recordOption()} Ciel records: your login activity, settings modifications, new connections, and other similar information.<br/>
-                    ${recordOption()} Ciel-affiliated services records: data from Ciel-affiliated official services. (e.g. 0x0C services)<br/>
+                    ${recordOption()} ${import.meta.env.VITE_NAME} records: your login activity, settings modifications, new connections, and other similar information.<br/>
+                    ${recordOption()} ${import.meta.env.VITE_NAME}-affiliated services records: data from ${import.meta.env.VITE_NAME}-affiliated official services. (e.g. 0x0C services)<br/>
                     ${recordOption()} Third-party records: data from your connected third-party services. (You can review and modify the reported data on your first connection to each third-party service)`}>
-                    <QuickOption id={"activity-1"} name={"activity"} value={1} checked>Collect data from Ciel, its official affiliated services, and connected third-party services</QuickOption>
-                    <QuickOption id={"activity-2"} name={"activity"} value={2}>Collect data from Ciel and its official affiliated services</QuickOption>
-                    <QuickOption id={"activity-3"} name={"activity"} value={3}>Collect data only from the Ciel service</QuickOption>
+                    <QuickOption id={"activity-1"} name={"activity"} value={1} checked>Collect data from {import.meta.env.VITE_NAME}, its official affiliated services, and connected third-party services</QuickOption>
+                    <QuickOption id={"activity-2"} name={"activity"} value={2}>Collect data from {import.meta.env.VITE_NAME} and its official affiliated services</QuickOption>
+                    <QuickOption id={"activity-3"} name={"activity"} value={3}>Collect data only from the {import.meta.env.VITE_NAME} service</QuickOption>
                 </QuickSetting>
                 <SectionDivider/>
-                <QuickSetting title={"Location data"} description={"Your location data can help us keep your Ciel account secure. Location data can help us keep track of your login activity better and make it hard for people to impersonate you."}>
+                <QuickSetting title={"Location data"} description={`Your location data can help us keep your ${import.meta.env.VITE_NAME} account secure. Location data can help us keep track of your login activity better and make it hard for people to impersonate you.`}>
                     <QuickOption id={"location-1"} name={"location"} value={1} checked>Collect approximate location data</QuickOption>
                     <QuickOption id={"location-2"} name={"location"} value={2}>Do not collect location data</QuickOption>
                 </QuickSetting>

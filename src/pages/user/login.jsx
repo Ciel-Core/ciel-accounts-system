@@ -59,7 +59,7 @@ export default function Login(props){
         <Title>Sign In</Title>
         <h1>Sign in</h1>
         <br/>
-        <h3>Use your <Mark>Ciel account</Mark> securely!</h3>
+        <h3>Use your <Mark>{import.meta.env.VITE_NAME} account</Mark> securely!</h3>
         <FlexContainer space={"around"} style={{width: "400px"}}>
             <InputFieldsContainer>
                 <Input ref={username} id={"username"} type={"text"} label={"Username"} autocomplete={"username"}

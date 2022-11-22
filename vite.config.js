@@ -14,7 +14,7 @@ export default defineConfig({
             },
             manifest: {
                 name: 'MyPWA',
-                short_name: 'MyPWA',
+                short_name: 'aPWA',
                 description: 'My PWA for you!',
                 theme_color: '#c90c3b',
                 icons: [{

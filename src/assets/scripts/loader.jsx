@@ -4,6 +4,8 @@
  * 
  **/
 
+window.makeRequest = makeRequest;
+
 export function makeRequest(url, callback){
     let request = new XMLHttpRequest();
     request.open('GET', url);

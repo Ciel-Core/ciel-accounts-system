@@ -23,6 +23,8 @@
         {
             if (location.hash == "#standalone") {
                 document.documentElement.dataset.displayMode = "standalone";
+            } else if (location.hash == "#in-frame") {
+                document.documentElement.dataset.displayMode = "frame";
             } else {
                 try {
                     let matchMedia = window.matchMedia('(display-mode: standalone)');
@@ -40,7 +42,7 @@
             window.onresize = updateVHUnit;
             updateVHUnit();
         }
-        /* Add "stateupdate" evvent */
+        /* Add "stateupdate" event */
         {
             // Source: https://stackoverflow.com/questions/5129386/how-to-detect-when-history-pushstate-and-history-replacestate-are-used
             var _hEv = function(type) {
@@ -55,15 +57,17 @@
             };
             history.pushState = _hEv('pushState'), history.replaceState = _hEv('replaceState');
         }
+        /* Add mobile CSS detection media query to window object */
+        {
+            window.mobileView =
+                window.matchMedia('(pointer:none), (pointer:coarse), screen and (max-width: 920px), screen and (max-height: 450px)');
+        }
     </script>
 
     <!--<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; child-src 'none';">-->
     <!-- NOTE: use this website to generate the favicon once an icon has been selected: https://favicon.io/favicon-converter/ -->
     <link rel="shortcut icon" type="image/ico" href="/images/favicon.ico">
     <title>Ciel</title>
-    <script type="text/javascript">
-        window.websiteName = "Ciel";
-    </script>
 
     <!-- PWA minimal data -->
     <meta name="description" content="Ciel accounts system!">
@@ -100,7 +104,7 @@
             color-scheme: dark;
             --text-color: #F7F8FA;
             --text-color-faint: #868c94;
-            --main-background: #131516;
+            --main-background: #131414;
             --accent-color: #ec3f6b;
             --accent-color-active: #c23b5d;
             --accent-color-activeO: #c23b5d57;
@@ -124,7 +128,7 @@
         
         body {
             --globalbar--height: 120px;
-            --globalfooter--height: 24px;
+            --globalfooter--height: 35px;
             --page-margin: 60px;
             margin: 0px;
             padding: var(--page-margin);
@@ -137,7 +141,8 @@
         
         @media (pointer:none),
         (pointer:coarse),
-        screen and (max-width: 500px) {
+        screen and (max-width: 920px),
+        screen and (max-height: 450px) {
             body {
                 --page-margin: 24px;
             }

@@ -1,6 +1,6 @@
 # The Ciel System (Ciel Accounts System)
 
-This is a project that aims to provide developers with an easy-to-use third-party accounts system and provide users with a secure, reliable, and private experiance with full control over their data. (online open beta - <https://ciel-sys.ml>, add ***#activate-developer-mode*** to the URL for more console logs)
+This is a project that aims to provide developers with an easy-to-use third-party accounts system and provide users with a secure, reliable, and private experiance with full control over their data. (online open beta - <https://ciel-core.online>, add ***#activate-developer-mode*** to the URL for more console logs)
 
 ## Planned conditions for websites implimination
 
@@ -20,6 +20,7 @@ This is a project that aims to provide developers with an easy-to-use third-part
 - [x] Add a sign up page (fully complete)
 - [ ] Add a control panel (Home page)
 - [ ] Add an "about" section
+- [ ] Add a "help" section
 - [ ] Add an activity tracking system (Must be completely controlable by the user)
 - [ ] Make a library/API for developers
   - [ ] Tracking functions
@@ -140,9 +141,17 @@ Use the `npm run dev-build` command, and host the output inside the `dist` folde
 
 ![core_account](./github/images/core_accounts_db.png)
 
+> Read-and-write user privileges: **all**
+> Read-only user privileges: `INDEX`, `SELECT`, `SHOW VIEW`
+> Write-only privileges: all (IDK...)
+
 ## Deployment
 
 You can deploy the `dist` folder to any static host provider (netlify, surge, now, etc.)
+
+> Must enable php_sockets extension (add `extension=php_sockets.dll` to `php.ini`)
+>
+> Run the command `C:\xampp1\php\php.exe -q socket.php` before trying the website
 
 ## License
 

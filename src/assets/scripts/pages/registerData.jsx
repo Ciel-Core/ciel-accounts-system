@@ -78,7 +78,7 @@ export var dataOrder = {
 }, dataSectionsN = Object.keys(dataOrder).length;
 
 export function checkDataByOrder(section, callback){
-    log(registerData);
+    log("Data Check", registerData);
     if(section < 1 || section > dataSectionsN){
         throw new Error("Incorrect section ID!");
     }

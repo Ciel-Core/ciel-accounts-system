@@ -22,7 +22,7 @@ async function jsonPOST(url, json){
         })
         .then(response => response.json())
         .then(data => {
-            log(data);
+            log("Accounts", data);
             resolve(data);
         }).catch(error => {
             reject(error);

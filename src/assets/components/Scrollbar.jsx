@@ -65,6 +65,9 @@ export default function Scrollbar(){
 
     onMount(() => {
         let updateScrollbar = function(){
+            if(typeof parent.sizeChange == "function"){
+                parent.sizeChange();
+            }
             if(document.body.scrollHeight <= window.innerHeight){
                 scrollbarContainer.style.display = "none";
             }else{

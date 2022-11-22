@@ -43,7 +43,7 @@ function getDisplayUsername($username){
 // - Should the username be locked to the current IP address, return false
 function usernameOnCooldown($username, $ignoreIP = false){
     global $DATABASE_CoreTABLE__reservedUsernames, $CLIENT_IPAddress;
-    $connection = connectMySQL(DATABASE_READ_ONLY);
+    $connection = connectMySQL(DATABASE_READ_AND_WRITE);
     $Username = mysqli_real_escape_string($connection, strtolower($username));
     $result = executeQueryMySQL($connection, "SELECT `IPAddress`, `TimeoutTimestamp` FROM $DATABASE_CoreTABLE__reservedUsernames WHERE `Username` = '$Username'");
     if($result){

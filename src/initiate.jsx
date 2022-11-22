@@ -38,6 +38,12 @@ import { detectDevTools, alertDevMode } from './assets/scripts/console.jsx';
 
 render(() =>{
 
+    // Detect desired view form
+    let viewMode = "full";
+    if(location.hash == "#in-frame"){
+        viewMode = "content-only";
+    }
+
     // Wait for the page's content to finish loading
     const [showContent, setShowContent] = createSignal(false);
 
@@ -87,6 +93,9 @@ render(() =>{
     const [showAnimFinished, setSAF] = createSignal(false);
     createEffect(() => {
         if(showContent() && !showAnimFinished()){
+            if(viewMode == "content-only" && typeof parent.contentLoaded == "function"){
+                parent.contentLoaded();
+            }
             setTimeout(function(){
                 setSAF(true);
             }, 1500);
@@ -95,9 +104,25 @@ render(() =>{
 
     // Return the global page content
     return <Router>
-        <GlobalBar userProfile={userData().personal.profilePicture} showAnimationFinished={showAnimFinished()} showContent={showContent()} report={() => { contentLoadReport("GlobalBar"); }}/>
-        <LocalContent userData={userData()} showAnimationFinished={showAnimFinished()} showContent={showContent()} report={() => { contentLoadReport("LocalContent"); }} userDataLoaded={loadedUserData()}/>
-        <GlobalFooter showAnimationFinished={showAnimFinished()} showContent={showContent()}/>
+        {
+            (viewMode == "full") ?
+                <GlobalBar userProfile={userData().personal.profilePicture}
+                            showAnimationFinished={showAnimFinished()} showContent={showContent()}
+                            report={() => { contentLoadReport("GlobalBar"); }}/>
+            :
+                contentLoadReport("GlobalBar")
+        }
+        <LocalContent userData={userData()} showAnimationFinished={showAnimFinished()}
+                        showContent={showContent()}
+                        report={() => { contentLoadReport("LocalContent"); }}
+                        userDataLoaded={loadedUserData()}
+                        viewMode={viewMode}/>
+        {
+            (viewMode == "full") ?
+                <GlobalFooter showAnimationFinished={showAnimFinished()} showContent={showContent()}/>
+            :
+                undefined
+        }
         <Scrollbar/>
     </Router>;
 }, document.body);
