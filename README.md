@@ -141,6 +141,10 @@ Use the `npm run dev-build` command, and host the output inside the `dist` folde
 
 ![core_account](./github/images/core_accounts_db.png)
 
+> Read-and-write user privileges: **all**
+> Read-only user privileges: `INDEX`, `SELECT`, `SHOW VIEW`
+> Write-only privileges: all (IDK...)
+
 ## Deployment
 
 You can deploy the `dist` folder to any static host provider (netlify, surge, now, etc.)
