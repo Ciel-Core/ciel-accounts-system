@@ -41,6 +41,7 @@ function showNavContent(navigate, pathname, container, spinner, mainTimeout, bar
                 onMount(() => {
                     // Focus iframe
                     iframe.contentWindow.focus();
+                    iframe.contentWindow.noDevToolsDetect = true;
                     iframe.contentWindow.sharedUserData = userData();
                     iframe.contentWindow.sharedUserState = isSignedIn();        
                     // Wait for the signal from the iframe

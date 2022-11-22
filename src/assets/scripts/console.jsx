@@ -33,7 +33,7 @@ export function alertDevMode(){
 }
 
 export function detectDevTools(callback) {
-    if (!isDevMode) {
+    if (!isDevMode && !window.noDevToolsDetect) {
         let userWarned = false,
             dDevTool = (allow, noConsoleLog = false) => {
                 if(!userWarned){
