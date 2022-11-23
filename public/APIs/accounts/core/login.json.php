@@ -57,5 +57,6 @@ if(!(CLIENT_isSessionValid())){
 {
     "require2FA": <?php echo ($result->require2FA) ? 'true' : 'false'; ?>,
     "validUser": <?php echo ($result->validUser) ? 'true' : 'false'; ?>,
+    "onCooldown": <?php echo ($result->onCooldown) ? 'true' : 'false'; ?>,
     <?php require './../../_chips/JSON_response_attachment.php'; ?>
 }
