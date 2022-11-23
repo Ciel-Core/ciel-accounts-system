@@ -43,7 +43,9 @@
 }
 
 .button.primarybutton[disabled],
-.button[disabled] {
+.button.primarybutton[disable=true],
+.button[disabled],
+.button[disable=true] {
     transition: all 0.0s linear!important;
     color: var(--background-bold) !important;
     box-shadow: none !important;
@@ -51,11 +53,13 @@
     pointer-events: none;
 }
 
-.button.primarybutton[disabled] {
+.button.primarybutton[disabled],
+.button.primarybutton[disable=true] {
     background-color: var(--background-blend) !important;
 }
 
-.button[disabled] {
+.button[disabled],
+.button[disable=true] {
     background-color: transparent !important;
 }
 
@@ -136,7 +140,8 @@
     --svg-color: white;
 }
 
-.button.iconButton[disabled] .buttonIcon svg {
+.button.iconButton[disabled] .buttonIcon svg,
+.button.iconButton[disable=true] .buttonIcon svg {
     --svg-color: var(--background-bold);
 }
 
