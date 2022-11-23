@@ -5,7 +5,7 @@
     "scripts": {
         "start": "vite",
         "dev": "vite --host",
-        "build": "vite build && npm audit",
+        "build": "vite build && npm audit && cd dist && del /S *.md",
         "dev-build": "vite build --mode development",
         "serve": "vite preview"
     },
