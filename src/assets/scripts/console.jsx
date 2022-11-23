@@ -28,7 +28,16 @@ export function alertDevMode(){
         location.hash = "";
     }
     if(isDevMode && import.meta.env.MODE != "development"){
-        showDialog("Caution!", "Developer mode has been activated. If you did not intend to use developer mode, then it is most likely that someone is trying to trick you into giving them access to your data/account. Please refresh the page to exit developer mode!");
+        showDialog("Caution!",
+            "Developer mode has been activated. If you did not intend to use developer mode, then it is most likely that someone is trying to trick you into giving them access to your data/account.",
+            [
+                ["Keep me safe", function(dialog, remove){
+                    location.href = location.pathname.replace(/[#].*$/g, "");
+                    remove();
+                }], ["Ignore warning", function(dialog, remove){
+                    remove();
+                }]
+            ]);
     }
 }
 
