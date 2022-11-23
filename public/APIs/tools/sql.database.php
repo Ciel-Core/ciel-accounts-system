@@ -16,7 +16,7 @@ $DATABASE_CoreTABLE__users = "users";
 const DATABASE_READ_ONLY = "R",
     DATABASE_WRITE_ONLY = "W",
     DATABASE_READ_AND_WRITE = "RW";
-function connectMySQL($mode){
+function connectMySQL($mode, $die = true){
     global $DATABASE_serverName, $DATABASE_name;
     $conn = NULL;
     if($mode == "RW"){
@@ -28,10 +28,10 @@ function connectMySQL($mode){
     }else if($mode == "R"){
         global $DATABASE_username_R, $DATABASE_password_R;
         $conn = new mysqli($DATABASE_serverName, $DATABASE_username_R, $DATABASE_password_R, $DATABASE_name);
-    }else{
+    }else if($die){
         responseReport(BACKEND_ERROR, "Can't connect to database!");
     }
-    if ($conn->connect_error) {
+    if ($conn->connect_error && $die) {
         responseReport(BACKEND_ERROR, "Couldn't connect to database!");
     }
     return $conn;

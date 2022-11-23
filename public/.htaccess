@@ -21,6 +21,7 @@ RewriteCond %{REQUEST_URI} !^(/lists)
 RewriteCond %{REQUEST_URI} !^(/const)
 RewriteCond %{REQUEST_URI} !^(/APIs)
 RewriteCond %{REQUEST_URI} !^(/WebSocket)
+RewriteCond %{REQUEST_URI} !^(/ServerEvents)
 RewriteCond %{REQUEST_URI} !^(/cdn-cgi)
 RewriteCond %{REQUEST_URI} !^(/phpmyadmin)
 RewriteRule .* /index.html [L,NC]
