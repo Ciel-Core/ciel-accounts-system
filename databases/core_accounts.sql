@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 22, 2022 at 11:13 AM
+-- Generation Time: Nov 23, 2022 at 07:02 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -11,6 +11,7 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+02:00";
+SET GLOBAL time_zone = "+02:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -33,7 +34,8 @@ CREATE TABLE `preferences` (
   `ProfileVisibility` tinyint(1) UNSIGNED NOT NULL,
   `ActivityMode` tinyint(1) UNSIGNED NOT NULL,
   `Location` tinyint(1) UNSIGNED NOT NULL,
-  `ColorScheme` tinyint(1) UNSIGNED NOT NULL
+  `ColorScheme` tinyint(1) UNSIGNED NOT NULL,
+  `UpdateTimestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -98,7 +100,8 @@ CREATE TABLE `sessions` (
   `Region` tinytext NOT NULL,
   `City` tinytext NOT NULL,
   `TimezoneOffset` smallint(6) NOT NULL,
-  `LocationCoordinates` tinytext NOT NULL
+  `LocationCoordinates` tinytext NOT NULL,
+  `UpdateTimestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -135,15 +138,16 @@ CREATE TABLE `users` (
   `Birthdate` date NOT NULL,
   `GenderName` varchar(32) NOT NULL,
   `Pronounce` tinyint(1) UNSIGNED NOT NULL DEFAULT 0,
-  `Lang` varchar(24) NOT NULL
+  `Lang` varchar(24) NOT NULL,
+  `UpdateTimestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`UID`, `Username`, `DisplayUsername`, `CreationDate`, `CreationIPAddress`, `PasswordHash`, `FirstName`, `LastName`, `ProfilePicutre`, `Birthdate`, `GenderName`, `Pronounce`, `Lang`) VALUES
-(10000000000, 'system', 'SYSTEM', '2022-10-31 22:00:00', '0.0.0.0', 'aa839b55020c3932f704a15c68740cec4e506f4beb80038e6195fcba74e59d33', 'Ciel', 'System', 'DEFAULT', '2022-11-01', 'Robot', 0, 'en-GB');
+INSERT INTO `users` (`UID`, `Username`, `DisplayUsername`, `CreationDate`, `CreationIPAddress`, `PasswordHash`, `FirstName`, `LastName`, `ProfilePicutre`, `Birthdate`, `GenderName`, `Pronounce`, `Lang`, `UpdateTimestamp`) VALUES
+(10000000000, 'system', 'SYSTEM', '2022-10-31 20:00:00', '0.0.0.0', 'aa839b55020c3932f704a15c68740cec4e506f4beb80038e6195fcba74e59d33', 'Ciel', 'System', 'DEFAULT', '2022-11-01', 'Robot', 0, 'en-GB', '2022-11-23 18:02:13');
 
 --
 -- Indexes for dumped tables
