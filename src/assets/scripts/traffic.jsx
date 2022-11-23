@@ -75,6 +75,7 @@ function waitForElement(elm, callback){
 }
 
 // Check if the current page landing request is valid
+let lastURL = undefined;
 export function landingCheck(){
 
     const location = useLocation(),
@@ -91,7 +92,10 @@ export function landingCheck(){
             blockElmWait = true;
 
             // Reset help feed
-            setHelpFeed("");
+            if(lastURL != location.pathname.replace(/[#?].*$/g, "")){
+                setHelpFeed("");
+                lastURL = location.pathname.replace(/[#?].*$/g, "");
+            }
     
             // All homepage redirections
             if(location.pathname == '/'){
