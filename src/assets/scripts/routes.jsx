@@ -4,7 +4,7 @@
  * 
  **/
 
-import { Routes, Route } from "@solidjs/router";
+import { Routes, Route, Navigate } from "@solidjs/router";
 import { lazy } from "solid-js";
 
 // Import all the website's pages
@@ -31,14 +31,23 @@ const Pages = {
     RegisterQuickSettings: lazy(() => import("./../../pages/user/register/quick-settings.jsx")),
     RegisterAgreement: lazy(() => import("./../../pages/user/register/agreement.jsx")),
     RegisterReview: lazy(() => import("./../../pages/user/register/review.jsx")),
-    DeviceAuthSetup: lazy(() => import("./../../pages/user/device/setup.jsx"))
+    DeviceAuthSetup: lazy(() => import("./../../pages/user/device/setup.jsx")),
 
+    HelpHome: lazy(() => import("./../../pages/help/home.jsx")),
+    HelpArticle: lazy(() => import("./../../pages/help/article.jsx"))
 }, Error = {
     NotFound: lazy(() => import("./../../pages/error/404.jsx"))
 };
 
 export function WebRoutes(props){
-    let reports = {pageLoaded: props.pageLoad, pageUnloading: props.pageUnload, userData: props.userData}
+    let reports = {
+        pageLoaded: props.pageLoad,
+        pageUnloading: props.pageUnload,
+        
+        userData: props.userData,
+        
+        viewMode: props.viewMode
+    };
     return (
     <Routes>
         {/* The error page */}
@@ -70,6 +79,13 @@ export function WebRoutes(props){
         <Route path={"/user/register/quick-settings"} element={<Pages.RegisterQuickSettings {...reports}></Pages.RegisterQuickSettings>} />
         <Route path={"/user/register/agreement"} element={<Pages.RegisterAgreement {...reports}></Pages.RegisterAgreement>} />
         <Route path={"/user/register/review"} element={<Pages.RegisterReview {...reports}></Pages.RegisterReview>} />
+
+        {/* Pages that Don't require the user to be signed in or signed out */}
+        <Route path={"/help"} element={<Pages.HelpHome {...reports}></Pages.HelpHome>} />
+        <Route path={"/help/feed"} element={<Navigate href={"/help"}/>} />
+        <Route path={"/help/feed/*"} element={<Pages.HelpHome {...reports}></Pages.HelpHome>} />
+        <Route path={"/help/article"} element={<Navigate href={"/help"}/>} />
+        <Route path={"/help/article/*"} element={<Pages.HelpArticle {...reports}></Pages.HelpArticle>} />
     </Routes>
     );
 }

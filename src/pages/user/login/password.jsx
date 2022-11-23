@@ -34,8 +34,9 @@ export default function LoginPassword(props){
         passwordInput.oninput = check;
         if(loginData.username == undefined){
             redoLogin(navigate);
+        }else{
+            props.pageLoaded();
         }
-        props.pageLoaded();
     });
     onCleanup(() => {
         props.pageUnloading();

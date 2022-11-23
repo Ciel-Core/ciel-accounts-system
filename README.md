@@ -153,6 +153,10 @@ You can deploy the `dist` folder to any static host provider (netlify, surge, no
 >
 > Run the command `C:\xampp1\php\php.exe -q socket.php` before trying the website
 
+## Used services
+
+*Cloudflare* (security), *IPInfo* (location info), and *iFastNet* (hosting).
+
 ## License
 
 [

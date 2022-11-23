@@ -7,8 +7,10 @@
 import style from './../../assets/styles/pages/user.challenge.module.css';
 
 import { Title } from './../../assets/components/Title.jsx';
-import { Mark, Button, FlexContainer, Link, Divider } from './../../assets/components/CustomElements.jsx';
+import { Mark, Button, FlexContainer, Link, Divider, showDialog } from './../../assets/components/CustomElements.jsx';
 import { onCleanup, onMount } from 'solid-js';
+import { useNavigate } from '@solidjs/router';
+import { factorStatePOST } from './../../assets/scripts/communication/accounts.jsx';
 
 // Import SVG icons
 import SecurityKeyIcon from './../../assets/icons/security_key.svg';
@@ -20,40 +22,60 @@ import WidgetIcon from './../../assets/icons/widget.svg';
 function ChallengeOption(props){
     return (
         <Button light class={style.challengeOptionButton} type={"link"}
-                icon={props.icon} {...props}
-                function={props.action}>
+                icon={props.icon} function={props.action} {...props}>
             {props.children}
         </Button>
     );
 }
 
 function SecurityKey(props){
-    return (<ChallengeOption icon={<SecurityKeyIcon/>} {...props}
-                                action={function(){}}>Use your security key</ChallengeOption>);
+    return (<ChallengeOption icon={<SecurityKeyIcon/>} {...props}>
+            Use your security key
+        </ChallengeOption>);
 }
 function AppPrompt(props){
-    return (<ChallengeOption icon={<MobileDeviceIcon/>} {...props}
-                                action={function(){}}>Tap <strong>Yes</strong> on your mobile device</ChallengeOption>);
+    return (<ChallengeOption icon={<MobileDeviceIcon/>} {...props}>
+            Tap <strong>Yes</strong> on your mobile device
+        </ChallengeOption>);
 }
 function OfflineAppCode(props){
-    return (<ChallengeOption icon={<SettingsAltIcon/>} {...props}
-                                action={function(){}}>Use a security code from your mobile device</ChallengeOption>);
+    return (<ChallengeOption icon={<SettingsAltIcon/>} {...props}>
+            Use a security code from your mobile device
+        </ChallengeOption>);
 }
 function BackupCodes(props){
-    return (<ChallengeOption icon={<LockIcon/>} {...props}
-                                action={function(){}}>Enter one of your <strong>emergency</strong> backup codes</ChallengeOption>);
+    return (<ChallengeOption icon={<LockIcon/>} {...props}>
+            Enter one of your <strong>emergency</strong> backup codes
+        </ChallengeOption>);
 }
 function AuthApp(props){
-    return (<ChallengeOption icon={<WidgetIcon/>} {...props}
-                                action={function(){}}>Get a verification code from <strong>{props.name}</strong></ChallengeOption>);
+    return (<ChallengeOption icon={<WidgetIcon/>} {...props}>
+            Get a verification code from <strong>{props.name}</strong>
+        </ChallengeOption>);
+}
+
+export function checkFactorState(onSuccess, nav){
+    factorStatePOST(function(success, data){
+        if(!success || !data.awaitingAuth){
+            showDialog("Something went wrong!",
+                        "It seems there is no account awaiting authentication on this device!",
+                        [["Ok", function(dialog, remove){
+                            nav("/");
+                            remove();
+                        }]]);
+        }else{
+            onSuccess();
+        }
+    });
 }
 
 export default function Challenge(props){
+    let navigate = useNavigate();
     onCleanup(() => {
         props.pageUnloading();
     });
     onMount(() => {
-        props.pageLoaded();
+        checkFactorState(props.pageLoaded, navigate);
     });
     return <>
         <Title>Sign In</Title>
@@ -62,10 +84,10 @@ export default function Challenge(props){
         <h3>For your safety please <Mark>verify your identity</Mark> further using one of the following methods:</h3>
         <FlexContainer style={{width: "400px"}}>
             <SecurityKey href={"/user/challenge/key"} disabled />
-            <AppPrompt  href={"/user/challenge/app-prompt"} />
-            <OfflineAppCode href={"/user/challenge/app-code"} />
-            <BackupCodes href={"/user/challenge/backup"} />
+            <AppPrompt  href={"/user/challenge/app-prompt"} disabled />
+            <OfflineAppCode href={"/user/challenge/app-code"} disabled />
             <AuthApp name={"[App_Name]"} href={"/user/challenge/auth-app/#id"} />
+            <BackupCodes href={"/user/challenge/backup"} />
             {/*<AuthApp name={"[App_Name_2]"}/>
             <AuthApp name={"[App_Name_3]"}/>
             <AuthApp name={"[App_Name_4]"}/>

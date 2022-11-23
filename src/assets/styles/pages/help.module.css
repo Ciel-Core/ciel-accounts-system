@@ -1,0 +1,21 @@
+/**
+ *
+ * The style of the "help" page
+ *
+**/
+
+.contentBar {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.contentBar .title {
+    margin: 0px;
+}
+
+.contentBar .externalIcon {
+    width: 26px;
+    height: 26px;
+    margin-left: auto;
+}

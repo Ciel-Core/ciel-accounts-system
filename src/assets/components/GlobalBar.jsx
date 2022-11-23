@@ -17,6 +17,7 @@ import HelpIcon from './../icons/help.svg';
 import BackArrowIcon from './../icons/arrow_back.svg';
 import { render } from "solid-js/web";
 import { useNavigate } from "@solidjs/router";
+import { helpFeed } from './Help.jsx';
 
 function showNavContent(navigate, pathname, container, spinner, mainTimeout, bar){
     if(!window.mobileView.matches){
@@ -44,6 +45,17 @@ function showNavContent(navigate, pathname, container, spinner, mainTimeout, bar
                     iframe.contentWindow.noDevToolsDetect = true;
                     iframe.contentWindow.sharedUserData = userData();
                     iframe.contentWindow.sharedUserState = isSignedIn();        
+                    window.closeNavContent = function(){
+                        bar.dataset.prioritize = false;
+                        iframe.remove();
+                        container.dataset.show = false;
+                        spinner.style.display = null;
+                        // Remove related functions!
+                        window.sizeChange = undefined;
+                        window.closeNavContent = undefined;
+                        document.body.onfocus = undefined;
+                        window.contentLoaded = undefined;
+                    };
                     // Wait for the signal from the iframe
                     window.contentLoaded = function(){
                         spinner.style.display = "none";
@@ -55,13 +67,7 @@ function showNavContent(navigate, pathname, container, spinner, mainTimeout, bar
                         container.style.height = `${iframe.contentWindow.document.documentElement.scrollHeight}px`
                     };
                     // Remove iframe when the body is focused
-                    document.body.onfocus = function(){
-                        window.sizeChange = undefined;
-                        bar.dataset.prioritize = false;
-                        iframe.remove();
-                        container.dataset.show = false;
-                        spinner.style.display = null;
-                    };
+                    document.body.onfocus = window.closeNavContent;
                 });
                 onCleanup(() => {
                     clearTimeout(timeout);
@@ -86,7 +92,7 @@ function LeftControls(props){
             </div>
             <div class={styles.otherControl} style={{display: (isSignedIn()) ? "inline-block" : "none"}}>
                 <HelpIcon id="help-icon" onClick={function(){
-                    showNavContent(navigate, "/help", helpContainer, helpLoadingSpinner, helpTimeout, props.bar);
+                    showNavContent(navigate, `/help/feed/${helpFeed()}`, helpContainer, helpLoadingSpinner, helpTimeout, props.bar);
                 }} unselectable/>
             </div>
             <div ref={helpContainer} class={styles.helpContainer} data-show={false}>

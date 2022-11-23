@@ -9,13 +9,16 @@ import style from './../../../assets/styles/pages/user.challenge.module.css';
 import { Title } from './../../../assets/components/Title.jsx';
 import { onCleanup, onMount } from 'solid-js';
 import { Mark } from './../../../assets/components/CustomElements.jsx';
+import { checkFactorState } from './../challenge.jsx';
+import { useNavigate } from '@solidjs/router';
 
 export default function Home(props){
+    let navigate = useNavigate();
     onCleanup(() => {
         props.pageUnloading();
     });
     onMount(() => {
-        props.pageLoaded();
+        checkFactorState(props.pageLoaded, navigate);
     });
     return <>
         <Title>Sign In</Title>

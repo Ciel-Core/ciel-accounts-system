@@ -10,6 +10,7 @@ import { log } from './console.jsx';
 import { resetRegisterData, registerData } from './pages/registerData.jsx';
 import { loginData, resetLoginData } from './pages/loginData.jsx';
 import { isSignedIn, isUpdatingUserState } from './user.jsx';
+import { setHelpFeed } from './../components/Help.jsx';
 
 export function afterURLChange(callback, once = false){
     // Note: don't use useLocation, it doesn't work in all contexts!
@@ -74,6 +75,7 @@ function waitForElement(elm, callback){
 }
 
 // Check if the current page landing request is valid
+let lastURL = undefined;
 export function landingCheck(){
 
     const location = useLocation(),
@@ -88,6 +90,12 @@ export function landingCheck(){
 
             loadStart = new Date();
             blockElmWait = true;
+
+            // Reset help feed
+            if(lastURL != location.pathname.replace(/[#?].*$/g, "")){
+                setHelpFeed("");
+                lastURL = location.pathname.replace(/[#?].*$/g, "");
+            }
     
             // All homepage redirections
             if(location.pathname == '/'){

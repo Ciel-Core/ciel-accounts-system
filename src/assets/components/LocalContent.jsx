@@ -31,7 +31,7 @@ function LocalContent(props){
         }} pageUnload={function(){
             loadingContainer.dataset.show = true;
             containerRef.dataset.show = false;
-        }} userData={props.userData}/>
+        }} userData={props.userData} viewMode={props.viewMode}/>
     </div>
     ), localContent;
 
