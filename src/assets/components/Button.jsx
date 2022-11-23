@@ -25,7 +25,7 @@ export function Button(props){
         setContent((props.icon) ? (<div class={generalStyles.iconButtonText}>{props.children}</div>) : props.children);
     });
     if(props.type == "link"){
-        return (<Link ref={props.ref} href={props.href} class={basicProps.class} id={props.id} style={basicProps.style} disabled={props.disabled}>{icon}{content()}</Link>);
+        return (<Link ref={props.ref} href={props.href} class={basicProps.class} id={props.id} style={basicProps.style} disable={props.disabled}>{icon}{content()}</Link>);
     }else if(props.type == "action"){
         if(typeof props.function != "function")
             throw new Error("Invalid <Button> action!");

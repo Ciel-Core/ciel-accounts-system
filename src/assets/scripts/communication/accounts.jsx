@@ -22,7 +22,7 @@ async function jsonPOST(url, json){
         })
         .then(response => response.json())
         .then(data => {
-            log("Accounts", data);
+            log("Accounts", url, data);
             resolve(data);
         }).catch(error => {
             reject(error);
@@ -138,6 +138,17 @@ export function authnSignInPOST(data, callback){
     jsonPOST("/APIs/accounts/authn/login.json.php",
         data
     ).then(function(data){
+        callback(data.responseInfo.successful, data);
+    }).catch(function(error){
+        callback(false, undefined);
+        throwError(error);
+    });
+}
+
+export function factorStatePOST(callback){
+    jsonPOST("/APIs/accounts/factor/get.state.json.php", {
+        //
+    }).then(function(data){
         callback(data.responseInfo.successful, data);
     }).catch(function(error){
         callback(false, undefined);
