@@ -1,0 +1,23 @@
+/**
+ *
+ * The style of the "error" page
+ *
+**/
+
+.container {
+    margin: auto;
+    height: fit-content;
+    padding-bottom: var(--globalbar--height);
+}
+
+.title {
+    font-size: clamp(36px, 5vw, 74px);
+    font-weight: 900;
+    display: block;
+}
+
+.button {
+    display: block;
+    margin: 0px auto;
+    margin-top: 92px;
+}
