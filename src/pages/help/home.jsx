@@ -19,10 +19,22 @@ export function ContentBar(props){
         <h4 class={helpStyle.title}>{props.title}</h4>
         <ExternalIcon class={`${style.svgButton} ${helpStyle.externalIcon}`}
                 onClick={function(){
-                    window.open(location.href.replace("#in-frame", ""), '_blank').focus();
+                    window.open(location.href.replace("/#in-frame", "").replace("#in-frame", ""), '_blank').focus();
                     window.parent.closeNavContent();
                 }} />
     </div>);
+}
+
+function DefaultFeed(){
+    return (<>
+        Default feed!
+    </>);
+}
+
+function SpecializedFeed(){
+    return (<>
+        Special feed!
+    </>);
 }
 
 export default function HelpHome(props){
@@ -42,6 +54,12 @@ export default function HelpHome(props){
                 </>)
             :
                 (<ContentBar title={"Help Centre"} />)
+        }
+        {
+            (location.pathname.indexOf("/help/feed/") == 0) ?
+                <SpecializedFeed {...window.sharedData} />
+            :
+                <DefaultFeed />
         }
     </>;
 }

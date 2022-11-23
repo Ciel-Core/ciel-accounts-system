@@ -17,6 +17,7 @@ import HelpIcon from './../icons/help.svg';
 import BackArrowIcon from './../icons/arrow_back.svg';
 import { render } from "solid-js/web";
 import { useNavigate } from "@solidjs/router";
+import { helpFeed } from './Help.jsx';
 
 function showNavContent(navigate, pathname, container, spinner, mainTimeout, bar){
     if(!window.mobileView.matches){
@@ -91,7 +92,7 @@ function LeftControls(props){
             </div>
             <div class={styles.otherControl} style={{display: (isSignedIn()) ? "inline-block" : "none"}}>
                 <HelpIcon id="help-icon" onClick={function(){
-                    showNavContent(navigate, "/help", helpContainer, helpLoadingSpinner, helpTimeout, props.bar);
+                    showNavContent(navigate, `/help/feed/${helpFeed()}`, helpContainer, helpLoadingSpinner, helpTimeout, props.bar);
                 }} unselectable/>
             </div>
             <div ref={helpContainer} class={styles.helpContainer} data-show={false}>

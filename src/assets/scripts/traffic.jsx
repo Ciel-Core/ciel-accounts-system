@@ -10,6 +10,7 @@ import { log } from './console.jsx';
 import { resetRegisterData, registerData } from './pages/registerData.jsx';
 import { loginData, resetLoginData } from './pages/loginData.jsx';
 import { isSignedIn, isUpdatingUserState } from './user.jsx';
+import { setHelpFeed } from './../components/Help.jsx';
 
 export function afterURLChange(callback, once = false){
     // Note: don't use useLocation, it doesn't work in all contexts!
@@ -88,6 +89,9 @@ export function landingCheck(){
 
             loadStart = new Date();
             blockElmWait = true;
+
+            // Reset help feed
+            setHelpFeed("");
     
             // All homepage redirections
             if(location.pathname == '/'){

@@ -82,6 +82,8 @@ export function WebRoutes(props){
 
         {/* Pages that Don't require the user to be signed in or signed out */}
         <Route path={"/help"} element={<Pages.HelpHome {...reports}></Pages.HelpHome>} />
+        <Route path={"/help/feed"} element={<Navigate href={"/help"}/>} />
+        <Route path={"/help/feed/*"} element={<Pages.HelpHome {...reports}></Pages.HelpHome>} />
         <Route path={"/help/article"} element={<Navigate href={"/help"}/>} />
         <Route path={"/help/article/*"} element={<Pages.HelpArticle {...reports}></Pages.HelpArticle>} />
     </Routes>
