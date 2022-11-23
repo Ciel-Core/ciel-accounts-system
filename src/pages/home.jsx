@@ -4,7 +4,8 @@
  * 
  **/
 
-import style from './../assets/styles/pages/home.module.css';
+import style from './../assets/styles/general.module.css';
+import homeStyle from './../assets/styles/pages/home.module.css';
 
 import { Title } from './../assets/components/Title.jsx';
 import { onCleanup, onMount } from 'solid-js';
@@ -20,8 +21,8 @@ export default function Home(props){
     });
     return <>
         <Title></Title>
-        <h2 class={style.userWelcome}>Welcome, <Mark>{userData().displayUsername}</Mark>!</h2>
-        <h4 class={style.userMessage}>Manage your profile, privacy preferences, and security across all connected services and devices.</h4>
+        <h2 class={style.pageTitle}>Welcome, <Mark>{userData().displayUsername}</Mark>!</h2>
+        <h4 class={style.pageDescription}>Manage your profile, privacy preferences, and security across all connected services and devices.</h4>
         <SearchBox/>
     </>;
 }

@@ -5,6 +5,19 @@
 **/
 
 
+/* Titles */
+
+.pageTitle {
+    margin-top: 0px;
+}
+
+.pageDescription {
+    font-weight: normal;
+    margin-top: 0px;
+    color: var(--text-color-faint);
+}
+
+
 /* Buttons */
 
 .button {
@@ -149,6 +162,16 @@
     display: inline-block;
     margin-right: auto;
     margin-left: 12px;
+}
+
+.svgButton {
+    --svg-color: var(--background-bold);
+    cursor: pointer;
+}
+
+.svgButton:hover,
+.svgButton:active {
+    --svg-color: var(--accent-color);
 }
 
 

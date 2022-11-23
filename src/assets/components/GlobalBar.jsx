@@ -44,6 +44,17 @@ function showNavContent(navigate, pathname, container, spinner, mainTimeout, bar
                     iframe.contentWindow.noDevToolsDetect = true;
                     iframe.contentWindow.sharedUserData = userData();
                     iframe.contentWindow.sharedUserState = isSignedIn();        
+                    window.closeNavContent = function(){
+                        bar.dataset.prioritize = false;
+                        iframe.remove();
+                        container.dataset.show = false;
+                        spinner.style.display = null;
+                        // Remove related functions!
+                        window.sizeChange = undefined;
+                        window.closeNavContent = undefined;
+                        document.body.onfocus = undefined;
+                        window.contentLoaded = undefined;
+                    };
                     // Wait for the signal from the iframe
                     window.contentLoaded = function(){
                         spinner.style.display = "none";
@@ -55,13 +66,7 @@ function showNavContent(navigate, pathname, container, spinner, mainTimeout, bar
                         container.style.height = `${iframe.contentWindow.document.documentElement.scrollHeight}px`
                     };
                     // Remove iframe when the body is focused
-                    document.body.onfocus = function(){
-                        window.sizeChange = undefined;
-                        bar.dataset.prioritize = false;
-                        iframe.remove();
-                        container.dataset.show = false;
-                        spinner.style.display = null;
-                    };
+                    document.body.onfocus = window.closeNavContent;
                 });
                 onCleanup(() => {
                     clearTimeout(timeout);
