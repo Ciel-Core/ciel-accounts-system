@@ -82,10 +82,20 @@ export default function LoginPassword(props){
                                             passwordHash: hash(data[0] + passwordInput.value + data[1]),
                                             timezoneOffset: (new Date()).getTimezoneOffset()
                                         }, function(isSuccessful, data){
-                                            if(isSuccessful){
+                                            if(isSuccessful && data.validUser){
                                                 checkPlatformSupport(function(error, supported){
                                                     isDone(data, supported);
                                                 });
+                                            }else if(!data.validUser){
+                                                if(data.onCooldown){
+                                                    setInputState(password, false, "Account on login cooldown! Try again in 10 minutes!");
+                                                }else{
+                                                    // For some reason, using the <Link> element breaks the render function!
+                                                    setInputState(password, false, () => <>
+                                                        Incorrect password! Try again or try to <a class={generalStyles.link} href={"/user/recovery/password"}>reset the password</a>!
+                                                    </>);
+                                                }
+                                                setError();
                                             }else{
                                                 setError();
                                                 showDialog("Error!", "We couldn't sign you in, please try again later!");
@@ -99,24 +109,17 @@ export default function LoginPassword(props){
                             redoLogin(navigate, true);
                         }
                     }, function(data, webAuthnSupport){
-                        if(data.validUser){
-                            if(data.require2FA){
-                                navigate("/user/challenge");
-                            }else{
-                                // Sign the user in!
-                                updateUserState(function(){
-                                    if(webAuthnSupport){
-                                        navigate("/user/device/setup");
-                                    }else{
-                                        navigate("/");
-                                    }
-                                }, true);
-                            }
+                        if(data.require2FA){
+                            navigate("/user/challenge");
                         }else{
-                            // For some reason, using the <Link> element breaks the render function!
-                            setInputState(password, false, () => <>
-                                Incorrect password! Try again or try to <a class={generalStyles.link} href={"/user/recovery/password"}>reset the password</a>!
-                            </>);
+                            // Sign the user in!
+                            updateUserState(function(){
+                                if(webAuthnSupport){
+                                    navigate("/user/device/setup");
+                                }else{
+                                    navigate("/");
+                                }
+                            }, true);
                         }
                     });
                 }} href={"/user/challenge"} primary>Next</Button>

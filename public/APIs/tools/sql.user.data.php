@@ -12,12 +12,12 @@ function getDataFromTable($connection, $table, $UID, $data){
 }
 
 // Get UID
-function getUID($connection = null){
+function getUID($connection = null, $die = true, $close = true){
     // Connect to database
     global $DATABASE_CoreTABLE__sessions;
     $closeCon = false;
     if($connection == null){
-        $connection = connectMySQL(DATABASE_READ_ONLY);
+        $connection = connectMySQL(DATABASE_READ_ONLY, $die);
         $closeCon = true;
     }
     $EscapedSID = mysqli_real_escape_string($connection, $_COOKIE["SID"]);
@@ -25,16 +25,16 @@ function getUID($connection = null){
     // Get UID
     $UID = 0;
     $result = executeQueryMySQL($connection,
-        "SELECT `UID` FROM $DATABASE_CoreTABLE__sessions WHERE `SID` = '$EscapedSID'");
+        "SELECT `UID` FROM $DATABASE_CoreTABLE__sessions WHERE `SID` = '$EscapedSID'", $die);
     if($result){
         $UID = mysqli_fetch_assoc($result)["UID"];
         unset($result);
-    }else{
+    }else if($die){
         responseReport(BACKEND_ERROR, "Couldn't get user ID");
     }
 
     // Return result
-    if($closeCon){
+    if($closeCon && $close){
         $connection->close();
     }
     return $UID;

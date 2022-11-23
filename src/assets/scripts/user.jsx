@@ -8,7 +8,8 @@ import { createSignal } from "solid-js";
 import { showDialog } from "./../components/Dialog.jsx";
 import { signOutPOST, userDataPOST } from "./communication/accounts.jsx";
 import { afterURLChange } from "./traffic.jsx";
-import { openSocket } from "./communication/sockets.jsx";
+import { closeConnection, listenTo, openConnection } from './communication/serverEvents.jsx';
+// import { openSocket } from "./communication/sockets.jsx";
 
 // user data module (default data)
 function defaultUserProfile(){
@@ -74,7 +75,18 @@ export function updateUserState(callback = undefined, expectURLChange = false){
         if(isSuccessful){
             // Set user state to signed in and add the user's profile
             setUserData(convertUserData(data));
-            setSignedIn(true);    
+            setSignedIn(true);
+
+            // Open a Server Events connection
+            openConnection(function(){
+                // Listen to data updates
+                listenTo("server-data-update", function(e){
+                    // Detect if the update relates to the USERS database!
+                    if(e.data.indexOf("CORE_ACCOUNTS.") == 0){
+                        updateUserState(undefined, false);
+                    }
+                });
+            });
 
             // Open a WebSocket to keep communicating with the server and wait for any updates
             /*
@@ -131,6 +143,8 @@ export function signOut(){
         }else{
             setUserData(defaultUserProfile());
             setSignedIn(false);
+            // Close server events connection
+            closeConnection();
         }
         setUUS(false);
     });
