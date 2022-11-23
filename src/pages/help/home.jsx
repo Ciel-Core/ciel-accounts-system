@@ -37,11 +37,11 @@ export default function HelpHome(props){
         {
             (props.viewMode != "content-only") ?
                 (<>
-                    <h2 class={style.pageTitle}><Mark>Help</Mark> center!</h2>
+                    <h2 class={style.pageTitle}><Mark>Help</Mark> centre!</h2>
                     <SearchBox placeholder={"Search Help"} />
                 </>)
             :
-                (<ContentBar title={"Help Center"} />)
+                (<ContentBar title={"Help Centre"} />)
         }
     </>;
 }
