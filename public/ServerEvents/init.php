@@ -47,8 +47,9 @@ if($coreAccountsDB->connect_error){
     exit();
 }
 
-// Get User ID
-global $UID;
+// Get User ID and session ID
+global $UID, $coreAccountsSID;
+$coreAccountsSID = mysqli_real_escape_string($coreAccountsDB, $_COOKIE["SID"]);
 $UID = getUID($coreAccountsDB, false, false);
 if(gettype($UID) != "string" || strlen($UID) < 11){
     serverErrorUpdate("DATA.UID");
@@ -61,6 +62,21 @@ function getTS($db, $table){
     $timestamp = 0;
     $result = executeQueryMySQL($db, 
                 "SELECT `UpdateTimestamp` FROM $table WHERE `UID` = $UID",
+            false);
+    if($result){
+        $timestamp = strToTimestamp(mysqli_fetch_assoc($result)["UpdateTimestamp"]);
+        unset($result);
+    }else{
+        serverErrorUpdate("DATA.TIMESTAMP");
+        exit();
+    }
+    return $timestamp;
+}
+function getTSbySID($db, $table){
+    global $coreAccountsSID;
+    $timestamp = 0;
+    $result = executeQueryMySQL($db, 
+                "SELECT `UpdateTimestamp` FROM $table WHERE `SID` = '$coreAccountsSID'",
             false);
     if($result){
         $timestamp = strToTimestamp(mysqli_fetch_assoc($result)["UpdateTimestamp"]);
@@ -137,8 +153,8 @@ while(true){
             (($t = getTS($coreAccountsDB, $DATABASE_CoreTABLE__preferences)) == 0 && $ts["CORE_ACCOUNTS"]["PREFERENCES"] != 0)){
             serverDataUpdate("CORE_ACCOUNTS", "PREFERENCES", $t);
         }
-        if((($t = getTS($coreAccountsDB, $DATABASE_CoreTABLE__sessions)) > $ts["CORE_ACCOUNTS"]["SESSIONS"]) ||
-            (($t = getTS($coreAccountsDB, $DATABASE_CoreTABLE__sessions)) == 0 && $ts["CORE_ACCOUNTS"]["SESSIONS"] != 0)){
+        if((($t = getTSbySID($coreAccountsDB, $DATABASE_CoreTABLE__sessions)) > $ts["CORE_ACCOUNTS"]["SESSIONS"]) ||
+            (($t = getTSbySID($coreAccountsDB, $DATABASE_CoreTABLE__sessions)) == 0 && $ts["CORE_ACCOUNTS"]["SESSIONS"] != 0)){
             serverDataUpdate("CORE_ACCOUNTS", "SESSIONS", $t);
         }
         unset($t);
