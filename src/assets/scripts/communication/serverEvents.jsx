@@ -10,6 +10,21 @@ import { log, throwError } from "./../console.jsx";
 let eventSource = undefined;
 window.activeEventSource = undefined;
 
+function errorDialog(successCallback){
+    eventSource.close();
+    eventSource = undefined;
+    window.activeEventSource = undefined;
+    showDialog("Something went wrong!", "We couldn't connect to the server for live updates!", [
+        ["Ok", function(dialog, remove){
+            remove();
+        }], ["Retry", function(dialog, remove){
+            remove();
+            // openConnection(successCallback);
+            location.reload();
+        }]
+    ]);
+}
+
 // Open connection
 export function openConnection(successCallback){
     if(!window.EventSource){
@@ -29,29 +44,31 @@ export function openConnection(successCallback){
         eventSource = new EventSource("/ServerEvents/init.php");
         window.activeEventSource = eventSource;
 
-        // Detect errors
-        eventSource.onerror = (error) => {
-            eventSource.close();
-            eventSource = undefined;
-            window.activeEventSource = undefined;
-            showDialog("Something went wrong!", "We couldn't connect to the server for live updates!", [
-                ["Ok", function(dialog, remove){
-                    remove();
-                }], ["Retry", function(dialog, remove){
-                    remove();
-                    openConnection();
-                }]
-            ]);
-            log("Server Events", "EventSource failed", error);
-            throwError(error);
-        };
+        if(eventSource != undefined){
 
-        // Listen for any messages
-        eventSource.onmessage = (event) => {
-            log("Server Events", event);
-        };
+            // Detect errors
+            eventSource.onerror = (error) => {
+                errorDialog(successCallback);
+                log("Server Events", "EventSource failed", error);
+                throwError(error);
+            };
 
-        successCallback();
+            // Listen for any messages
+            eventSource.onmessage = (event) => {
+                log("Server Events", event);
+            };
+
+            // Wait for connection to open!
+            eventSource.onopen = (event) => {
+                // Listen to server errors!
+                listenTo("server-error", function(e){
+                    errorDialog(successCallback);
+                });
+
+                // Success callback!
+                successCallback(event);
+            };
+        }
     }else{
         log("Server Events", "Server events connection already open!");
     }
