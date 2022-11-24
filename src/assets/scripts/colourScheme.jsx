@@ -8,9 +8,11 @@ import { render } from "solid-js/web";
 
 let changeCallback = event => {
     document.documentElement.dataset.colorScheme = event.matches ? "dark" : "light";
+    window._theme.updateColorGroup();
     localStorage.setItem("last-color-scheme", document.documentElement.dataset.colorScheme)
 }, matchMedia = undefined;
 
+// Detect forced dark mode!
 export function isForcedDarkMode(){
     let elm;
     render(() => (<div ref={elm} style={{
@@ -24,6 +26,7 @@ export function isForcedDarkMode(){
     return isAutoDark;
 }
 
+// Update colour scheme
 export function updateColorScheme(preference){ // 0 - system, 1 - light, 2 - dark
     if(matchMedia != undefined){
         matchMedia.removeEventListener("change", changeCallback);
@@ -38,5 +41,6 @@ export function updateColorScheme(preference){ // 0 - system, 1 - light, 2 - dar
         document.documentElement.dataset.colorScheme = matchMedia.matches ? "dark" : "light";
         matchMedia.addEventListener('change', changeCallback);
     }
+    window._theme.updateColorGroup();
     localStorage.setItem("last-color-scheme", document.documentElement.dataset.colorScheme)
 }

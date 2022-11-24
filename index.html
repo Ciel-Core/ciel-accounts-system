@@ -5,9 +5,39 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
 
+    <meta id="theme-color-light" name="theme-color" media="(prefers-color-scheme: light)" content="#f9fafc">
+    <meta id="theme-color-dark" name="theme-color" media="(prefers-color-scheme: dark)" content="#101313">
+
     <script type="text/javascript">
         /* Quick colour scheme detection */
         {
+            // Get theme colours
+            let themeColorLight = document.getElementById("theme-color-light"),
+                themeColorDark = document.getElementById("theme-color-dark");
+            window._theme = {};
+            window._theme.lightColorHex = themeColorLight.getAttribute("content");
+            window._theme.darkColorHex = themeColorDark.getAttribute("content");
+            // Define update function
+            window._theme.updateColorGroup = (colorScheme) => {
+                // Get tag
+                let tag = document.getElementById("theme-color-tag");
+                // Check if tag exists
+                if (tag == undefined) {
+                    // create new meta tag
+                    tag = document.createElement("meta");
+                    tag.setAttribute("id", "theme-color-tag");
+                    tag.setAttribute("name", "theme-color");
+                    // Append new tag
+                    document.head.appendChild(tag);
+                }
+                // Update theme-color
+                tag.setAttribute("content",
+                    (document.documentElement.dataset.colorScheme == "dark") ?
+                    window._theme.darkColorHex : window._theme.lightColorHex
+                );
+                delete tag;
+            };
+            // Get last colour scheme
             let lastColorScheme = localStorage.getItem("last-color-scheme");
             if (lastColorScheme != undefined) {
                 document.documentElement.dataset.colorScheme = lastColorScheme;
@@ -18,6 +48,12 @@
                     delete matchMedia;
                 } catch {}
             }
+            // Remove default meta tags
+            themeColorDark.remove();
+            themeColorLight.remove();
+            delete themeColorDark, themeColorLight;
+            // Update theme-color
+            window._theme.updateColorGroup();
         }
         /* Quick display mode detection */
         {
@@ -72,8 +108,6 @@
     <!-- PWA minimal data -->
     <meta name="description" content="Ciel accounts system!">
     <link rel="apple-touch-icon" href="/images/apple-touch-icon.png" sizes="180x180">
-    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F7F8FA">
-    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0D0F11">
 
     <style type="text/css">
          :root {
