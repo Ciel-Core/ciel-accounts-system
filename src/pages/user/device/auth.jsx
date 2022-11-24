@@ -32,9 +32,9 @@ export default function DeviceAuth(props){
             setTimeout(function(){
                 let errorFunc = function(){
                     showDialog("Something went wrong!", "We couldn't verify your identity using this device!", [
-                        ["Ok", function(dialog, remove){
+                        ["Use password", function(dialog, remove){
                             remove();
-                            navigate("/user/login");
+                            navigate("/user/login/password");
                         }], ["Retry", function(dialog, remove){
                             remove();
                             attemptSignIn();

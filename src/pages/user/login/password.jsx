@@ -114,7 +114,8 @@ export default function LoginPassword(props){
                         }else{
                             // Sign the user in!
                             updateUserState(function(){
-                                if(webAuthnSupport){
+                                let deviceID = localStorage.getItem(`DEVICE_TRUSTED_${loginData.UID}`);
+                                if(deviceID == undefined && webAuthnSupport){
                                     navigate("/user/device/setup");
                                 }else{
                                     navigate("/");
