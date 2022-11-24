@@ -27,7 +27,7 @@ function errorDialog(successCallback){
         ]);
     }else{
         // Do a silent attempt to reopen connection! (max limit is 5)
-        openConnection(successCallback);
+        setTimeout(() => openConnection(successCallback), 3000);
     }
 }
 
