@@ -16,7 +16,7 @@ export default defineConfig({
                 name: 'MyPWA',
                 short_name: 'aPWA',
                 description: 'My PWA for you!',
-                // theme_color: '#c90c3b',
+                theme_color: '#c90c3b',
                 icons: [{
                         src: '/images/icon-192.png',
                         sizes: '192x192',
