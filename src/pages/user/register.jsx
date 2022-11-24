@@ -7,6 +7,7 @@
 import style from './../../assets/styles/pages/user.register.module.css';
 
 import { Title } from './../../assets/components/Title.jsx';
+import { Help } from './../../assets/components/Help.jsx';
 import { Input, setInputState, Button, Notice, Mark, FlexContainer, showDialog } from './../../assets/components/CustomElements.jsx';
 import { onCleanup, onMount } from 'solid-js';
 import { useNavigate } from '@solidjs/router';
@@ -135,6 +136,7 @@ export default function Register(props){
     });
     return <>
         <Title>Sign Up</Title>
+        <Help feed={"register"}/>
         <h1>Create a {import.meta.env.VITE_NAME} account</h1>
         <br/>
         <h3>Enter your <Mark>first name</Mark> and <Mark>last name</Mark>!</h3>

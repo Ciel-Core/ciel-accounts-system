@@ -22,6 +22,9 @@ function defaultUserProfile(){
             firstName: "[First]", // <String> - user's first name
             lastName: "[Last]", // <String> - user's last name
         },
+        content: {
+            language: "en-GB"
+        },
         id: 0, // User ID
         username: "username", // Public username (small letters)
         displayUsername: "USERNAME", // Public username
@@ -46,6 +49,8 @@ function convertUserData(userData){
                                                         "/images/users/" + userData.ProfilePicutre + ".png";
 
     profile.visual.preferredColorScheme         = userData.ColorScheme;
+
+    profile.content.language                    = userData.Lang;
 
     return profile;
 }

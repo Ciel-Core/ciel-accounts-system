@@ -7,6 +7,7 @@
 // import styles from './../assets/styles/pages/device.auth.module.css';
 
 import { Title } from './../../../assets/components/Title.jsx';
+import { Help } from './../../../assets/components/Help.jsx';
 import { Mark, FlexContainer, Notice, showDialog } from './../../../assets/components/CustomElements.jsx';
 import { onCleanup, onMount } from 'solid-js';
 import { arrayBufferToBase64, checkCreditential, checkPlatformSupport } from './../../../assets/scripts/deviceCredential.jsx';
@@ -32,9 +33,9 @@ export default function DeviceAuth(props){
             setTimeout(function(){
                 let errorFunc = function(){
                     showDialog("Something went wrong!", "We couldn't verify your identity using this device!", [
-                        ["Ok", function(dialog, remove){
+                        ["Use password", function(dialog, remove){
                             remove();
-                            navigate("/user/login");
+                            navigate("/user/login/password");
                         }], ["Retry", function(dialog, remove){
                             remove();
                             attemptSignIn();
@@ -77,6 +78,7 @@ export default function DeviceAuth(props){
     });
     return (<>
         <Title>Sign In</Title>
+        <Help feed={"login"}/>
         <h1>Welcome back, {loginData.username}!</h1>
         <br/>
         <h3>Verify your identity using <Mark>your device</Mark>!</h3>

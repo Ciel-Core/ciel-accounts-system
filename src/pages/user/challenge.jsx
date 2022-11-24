@@ -7,6 +7,7 @@
 import style from './../../assets/styles/pages/user.challenge.module.css';
 
 import { Title } from './../../assets/components/Title.jsx';
+import { Help } from './../../assets/components/Help.jsx';
 import { Mark, Button, FlexContainer, Link, Divider, showDialog } from './../../assets/components/CustomElements.jsx';
 import { onCleanup, onMount } from 'solid-js';
 import { useNavigate } from '@solidjs/router';
@@ -79,6 +80,7 @@ export default function Challenge(props){
     });
     return <>
         <Title>Sign In</Title>
+        <Help feed={"login"}/>
         <h1>2-Step Verification</h1>
         <br/>
         <h3>For your safety please <Mark>verify your identity</Mark> further using one of the following methods:</h3>

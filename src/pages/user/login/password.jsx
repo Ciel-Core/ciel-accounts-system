@@ -7,6 +7,7 @@
 import generalStyles from './../../../assets/styles/general.module.css';
 
 import { Title } from './../../../assets/components/Title.jsx';
+import { Help } from './../../../assets/components/Help.jsx';
 import { Input, Button, Mark, FlexContainer, CheckBox, Link, showDialog, setInputState, Notice } from './../../../assets/components/CustomElements.jsx';
 import { onCleanup, onMount } from 'solid-js';
 import { InputFieldsContainer, redoLogin, nextCheck } from './../login.jsx';
@@ -43,6 +44,7 @@ export default function LoginPassword(props){
     });
     return <>
         <Title>Sign In</Title>
+        <Help feed={"login"}/>
         <h1>Welcome back, {loginData.username}!</h1>
         <br/>
         <h3>Please enter <Mark>your password</Mark> to verify your identity!</h3>
@@ -114,7 +116,8 @@ export default function LoginPassword(props){
                         }else{
                             // Sign the user in!
                             updateUserState(function(){
-                                if(webAuthnSupport){
+                                let deviceID = localStorage.getItem(`DEVICE_TRUSTED_${loginData.UID}`);
+                                if(deviceID == undefined && webAuthnSupport){
                                     navigate("/user/device/setup");
                                 }else{
                                     navigate("/");

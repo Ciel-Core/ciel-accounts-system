@@ -7,6 +7,7 @@
 import style from './../../../assets/styles/pages/user.review.module.css';
 
 import { Title } from './../../../assets/components/Title.jsx';
+import { Help } from './../../../assets/components/Help.jsx';
 import { Button, Notice, Mark, FlexContainer, showDialog } from './../../../assets/components/CustomElements.jsx';
 import { createSignal, onMount, onCleanup } from "solid-js";
 import { useNavigate } from '@solidjs/router';
@@ -61,6 +62,7 @@ export default function RegisterReview(props){
     });
     return <>
         <Title>Sign Up</Title>
+        <Help feed={"register"}/>
         <h1>Let's Review</h1>
         <br/>
         <h3>Make sure these are the <Mark>configurations</Mark> you want!</h3>

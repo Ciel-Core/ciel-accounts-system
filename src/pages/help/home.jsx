@@ -32,8 +32,10 @@ function DefaultFeed(){
 }
 
 function SpecializedFeed(){
+    let feed = location.pathname.substring("/help/feed/".length);
+    feed = feed.substring(0, (feed.indexOf("/") != -1) ? feed.indexOf("/") : feed.length);
     return (<>
-        Special feed!
+        Special "{feed}" feed!
     </>);
 }
 

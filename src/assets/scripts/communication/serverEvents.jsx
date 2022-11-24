@@ -27,7 +27,7 @@ function errorDialog(successCallback){
         ]);
     }else{
         // Do a silent attempt to reopen connection! (max limit is 5)
-        openConnection(successCallback);
+        setTimeout(() => openConnection(successCallback), 3000);
     }
 }
 
@@ -47,7 +47,7 @@ export function openConnection(successCallback){
             eventSource.close();
         }
         eventSource = undefined;
-        eventSource = new EventSource("/ServerEvents/init.php");
+        eventSource = new EventSource("/comm/events/init.php");
         window.activeEventSource = eventSource;
 
         if(eventSource != undefined){
