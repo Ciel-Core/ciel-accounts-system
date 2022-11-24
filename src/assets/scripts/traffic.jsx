@@ -10,7 +10,7 @@ import { log } from './console.jsx';
 import { resetRegisterData, registerData } from './pages/registerData.jsx';
 import { loginData, resetLoginData } from './pages/loginData.jsx';
 import { isSignedIn, isUpdatingUserState } from './user.jsx';
-import { setHelpFeed, setNeedHelp } from './../components/Help.jsx';
+import { blockReset, setBlockReset, setHelpFeed, setNeedHelp } from './../components/Help.jsx';
 
 export function afterURLChange(callback, once = false){
     // Note: don't use useLocation, it doesn't work in all contexts!
@@ -87,17 +87,19 @@ export function landingCheck(){
 
         // log(`Updating user state: ${isUpdatingUserState()}\nUser signed in: ${isSignedIn()}`);
 
-        // Reset help feed
-        if(lastURL != location.pathname.replace(/[#?].*$/g, "")){
-            setHelpFeed("");
-            setNeedHelp(false);
-            lastURL = location.pathname.replace(/[#?].*$/g, "");
-        }
-
         if(!isUpdatingUserState()){
 
             loadStart = new Date();
             blockElmWait = true;
+
+            // Reset help feed
+            if(lastURL != location.pathname.replace(/[#?].*$/g, "")){
+                if(blockReset != location.pathname.replace(/[#?].*$/g, "")){
+                    setHelpFeed("");
+                    setNeedHelp(false);
+                }
+                lastURL = location.pathname.replace(/[#?].*$/g, "");
+            }
     
             // All homepage redirections
             if(location.pathname == '/'){
