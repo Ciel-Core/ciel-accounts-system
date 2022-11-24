@@ -80,7 +80,7 @@ function getUserDataC(){
 
     // Get user data from 'users'
     $users = getDataFromTable($connection, $DATABASE_CoreTABLE__users, $UID,
-                "`UID`, `Username`, `DisplayUsername`, `FirstName`, `LastName`, `ProfilePicutre`");
+                "`UID`, `Username`, `DisplayUsername`, `FirstName`, `LastName`, `ProfilePicutre`, `Lang`");
 
     // Get user data from 'preferences'
     $preferences = getDataFromTable($connection, $DATABASE_CoreTABLE__preferences, $UID, "`ColorScheme`");

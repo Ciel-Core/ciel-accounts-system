@@ -16,6 +16,7 @@ $UID                = 0;
 $Username           = "username";
 $DisplayUsername    = "USERNAME";
 $ColorScheme        = 0;
+$Lang               = "LANG";
 
 // Check if the user has a valid session going on!
 require_once './../../tools/client.info.php';
@@ -30,6 +31,7 @@ if(CLIENT_isSessionValid()){
         $LastName           = $user->LastName;
         $ProfilePicutre     = $user->ProfilePicutre;
         $ColorScheme        = $user->ColorScheme;
+        $Lang               = $user->Lang;
     }else{
         $RESPONSE_SUCCESS_STATUS = false;
         $RESPONSE_TEXT = "Not ready yet!";
@@ -50,5 +52,6 @@ if(CLIENT_isSessionValid()){
     "LastName": "<?php echo $LastName; ?>",
     "ProfilePicutre": "<?php echo $ProfilePicutre; ?>",
     "ColorScheme": <?php echo $ColorScheme; ?>,
+    "Lang": "<?php echo $Lang; ?>",
     <?php require './../../_chips/JSON_response_attachment.php'; ?>
 }
