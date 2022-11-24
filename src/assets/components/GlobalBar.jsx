@@ -69,6 +69,7 @@ function showNavContent(navigate, pathname, container, spinner, mainTimeout, bar
                     };
                     // Remove iframe when the body is focused
                     document.body.onfocus = window.closeNavContent;
+                    iframe.contentWindow.onblur = window.closeNavContent;
                 });
                 onCleanup(() => {
                     clearTimeout(timeout);
