@@ -35,10 +35,10 @@ function serverErrorUpdate($e){
 }
 
 // Import needed libraries
-require_once './../APIs/tools/data.secret.php';
-require_once './../APIs/tools/tool.dates.php';
-require_once './../APIs/tools/sql.database.php';
-require_once './../APIs/tools/sql.user.data.php';
+require_once './../../APIs/tools/data.secret.php';
+require_once './../../APIs/tools/tool.dates.php';
+require_once './../../APIs/tools/sql.database.php';
+require_once './../../APIs/tools/sql.user.data.php';
 
 // Connect to the core_accounts database
 $coreAccountsDB = connectMySQL(DATABASE_READ_ONLY, false);

@@ -47,7 +47,7 @@ export function openConnection(successCallback){
             eventSource.close();
         }
         eventSource = undefined;
-        eventSource = new EventSource("/ServerEvents/init.php");
+        eventSource = new EventSource("/comm/events/init.php");
         window.activeEventSource = eventSource;
 
         if(eventSource != undefined){
