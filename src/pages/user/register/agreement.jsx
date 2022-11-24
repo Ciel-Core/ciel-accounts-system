@@ -7,6 +7,7 @@
 import style from './../../../assets/styles/pages/user.agreement.module.css';
 
 import { Title } from './../../../assets/components/Title.jsx';
+import { Help } from './../../../assets/components/Help.jsx';
 import { Button, Notice, Mark, FlexContainer, showDialog } from './../../../assets/components/CustomElements.jsx';
 import { onCleanup, onMount } from 'solid-js';
 import { useNavigate } from '@solidjs/router';
@@ -55,6 +56,7 @@ export default function RegisterAgreement(props){
     });
     return <>
         <Title>Sign Up</Title>
+        <Help feed={"register"}/>
         <h1>User agreement</h1>
         <br/>
         <h3>To create a <Mark>{import.meta.env.VITE_NAME} account</Mark> and use all related services you must <Mark>agree</Mark> to the following:</h3>

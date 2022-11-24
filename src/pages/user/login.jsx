@@ -5,6 +5,7 @@
  **/
 
 import { Title } from './../../assets/components/Title.jsx';
+import { Help } from './../../assets/components/Help.jsx';
 import { Input, Button, Notice, Mark, FlexContainer, showDialog, setInputState } from '../../assets/components/CustomElements.jsx';
 import { onCleanup, onMount } from 'solid-js';
 import { nextCheck } from './register.jsx';
@@ -57,6 +58,7 @@ export default function Login(props){
     });
     return <>
         <Title>Sign In</Title>
+        <Help feed={"login"}/>
         <h1>Sign in</h1>
         <br/>
         <h3>Use your <Mark>{import.meta.env.VITE_NAME} account</Mark> securely!</h3>

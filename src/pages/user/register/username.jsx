@@ -5,6 +5,7 @@
  **/
 
 import { Title } from './../../../assets/components/Title.jsx';
+import { Help } from './../../../assets/components/Help.jsx';
 import { Input, Button, Notice, Mark, FlexContainer, setInputState, showDialog } from './../../../assets/components/CustomElements.jsx';
 import { InputFieldsContainer, nextCheck, redoRegister, ButtonsContainer } from './../register.jsx';
 import { onCleanup, onMount } from 'solid-js';
@@ -43,6 +44,7 @@ export default function RegisterUsername(props){
     });
     return <>
         <Title>Sign Up</Title>
+        <Help feed={"register"}/>
         <h1>Choose a username!</h1>
         <br/>
         <h3>Choose your own <Mark>username</Mark>!</h3>

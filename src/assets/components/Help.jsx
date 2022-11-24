@@ -7,15 +7,16 @@
 import { createSignal } from "solid-js";
 
 export const [helpFeed, setHelpFeed] = createSignal("");
+export const [needHelp, setNeedHelp] = createSignal(false);
 
 export function Help(props){
-    setTimeout(function(){
-        if(props.feed){
-            setHelpFeed(props.feed);
-        }else{
-            setHelpFeed("");
-        }
-    }, 1);
+    if(props.feed){
+        setHelpFeed(props.feed);
+        setNeedHelp(true);
+    }else{
+        setHelpFeed("");
+        setNeedHelp(false);
+    }
     return <></>;
 }
 

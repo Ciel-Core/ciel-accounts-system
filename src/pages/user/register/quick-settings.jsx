@@ -7,6 +7,7 @@
 import style from './../../../assets/styles/pages/user.quick-settings.module.css';
  
 import { Title } from './../../../assets/components/Title.jsx';
+import { Help } from './../../../assets/components/Help.jsx';
 import { Button, Notice, Mark, FlexContainer, Radio, Divider, onRadioGroupChange, getRadioValueByNameGroup, showDialog } from './../../../assets/components/CustomElements.jsx';
 import { InputFieldsContainer, nextCheck, redoRegister, ButtonsContainer } from './../register.jsx';
 import { onCleanup, onMount } from 'solid-js';
@@ -78,6 +79,7 @@ export default function RegisterQuickSettings(props){
     });
     return <>
         <Title>Sign Up</Title>
+        <Help feed={"register"}/>
         <h1>Quick Settings</h1>
         <br/>
         <h3>Choose the settings that suit your <Mark>personal preferences</Mark>!</h3>

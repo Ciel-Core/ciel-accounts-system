@@ -17,9 +17,9 @@ import HelpIcon from './../icons/help.svg';
 import BackArrowIcon from './../icons/arrow_back.svg';
 import { render } from "solid-js/web";
 import { useNavigate } from "@solidjs/router";
-import { helpFeed } from './Help.jsx';
+import { helpFeed, needHelp } from './Help.jsx';
 
-function showNavContent(navigate, pathname, container, spinner, mainTimeout, bar){
+function showNavContent(navigate, pathname, container, spinner, mainTimeout, bar, external){
     if(!window.mobileView.matches){
         // Show dialog above global bar
         bar.dataset.prioritize = true;
@@ -78,7 +78,11 @@ function showNavContent(navigate, pathname, container, spinner, mainTimeout, bar
             }, container);
         }, 400);
     }else{
-        navigate(pathname);
+        if(external){
+            window.open(pathname, '_blank').focus();
+        }else{
+            navigate(pathname);
+        }
     }
 }
 
@@ -92,9 +96,9 @@ function LeftControls(props){
             <div class={styles.navControl}>
                 <BackArrowIcon onClick={() => history.back()} unselectable/>
             </div>
-            <div class={styles.otherControl} style={{display: (isSignedIn()) ? "inline-block" : "none"}}>
+            <div class={styles.otherControl} style={{display: (isSignedIn() || needHelp()) ? "inline-block" : "none"}}>
                 <HelpIcon id="help-icon" onClick={function(){
-                    showNavContent(navigate, `/help/feed/${helpFeed()}`, helpContainer, helpLoadingSpinner, helpTimeout, props.bar);
+                    showNavContent(navigate, `/help/feed/${helpFeed()}`, helpContainer, helpLoadingSpinner, helpTimeout, props.bar, true);
                 }} unselectable/>
             </div>
             <div ref={helpContainer} class={styles.helpContainer} data-show={false}>
@@ -112,7 +116,7 @@ function RightControls(props){
     return (
         <div class={styles.rightControls} data-signed-in={isSignedIn()}>
             <div id="alerts-icon" class={styles.bellContainer} data-pin={false} onClick={function(){
-                    showNavContent(navigate, "/notifications", alertsContainer, alertsLoadingSpinner, alertsTimeout, props.bar);
+                    showNavContent(navigate, "/notifications", alertsContainer, alertsLoadingSpinner, alertsTimeout, props.bar, false);
                 }}>
                 <BellIcon class={styles.bell} unselectable/>
                 <BellPinIcon class={styles.bellPin} unselectable/>

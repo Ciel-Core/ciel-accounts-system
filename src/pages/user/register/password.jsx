@@ -5,6 +5,7 @@
  **/
 
 import { Title } from './../../../assets/components/Title.jsx';
+import { Help } from './../../../assets/components/Help.jsx';
 import { Input, Button, Notice, Mark, FlexContainer, CheckBox, setInputState } from './../../../assets/components/CustomElements.jsx';
 import { InputFieldsContainer, clientDataCheck, nextCheck, redoRegister, ButtonsContainer } from './../register.jsx';
 import { onCleanup, onMount } from 'solid-js';
@@ -37,6 +38,7 @@ export default function RegisterPassword(props){
     });
     return <>
         <Title>Sign Up</Title>
+        <Help feed={"register"}/>
         <h1>Choose a password!</h1>
         <br/>
         <h3>Choose a <Mark>secure password</Mark> for your account!</h3>

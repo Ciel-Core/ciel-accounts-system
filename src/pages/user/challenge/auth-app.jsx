@@ -7,6 +7,7 @@
 import style from './../../../assets/styles/pages/user.challenge.module.css';
 
 import { Title } from './../../../assets/components/Title.jsx';
+import { Help } from './../../../assets/components/Help.jsx';
 import { onCleanup, onMount } from 'solid-js';
 import { Mark } from './../../../assets/components/CustomElements.jsx';
 import { checkFactorState } from './../challenge.jsx';
@@ -22,6 +23,7 @@ export default function Home(props){
     });
     return <>
         <Title>Sign In</Title>
+        <Help feed={"login"}/>
         <h2 class={style.userWelcome}>[Auth App Tittle]!</h2>
         <h4 class={style.userMessage}>[Auth App Descrip<Mark>tion</Mark>]</h4>
     </>;

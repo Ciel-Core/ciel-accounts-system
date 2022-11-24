@@ -5,6 +5,7 @@
  **/
 
 import { Title } from './../../../assets/components/Title.jsx';
+import { Help } from './../../../assets/components/Help.jsx';
 import { Button, Mark, FlexContainer, Notice, showDialog } from './../../../assets/components/CustomElements.jsx';
 import { onCleanup, onMount } from 'solid-js';
 import { checkPlatformSupport, createPublicKey } from './../../../assets/scripts/deviceCredential.jsx';
@@ -37,6 +38,7 @@ export default function DeviceAuthSetup(props){
     });
     return (<>
         <Title>Device Auth</Title>
+        <Help feed={"login"}/>
         <h1>Trust this device?</h1>
         <br/>
         <h3>You could use this device as a <Mark>trusted device</Mark> to authenticate your logins!</h3>

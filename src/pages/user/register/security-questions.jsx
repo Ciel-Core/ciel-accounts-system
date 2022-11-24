@@ -5,6 +5,7 @@
  **/
 
 import { Title } from './../../../assets/components/Title.jsx';
+import { Help } from './../../../assets/components/Help.jsx';
 import { Input, Select, Button, Notice, Mark, FlexContainer, setInputState } from './../../../assets/components/CustomElements.jsx';
 import { InputFieldsContainer, clientDataCheck, nextCheck, redoRegister, ButtonsContainer } from './../register.jsx';
 import { createSignal, onMount, onCleanup } from "solid-js";
@@ -78,6 +79,7 @@ export default function RegisterSecurityQuestions(props){
     });
     return <>
         <Title>Sign Up</Title>
+        <Help feed={"register"}/>
         <h1>Security is key!</h1>
         <br/>
         <h3>Choose your <Mark>security questions</Mark> and answer them!</h3>
