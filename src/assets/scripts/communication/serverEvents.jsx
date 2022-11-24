@@ -10,19 +10,25 @@ import { log, throwError } from "./../console.jsx";
 let eventSource = undefined;
 window.activeEventSource = undefined;
 
+let failedAttempts = 0;
 function errorDialog(successCallback){
     eventSource.close();
     eventSource = undefined;
     window.activeEventSource = undefined;
-    showDialog("Something went wrong!", "We couldn't connect to the server for live updates!", [
-        ["Ok", function(dialog, remove){
-            remove();
-        }], ["Retry", function(dialog, remove){
-            remove();
-            // openConnection(successCallback);
-            location.reload();
-        }]
-    ]);
+    // Check failed attempts
+    if(++failedAttempts > 5){
+        showDialog("Something went wrong!", "We couldn't connect to the server for live updates!", [
+            ["Ok", function(dialog, remove){
+                remove();
+            }], ["Retry", function(dialog, remove){
+                remove();
+                location.reload();
+            }]
+        ]);
+    }else{
+        // Do a silent attempt to reopen connection! (max limit is 5)
+        openConnection(successCallback);
+    }
 }
 
 // Open connection
