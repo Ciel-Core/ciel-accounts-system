@@ -151,7 +151,9 @@ You can deploy the `dist` folder to any static host provider (netlify, surge, no
 
 > Must enable php_sockets extension (add `extension=php_sockets.dll` to `php.ini`)
 >
-> Run the command `C:\xampp1\php\php.exe -q socket.php` before trying the website
+> Run the command `C:\xampp1\php\php.exe -q socket.php` before trying the website (if you wish to test the WebSocket dir)
+>
+> PHP version 7.4
 
 ## Used services
 
