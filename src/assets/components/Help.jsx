@@ -11,15 +11,17 @@ export const [needHelp, setNeedHelp] = createSignal(false);
 export let blockReset = false;
 
 export function Help(props){
-    if(props.feed){
-        blockReset = location.pathname.replace(/[#?].*$/g, "");
-        setHelpFeed(props.feed);
-        setNeedHelp(true);
-    }else{
-        blockReset = undefined;
-        setHelpFeed("");
-        setNeedHelp(false);
-    }
+    setTimeout(() => {
+        if(props.feed){
+            blockReset = location.pathname.replace(/[#?].*$/g, "");
+            setHelpFeed(props.feed);
+            setNeedHelp(true);
+        }else{
+            blockReset = undefined;
+            setHelpFeed("");
+            setNeedHelp(false);
+        }
+    }, 200);
     return <></>;
 }
 
