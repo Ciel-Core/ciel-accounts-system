@@ -206,6 +206,24 @@
             --accent-color-lighter: #3d2a22;
             --accent-color-faint: #2f201a;
         }
+        /* Yellow */
+        
+         :root[data-accent-color=yellow],
+         :root[data-color-scheme=light][data-accent-color=yellow] {
+            --accent-color: #e8b12c;
+            --accent-color-active: #eeb833;
+            --accent-color-activeO: #eeb83357;
+            --accent-color-lighter: #f2e2bb;
+            --accent-color-faint: #f9eed3;
+        }
+        
+         :root[data-color-scheme=dark][data-accent-color=yellow] {
+            --accent-color: #dfad35;
+            --accent-color-active: #f1be42;
+            --accent-color-activeO: #f1be4257;
+            --accent-color-lighter: #343026;
+            --accent-color-faint: #2d2920;
+        }
         /* Green */
         
          :root[data-accent-color=green],
@@ -223,6 +241,42 @@
             --accent-color-activeO: #56994d57;
             --accent-color-lighter: #263423;
             --accent-color-faint: #212b1f;
+        }
+        /* Purple */
+        
+         :root[data-accent-color=purple],
+         :root[data-color-scheme=light][data-accent-color=purple] {
+            --accent-color: #7851a9;
+            --accent-color-active: #875bbe;
+            --accent-color-activeO: #875bbe57;
+            --accent-color-lighter: #d5c2ee;
+            --accent-color-faint: #dfd1f1;
+        }
+        
+         :root[data-color-scheme=dark][data-accent-color=purple] {
+            --accent-color: #935fd4;
+            --accent-color-active: #a166eb;
+            --accent-color-activeO: #a166eb57;
+            --accent-color-lighter: #2f263e;
+            --accent-color-faint: #251e30;
+        }
+        /* Pink */
+        
+         :root[data-accent-color=pink],
+         :root[data-color-scheme=light][data-accent-color=pink] {
+            --accent-color: #ea408f;
+            --accent-color-active: #f24495;
+            --accent-color-activeO: #f2449557;
+            --accent-color-lighter: #ffb6d8;
+            --accent-color-faint: #fbc8e0;
+        }
+        
+         :root[data-color-scheme=dark][data-accent-color=pink] {
+            --accent-color: #f94d9d;
+            --accent-color-active: #ff5ca8;
+            --accent-color-activeO: #ff5ca857;
+            --accent-color-lighter: #402c35;
+            --accent-color-faint: #2f2127;
         }
         /* Black */
         
@@ -248,6 +302,7 @@
             height: 100%;
             margin: 0px;
             background-color: var(--main-background);
+            accent-color: var(--accent-color);
         }
         
         body {
