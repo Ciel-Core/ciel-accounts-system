@@ -47,7 +47,7 @@ function updateSearchBox(isURLUpdate, container, input, results, resultsLoading,
         resultsLoading.style.display = null;
         resultsContent.style.display = "none";
         container.dataset.resultsVisible = true;
-    }else{
+    }else if(input.value.replace(/\s/g, "") == ""){
         resultsLoading.style.display = "none";
     }
     // Update search results
