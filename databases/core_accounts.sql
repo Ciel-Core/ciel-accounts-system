@@ -33,7 +33,7 @@ CREATE TABLE `preferences` (
   `ProfileVisibility` tinyint(1) UNSIGNED NOT NULL,
   `ActivityMode` tinyint(1) UNSIGNED NOT NULL,
   `Location` tinyint(1) UNSIGNED NOT NULL,
-  `ColorScheme` tinyint(1) UNSIGNED NOT NULL,
+  `ColorScheme` tinyint(1) UNSIGNED NOT NULL DEFAULT 0,
   `AccentColor` varchar(23) NOT NULL DEFAULT 'red',
   `UpdateTimestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -42,8 +42,8 @@ CREATE TABLE `preferences` (
 -- Dumping data for table `preferences`
 --
 
-INSERT INTO `preferences` (`UID`, `ProfileVisibility`, `ActivityMode`, `Location`, `ColorScheme`) VALUES
-(10000000000, 1, 1, 1, 0);
+INSERT INTO `preferences` (`UID`, `ProfileVisibility`, `ActivityMode`, `Location`) VALUES
+(10000000000, 1, 1, 1);
 
 -- --------------------------------------------------------
 
