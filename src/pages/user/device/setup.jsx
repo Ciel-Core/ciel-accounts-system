@@ -11,6 +11,7 @@ import { onCleanup, onMount } from 'solid-js';
 import { checkPlatformSupport, createPublicKey } from './../../../assets/scripts/deviceCredential.jsx';
 import { useNavigate } from '@solidjs/router';
 import { userData } from './../../../assets/scripts/user.jsx';
+import { loginSuccessful } from './../login.jsx';
 
 export default function DeviceAuthSetup(props){
     let navigate = useNavigate(),
@@ -45,7 +46,9 @@ export default function DeviceAuthSetup(props){
         <FlexContainer space={"around"} style={{width: "400px"}}>
             <Notice>You can only set up devices with passwords or other similar security measures as trusted devices!</Notice>
             <FlexContainer space={"between"} horozontal no-grow>
-                <Button type={"link"} href={"/"}>Skip</Button>
+                <Button type={"action"} function={function(){
+                    loginSuccessful(navigate);
+                }}>Skip</Button>
                 <Button ref={setupButton} type={"action"} function={function(){
                     localContent.dataset.processing = true;
                     setupButton.setAttribute("disabled", "");
@@ -57,7 +60,7 @@ export default function DeviceAuthSetup(props){
                                 [
                                     ["Ok", function(dialog, remove){
                                         remove();
-                                        navigate("/", {replace: true});
+                                        loginSuccessful(navigate, true);
                                     }], ["Retry", function(dialog, remove){
                                         remove();
                                         setupButton.click();
@@ -67,7 +70,7 @@ export default function DeviceAuthSetup(props){
                             // Success!
                             // Remember that this device is trusted
                             localStorage.setItem(`DEVICE_TRUSTED_${data.user.id}`, data.deviceID);
-                            navigate("/", {replace: true});
+                            loginSuccessful(navigate, true);
                         }
                     });
                }} primary>Setup Auth</Button>

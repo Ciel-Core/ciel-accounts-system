@@ -33,7 +33,8 @@ export function afterURLChange(callback, once = false){
 const lists = {
     signedInOnly: [
         ["/user/device/setup", "/new"],
-        ["/notifications", "/user/login"]
+        ["/notifications", "/user/login"],
+        ["/user/customization", "/user/login"]
     ],
     signedOutOnly: [
         ["/new", "/"],

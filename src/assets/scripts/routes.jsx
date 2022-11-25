@@ -10,6 +10,7 @@ import { lazy } from "solid-js";
 // Import all the website's pages
 const Pages = {
     Home: lazy(() => import("./../../pages/home.jsx")),
+    AccountCustomization: lazy(() => import("./../../pages/user/customization.jsx")),
 
     New: lazy(() => import("./../../pages/new.jsx")),
 
@@ -55,6 +56,7 @@ export function WebRoutes(props){
 
         {/* Pages that require the user to be signed in, and can be used only when signed in */}
         <Route path={"/"} element={<Pages.Home {...reports}></Pages.Home>} />
+        <Route path={"/user/customization"} element={<Pages.AccountCustomization {...reports}></Pages.AccountCustomization>} />
 
         <Route path={"/user/device/setup"} element={<Pages.DeviceAuthSetup {...reports}></Pages.DeviceAuthSetup>} />
         <Route path={"/user/device/auth"} element={<Pages.DeviceAuth {...reports}></Pages.DeviceAuth>} />

@@ -72,7 +72,8 @@ function getUIDByDeviceID($deviceID, $connection = null){
 // Get all the user data needed by the client!
 function getUserDataC(){
     // Connect to database
-    global $DATABASE_CoreTABLE__users, $DATABASE_CoreTABLE__preferences;
+    global $DATABASE_CoreTABLE__users, $DATABASE_CoreTABLE__preferences,
+            $DATABASE_CoreTABLE__system;
     $connection = connectMySQL(DATABASE_READ_ONLY);
 
     // Get UID
@@ -85,7 +86,10 @@ function getUserDataC(){
     // Get user data from 'preferences'
     $preferences = getDataFromTable($connection, $DATABASE_CoreTABLE__preferences, $UID, "`ColorScheme`, `AccentColor`");
 
-    return (object)array_merge((array)$users, (array)$preferences);
+    // Get user data from 'system'
+    $system = getDataFromTable($connection, $DATABASE_CoreTABLE__system, $UID, "`CustomizationComplete`");
+
+    return (object)array_merge((array)$users, (array)$preferences, (array)$system);
 }
 
 ?>
