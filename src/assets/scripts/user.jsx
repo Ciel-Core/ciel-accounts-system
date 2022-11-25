@@ -26,6 +26,9 @@ function defaultUserProfile(){
         content: {
             language: "en-GB"
         },
+        system: {
+            customizationComplete: false
+        },
         id: 0, // User ID
         username: "username", // Public username (small letters)
         displayUsername: "USERNAME", // Public username
@@ -53,6 +56,8 @@ function convertUserData(userData){
     profile.visual.accentColor                  = userData.AccentColor;
 
     profile.content.language                    = userData.Lang;
+
+    profile.system.customizationComplete        = userData.CustomizationComplete;
 
     return profile;
 }

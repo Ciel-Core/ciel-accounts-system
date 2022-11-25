@@ -155,3 +155,14 @@ export function factorStatePOST(callback){
         throwError(error);
     });
 }
+
+export function setAsCustomizedPOST(callback){
+    jsonPOST("/APIs/accounts/system/set.customized.json.php", {
+        //
+    }).then(function(data){
+        callback(data.responseInfo.successful, data);
+    }).catch(function(error){
+        callback(false, undefined);
+        throwError(error);
+    });
+}

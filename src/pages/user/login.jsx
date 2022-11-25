@@ -12,11 +12,20 @@ import { nextCheck } from './register.jsx';
 import { useNavigate } from '@solidjs/router';
 import { usernameCheckPOST } from './../../assets/scripts/communication/accounts.jsx';
 import { loginData, resetLoginData } from './../../assets/scripts/pages/loginData.jsx';
+import { userData } from './../../assets/scripts/user.jsx';
 
 export { nextCheck };
 
 export function InputFieldsContainer(props){
     return (<div style={{width: "100%", position: "relative", overflow: "hidden"}}>{props.children}</div>);
+}
+
+export function loginSuccessful(nav, replace = false){
+    if(userData().system.customizationComplete){
+        nav("/", {replace});
+    }else{
+        nav("/user/customization", {replace});
+    }
 }
 
 export function redoLogin(navigate, prompt = false){

@@ -16,6 +16,7 @@ import { loginData } from './../../../assets/scripts/pages/loginData.jsx';
 import { throwError } from './../../../assets/scripts/console.jsx';
 import { authnSignInPOST } from './../../../assets/scripts/communication/accounts.jsx';
 import { updateUserState } from './../../../assets/scripts/user.jsx';
+import { loginSuccessful } from './../login.jsx';
 
 export default function DeviceAuth(props){
     let navigate = useNavigate();
@@ -60,7 +61,7 @@ export default function DeviceAuth(props){
                             if(success && data.validUser){
                                 // Sign the user in!
                                 updateUserState(function(){
-                                    navigate("/");
+                                    loginSuccessful(navigate);
                                 }, true);
                             }else{
                                 errorFunc();

@@ -9,15 +9,16 @@ checkInputData(
 );
 
 // Prepare variables
-$ProfilePicutre     = "DEFAULT";
-$FirstName          = "[First]";
-$LastName           = "[Last]";
-$UID                = 0;
-$Username           = "username";
-$DisplayUsername    = "USERNAME";
-$ColorScheme        = 0;
-$AccentColor        = "COLOR";
-$Lang               = "LANG";
+$ProfilePicutre             = "DEFAULT";
+$FirstName                  = "[First]";
+$LastName                   = "[Last]";
+$UID                        = 0;
+$Username                   = "username";
+$DisplayUsername            = "USERNAME";
+$ColorScheme                = 0;
+$AccentColor                = "COLOR";
+$Lang                       = "LANG";
+$CustomizationComplete      = 0;
 
 // Check if the user has a valid session going on!
 require_once './../../tools/client.info.php';
@@ -25,15 +26,16 @@ if(CLIENT_isSessionValid()){
     if($INPUT_DATA->fullRequest){
         require './../../tools/sql.user.data.php';
         $user = getUserDataC();
-        $UID                = $user->UID;
-        $Username           = $user->Username;
-        $DisplayUsername    = $user->DisplayUsername;
-        $FirstName          = $user->FirstName;
-        $LastName           = $user->LastName;
-        $ProfilePicutre     = $user->ProfilePicutre;
-        $ColorScheme        = $user->ColorScheme;
-        $AccentColor        = $user->AccentColor;
-        $Lang               = $user->Lang;
+        $UID                            = $user->UID;
+        $Username                       = $user->Username;
+        $DisplayUsername                = $user->DisplayUsername;
+        $FirstName                      = $user->FirstName;
+        $LastName                       = $user->LastName;
+        $ProfilePicutre                 = $user->ProfilePicutre;
+        $ColorScheme                    = $user->ColorScheme;
+        $AccentColor                    = $user->AccentColor;
+        $Lang                           = $user->Lang;
+        $CustomizationComplete          = $user->CustomizationComplete;
     }else{
         $RESPONSE_SUCCESS_STATUS = false;
         $RESPONSE_TEXT = "Not ready yet!";
@@ -56,5 +58,6 @@ if(CLIENT_isSessionValid()){
     "ColorScheme": <?php echo $ColorScheme; ?>,
     "AccentColor": "<?php echo $AccentColor; ?>",
     "Lang": "<?php echo $Lang; ?>",
+    "CustomizationComplete": <?php echo ($CustomizationComplete) ? 'true' : 'false'; ?>,
     <?php require './../../_chips/JSON_response_attachment.php'; ?>
 }

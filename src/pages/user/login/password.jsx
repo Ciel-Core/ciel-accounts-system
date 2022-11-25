@@ -10,7 +10,7 @@ import { Title } from './../../../assets/components/Title.jsx';
 import { Help } from './../../../assets/components/Help.jsx';
 import { Input, Button, Mark, FlexContainer, CheckBox, Link, showDialog, setInputState, Notice } from './../../../assets/components/CustomElements.jsx';
 import { onCleanup, onMount } from 'solid-js';
-import { InputFieldsContainer, redoLogin, nextCheck } from './../login.jsx';
+import { InputFieldsContainer, redoLogin, nextCheck, loginSuccessful } from './../login.jsx';
 import { loginData, loadAES, hash } from './../../../assets/scripts/pages/loginData.jsx';
 import { useLocation, useNavigate } from '@solidjs/router';
 import { getSalts, signInPOST } from './../../../assets/scripts/communication/accounts.jsx';
@@ -120,7 +120,7 @@ export default function LoginPassword(props){
                                 if(deviceID == undefined && webAuthnSupport){
                                     navigate("/user/device/setup");
                                 }else{
-                                    navigate("/");
+                                    loginSuccessful(navigate);
                                 }
                             }, true);
                         }
