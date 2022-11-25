@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-color-scheme="light" data-display-mode="tab">
+<html lang="en" data-color-scheme="light" data-display-mode="tab" data-accent-color="red">
 
 <head>
     <meta charset="utf-8">
@@ -54,6 +54,14 @@
             delete themeColorDark, themeColorLight;
             // Update theme-color
             window._theme.updateColorGroup();
+        }
+        /* Quick accent colour detection */
+        {
+            // Get last accent colour
+            let lastAccentColor = localStorage.getItem("last-accent-color");
+            if (lastAccentColor != undefined) {
+                document.documentElement.dataset.accentColor = lastAccentColor;
+            }
         }
         /* Quick display mode detection */
         {
@@ -120,11 +128,6 @@
             --text-color: #0D0F11;
             --text-color-faint: #747f8a;
             --main-background: #f9fafc;
-            --accent-color: #C90C3B;
-            --accent-color-active: #e03a64;
-            --accent-color-activeO: #e03a6357;
-            --accent-color-lighter: #ffa6be;
-            --accent-color-faint: #ffdae4;
             --background-blend: #e8ebf0;
             --background-blend-rgb: 232, 235, 240;
             --background-bold: #6b737a;
@@ -139,11 +142,6 @@
             --text-color: #F7F8FA;
             --text-color-faint: #868c94;
             --main-background: #101313;
-            --accent-color: #ec3f6b;
-            --accent-color-active: #c23b5d;
-            --accent-color-activeO: #c23b5d57;
-            --accent-color-lighter: #5a2e3b;
-            --accent-color-faint: #301c22;
             --background-blend: #202529;
             --background-blend-rgb: 32, 37, 41;
             --background-bold: #96a4af;
@@ -151,6 +149,98 @@
             --dialog-background: #1d2022;
             --dialog-shadow: #0e0e0e;
             --dialog-container-background: rgba(14, 14, 15, 0.85);
+        }
+        /* Red, default */
+        
+         :root,
+         :root[data-accent-color=red],
+         :root[data-color-scheme=light][data-accent-color=red] {
+            --accent-color: #C90C3B;
+            --accent-color-active: #e03a64;
+            --accent-color-activeO: #e03a6357;
+            --accent-color-lighter: #ffa6be;
+            --accent-color-faint: #ffdae4;
+        }
+        
+         :root[data-color-scheme=dark],
+         :root[data-color-scheme=dark][data-accent-color=red] {
+            --accent-color: #ec3f6b;
+            --accent-color-active: #c23b5d;
+            --accent-color-activeO: #c23b5d57;
+            --accent-color-lighter: #5a2e3b;
+            --accent-color-faint: #301c22;
+        }
+        /* Blue */
+        
+         :root[data-accent-color=blue],
+         :root[data-color-scheme=light][data-accent-color=blue] {
+            --accent-color: #303dc2;
+            --accent-color-active: #3F52C4;
+            --accent-color-activeO: #3F52C457;
+            --accent-color-lighter: #aabcff;
+            --accent-color-faint: #d7def8;
+        }
+        
+         :root[data-color-scheme=dark][data-accent-color=blue] {
+            --accent-color: #4e5ce6;
+            --accent-color-active: #5766f7;
+            --accent-color-activeO: #5766f757;
+            --accent-color-lighter: #252a3e;
+            --accent-color-faint: #1e222f;
+        }
+        /* Orange */
+        
+         :root[data-accent-color=orange],
+         :root[data-color-scheme=light][data-accent-color=orange] {
+            --accent-color: #df5e2d;
+            --accent-color-active: #f46c39;
+            --accent-color-activeO: #df5e2d57;
+            --accent-color-lighter: #f3bfac;
+            --accent-color-faint: #fee0d5;
+        }
+        
+         :root[data-color-scheme=dark][data-accent-color=orange] {
+            --accent-color: #ff7642;
+            --accent-color-active: #ff8557;
+            --accent-color-activeO: #ff855757;
+            --accent-color-lighter: #3d2a22;
+            --accent-color-faint: #2f201a;
+        }
+        /* Green */
+        
+         :root[data-accent-color=green],
+         :root[data-color-scheme=light][data-accent-color=green] {
+            --accent-color: #34782a;
+            --accent-color-active: #45843b;
+            --accent-color-activeO: #45843b57;
+            --accent-color-lighter: #c1dcbd;
+            --accent-color-faint: #d7edd4;
+        }
+        
+         :root[data-color-scheme=dark][data-accent-color=green] {
+            --accent-color: #48903e;
+            --accent-color-active: #56994d;
+            --accent-color-activeO: #56994d57;
+            --accent-color-lighter: #263423;
+            --accent-color-faint: #212b1f;
+        }
+        /* Black */
+        
+         :root[data-accent-color=black],
+         :root[data-color-scheme=light][data-accent-color=black] {
+            --accent-color: #373c3c;
+            --accent-color-active: #495151;
+            --accent-color-activeO: #49515157;
+            --accent-color-lighter: #bac4c5;
+            --accent-color-faint: #dbe3e4;
+        }
+        
+         :root[data-color-scheme=dark][data-accent-color=black] {
+            --accent-color: #818f8f;
+            --accent-color-active: #728181;
+            --accent-color-activeO: #72818157;
+            --accent-color-lighter: #242929;
+            --accent-color-faint: #181b1b;
         }
         
         html {

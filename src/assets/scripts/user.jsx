@@ -16,6 +16,7 @@ function defaultUserProfile(){
     return {
         visual: {
             preferredColorScheme: 0, // 0 - system, 1 - light, 2 - dark
+            accentColor: "COLOR"
         },
         personal: {
             profilePicture: "/images/icons/default_user.svg", // <String> - URL to profile picture, /images/users/XXXXXXXXXXXXXXXXXXXXXXXXXX/...
@@ -49,6 +50,7 @@ function convertUserData(userData){
                                                         "/images/users/" + userData.ProfilePicutre + ".png";
 
     profile.visual.preferredColorScheme         = userData.ColorScheme;
+    profile.visual.accentColor                  = userData.AccentColor;
 
     profile.content.language                    = userData.Lang;
 

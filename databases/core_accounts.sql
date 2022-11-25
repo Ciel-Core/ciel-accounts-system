@@ -34,6 +34,7 @@ CREATE TABLE `preferences` (
   `ActivityMode` tinyint(1) UNSIGNED NOT NULL,
   `Location` tinyint(1) UNSIGNED NOT NULL,
   `ColorScheme` tinyint(1) UNSIGNED NOT NULL,
+  `AccentColor` varchar(15) NOT NULL DEFAULT 'red',
   `UpdateTimestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 

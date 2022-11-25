@@ -24,7 +24,7 @@ import { Router } from "@solidjs/router";
 import { updateUserState, userData } from './assets/scripts/user.jsx';
 
 // Step 4: Update the components that are relavent to the user's data
-import { updateColorScheme } from './assets/scripts/colourScheme.jsx';
+import { updateAccentColor, updateColorScheme } from './assets/scripts/theme.jsx';
 
 // Step 5: Import the required components
 import GlobalBar from './assets/components/GlobalBar.jsx';
@@ -32,7 +32,7 @@ import GlobalFooter from './assets/components/GlobalFooter.jsx';
 import LocalContent from './assets/components/LocalContent.jsx';
 import Scrollbar from './assets/components/ScrollBar.jsx';
 import { showDialog } from './assets/components/CustomElements.jsx';
-import { isForcedDarkMode } from './assets/scripts/colourScheme.jsx';
+import { isForcedDarkMode } from './assets/scripts/theme.jsx';
 import { checkConnection } from './assets/scripts/internetConnection.jsx';
 import { detectDevTools, alertDevMode } from './assets/scripts/console.jsx';
 
@@ -86,6 +86,7 @@ render(() =>{
         // Update colour scheme
         createEffect(() => {
             updateColorScheme(userData().visual.preferredColorScheme);
+            updateAccentColor(userData().visual.accentColor);
         });
     });
 

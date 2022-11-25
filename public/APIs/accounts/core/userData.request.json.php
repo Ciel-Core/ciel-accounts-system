@@ -16,6 +16,7 @@ $UID                = 0;
 $Username           = "username";
 $DisplayUsername    = "USERNAME";
 $ColorScheme        = 0;
+$AccentColor        = "COLOR";
 $Lang               = "LANG";
 
 // Check if the user has a valid session going on!
@@ -31,6 +32,7 @@ if(CLIENT_isSessionValid()){
         $LastName           = $user->LastName;
         $ProfilePicutre     = $user->ProfilePicutre;
         $ColorScheme        = $user->ColorScheme;
+        $AccentColor        = $user->AccentColor;
         $Lang               = $user->Lang;
     }else{
         $RESPONSE_SUCCESS_STATUS = false;
@@ -52,6 +54,7 @@ if(CLIENT_isSessionValid()){
     "LastName": "<?php echo $LastName; ?>",
     "ProfilePicutre": "<?php echo $ProfilePicutre; ?>",
     "ColorScheme": <?php echo $ColorScheme; ?>,
+    "AccentColor": "<?php echo $AccentColor; ?>",
     "Lang": "<?php echo $Lang; ?>",
     <?php require './../../_chips/JSON_response_attachment.php'; ?>
 }
