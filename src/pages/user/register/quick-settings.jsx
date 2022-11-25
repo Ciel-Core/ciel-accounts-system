@@ -11,7 +11,7 @@ import { Help } from './../../../assets/components/Help.jsx';
 import { Button, Notice, Mark, FlexContainer, Radio, Divider, onRadioGroupChange, getRadioValueByNameGroup, showDialog } from './../../../assets/components/CustomElements.jsx';
 import { InputFieldsContainer, nextCheck, redoRegister, ButtonsContainer } from './../register.jsx';
 import { onCleanup, onMount } from 'solid-js';
-import { updateColorScheme } from './../../../assets/scripts/colourScheme.jsx';
+import { updateColorScheme } from './../../../assets/scripts/theme.jsx';
 import { registerData, checkDataByOrder } from './../../../assets/scripts/pages/registerData.jsx';
 import { useNavigate } from '@solidjs/router';
 

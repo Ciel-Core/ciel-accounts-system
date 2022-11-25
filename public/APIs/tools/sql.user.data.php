@@ -83,7 +83,7 @@ function getUserDataC(){
                 "`UID`, `Username`, `DisplayUsername`, `FirstName`, `LastName`, `ProfilePicutre`, `Lang`");
 
     // Get user data from 'preferences'
-    $preferences = getDataFromTable($connection, $DATABASE_CoreTABLE__preferences, $UID, "`ColorScheme`");
+    $preferences = getDataFromTable($connection, $DATABASE_CoreTABLE__preferences, $UID, "`ColorScheme`, `AccentColor`");
 
     return (object)array_merge((array)$users, (array)$preferences);
 }

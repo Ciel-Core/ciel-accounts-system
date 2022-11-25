@@ -1,6 +1,6 @@
 /**
  * 
- * Manage the website's colour scheme!
+ * Manage the website's theme!
  * 
  **/
 
@@ -43,4 +43,10 @@ export function updateColorScheme(preference){ // 0 - system, 1 - light, 2 - dar
     }
     window._theme.updateColorGroup();
     localStorage.setItem("last-color-scheme", document.documentElement.dataset.colorScheme)
+}
+
+// Update accent colour
+export function updateAccentColor(color){
+    document.documentElement.dataset.accentColor = color;
+    localStorage.setItem("last-accent-color", color);
 }
