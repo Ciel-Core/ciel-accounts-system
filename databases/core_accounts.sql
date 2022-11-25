@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 23, 2022 at 07:43 PM
+-- Generation Time: Nov 25, 2022 at 09:09 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -107,6 +107,24 @@ CREATE TABLE `sessions` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `system`
+--
+
+CREATE TABLE `system` (
+  `UID` bigint(11) UNSIGNED NOT NULL,
+  `CustomizationComplete` tinyint(1) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `system`
+--
+
+INSERT INTO `system` (`UID`) VALUES
+(10000000000);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `trusteddevices`
 --
 
@@ -180,6 +198,12 @@ ALTER TABLE `sessions`
   ADD KEY `UID` (`UID`) USING BTREE;
 
 --
+-- Indexes for table `system`
+--
+ALTER TABLE `system`
+  ADD PRIMARY KEY (`UID`);
+
+--
 -- Indexes for table `trusteddevices`
 --
 ALTER TABLE `trusteddevices`
@@ -225,6 +249,12 @@ ALTER TABLE `security`
 --
 ALTER TABLE `sessions`
   ADD CONSTRAINT `sessions_ibfk_1` FOREIGN KEY (`UID`) REFERENCES `users` (`UID`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `system`
+--
+ALTER TABLE `system`
+  ADD CONSTRAINT `system_ibfk_1` FOREIGN KEY (`UID`) REFERENCES `users` (`UID`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `trusteddevices`
