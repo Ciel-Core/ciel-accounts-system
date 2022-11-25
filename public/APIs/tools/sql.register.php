@@ -7,7 +7,9 @@ require_once 'sql.database.php';
 function registerUser($input){
     global $DATABASE_CoreTABLE__preferences, $DATABASE_CoreTABLE__security,
         $DATABASE_CoreTABLE__users, $DATABASE_CoreTABLE__reservedUsernames,
-        $DATABASE_secretSault1, $DATABASE_secretSault2, $CLIENT_IPAddress;
+        $DATABASE_CoreTABLE__system,
+        $DATABASE_secretSault1, $DATABASE_secretSault2,
+        $CLIENT_IPAddress;
     $connection = connectMySQL(DATABASE_READ_AND_WRITE);
 
     // Prevent SQL injections
@@ -63,7 +65,7 @@ function registerUser($input){
             $ColorScheme = $input->quickSettings->colorScheme;
 
             // Attempt to register the user's preferences
-            if(!executeQueryMySQL($connection,
+            if(executeQueryMySQL($connection,
                     "INSERT INTO `$DATABASE_CoreTABLE__preferences`
                         (`UID`, `ProfileVisibility`, `ActivityMode`, `Location`,
                          `ColorScheme`)
@@ -72,15 +74,31 @@ function registerUser($input){
                           $ColorScheme)"
                 )){
 
+                // Attempt to register the user's system info
+                if(!executeQueryMySQL($connection,
+                        "INSERT INTO `$DATABASE_CoreTABLE__system`
+                            (`UID`)
+                        VALUES
+                            ($UID)"
+                    )){
+
+                    // Delete user data
+                    executeQueryMySQL($connection, "DELETE FROM `$DATABASE_CoreTABLE__users` WHERE `UID` = $UID");
+                    // Delete the username cooldown
+                    executeQueryMySQL($connection, "DELETE FROM $DATABASE_CoreTABLE__reservedUsernames WHERE `IPAddress` = '$CreationIPAddress'");
+                    $connection->close();
+                    return false;
+                }else{
+                    // Delete the username cooldown
+                    executeQueryMySQL($connection, "DELETE FROM $DATABASE_CoreTABLE__reservedUsernames WHERE `IPAddress` = '$CreationIPAddress'", false);
+                }
+            }else{
                 // Delete user data
                 executeQueryMySQL($connection, "DELETE FROM `$DATABASE_CoreTABLE__users` WHERE `UID` = $UID");
                 // Delete the username cooldown
                 executeQueryMySQL($connection, "DELETE FROM $DATABASE_CoreTABLE__reservedUsernames WHERE `IPAddress` = '$CreationIPAddress'");
                 $connection->close();
                 return false;
-            }else{
-                // Delete the username cooldown
-                executeQueryMySQL($connection, "DELETE FROM $DATABASE_CoreTABLE__reservedUsernames WHERE `IPAddress` = '$CreationIPAddress'");
             }
         }else{
             // Delete user data!
