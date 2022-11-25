@@ -80,8 +80,8 @@ CREATE TABLE `security` (
 -- Dumping data for table `security`
 --
 
-INSERT INTO `security` (`UID`, `SecurityQuestion1`, `SecurityQuestion2`, `SecurityQuestion3`, `SecurityQuestionAns1`, `SecurityQuestionAns2`, `SecurityQuestionAns3`, `Require2FA`, `FailedLoginAttempts`, `LoginCooldownTimeout`) VALUES
-(10000000000, 1, 1, 1, '~answer~', '~answer~', '~answer~', 0, 0, NULL);
+INSERT INTO `security` (`UID`, `SecurityQuestion1`, `SecurityQuestion2`, `SecurityQuestion3`, `SecurityQuestionAns1`, `SecurityQuestionAns2`, `SecurityQuestionAns3`) VALUES
+(10000000000, 1, 1, 1, '~answer~', '~answer~', '~answer~');
 
 -- --------------------------------------------------------
 
@@ -130,7 +130,7 @@ CREATE TABLE `users` (
   `Username` varchar(20) NOT NULL,
   `DisplayUsername` varchar(20) NOT NULL,
   `CreationDate` timestamp NOT NULL DEFAULT current_timestamp(),
-  `CreationIPAddress` varchar(15) NOT NULL,
+  `CreationIPAddress` varchar(15) NOT NULL DEFAULT '0.0.0.0',
   `PasswordHash` varchar(64) NOT NULL,
   `FirstName` varchar(32) NOT NULL,
   `LastName` varchar(32) NOT NULL,
@@ -146,8 +146,8 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`UID`, `Username`, `DisplayUsername`, `CreationDate`, `CreationIPAddress`, `PasswordHash`, `FirstName`, `LastName`, `ProfilePicutre`, `Birthdate`, `GenderName`, `Pronounce`, `Lang`) VALUES
-(10000000000, 'system', 'SYSTEM', '2022-10-31 20:00:00', '0.0.0.0', 'aa839b55020c3932f704a15c68740cec4e506f4beb80038e6195fcba74e59d33', 'Ciel', 'System', 'DEFAULT', '2022-11-01', 'Robot', 0, 'en-GB');
+INSERT INTO `users` (`UID`, `Username`, `DisplayUsername`, `PasswordHash`, `FirstName`, `LastName`, `Birthdate`, `GenderName`, `Pronounce`, `Lang`) VALUES
+(10000000000, 'system', 'SYSTEM', 'aa839b55020c3932f704a15c68740cec4e506f4beb80038e6195fcba74e59d33', 'Ciel', 'System', '2022-11-01', 'Robot', 0, 'en-GB');
 
 --
 -- Indexes for dumped tables
