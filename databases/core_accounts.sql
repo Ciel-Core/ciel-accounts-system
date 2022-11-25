@@ -1,11 +1,6 @@
 -- phpMyAdmin SQL Dump
 -- version 5.2.0
 -- https://www.phpmyadmin.net/
---
--- Host: 127.0.0.1
--- Generation Time: Nov 25, 2022 at 09:09 PM
--- Server version: 10.4.25-MariaDB
--- PHP Version: 8.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,7 +14,7 @@ SET time_zone = "SYSTEM";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `epiz_32665699_core_accounts`
+-- Database: `core_accounts`
 --
 
 -- --------------------------------------------------------
