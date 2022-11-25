@@ -135,6 +135,15 @@
             --dialog-background: #ffffff;
             --dialog-shadow: #d6d6d6;
             --dialog-container-background: rgba(247, 248, 250, 0.8);
+            /* accent colours */
+            --red-accent-color: #C90C3B;
+            --blue-accent-color: #303dc2;
+            --orange-accent-color: #df5e2d;
+            --yellow-accent-color: #e8b12c;
+            --green-accent-color: #34782a;
+            --purple-accent-color: #7851a9;
+            --pink-accent-color: #ea408f;
+            --black-accent-color: #373c3c;
         }
         
          :root[data-color-scheme=dark] {
@@ -149,13 +158,22 @@
             --dialog-background: #1d2022;
             --dialog-shadow: #0e0e0e;
             --dialog-container-background: rgba(14, 14, 15, 0.85);
+            /* accent colours */
+            --red-accent-color: #ec3f6b;
+            --blue-accent-color: #4e5ce6;
+            --orange-accent-color: #ff7642;
+            --yellow-accent-color: #dfad35;
+            --green-accent-color: #48903e;
+            --purple-accent-color: #935fd4;
+            --pink-accent-color: #f94d9d;
+            --black-accent-color: #818f8f;
         }
         /* Red, default */
         
          :root,
          :root[data-accent-color=red],
          :root[data-color-scheme=light][data-accent-color=red] {
-            --accent-color: #C90C3B;
+            --accent-color: var(--red-accent-color);
             --accent-color-active: #e03a64;
             --accent-color-activeO: #e03a6357;
             --accent-color-lighter: #ffa6be;
@@ -164,7 +182,6 @@
         
          :root[data-color-scheme=dark],
          :root[data-color-scheme=dark][data-accent-color=red] {
-            --accent-color: #ec3f6b;
             --accent-color-active: #c23b5d;
             --accent-color-activeO: #c23b5d57;
             --accent-color-lighter: #5a2e3b;
@@ -174,7 +191,7 @@
         
          :root[data-accent-color=blue],
          :root[data-color-scheme=light][data-accent-color=blue] {
-            --accent-color: #303dc2;
+            --accent-color: var(--blue-accent-color);
             --accent-color-active: #3F52C4;
             --accent-color-activeO: #3F52C457;
             --accent-color-lighter: #aabcff;
@@ -182,7 +199,6 @@
         }
         
          :root[data-color-scheme=dark][data-accent-color=blue] {
-            --accent-color: #4e5ce6;
             --accent-color-active: #5766f7;
             --accent-color-activeO: #5766f757;
             --accent-color-lighter: #252a3e;
@@ -192,7 +208,7 @@
         
          :root[data-accent-color=orange],
          :root[data-color-scheme=light][data-accent-color=orange] {
-            --accent-color: #df5e2d;
+            --accent-color: var(--orange-accent-color);
             --accent-color-active: #f46c39;
             --accent-color-activeO: #df5e2d57;
             --accent-color-lighter: #f3bfac;
@@ -200,17 +216,33 @@
         }
         
          :root[data-color-scheme=dark][data-accent-color=orange] {
-            --accent-color: #ff7642;
             --accent-color-active: #ff8557;
             --accent-color-activeO: #ff855757;
             --accent-color-lighter: #3d2a22;
             --accent-color-faint: #2f201a;
         }
+        /* Yellow */
+        
+         :root[data-accent-color=yellow],
+         :root[data-color-scheme=light][data-accent-color=yellow] {
+            --accent-color: var(--yellow-accent-color);
+            --accent-color-active: #eeb833;
+            --accent-color-activeO: #eeb83357;
+            --accent-color-lighter: #f2e2bb;
+            --accent-color-faint: #f9eed3;
+        }
+        
+         :root[data-color-scheme=dark][data-accent-color=yellow] {
+            --accent-color-active: #f1be42;
+            --accent-color-activeO: #f1be4257;
+            --accent-color-lighter: #343026;
+            --accent-color-faint: #2d2920;
+        }
         /* Green */
         
          :root[data-accent-color=green],
          :root[data-color-scheme=light][data-accent-color=green] {
-            --accent-color: #34782a;
+            --accent-color: var(--green-accent-color);
             --accent-color-active: #45843b;
             --accent-color-activeO: #45843b57;
             --accent-color-lighter: #c1dcbd;
@@ -218,17 +250,50 @@
         }
         
          :root[data-color-scheme=dark][data-accent-color=green] {
-            --accent-color: #48903e;
             --accent-color-active: #56994d;
             --accent-color-activeO: #56994d57;
             --accent-color-lighter: #263423;
             --accent-color-faint: #212b1f;
         }
+        /* Purple */
+        
+         :root[data-accent-color=purple],
+         :root[data-color-scheme=light][data-accent-color=purple] {
+            --accent-color: var(--purple-accent-color);
+            --accent-color-active: #875bbe;
+            --accent-color-activeO: #875bbe57;
+            --accent-color-lighter: #d5c2ee;
+            --accent-color-faint: #dfd1f1;
+        }
+        
+         :root[data-color-scheme=dark][data-accent-color=purple] {
+            --accent-color-active: #a166eb;
+            --accent-color-activeO: #a166eb57;
+            --accent-color-lighter: #2f263e;
+            --accent-color-faint: #251e30;
+        }
+        /* Pink */
+        
+         :root[data-accent-color=pink],
+         :root[data-color-scheme=light][data-accent-color=pink] {
+            --accent-color: var(--pink-accent-color);
+            --accent-color-active: #f24495;
+            --accent-color-activeO: #f2449557;
+            --accent-color-lighter: #ffb6d8;
+            --accent-color-faint: #fbc8e0;
+        }
+        
+         :root[data-color-scheme=dark][data-accent-color=pink] {
+            --accent-color-active: #ff5ca8;
+            --accent-color-activeO: #ff5ca857;
+            --accent-color-lighter: #402c35;
+            --accent-color-faint: #2f2127;
+        }
         /* Black */
         
          :root[data-accent-color=black],
          :root[data-color-scheme=light][data-accent-color=black] {
-            --accent-color: #373c3c;
+            --accent-color: var(--black-accent-color);
             --accent-color-active: #495151;
             --accent-color-activeO: #49515157;
             --accent-color-lighter: #bac4c5;
@@ -236,7 +301,6 @@
         }
         
          :root[data-color-scheme=dark][data-accent-color=black] {
-            --accent-color: #818f8f;
             --accent-color-active: #728181;
             --accent-color-activeO: #72818157;
             --accent-color-lighter: #242929;
@@ -248,6 +312,7 @@
             height: 100%;
             margin: 0px;
             background-color: var(--main-background);
+            accent-color: var(--accent-color);
         }
         
         body {
