@@ -1,11 +1,6 @@
 -- phpMyAdmin SQL Dump
 -- version 5.2.0
 -- https://www.phpmyadmin.net/
---
--- Host: 127.0.0.1
--- Generation Time: Nov 23, 2022 at 07:43 PM
--- Server version: 10.4.25-MariaDB
--- PHP Version: 8.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,7 +14,7 @@ SET time_zone = "SYSTEM";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `epiz_32665699_core_accounts`
+-- Database: `core_accounts`
 --
 
 -- --------------------------------------------------------
@@ -33,7 +28,7 @@ CREATE TABLE `preferences` (
   `ProfileVisibility` tinyint(1) UNSIGNED NOT NULL,
   `ActivityMode` tinyint(1) UNSIGNED NOT NULL,
   `Location` tinyint(1) UNSIGNED NOT NULL,
-  `ColorScheme` tinyint(1) UNSIGNED NOT NULL,
+  `ColorScheme` tinyint(1) UNSIGNED NOT NULL DEFAULT 0,
   `AccentColor` varchar(23) NOT NULL DEFAULT 'red',
   `UpdateTimestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -42,8 +37,8 @@ CREATE TABLE `preferences` (
 -- Dumping data for table `preferences`
 --
 
-INSERT INTO `preferences` (`UID`, `ProfileVisibility`, `ActivityMode`, `Location`, `ColorScheme`) VALUES
-(10000000000, 1, 1, 1, 0);
+INSERT INTO `preferences` (`UID`, `ProfileVisibility`, `ActivityMode`, `Location`) VALUES
+(10000000000, 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -80,8 +75,8 @@ CREATE TABLE `security` (
 -- Dumping data for table `security`
 --
 
-INSERT INTO `security` (`UID`, `SecurityQuestion1`, `SecurityQuestion2`, `SecurityQuestion3`, `SecurityQuestionAns1`, `SecurityQuestionAns2`, `SecurityQuestionAns3`, `Require2FA`, `FailedLoginAttempts`, `LoginCooldownTimeout`) VALUES
-(10000000000, 1, 1, 1, '~answer~', '~answer~', '~answer~', 0, 0, NULL);
+INSERT INTO `security` (`UID`, `SecurityQuestion1`, `SecurityQuestion2`, `SecurityQuestion3`, `SecurityQuestionAns1`, `SecurityQuestionAns2`, `SecurityQuestionAns3`) VALUES
+(10000000000, 1, 1, 1, '~answer~', '~answer~', '~answer~');
 
 -- --------------------------------------------------------
 
@@ -103,6 +98,24 @@ CREATE TABLE `sessions` (
   `LocationCoordinates` tinytext NOT NULL,
   `UpdateTimestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `system`
+--
+
+CREATE TABLE `system` (
+  `UID` bigint(11) UNSIGNED NOT NULL,
+  `CustomizationComplete` tinyint(1) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `system`
+--
+
+INSERT INTO `system` (`UID`) VALUES
+(10000000000);
 
 -- --------------------------------------------------------
 
@@ -130,7 +143,7 @@ CREATE TABLE `users` (
   `Username` varchar(20) NOT NULL,
   `DisplayUsername` varchar(20) NOT NULL,
   `CreationDate` timestamp NOT NULL DEFAULT current_timestamp(),
-  `CreationIPAddress` varchar(15) NOT NULL,
+  `CreationIPAddress` varchar(15) NOT NULL DEFAULT '0.0.0.0',
   `PasswordHash` varchar(64) NOT NULL,
   `FirstName` varchar(32) NOT NULL,
   `LastName` varchar(32) NOT NULL,
@@ -146,8 +159,8 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`UID`, `Username`, `DisplayUsername`, `CreationDate`, `CreationIPAddress`, `PasswordHash`, `FirstName`, `LastName`, `ProfilePicutre`, `Birthdate`, `GenderName`, `Pronounce`, `Lang`) VALUES
-(10000000000, 'system', 'SYSTEM', '2022-10-31 20:00:00', '0.0.0.0', 'aa839b55020c3932f704a15c68740cec4e506f4beb80038e6195fcba74e59d33', 'Ciel', 'System', 'DEFAULT', '2022-11-01', 'Robot', 0, 'en-GB');
+INSERT INTO `users` (`UID`, `Username`, `DisplayUsername`, `PasswordHash`, `FirstName`, `LastName`, `Birthdate`, `GenderName`, `Pronounce`, `Lang`) VALUES
+(10000000000, 'system', 'SYSTEM', 'aa839b55020c3932f704a15c68740cec4e506f4beb80038e6195fcba74e59d33', 'Ciel', 'System', '2022-11-01', 'Robot', 0, 'en-GB');
 
 --
 -- Indexes for dumped tables
@@ -178,6 +191,12 @@ ALTER TABLE `security`
 ALTER TABLE `sessions`
   ADD PRIMARY KEY (`SID`),
   ADD KEY `UID` (`UID`) USING BTREE;
+
+--
+-- Indexes for table `system`
+--
+ALTER TABLE `system`
+  ADD PRIMARY KEY (`UID`);
 
 --
 -- Indexes for table `trusteddevices`
@@ -225,6 +244,12 @@ ALTER TABLE `security`
 --
 ALTER TABLE `sessions`
   ADD CONSTRAINT `sessions_ibfk_1` FOREIGN KEY (`UID`) REFERENCES `users` (`UID`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `system`
+--
+ALTER TABLE `system`
+  ADD CONSTRAINT `system_ibfk_1` FOREIGN KEY (`UID`) REFERENCES `users` (`UID`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `trusteddevices`

@@ -21,7 +21,7 @@ export function Help(props){
             setHelpFeed("");
             setNeedHelp(false);
         }
-    }, 200);
+    }, 1);
     return <></>;
 }
 

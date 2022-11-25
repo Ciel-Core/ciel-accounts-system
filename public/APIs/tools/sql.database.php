@@ -3,14 +3,16 @@
 // Tables
 global $DATABASE_CoreTABLE__preferences, $DATABASE_CoreTABLE__reservedUsernames,
     $DATABASE_CoreTABLE__security, $DATABASE_CoreTABLE__sessions,
-    $DATABASE_CoreTABLE__trustedDevices, $DATABASE_CoreTABLE__users;
+    $DATABASE_CoreTABLE__trustedDevices, $DATABASE_CoreTABLE__users,
+    $DATABASE_CoreTABLE__system;
 
-$DATABASE_CoreTABLE__preferences = "preferences";
-$DATABASE_CoreTABLE__reservedUsernames = "reservedusernames";
-$DATABASE_CoreTABLE__security = "security";
-$DATABASE_CoreTABLE__sessions = "sessions";
-$DATABASE_CoreTABLE__trustedDevices = "trusteddevices";
-$DATABASE_CoreTABLE__users = "users";
+$DATABASE_CoreTABLE__preferences            = "preferences";
+$DATABASE_CoreTABLE__reservedUsernames      = "reservedusernames";
+$DATABASE_CoreTABLE__security               = "security";
+$DATABASE_CoreTABLE__sessions               = "sessions";
+$DATABASE_CoreTABLE__trustedDevices         = "trusteddevices";
+$DATABASE_CoreTABLE__users                  = "users";
+$DATABASE_CoreTABLE__system                 = "system";
 
 // Connect to a database
 const DATABASE_READ_ONLY = "R",
