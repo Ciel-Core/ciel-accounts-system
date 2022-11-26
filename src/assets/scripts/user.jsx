@@ -153,10 +153,11 @@ export function signOut(){
         if(!isSuccessful){
             showDialog("Something went wrong!", "We couldn't end this session!");
         }else{
-            setUserData(defaultUserProfile());
-            setSignedIn(false);
             // Close server events connection
             closeConnection();
+            // Update user data
+            setUserData(defaultUserProfile());
+            setSignedIn(false);
         }
         setUUS(false);
     });
