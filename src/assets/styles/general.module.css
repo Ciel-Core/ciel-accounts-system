@@ -857,3 +857,70 @@ screen and (max-height: 450px) {
         display: flex;
     }
 }
+
+
+/* <UserMessage> */
+
+.userMessage {
+    background-color: var(--accent-color-faint);
+    display: flex;
+    width: 100%;
+    margin: 12px;
+    border-radius: 12px;
+    justify-content: center;
+    align-items: start;
+    padding: 8px;
+    max-width: 750px;
+}
+
+.userMessage.warning {
+    --accent-color: var(--warn-color);
+    --accent-color-faint: var(--warn-color-faint);
+}
+
+.userMessage.urgent {
+    --accent-color: var(--error-color);
+    --accent-color-faint: var(--error-color-faint);
+}
+
+.userMessage .icon,
+.userMessage .closeIcon {
+    width: 28px;
+    min-width: 28px;
+    height: 28px;
+    display: inline;
+    margin: 14px 4px;
+    margin-right: 8px;
+    --svg-color: var(--accent-color);
+}
+
+.userMessage .content {
+    display: inline;
+    width: 100%;
+    text-align: left;
+    margin: auto;
+    padding: 6px 0px;
+    padding-bottom: 7px;
+    margin-right: 4px;
+}
+
+.userMessage .content .text {
+    display: inline;
+    margin-right: auto;
+}
+
+.userMessage .content .links {
+    margin: 0px;
+    margin-top: -1px;
+    width: fit-content;
+    line-height: 1em;
+    display: inline;
+}
+
+.userMessage .closeIcon {
+    width: 24px;
+    min-width: 24px;
+    height: 32px;
+    padding: 0px 4px;
+    cursor: pointer;
+}
