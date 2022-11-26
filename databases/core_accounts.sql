@@ -39,6 +39,8 @@ CREATE TABLE `preferences` (
 
 INSERT INTO `preferences` (`UID`, `ProfileVisibility`, `ActivityMode`, `Location`) VALUES
 (10000000000, 1, 1, 1);
+INSERT INTO `preferences` (`UID`, `ProfileVisibility`, `ActivityMode`, `Location`, `AccentColor`) VALUES
+(10000000001, 3, 3, 2, 'purple');
 
 -- --------------------------------------------------------
 
@@ -77,6 +79,8 @@ CREATE TABLE `security` (
 
 INSERT INTO `security` (`UID`, `SecurityQuestion1`, `SecurityQuestion2`, `SecurityQuestion3`, `SecurityQuestionAns1`, `SecurityQuestionAns2`, `SecurityQuestionAns3`) VALUES
 (10000000000, 1, 1, 1, '~answer~', '~answer~', '~answer~');
+INSERT INTO `security` (`UID`, `SecurityQuestion1`, `SecurityQuestion2`, `SecurityQuestion3`, `SecurityQuestionAns1`, `SecurityQuestionAns2`, `SecurityQuestionAns3`) VALUES
+(10000000001, 1, 1, 1, '~answer~', '~answer~', '~answer~');
 
 -- --------------------------------------------------------
 
@@ -116,6 +120,8 @@ CREATE TABLE `system` (
 
 INSERT INTO `system` (`UID`) VALUES
 (10000000000);
+INSERT INTO `system` (`UID`) VALUES
+(10000000001);
 
 -- --------------------------------------------------------
 
@@ -151,7 +157,7 @@ CREATE TABLE `users` (
   `Birthdate` date NOT NULL,
   `GenderName` varchar(32) NOT NULL,
   `Pronounce` tinyint(1) UNSIGNED NOT NULL DEFAULT 0,
-  `Lang` varchar(24) NOT NULL,
+  `Lang` varchar(24) NOT NULL DEFAULT 'en-GB',
   `UpdateTimestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -159,8 +165,11 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`UID`, `Username`, `DisplayUsername`, `PasswordHash`, `FirstName`, `LastName`, `Birthdate`, `GenderName`, `Pronounce`, `Lang`) VALUES
-(10000000000, 'system', 'SYSTEM', 'aa839b55020c3932f704a15c68740cec4e506f4beb80038e6195fcba74e59d33', 'Ciel', 'System', '2022-11-01', 'Robot', 0, 'en-GB');
+INSERT INTO `users` (`UID`, `Username`, `DisplayUsername`, `PasswordHash`, `FirstName`, `LastName`, `Birthdate`, `GenderName`, `Pronounce`) VALUES
+(10000000000, 'system', 'SYSTEM', 'aa839b55020c3932f704a15c68740cec4e506f4beb80038e6195fcba74e59d33', 'Ciel', 'System', '2022-11-01', 'Robot', 0);
+-- tester, password12345
+INSERT INTO `users` (`UID`, `Username`, `DisplayUsername`, `PasswordHash`, `FirstName`, `LastName`, `Birthdate`, `GenderName`, `Pronounce`) VALUES
+(10000000001, 'tester', 'TESTER', 'a39c2e34b43adb546aab7e1a28d2d3e478c08285192469bd9c7de01b39b41b77', 'Test', 'User', '2022-11-01', 'Unknown', 0);
 
 --
 -- Indexes for dumped tables

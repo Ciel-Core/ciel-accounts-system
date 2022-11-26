@@ -21,11 +21,7 @@ export function InputFieldsContainer(props){
 }
 
 export function loginSuccessful(nav, replace = false){
-    if(userData().system.customizationComplete){
-        nav("/", {replace});
-    }else{
-        nav("/user/customization", {replace});
-    }
+    nav("/", {replace});
 }
 
 export function redoLogin(navigate, prompt = false){

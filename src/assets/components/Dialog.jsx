@@ -48,11 +48,13 @@ export function Dialog(props){
             </div>
             <div class={generalStyles.dialogContent}>
                 <For each={props.actions}>{(action) => {
-                    return <Button type={"action"} function={function(){
-                        action[1](dialog, function(){
-                            setDialogState(dialog, false, true);
-                        });
-                    }} light small>{action[0]}</Button>
+                    if(action != undefined){
+                        return <Button type={"action"} function={function(){
+                            action[1](dialog, function(){
+                                setDialogState(dialog, false, true);
+                            });
+                        }} light small>{action[0]}</Button>
+                    }
                 }}</For>
             </div>
         </div>
