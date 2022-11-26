@@ -864,7 +864,9 @@ screen and (max-height: 450px) {
 .userMessage {
     background-color: var(--accent-color-faint);
     display: flex;
-    width: 100%;
+    width: -moz-available;
+    width: -webkit-fill-available;
+    width: fill-available;
     margin: 12px;
     border-radius: 12px;
     justify-content: center;
