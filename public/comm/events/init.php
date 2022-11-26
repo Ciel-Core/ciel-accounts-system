@@ -25,13 +25,31 @@ function flushContent(){
     @flush();
 }
 
+// Print an event
+function issueEvent($n, $d, $f = false){
+    // Print event info
+    echo "event: ".$n."\r\n";
+    echo "retry: 2000\r\n";
+    echo 'data: '.$d;
+    if($f){
+        echo "\r\n\r\n";
+        flushContent();
+    }
+}
+
 // Send server errors to client
 function serverErrorUpdate($e){
     // Print event info
-    echo "event: server-error\r\n";
-    echo 'data: '.$e;
-    echo "\r\n\r\n";
-    flushContent();
+    issueEvent("server-error", $e, true);
+}
+
+// Close connection
+// 0 - allow user to use service without reconnecting,
+// 1 - prompt user to reconnect
+function closeConnection($d){
+    issueEvent("server-close", $d, true);
+    sleep(1);
+    exit();
 }
 
 // Import needed libraries
@@ -44,7 +62,7 @@ require_once './../../APIs/tools/sql.user.data.php';
 $coreAccountsDB = connectMySQL(DATABASE_READ_ONLY, false);
 if($coreAccountsDB->connect_error){
     serverErrorUpdate("CONNNECT.DB.CORE_ACCOUNTS");
-    exit();
+    closeConnection("0");
 }
 
 // Get User ID and session ID
@@ -53,7 +71,7 @@ $coreAccountsSID = mysqli_real_escape_string($coreAccountsDB, $_COOKIE["SID"]);
 $UID = getUID($coreAccountsDB, false, false);
 if(gettype($UID) != "string" || strlen($UID) < 11){
     serverErrorUpdate("DATA.UID");
-    exit();
+    closeConnection("1");
 }
 
 // Define query function
@@ -68,7 +86,7 @@ function getTS($db, $table){
         unset($result);
     }else{
         serverErrorUpdate("DATA.TIMESTAMP");
-        exit();
+        closeConnection("1");
     }
     return $timestamp;
 }
@@ -83,7 +101,7 @@ function getTSbySID($db, $table){
         unset($result);
     }else{
         serverErrorUpdate("DATA.TIMESTAMP");
-        exit();
+        closeConnection("1");
     }
     return $timestamp;
 }
@@ -118,15 +136,16 @@ function serverDataUpdate($db, $t, $dbT){
     // Print event info
     global $started;
     if(!$started){
-        echo "event: server-data-update\r\n";
-        echo "retry: 3000\r\n";
-        echo 'data: '.$db.'.'.$t;
+        issueEvent("server-data-update", $db.'.'.$t);
         $started = true;
     }else{
         // Print data
         echo ','.$db.'.'.$t;
     }
 }
+
+// Do a test event
+issueEvent("server-open", NULL, true);
 
 // Loop!
 $c = 1;
@@ -165,11 +184,16 @@ while(true){
         echo "\r\n\r\n";
         flushContent();
         $needFlush = false;
-        // Sleep for 3 seconds
-        sleep(3);
+        // Sleep for 4 seconds
+        sleep(4);
     }else{
-        // Sleep for 1 second
-        sleep(1);
+        // Sleep for 2 seconds
+        sleep(2);
+        // Do a server test every ~20 seconds
+        // You need this to detect when the user closes the website
+        if($c % 10 == 0){
+            issueEvent("server-test", "", true);
+        }
     }
 
     // Reset $started variable
@@ -180,7 +204,7 @@ while(true){
 
     // reduce memory leaks
     $c++;
-    if($c % 1000 == 0){
+    if($c == 500){
         gc_collect_cycles();
         $c = 1;
     }

@@ -10,24 +10,31 @@ import { log, throwError } from "./../console.jsx";
 let eventSource = undefined;
 window.activeEventSource = undefined;
 
-let failedAttempts = 0;
-function errorDialog(successCallback){
-    eventSource.close();
-    eventSource = undefined;
-    window.activeEventSource = undefined;
-    // Check failed attempts
-    if(++failedAttempts > 5){
+let failedAttempts = 0,
+    closeDialogVisible = false;
+function closeDialog(allowWithoutConn = true){
+    if(!closeDialogVisible){
+        closeDialogVisible = true;
         showDialog("Something went wrong!", "We couldn't connect to the server for live updates!", [
-            ["Ok", function(dialog, remove){
+            (allowWithoutConn) ? ["Ok", function(dialog, remove){
+                closeDialogVisible = false;
                 remove();
-            }], ["Retry", function(dialog, remove){
-                remove();
+            }] : undefined, ["Retry", function(dialog, remove){
                 location.reload();
             }]
         ]);
-    }else{
-        // Do a silent attempt to reopen connection! (max limit is 5)
-        setTimeout(() => openConnection(successCallback), 3000);
+    }
+}
+function errorDialog(successCallback){
+    closeConnection();
+    if(!closeDialogVisible){
+        // Check failed attempts
+        if(++failedAttempts > 3){
+            closeDialog();
+        }else{
+            // Do a silent attempt to reopen connection! (max limit is 3)
+            setTimeout(() => openConnection(successCallback), 3000);
+        }
     }
 }
 
@@ -59,17 +66,22 @@ export function openConnection(successCallback){
                 throwError(error);
             };
 
-            // Listen for any messages
-            eventSource.onmessage = (event) => {
-                log("Server Events", event);
-            };
-
             // Wait for connection to open!
             eventSource.onopen = (event) => {
-                // Listen to server errors!
+                // Listen to server-{*} events!
                 listenTo("server-error", function(e){
                     errorDialog(successCallback);
                 });
+                listenTo("server-open", function(e){ });
+                listenTo("server-close", function(e){
+                    // Do not attempt to reconnect automatically!
+                    // This event means that the server closed by design!
+                    closeConnection();
+                    // If the data is set to 1, this means that the reason the server closed is
+                    // because there's an error in the user's data!
+                    closeDialog(e.data === "0");
+                });
+                listenTo("server-test", function(e){ });
 
                 // Success callback!
                 successCallback(event);
@@ -95,11 +107,12 @@ export function closeConnection(){
 
 // Close connection when website is about to unload
 window.onbeforeunload = closeConnection;
+window.onunload = closeConnection;
 
 // Listen to events
 export function listenTo(channel, callback){
     eventSource.addEventListener(channel, function(e){
-        log("ServerEvents", "channel => " + channel, e);
+        log("ServerEvents", "event => " + channel, e);
         callback(e);
     });
 }
