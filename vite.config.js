@@ -9,6 +9,11 @@ export default defineConfig({
         solidSvg(),
         VitePWA({
             registerType: 'autoUpdate',
+            workbox: {
+                globPatterns: ['**/*.{js,css,html}', 'images/**/*.{svg,png,ico}'],
+                cleanupOutdatedCaches: true,
+                maximumFileSizeToCacheInBytes: (12 /*MiB*/ ) * 1000000
+            },
             devOptions: {
                 enabled: true
             },
@@ -16,7 +21,7 @@ export default defineConfig({
                 name: 'MyPWA',
                 short_name: 'aPWA',
                 description: 'My PWA for you!',
-                theme_color: '#c90c3b',
+                theme_color: '#ffffff',
                 icons: [{
                         src: '/images/icon-192.png',
                         sizes: '192x192',

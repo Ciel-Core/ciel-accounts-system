@@ -8,45 +8,47 @@ import style from './../styles/connection.module.css';
 import SadIcon from './../icons/sad.svg';
 
 import { render } from "solid-js/web";
+import { createSignal, onMount } from 'solid-js';
+
+export const [isOnline, setOnlineStatus] = createSignal(navigator.onLine);
+
+let onlineCallbackList = [];
+export function awaitConnection(callback){
+    onlineCallbackList.push(callback);
+}
 
 function disableInteractions(){
-    let globalBar = document.getElementById("global-bar"),
-        localContent = document.getElementById("local-content").children[1],
-        globalFooter = document.getElementById("global-footer");
-    globalBar.setAttribute("disabled", "");
-    globalBar.setAttribute("inert", "");
-    localContent.setAttribute("disabled", "");
-    localContent.setAttribute("inert", "");
-    globalFooter.setAttribute("disabled", "");
-    globalFooter.setAttribute("inert", "");
+    //
 }
 function enableInteractions(){
-    let globalBar = document.getElementById("global-bar"),
-        localContent = document.getElementById("local-content").children[1],
-        globalFooter = document.getElementById("global-footer");
-    globalBar.removeAttribute("disabled");
-    globalBar.removeAttribute("inert");
-    localContent.removeAttribute("disabled");
-    localContent.removeAttribute("inert");
-    globalFooter.removeAttribute("disabled");
-    globalFooter.removeAttribute("inert");
+    //
 }
 
 let dialog;
 
 function online(){
+    setOnlineStatus(true);
     enableInteractions();
     dialog.remove();
+    window._theme.updateColorGroup();
+    while(onlineCallbackList.length != 0){
+        (onlineCallbackList.pop())();
+    }
 }
 function offline(){
+    setOnlineStatus(false);
     disableInteractions();
-    render(() => <div ref={dialog}>
-        <div class={style.cover}></div>
-        <div class={style.box}>
-            <SadIcon class={style.icon}/>
-            <text class={style.text}>You're offline!</text>
-        </div>
-    </div>, document.body);
+    render(() => {
+        onMount(() => {
+            window._theme.updateColorGroup(window.getComputedStyle(dialog , null).getPropertyValue("background-color"));
+        });
+        return <>
+            <div ref={dialog} class={style.box}>
+                <SadIcon class={style.icon}/>
+                <text class={style.text}>You're offline!</text>
+            </div>
+        </>
+        }, document.getElementById("body-top"));
 }
 
 export function checkConnection(){

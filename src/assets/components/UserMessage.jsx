@@ -13,6 +13,7 @@ import FireIcon from './../icons/fire.svg';
 import InfoIcon from './../icons/info.svg';
 import ShieldIcon from './../icons/shield.svg';
 import CloseIcon from './../icons/close.svg';
+import { isOnline } from './../scripts/internetConnection.jsx';
 
 function Icon(props){
     if(props.type == "message"){
@@ -38,7 +39,7 @@ export function UserMessage(props){
             <div class={generalStyles.links}>
                 <For each={props.links}>{(link) => {
                     if(link != undefined){
-                        return <Link href={link[1]}>{link[0]}</Link>
+                        return <Link href={link[1]} disable={!isOnline()}>{link[0]}</Link>
                     }
                 }}</For>
             </div>
@@ -50,7 +51,7 @@ export function UserMessage(props){
                     if(typeof props.onClose == "function"){
                         props.onClose();
                     }
-                }} />
+                }} disable={!isOnline()} />
             :
                 undefined
         }
