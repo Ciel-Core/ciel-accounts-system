@@ -18,7 +18,7 @@
             window._theme.lightColorHex = themeColorLight.getAttribute("content");
             window._theme.darkColorHex = themeColorDark.getAttribute("content");
             // Define update function
-            window._theme.updateColorGroup = (colorScheme) => {
+            window._theme.updateColorGroup = (color = undefined) => {
                 // Get tag
                 let tag = document.getElementById("theme-color-tag");
                 // Check if tag exists
@@ -32,8 +32,12 @@
                 }
                 // Update theme-color
                 tag.setAttribute("content",
-                    (document.documentElement.dataset.colorScheme == "dark") ?
-                    window._theme.darkColorHex : window._theme.lightColorHex
+                    (color != undefined) ? color :
+                    (
+                        (document.documentElement.dataset.colorScheme == "dark") ?
+                        window._theme.darkColorHex :
+                        window._theme.lightColorHex
+                    )
                 );
                 delete tag;
             };

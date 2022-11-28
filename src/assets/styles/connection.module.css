@@ -17,7 +17,7 @@
     z-index: 2;
     margin: calc(-1 * var(--page-margin));
     margin-bottom: 0px;
-    animation: slideIn 0.1s ease-out forwards;
+    animation: slideIn 0.1s linear forwards;
 }
 
 @keyframes slideIn {

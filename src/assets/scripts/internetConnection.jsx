@@ -8,7 +8,7 @@ import style from './../styles/connection.module.css';
 import SadIcon from './../icons/sad.svg';
 
 import { render } from "solid-js/web";
-import { createSignal } from 'solid-js';
+import { createSignal, onMount } from 'solid-js';
 
 export const [isOnline, setOnlineStatus] = createSignal(navigator.onLine);
 
@@ -30,6 +30,7 @@ function online(){
     setOnlineStatus(true);
     enableInteractions();
     dialog.remove();
+    window._theme.updateColorGroup();
     while(onlineCallbackList.length != 0){
         (onlineCallbackList.pop())();
     }
@@ -37,12 +38,17 @@ function online(){
 function offline(){
     setOnlineStatus(false);
     disableInteractions();
-    render(() => <>
-        <div ref={dialog} class={style.box}>
-            <SadIcon class={style.icon}/>
-            <text class={style.text}>You're offline!</text>
-        </div>
-    </>, document.getElementById("body-top"));
+    render(() => {
+        onMount(() => {
+            window._theme.updateColorGroup(window.getComputedStyle(dialog , null).getPropertyValue("background-color"));
+        });
+        return <>
+            <div ref={dialog} class={style.box}>
+                <SadIcon class={style.icon}/>
+                <text class={style.text}>You're offline!</text>
+            </div>
+        </>
+        }, document.getElementById("body-top"));
 }
 
 export function checkConnection(){

@@ -39,19 +39,19 @@ export function UserMessage(props){
             <div class={generalStyles.links}>
                 <For each={props.links}>{(link) => {
                     if(link != undefined){
-                        return <Link href={link[1]}>{link[0]}</Link>
+                        return <Link href={link[1]} disable={!isOnline()}>{link[0]}</Link>
                     }
                 }}</For>
             </div>
         </div>
         {
-            (props.closeable && isOnline()) ?
+            (props.closeable) ?
                 <CloseIcon class={generalStyles.closeIcon} onClick={() => {
                     message.remove();
                     if(typeof props.onClose == "function"){
                         props.onClose();
                     }
-                }} />
+                }} disable={!isOnline()} />
             :
                 undefined
         }
