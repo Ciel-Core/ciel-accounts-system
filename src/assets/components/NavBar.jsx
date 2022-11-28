@@ -28,14 +28,6 @@ let firstScroll = true;
 
 export function NavBar(props){
     let basicProps = processProps(props, generalStyles.navBar),
-        links = [
-            ["Home", "/"],
-            ["Personal info", "/home/personal"],
-            ["Data and privacy", "/home/privacy"],
-            ["Security", "/home/security"],
-            ["People and sharing", "/home/sharing"],
-            ["Payments and subscriptions", "/home/financial"]
-        ],
         linksElms = [],
         isHome = false,
         selected = false,
@@ -43,7 +35,7 @@ export function NavBar(props){
             isHome = location.pathname.replace(/[#?].*$/g, "") == "/";
             linksElms.forEach(link => {
                 if((!selected && isHome) ||
-                    (!selected && location.pathname.indexOf(link[1]) == 0 && link[1] != links[0][1])){
+                    (!selected && location.pathname.indexOf(link[1]) == 0 && link[1] != props.links[0][1])){
                     link[2].setAttribute("selected", "");
                     content.scrollTo({
                         top: 0,
@@ -89,7 +81,7 @@ export function NavBar(props){
         <div ref={content} class={generalStyles.navLinks} onScroll={function(){
                     updateShadows(content, startShadow, endShadow);
                 }}>
-            <For each={links}>
+            <For each={props.links}>
                 {(link) => {
                     let l = linksElms.length;
                     link.push(<Link class={generalStyles.navOption} href={link[1]}>{link[0]}</Link>);

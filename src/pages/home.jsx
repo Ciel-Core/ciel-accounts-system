@@ -72,7 +72,16 @@ export default function Home(props){
         <h2 class={style.pageTitle}>Welcome, <Mark>{userData().displayUsername}</Mark>!</h2>
         <h4 class={style.pageDescription}>Manage your profile, privacy preferences, and security across all connected services and devices.</h4>
         <SearchBox/>
-        <NavBar />
+        <NavBar links={
+            [
+                ["Home", "/"],
+                ["Personal info", "/home/personal"],
+                ["Data and privacy", "/home/privacy"],
+                ["Security", "/home/security"],
+                ["People and sharing", "/home/sharing"],
+                ["Payments and subscriptions", "/home/financial"]
+            ]
+        } />
         <Messages />
         <FlexContainer ref={loading} style={{display: "none"}}>
             <LoadingSpinner />
