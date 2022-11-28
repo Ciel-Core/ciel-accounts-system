@@ -10,7 +10,7 @@ import SadIcon from './../icons/sad.svg';
 import { render } from "solid-js/web";
 import { createSignal } from 'solid-js';
 
-export const [isOnline, setOnlineStatus] = createSignal(true);
+export const [isOnline, setOnlineStatus] = createSignal(navigator.onLine);
 
 let onlineCallbackList = [];
 export function awaitConnection(callback){

@@ -13,6 +13,7 @@ import FireIcon from './../icons/fire.svg';
 import InfoIcon from './../icons/info.svg';
 import ShieldIcon from './../icons/shield.svg';
 import CloseIcon from './../icons/close.svg';
+import { isOnline } from './../scripts/internetConnection.jsx';
 
 function Icon(props){
     if(props.type == "message"){
@@ -44,7 +45,7 @@ export function UserMessage(props){
             </div>
         </div>
         {
-            (props.closeable) ?
+            (props.closeable && isOnline()) ?
                 <CloseIcon class={generalStyles.closeIcon} onClick={() => {
                     message.remove();
                     if(typeof props.onClose == "function"){

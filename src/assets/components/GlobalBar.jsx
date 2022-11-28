@@ -18,6 +18,7 @@ import BackArrowIcon from './../icons/arrow_back.svg';
 import { render } from "solid-js/web";
 import { useNavigate } from "@solidjs/router";
 import { helpFeed, needHelp } from './Help.jsx';
+import { isOnline } from './../scripts/internetConnection.jsx';
 
 function showNavContent(navigate, pathname, container, spinner, mainTimeout, bar, external){
     if(!window.mobileView.matches){
@@ -100,7 +101,7 @@ function LeftControls(props){
             <div class={styles.otherControl} style={{display: (isSignedIn() || needHelp()) ? "inline-block" : "none"}}>
                 <HelpIcon id="help-icon" onClick={function(){
                     showNavContent(navigate, `/help/feed/${helpFeed()}`, helpContainer, helpLoadingSpinner, helpTimeout, props.bar, true);
-                }} unselectable/>
+                }} unselectable disable={!isOnline()}/>
             </div>
             <div ref={helpContainer} class={styles.helpContainer} data-show={false}>
                 <LoadingSpinner ref={helpLoadingSpinner} style={{margin: "60px"}} />
@@ -118,14 +119,14 @@ function RightControls(props){
         <div class={styles.rightControls} data-signed-in={isSignedIn()}>
             <div id="alerts-icon" class={styles.bellContainer} data-pin={false} onClick={function(){
                     showNavContent(navigate, "/notifications", alertsContainer, alertsLoadingSpinner, alertsTimeout, props.bar, false);
-                }}>
+                }} disable={!isOnline()}>
                 <BellIcon class={styles.bell} unselectable/>
                 <BellPinIcon class={styles.bellPin} unselectable/>
             </div>
             <div ref={alertsContainer} class={styles.alertsContainer} data-show={false}>
                 <LoadingSpinner ref={alertsLoadingSpinner} style={{margin: "60px"}} />
             </div>
-            <SignOutIcon onClick={signOut} unselectable/>
+            <SignOutIcon onClick={signOut} unselectable disable={!isOnline()}/>
         </div>
     );
 }

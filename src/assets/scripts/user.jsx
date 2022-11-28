@@ -9,6 +9,7 @@ import { showDialog } from "./../components/Dialog.jsx";
 import { signOutPOST, userDataPOST } from "./communication/accounts.jsx";
 import { afterURLChange } from "./traffic.jsx";
 import { closeConnection, listenTo, openConnection } from './communication/serverEvents.jsx';
+import { isOnline } from "./internetConnection.jsx";
 // import { openSocket } from "./communication/sockets.jsx";
 
 // user data module (default data)
@@ -37,7 +38,12 @@ function defaultUserProfile(){
 
 export const [isSignedIn, setSignedIn] = createSignal(null); // Must replace this value with a condition
 export const [isUpdatingUserState, setUUS] = createSignal(null);
-export const [userData, setUserData] = createSignal(defaultUserProfile());
+export const [userData, setUD] = createSignal(defaultUserProfile());
+function setUserData(value){
+    // For offline use!
+    localStorage.setItem("last-user-data", JSON.stringify(value));
+    setUD(value);
+}
 
 function convertUserData(userData){
     let profile = defaultUserProfile();
@@ -63,6 +69,13 @@ function convertUserData(userData){
 }
 
 export function updateUserState(callback = undefined, expectURLChange = false){
+    if(!isOnline()){
+        setUserData(JSON.parse(localStorage.getItem("last-user-data")));
+        if(typeof callback == "function"){
+            callback();
+        }
+        return;
+    }
     // Share user data with iframes!
     if(window.sharedUserData != undefined){
         setUserData(window.sharedUserData);
@@ -71,64 +84,64 @@ export function updateUserState(callback = undefined, expectURLChange = false){
             callback();
         }
     }else{
-    // Disable page interactions (only when callback is defined)
-    let localContent = document.getElementById("local-content"),
-        globalBar = document.getElementById("global-bar"),
-        enable = false;
-    if(localContent != undefined && callback != undefined){
-        enable = (localContent.dataset.processing == "false");
-        localContent.dataset.processing = true;
-        globalBar.dataset.processing = true;
-    }
-    // Make a request for the user's data
-    userDataPOST(function(isSuccessful, data){
-        // Updating user state
-        setUUS(true);
-        if(isSuccessful){
-            // Set user state to signed in and add the user's profile
-            setUserData(convertUserData(data));
-            setSignedIn(true);
+        // Disable page interactions (only when callback is defined)
+        let localContent = document.getElementById("local-content"),
+            globalBar = document.getElementById("global-bar"),
+            enable = false;
+        if(localContent != undefined && callback != undefined){
+            enable = (localContent.dataset.processing == "false");
+            localContent.dataset.processing = true;
+            globalBar.dataset.processing = true;
+        }
+        // Make a request for the user's data
+        userDataPOST(function(isSuccessful, data){
+            // Updating user state
+            setUUS(true);
+            if(isSuccessful){
+                // Set user state to signed in and add the user's profile
+                setUserData(convertUserData(data));
+                setSignedIn(true);
 
-            // Open a Server Events connection
-            openConnection(function(){
-                // Listen to data updates
-                listenTo("server-data-update", function(e){
-                    // Detect if the update relates to the USERS database!
-                    if(e.data.indexOf("CORE_ACCOUNTS.") == 0){
-                        updateUserState(undefined, false);
+                // Open a Server Events connection
+                openConnection(function(){
+                    // Listen to data updates
+                    listenTo("server-data-update", function(e){
+                        // Detect if the update relates to the USERS database!
+                        if(e.data.indexOf("CORE_ACCOUNTS.") == 0){
+                            updateUserState(undefined, false);
+                        }
+                    });
+                });
+
+                // Open a WebSocket to keep communicating with the server and wait for any updates
+                /*
+                openSocket(function(success){
+                    if(!success){
+                        showDialog("Warning!", "We can't sync your data on this device!");
                     }
                 });
-            });
-
-            // Open a WebSocket to keep communicating with the server and wait for any updates
-            /*
-            openSocket(function(success){
-                if(!success){
-                    showDialog("Warning!", "We can't sync your data on this device!");
-                }
-            });
-            */
-        }else{
-            // Set user state to signed out and switch to the default profile
-            setUserData(defaultUserProfile());
-            setSignedIn(false);
-        }
-        // Enable page interactions
-        if(enable){
-            localContent.dataset.processing = false;
-            globalBar.dataset.processing = false;
-        }
-        if(typeof callback == "function"){
-            callback();
-        }
-        if(expectURLChange){
-            afterURLChange(function(){
+                */
+            }else{
+                // Set user state to signed out and switch to the default profile
+                setUserData(defaultUserProfile());
+                setSignedIn(false);
+            }
+            // Enable page interactions
+            if(enable){
+                localContent.dataset.processing = false;
+                globalBar.dataset.processing = false;
+            }
+            if(typeof callback == "function"){
+                callback();
+            }
+            if(expectURLChange){
+                afterURLChange(function(){
+                    setUUS(false);
+                }, true);
+            }else{
                 setUUS(false);
-            }, true);
-        }else{
-            setUUS(false);
-        }
-    });
+            }
+        });
     }
 }
 
