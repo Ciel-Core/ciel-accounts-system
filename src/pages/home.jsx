@@ -48,6 +48,36 @@ function panelContent(location, loaded, loading, setContent){
             done();
             return r;
         });
+    }else if(location == "/home/personal"){
+        return lazy(() => {
+            let r = import(`./home/personal.jsx`);
+            done();
+            return r;
+        });
+    }else if(location == "/home/privacy"){
+        return lazy(() => {
+            let r = import(`./home/privacy.jsx`);
+            done();
+            return r;
+        });
+    }else if(location == "/home/security"){
+        return lazy(() => {
+            let r = import(`./home/security.jsx`);
+            done();
+            return r;
+        });
+    }else if(location == "/home/sharing"){
+        return lazy(() => {
+            let r = import(`./home/sharing.jsx`);
+            done();
+            return r;
+        });
+    }else if(location == "/home/financial"){
+        return lazy(() => {
+            let r = import(`./home/financial.jsx`);
+            done();
+            return r;
+        });
     }else{
         done();
         return <div>Something went wrong!</div>;
