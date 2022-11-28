@@ -7,6 +7,7 @@
 // import styles from './../assets/styles/pages/new.module.css';
 
 import { Title } from './../../assets/components/Title.jsx';
+import { Help } from './../../assets/components/Help.jsx';
 import { Button, Mark, FlexContainer, UserMessage } from './../../assets/components/CustomElements.jsx';
 import { onCleanup, onMount } from 'solid-js';
 
@@ -28,6 +29,7 @@ export default function HomeMain(props){
     });
     return (<>
        <Title></Title>
+        <Help feed={"control-panel"}/>
        <Alerts />
         TEST
     </>);
