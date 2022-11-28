@@ -24,6 +24,7 @@ function showNavContent(navigate, pathname, container, spinner, mainTimeout, bar
         // Show dialog above global bar
         bar.dataset.prioritize = true;
         container.dataset.show = true;
+        container.style.height = null;
         // Cancel loading process if user clicks anywhere again
         document.body.onclick = function(){
             document.body.onclick = undefined;
