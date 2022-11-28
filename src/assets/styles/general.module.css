@@ -931,13 +931,21 @@ screen and (max-height: 450px) {
 /* <NavBar> */
 
 .navBar {
-    width: 100vw;
-    max-width: 750px;
+    width: 100%;
     height: fit-content;
     position: relative;
     overflow: hidden;
     min-height: 45px;
     margin: 12px 0px;
+}
+
+@media (pointer:none),
+(pointer:coarse),
+screen and (max-width: 920px),
+screen and (max-height: 450px) {
+    .navBar {
+        width: 100vw;
+    }
 }
 
 .navBar .startShadow,
