@@ -7,6 +7,7 @@
 import generalStyles from './../styles/general.module.css';
 
 import Link from './Link.jsx';
+import { processProps } from './_custom.jsx';
 
 import FireIcon from './../icons/fire.svg';
 import InfoIcon from './../icons/info.svg';
@@ -25,10 +26,12 @@ function Icon(props){
 }
 
 export function UserMessage(props){
+    let basicProps = processProps(props, generalStyles.mark, generalStyles.userMessage,
+                                    generalStyles[props.type]);
     if(!["message", "warning", "urgent"].includes(props.type)){
         throw new Error("Invalid <UserMessage> type!");
     }
-    let message = (<div class={`${generalStyles.userMessage} ${generalStyles[props.type]}`}>
+    let message = (<div class={basicProps.class} style={basicProps.style}>
         <Icon class={generalStyles.icon} type={props.type} />
         <div class={generalStyles.content}>
             <text class={generalStyles.text}>{props.children} </text>
