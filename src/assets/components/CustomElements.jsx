@@ -19,6 +19,7 @@ import { Radio, getRadioValueByNameGroup, onRadioGroupChange } from './Radio.jsx
 import { Dialog, setDialogState, showDialog } from './Dialog.jsx';
 import { SearchBox } from './SearchBox.jsx';
 import { UserMessage } from './UserMessage.jsx';
+import { NavBar } from './NavBar.jsx';
 import { LoadingSpinner } from './LoadingSpinner.jsx';
 
 export function Divider(props){
@@ -47,5 +48,6 @@ export {
     CheckBox,
     SearchBox,
     UserMessage,
+    NavBar,
     LoadingSpinner
 };

@@ -55,7 +55,8 @@ export function WebRoutes(props){
         <Route path={"*"} element={<Error.NotFound {...reports}></Error.NotFound>} />
 
         {/* Pages that require the user to be signed in, and can be used only when signed in */}
-        <Route path={"/"} element={<Pages.Home {...reports}></Pages.Home>} />
+        <Route path={["/", "/home/*"]} element={<Pages.Home {...reports}></Pages.Home>} />
+        <Route path={"/home"} element={<Navigate href={"/"}/>} />
         <Route path={"/user/customization"} element={<Pages.AccountCustomization {...reports}></Pages.AccountCustomization>} />
 
         <Route path={"/user/device/setup"} element={<Pages.DeviceAuthSetup {...reports}></Pages.DeviceAuthSetup>} />

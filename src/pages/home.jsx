@@ -9,11 +9,12 @@ import homeStyle from './../assets/styles/pages/home.module.css';
 
 import { Title } from './../assets/components/Title.jsx';
 import { Help } from './../assets/components/Help.jsx';
-import { For, onCleanup, onMount } from 'solid-js';
+import { createEffect, createSignal, For, lazy, onCleanup, onMount } from 'solid-js';
 import { userData } from './../assets/scripts/user.jsx';
-import { FlexContainer, Link, Mark, SearchBox, UserMessage } from './../assets/components/CustomElements.jsx';
+import { FlexContainer, Link, LoadingSpinner, Mark, NavBar, SearchBox, UserMessage } from './../assets/components/CustomElements.jsx';
 
 import { setAsCustomizedPOST } from '../assets/scripts/communication/accounts';
+import { useLocation } from '@solidjs/router';
 
 
 export function Messages(props){
@@ -34,12 +35,36 @@ export function Messages(props){
     </>);
 }
 
+function panelContent(location, loaded, loading, setContent){
+    let done = () => {
+        loading.style.display = "none";
+        loaded();
+    };
+    setContent(undefined);
+    loading.style.display = null;
+    if(location == "/"){
+        return lazy(() => {
+            let r = import(`./home/main.jsx`);
+            done();
+            return r;
+        });
+    }else{
+        done();
+        return <div>Something went wrong!</div>;
+    }
+}
+
 export default function Home(props){
+    let location = useLocation(),
+        loading;
+    const [content, setContent] = createSignal(undefined);
     onCleanup(() => {
         props.pageUnloading();
     });
     onMount(() => {
-        props.pageLoaded();
+        createEffect(() => {
+            setContent(panelContent(location.pathname.replace(/[#?].*$/g, ""), props.pageLoaded, loading, setContent));
+        });
     });
     return <>
         <Title></Title>
@@ -47,6 +72,11 @@ export default function Home(props){
         <h2 class={style.pageTitle}>Welcome, <Mark>{userData().displayUsername}</Mark>!</h2>
         <h4 class={style.pageDescription}>Manage your profile, privacy preferences, and security across all connected services and devices.</h4>
         <SearchBox/>
+        <NavBar />
         <Messages />
+        <FlexContainer ref={loading} style={{display: "none"}}>
+            <LoadingSpinner />
+        </FlexContainer>
+        {content()}
     </>;
 }
