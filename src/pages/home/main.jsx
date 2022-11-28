@@ -7,8 +7,17 @@
 // import styles from './../assets/styles/pages/new.module.css';
 
 import { Title } from './../../assets/components/Title.jsx';
-import { Button, Mark, FlexContainer } from './../../assets/components/CustomElements.jsx';
+import { Button, Mark, FlexContainer, UserMessage } from './../../assets/components/CustomElements.jsx';
 import { onCleanup, onMount } from 'solid-js';
+
+import { Alerts as PersonalAlerts } from './personal.jsx';
+
+export function Alerts(props){
+    return (<>
+        <PersonalAlerts/>
+        <UserMessage type="warning">The accounts system is still incomplete. Your account/data could get deleted at any time!</UserMessage>
+    </>);
+}
 
 export default function HomeMain(props){
     onCleanup(() => {
@@ -19,6 +28,7 @@ export default function HomeMain(props){
     });
     return (<>
        <Title></Title>
+       <Alerts />
         TEST
     </>);
 }
