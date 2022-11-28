@@ -4,6 +4,7 @@
  * 
  **/
 
+import { awaitConnection, isOnline } from "./../internetConnection.jsx";
 import { showDialog } from "./../../components/Dialog.jsx";
 import { log, throwError } from "./../console.jsx";
 
@@ -40,6 +41,10 @@ function errorDialog(successCallback){
 
 // Open connection
 export function openConnection(successCallback){
+    if(!isOnline()){
+        awaitConnection(() => openConnection(successCallback));
+        return;
+    }
     if(!window.EventSource){
         log("Server Events", "Browser doesn't support server events!");
     }
