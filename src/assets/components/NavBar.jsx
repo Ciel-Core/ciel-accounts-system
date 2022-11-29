@@ -15,10 +15,10 @@ import BackArrowIcon from './../icons/arrow_back.svg';
 import ForwardArrowIcon from './../icons/arrow_forward.svg';
 
 function updateShadows(content, start, end){
-    if(content.clientWidth >= content.scrollWidth){
+    if(content.clientWidth >= content.scrollWidth - 10){
         end.style.display = "none";
         start.style.display = "none"
-    }else if(content.scrollLeft + content.clientWidth >= content.scrollWidth){
+    }else if(content.scrollLeft + content.clientWidth >= content.scrollWidth - 10){
         end.style.display = "none";
         start.style.display = null;
     }else if(content.scrollLeft == 0){
