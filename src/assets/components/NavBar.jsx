@@ -42,7 +42,7 @@ export function NavBar(props){
                         if(!stop){
                             if(l[1] == link[1]){
                                 stop = true;
-                                s -= (link[1] == linksElms[linksElms.length - 1][1]) ? 0 : lastW;
+                                s -= (link[1] == linksElms[linksElms.length - 1][1]) ? 0 : lastW / 2;
                             }else{
                                 s += l[2].clientWidth;
                                 lastW = l[2].clientWidth;

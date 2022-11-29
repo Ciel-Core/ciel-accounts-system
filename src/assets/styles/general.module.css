@@ -952,7 +952,7 @@ screen and (max-height: 450px) {
 .navBar .endShadow {
     position: absolute;
     display: block;
-    width: calc(var(--page-margin) + 80px);
+    width: calc(var(--page-margin) + 60px);
     height: calc(100% + 20px);
     top: -10px;
     pointer-events: none;
