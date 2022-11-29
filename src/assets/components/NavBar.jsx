@@ -4,15 +4,21 @@
  * 
  **/
 
+ import generalStyles from './../styles/general.module.css';
+ 
 import { For, onCleanup, onMount } from 'solid-js';
 import { afterURLChange } from './../scripts/traffic.jsx';
-import generalStyles from './../styles/general.module.css';
-
 import Link from './Link.jsx';
 import { processProps } from './_custom.jsx';
 
+import BackArrowIcon from './../icons/arrow_back.svg';
+import ForwardArrowIcon from './../icons/arrow_forward.svg';
+
 function updateShadows(content, start, end){
-    if(content.scrollLeft + content.clientWidth >= content.scrollWidth){
+    if(content.clientWidth >= content.scrollWidth){
+        end.style.display = "none";
+        start.style.display = "none"
+    }else if(content.scrollLeft + content.clientWidth >= content.scrollWidth){
         end.style.display = "none";
         start.style.display = null;
     }else if(content.scrollLeft == 0){
@@ -31,10 +37,9 @@ export function NavBar(props){
         linksElms = [],
         isHome = false,
         selected = false,
-        scrollToOption = function(link){
+        scrollToOption = function(link, left = undefined){
             content.scrollTo({
-                top: 0,
-                left: (function(){
+                left: (left == undefined) ? (function(){
                     let s = 0,
                         lastW = 0,
                         stop = false;
@@ -50,7 +55,7 @@ export function NavBar(props){
                         }
                     });
                     return s;
-                })(),
+                })() : left,
                 behavior: (firstScroll) ? (firstScroll = false, "auto") : "smooth"
             });
         },
@@ -68,6 +73,7 @@ export function NavBar(props){
         content,
         startShadow, endShadow,
         resizeUpdate = function(){
+            updateShadows(content, startShadow, endShadow);
             linksElms.forEach(link => {
                 if(link[2].hasAttribute("selected")){
                     scrollToOption(link);
@@ -94,7 +100,9 @@ export function NavBar(props){
         window.removeEventListener("resize", resizeUpdate);
     });
     return (<div class={basicProps.class} style={basicProps.style} unselectable>
-        <div ref={startShadow} class={generalStyles.startShadow} style={{display: "none"}}></div>
+        <div ref={startShadow} class={generalStyles.startShadow} style={{display: "none"}}>
+            <BackArrowIcon class={generalStyles.icon} onClick={() => scrollToOption(undefined, content.scrollLeft - 100)} />
+        </div>
         <div ref={content} class={generalStyles.navLinks} onScroll={function(){
                     updateShadows(content, startShadow, endShadow);
                 }}>
@@ -107,7 +115,9 @@ export function NavBar(props){
                 }}
             </For>
         </div>
-        <div ref={endShadow} class={generalStyles.endShadow}  style={{display: "none"}}></div>
+        <div ref={endShadow} class={generalStyles.endShadow}  style={{display: "none"}}>
+            <ForwardArrowIcon class={generalStyles.icon} onClick={() => scrollToOption(undefined, content.scrollLeft + 100)} />
+        </div>
     </div>);
 }
   

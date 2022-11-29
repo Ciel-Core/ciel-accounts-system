@@ -955,7 +955,16 @@ screen and (max-height: 450px) {
     width: calc(var(--page-margin) + 60px);
     height: calc(100% + 20px);
     top: -10px;
-    pointer-events: none;
+}
+
+.navBar .startShadow .icon,
+.navBar .endShadow .icon {
+    width: 24px;
+    height: 24px;
+    --svg-color: var(--background-bold);
+    padding: 10px;
+    margin: 10px auto;
+    cursor: pointer;
 }
 
 .navBar .startShadow {
