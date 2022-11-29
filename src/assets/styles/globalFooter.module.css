@@ -55,3 +55,12 @@
 .icon {
     margin: 0px 12px;
 }
+
+.aboutContainer {
+    text-align: center;
+}
+
+.aboutContainer h5 {
+    font-weight: 500;
+    margin: 4px auto;
+}
