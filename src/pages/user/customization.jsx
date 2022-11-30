@@ -21,6 +21,21 @@ export default function Customization(props){
     });
     onMount(() => {
         props.pageLoaded();
+        let localContent = document.getElementById("local-content");
+        localContent.dataset.processing = true;
+        setAsCustomizedPOST(function(success, data){
+            localContent.dataset.processing = false;
+            if(!success){
+                showDialog("Something went wrong!", "We couldn't connect to the server to update your status!", [
+                    ["Ok", function(dialog, remove){
+                        remove();
+                    }], ["Retry", function(dialog, remove){
+                        location.reload();
+                        remove();
+                    }]
+                ]);
+            }
+        });
     });
     return <>
         <Title>Set up</Title>
@@ -31,26 +46,7 @@ export default function Customization(props){
         <FlexContainer>
             <Button type={"action"} function={function(){}} primary disabled>Start!</Button>
             <br/>
-            <Button ref={skipButton} type={"action"} function={function(){
-                let localContent = document.getElementById("local-content");
-                localContent.dataset.processing = true;
-                setAsCustomizedPOST(function(success, data){
-                    localContent.dataset.processing = false;
-                    if(success){
-                        navigate("/");
-                    }else{
-                        showDialog("Something went wrong!", "We couldn't connect to the server to update your status!", [
-                            ["Ok", function(dialog, remove){
-                                navigate("/");
-                                remove();
-                            }], ["Retry", function(dialog, remove){
-                                skipButton.click();
-                                remove();
-                            }]
-                        ]);
-                    }
-                });
-            }} light>No thanks</Button>
+            <Button ref={skipButton} type={"link"} href={"/"} light>No thanks</Button>
         </FlexContainer>
     </>;
 }
