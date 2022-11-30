@@ -112,12 +112,14 @@ $ts = json_decode('{
     "CORE_ACCOUNTS": {
         "USERS": 0,
         "PREFERENCES": 0,
-        "SESSIONS": 0
+        "SESSIONS": 0,
+        "SYSTEM": 0
     }
 }', true);
 $ts["CORE_ACCOUNTS"]["USERS"]       = getTS($coreAccountsDB, $DATABASE_CoreTABLE__users);
 $ts["CORE_ACCOUNTS"]["PREFERENCES"] = getTS($coreAccountsDB, $DATABASE_CoreTABLE__preferences);
 $ts["CORE_ACCOUNTS"]["SESSIONS"]    = getTS($coreAccountsDB, $DATABASE_CoreTABLE__sessions);
+$ts["CORE_ACCOUNTS"]["SYSTEM"]    = getTS($coreAccountsDB, $DATABASE_CoreTABLE__system);
 
 // Keep track of flush state
 global $needFlush;
@@ -175,6 +177,10 @@ while(true){
         if((($t = getTSbySID($coreAccountsDB, $DATABASE_CoreTABLE__sessions)) > $ts["CORE_ACCOUNTS"]["SESSIONS"]) ||
             (($t = getTSbySID($coreAccountsDB, $DATABASE_CoreTABLE__sessions)) == 0 && $ts["CORE_ACCOUNTS"]["SESSIONS"] != 0)){
             serverDataUpdate("CORE_ACCOUNTS", "SESSIONS", $t);
+        }
+        if((($t = getTS($coreAccountsDB, $DATABASE_CoreTABLE__system)) > $ts["CORE_ACCOUNTS"]["SYSTEM"]) ||
+            (($t = getTS($coreAccountsDB, $DATABASE_CoreTABLE__system)) == 0 && $ts["CORE_ACCOUNTS"]["SYSTEM"] != 0)){
+            serverDataUpdate("CORE_ACCOUNTS", "SYSTEM", $t);
         }
         unset($t);
     }

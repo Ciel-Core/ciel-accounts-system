@@ -111,7 +111,8 @@ CREATE TABLE `sessions` (
 
 CREATE TABLE `system` (
   `UID` bigint(11) UNSIGNED NOT NULL,
-  `CustomizationComplete` tinyint(1) NOT NULL DEFAULT 0
+  `CustomizationComplete` tinyint(1) NOT NULL DEFAULT 0,
+  `UpdateTimestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
