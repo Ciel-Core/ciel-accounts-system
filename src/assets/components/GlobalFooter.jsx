@@ -25,13 +25,13 @@ function GlobalFooter(props){
             <FooterLink href={"/about/legal"} disable={!isOnline()}>Legal</FooterLink>
             <FooterLink href={"/about/services"} disable={!isOnline()}>Services</FooterLink>
             <InfoIcon class={styles.icon} onClick={() => showDialog(`About ${import.meta.env.VITE_NAME}`, (<FlexContainer class={styles.aboutContainer} horizontal>
-                <h4>
+                <h5>
                     Version {
                         import.meta.env.VITE_V_FRONT_MAJOR}.
                         {import.meta.env.VITE_V_FRONT_MINOR}.
                         {import.meta.env.VITE_V_FRONT_FIX
                     } ({import.meta.env.VITE_V_TYPE})
-                </h4>
+                </h5>
                 <h5>
                     Server version {
                         import.meta.env.VITE_V_BACK_MAJOR}.
