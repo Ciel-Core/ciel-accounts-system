@@ -18,7 +18,7 @@ This is a project that aims to provide developers with an easy-to-use third-part
 ## Roadmap
 
 - [x] Add a welcome screen
-- [-] Add a sign in page
+- [ ] Add a sign in page
   - [x] Password login
   - [x] `WehAuthn` support (<https://try-webauthn.appspot.com/>)
   - [ ] QR/code temporary login using signed in account
@@ -30,9 +30,9 @@ This is a project that aims to provide developers with an easy-to-use third-part
     - [ ] Emergency backup codes
 - [x] Add a sign up page (fully complete)
   - [x] Force the user to set up security questions (3 minimum)
-- [-] Add a control panel (Home page)
+- [ ] Add a control panel (Home page)
   - [ ] Always require the user to do device authentication/relogin when the user attempts to change important settings
-- [-] Add an "about" section
+- [ ] Add an "about" section
 - [ ] Add a "help" section
 - [ ] Add an activity tracking system (Must be completely controlable by the user)
 - [ ] Make a library/API for developers
