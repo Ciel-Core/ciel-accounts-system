@@ -18,25 +18,27 @@ This is a project that aims to provide developers with an easy-to-use third-part
 ## Roadmap
 
 - [x] Add a welcome screen
-- [ ] Add a sign in page
+- [-] Add a sign in page
+  - [x] Password login
+  - [x] `WehAuthn` support (<https://try-webauthn.appspot.com/>)
+  - [ ] QR/code temporary login using signed in account
+  - [ ] Two-factor authentication
+    - [ ] Security keys
+    - [ ] Mobile prompt
+    - [ ] Security code from mobile app
+    - [ ] verification code from auth app (*e.g. Google/Microsoft Authenticator*)
+    - [ ] Emergency backup codes
 - [x] Add a sign up page (fully complete)
-- [ ] Add a control panel (Home page)
-- [ ] Add an "about" section
+  - [x] Force the user to set up security questions (3 minimum)
+- [-] Add a control panel (Home page)
+  - [ ] Always require the user to do device authentication/relogin when the user attempts to change important settings
+- [-] Add an "about" section
 - [ ] Add a "help" section
 - [ ] Add an activity tracking system (Must be completely controlable by the user)
 - [ ] Make a library/API for developers
   - [ ] Tracking functions
   - [ ] Login/Logout functions
   - [ ] Data-related requests channels (for account deletion/data copy requests)
-- [ ] Add two-steps verification
-  - [ ] Add an "authenticator" to the PWA (with an in-app generated code)
-  - [ ] Add the option for an authentication promt to the PWA (a y/n screen)
-  - [ ] Support external authenticators (Like Google/Microsoft Authenticator)
-  - [ ] Support security keys
-  - [ ] Add mandatory back-up codes
-  > Do NOT allow SMS or email two-steps verification
-- [x] Force the user to set up security questions (3 minimum)
-- [x] Always require the user to do device authentication on new devices or when the user attempts to change important settings. (<https://try-webauthn.appspot.com/>)
 
 > The sign up process:
 >
