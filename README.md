@@ -1,5 +1,7 @@
 # The Ciel System (Ciel Accounts System)
 
+[![wakatime](https://wakatime.com/badge/user/3df7e25f-1f31-4973-89a9-bac2592b83a4/project/427f0b07-a5fb-49b7-bace-10d6699f7a85.svg)](https://wakatime.com/badge/user/3df7e25f-1f31-4973-89a9-bac2592b83a4/project/427f0b07-a5fb-49b7-bace-10d6699f7a85)
+
 This is a project that aims to provide developers with an easy-to-use third-party accounts system and provide users with a secure, reliable, and private experiance with full control over their data. (online open beta - <https://ciel-core.online>, add ***#activate-developer-mode*** to the URL for more console logs)
 
 ## Planned conditions for websites implimination
