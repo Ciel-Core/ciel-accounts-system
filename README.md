@@ -32,6 +32,7 @@ This is a project that aims to provide developers with an easy-to-use third-part
   - [x] Force the user to set up security questions (3 minimum)
 - [ ] Add a control panel (Home page)
   - [ ] Always require the user to do device authentication/relogin when the user attempts to change important settings
+  - [ ] Account quick customisation prompt
 - [ ] Add an "about" section
 - [ ] Add a "help" section
 - [ ] Add an activity tracking system (Must be completely controlable by the user)
