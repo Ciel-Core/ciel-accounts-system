@@ -12,7 +12,6 @@ $rpId = $_SERVER['SERVER_NAME'];
 // cross-platform: true, if type internal is not allowed
 //                 false, if only internal is allowed
 //                 null, if internal and cross-platform is allowed
-$crossPlatformAttachment = false;
 
 // new Instance of the server library.
 $WebAuthn = new lbuchs\WebAuthn\WebAuthn('Ciel', $rpId, $formats);
