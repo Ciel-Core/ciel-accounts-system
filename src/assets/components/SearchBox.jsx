@@ -126,9 +126,11 @@ export function SearchBox(props){
         searchResultsLoading,
         searchResultsContent;
     onMount(() => {
-        updateSearch(searchContainer, searchInput, searchResults, searchResultsLoading, searchResultsContent);
+        updateSearch(searchContainer, searchInput, searchResults, searchResultsLoading,
+                        searchResultsContent);
     });
-    return (<div id="searchBox" ref={searchContainer} class={generalStyles.searchBoxContainer} data-results-visible={false} unselectable>
+    return (<div id="searchBox" ref={searchContainer} class={generalStyles.searchBoxContainer}
+                    data-results-visible={false} unselectable>
         <SearchIcon class={generalStyles.searchIcon}/>
         <BackArrowIcon class={generalStyles.backIcon} onClick={() => {
                 if(location.hash.substring(0, 7) == "#search"){
@@ -137,8 +139,10 @@ export function SearchBox(props){
                     searchContainer.dataset.resultsVisible = false;
                 }
             }}/>
-        <input ref={searchInput} class={basicProps.class} style={basicProps.style} placeholder={(props.placeholder) ? props.placeholder : "Search"} maxLength={255} />
-        <FlexContainer ref={searchResults} class={generalStyles.searchBoxResultsContainer} horizontal tabindex={0}>
+        <input ref={searchInput} class={basicProps.class} style={basicProps.style}
+                placeholder={(props.placeholder) ? props.placeholder : "Search"} maxLength={255} />
+        <FlexContainer ref={searchResults} class={generalStyles.searchBoxResultsContainer}
+                        horizontal tabindex={0}>
             <FlexContainer ref={searchResultsLoading} style={{display: "none"}}>
                 <LoadingSpinner class={generalStyles.searchBoxLoading} />
             </FlexContainer>

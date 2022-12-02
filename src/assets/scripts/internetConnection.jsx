@@ -40,7 +40,8 @@ function offline(){
     disableInteractions();
     render(() => {
         onMount(() => {
-            window._theme.updateColorGroup(window.getComputedStyle(dialog , null).getPropertyValue("background-color"));
+            window._theme.updateColorGroup(window.getComputedStyle(dialog , null)
+                            .getPropertyValue("background-color"));
         });
         return <>
             <div ref={dialog} class={style.box} unselectable>

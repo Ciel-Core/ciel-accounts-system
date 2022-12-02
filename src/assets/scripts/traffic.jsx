@@ -154,7 +154,8 @@ export function landingCheck(){
                     searchBox.dataset.resultsVisible = true;
                     if(searchBox.children[2] instanceof HTMLElement &&
                         typeof searchBox.children[2].setValue == "function"){
-                        searchBox.children[2].setValue(decodeURIComponent(location.hash.substring(8)));
+                        searchBox.children[2]
+                                        .setValue(decodeURIComponent(location.hash.substring(8)));
                         searchBox.children[2].focus();
                     }
                 });

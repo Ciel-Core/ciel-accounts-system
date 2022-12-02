@@ -8,7 +8,9 @@ import style from './../../assets/styles/pages/user.challenge.module.css';
 
 import { Title } from './../../assets/components/Title.jsx';
 import { Help } from './../../assets/components/Help.jsx';
-import { Mark, Button, FlexContainer, Link, Divider, showDialog } from './../../assets/components/CustomElements.jsx';
+import {
+    Mark, Button, FlexContainer, Link, Divider, showDialog
+} from './../../assets/components/CustomElements.jsx';
 import { onCleanup, onMount } from 'solid-js';
 import { useNavigate } from '@solidjs/router';
 import { factorStatePOST } from './../../assets/scripts/communication/accounts.jsx';
@@ -83,7 +85,10 @@ export default function Challenge(props){
         <Help feed={"login"}/>
         <h1>2-Step Verification</h1>
         <br/>
-        <h3>For your safety please <Mark>verify your identity</Mark> further using one of the following methods:</h3>
+        <h3>
+            For your safety please <Mark>verify your identity</Mark> further using one of
+            the following methods:
+        </h3>
         <FlexContainer style={{width: "400px"}}>
             <SecurityKey href={"/user/challenge/key"} disabled />
             <AppPrompt  href={"/user/challenge/app-prompt"} disabled />
@@ -102,7 +107,10 @@ export default function Challenge(props){
         </FlexContainer>
         <div class={style.suggestion}>
             <Divider/>
-            <text>Can't do any of these? Try to <Link href={"/user/recovery/two-factor"}>recover your account</Link>!</text>
+            <text>
+                Can't do any of these? Try to
+                <Link href={"/user/recovery/two-factor"}>recover your account</Link>!
+            </text>
         </div>
     </>;
 }

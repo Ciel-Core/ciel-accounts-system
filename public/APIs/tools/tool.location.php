@@ -13,7 +13,8 @@ function getLocationFromIP($IPAddress, $timezoneOffset, $UID){
     global $DATABASE_CoreTABLE__preferences;
     $connection = connectMySQL(DATABASE_READ_ONLY);
     $dbUID = mysqli_real_escape_string($connection, $UID);
-    $result = executeQueryMySQL($connection, "SELECT `Location` FROM $DATABASE_CoreTABLE__preferences WHERE `UID` = '$dbUID'");
+    $result = executeQueryMySQL($connection,
+                "SELECT `Location` FROM $DATABASE_CoreTABLE__preferences WHERE `UID` = '$dbUID'");
     $collectLocationData = false;
     if($result){
         $collectLocationData = ((int)mysqli_fetch_assoc($result)["Location"] == 1);

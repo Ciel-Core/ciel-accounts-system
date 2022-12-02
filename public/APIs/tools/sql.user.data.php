@@ -81,13 +81,16 @@ function getUserDataC(){
 
     // Get user data from 'users'
     $users = getDataFromTable($connection, $DATABASE_CoreTABLE__users, $UID,
-                "`UID`, `Username`, `DisplayUsername`, `FirstName`, `LastName`, `ProfilePicutre`, `Lang`");
+                "`UID`, `Username`, `DisplayUsername`, `FirstName`, `LastName`,
+                 `ProfilePicutre`, `Lang`");
 
     // Get user data from 'preferences'
-    $preferences = getDataFromTable($connection, $DATABASE_CoreTABLE__preferences, $UID, "`ColorScheme`, `AccentColor`");
+    $preferences = getDataFromTable($connection, $DATABASE_CoreTABLE__preferences, $UID,
+                                        "`ColorScheme`, `AccentColor`");
 
     // Get user data from 'system'
-    $system = getDataFromTable($connection, $DATABASE_CoreTABLE__system, $UID, "`CustomizationComplete`");
+    $system = getDataFromTable($connection, $DATABASE_CoreTABLE__system, $UID,
+                                    "`CustomizationComplete`");
 
     return (object)array_merge((array)$users, (array)$preferences, (array)$system);
 }

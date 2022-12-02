@@ -6,18 +6,21 @@
 
 import { Title } from './../../assets/components/Title.jsx';
 import { Help } from './../../assets/components/Help.jsx';
-import { Input, Button, Notice, Mark, FlexContainer, showDialog, setInputState } from '../../assets/components/CustomElements.jsx';
+import {
+    Input, Button, Notice, Mark, FlexContainer, showDialog, setInputState
+} from '../../assets/components/CustomElements.jsx';
 import { onCleanup, onMount } from 'solid-js';
 import { nextCheck } from './register.jsx';
 import { useNavigate } from '@solidjs/router';
 import { usernameCheckPOST } from './../../assets/scripts/communication/accounts.jsx';
 import { loginData, resetLoginData } from './../../assets/scripts/pages/loginData.jsx';
-import { userData } from './../../assets/scripts/user.jsx';
 
 export { nextCheck };
 
 export function InputFieldsContainer(props){
-    return (<div style={{width: "100%", position: "relative", overflow: "hidden"}}>{props.children}</div>);
+    return (<div style={{width: "100%", position: "relative", overflow: "hidden"}}>
+        {props.children}
+    </div>);
 }
 
 export function loginSuccessful(nav, replace = false){
@@ -27,12 +30,13 @@ export function loginSuccessful(nav, replace = false){
 export function redoLogin(navigate, prompt = false){
     resetLoginData();
     if(prompt){
-        showDialog("Something went wrong!", "It looks like some of your login data went missing!", [
-            ["Refill login details", function(dialog, remove){
-                navigate("/user/login", { replace: true });
-                remove();
-            }]
-        ]);
+        showDialog("Something went wrong!", "It looks like some of your login data went missing!",
+            [
+                ["Refill login details", function(dialog, remove){
+                    navigate("/user/login", { replace: true });
+                    remove();
+                }]
+            ]);
     }else{
         navigate("/user/login", { replace: true });
     }
@@ -69,16 +73,20 @@ export default function Login(props){
         <h3>Use your <Mark>{import.meta.env.VITE_NAME} account</Mark> securely!</h3>
         <FlexContainer space={"around"} style={{width: "400px"}}>
             <InputFieldsContainer>
-                <Input ref={username} id={"username"} type={"text"} label={"Username"} autocomplete={"username"}
-                        style={{width: "calc(100% - 8px)"}} maxlength={20} onSumbit={() => nextButton}/>
+                <Input ref={username} id={"username"} type={"text"} label={"Username"}
+                        autocomplete={"username"} style={{width: "calc(100% - 8px)"}}
+                        maxlength={20} onSumbit={() => nextButton}/>
             </InputFieldsContainer>
-            <Notice>Not using your own device? Use Guest mode or Incognito mode to sign in privately.</Notice>
+            <Notice>
+                Not using your own device? Use Guest mode or Incognito mode to sign in privately.
+            </Notice>
             <FlexContainer space={"between"} horozontal no-grow>
                 <Button type={"link"} href={"/user/register"}>Create account</Button>
                 <Button ref={nextButton} type={"action"} function={function(){
                     // usernameCheckPOST
                     nextCheck(nextButton, function(setError, isDone){
-                        if(!/^[A-Za-z0-9_]{3,20}$/.test(usernameInput.value) || !/[a-zA-Z]/.test(usernameInput.value)){
+                        if(!/^[A-Za-z0-9_]{3,20}$/.test(usernameInput.value) ||
+                            !/[a-zA-Z]/.test(usernameInput.value)){
                             setInputState(username, false, "Invalid username!");
                             setError();
                         }else{
@@ -93,11 +101,13 @@ export default function Login(props){
                                         setError();
                                     }
                                 }else{
-                                    showDialog("Error!", "We couldn't get a valid response from the server!", [
-                                        ["Ok", function(dialog, remove){
-                                            remove();
-                                        }]
-                                    ]);
+                                    showDialog("Error!",
+                                                "We couldn't get a valid response from the server!",
+                                                [
+                                                    ["Ok", function(dialog, remove){
+                                                        remove();
+                                                    }]
+                                                ]);
                                     setError();
                                 }
                             }, true, false, false, true);

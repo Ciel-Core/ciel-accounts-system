@@ -18,7 +18,8 @@ export function CheckBox(props){
         throw new Error("<CheckBox> must have 'active' and 'inactive' functions!");
     }
     let rtr = (<div ref={props.ref} class={basicProps.class} style={basicProps.style}>
-        <input ref={checkbox} type="checkbox" id={props.id} class={generalStyles.checkBox} checked={props.checked} />
+        <input ref={checkbox} type="checkbox" id={props.id} class={generalStyles.checkBox}
+                checked={props.checked} />
         <label for={props.id}>{props.label}</label>
     </div>);
     onMount(() => {

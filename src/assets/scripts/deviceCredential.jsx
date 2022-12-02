@@ -4,8 +4,10 @@
  * 
  **/
 
-import { authnRegisterPOST, getAuthnLoginDataPOST, getAuthnChallengeDataPOST } from "./communication/accounts.jsx";
-import { loadCBOR, loadPlatformJS } from "./loader.jsx";
+import {
+    authnRegisterPOST, getAuthnLoginDataPOST, getAuthnChallengeDataPOST
+} from "./communication/accounts.jsx";
+import { loadPlatformJS } from "./loader.jsx";
 import { loginData } from "./pages/loginData.jsx";
 
 // Read https://webauthn.guide/
@@ -51,7 +53,11 @@ export function createPublicKey(username, callback){
                             displayName: user.displayName
                         },
                         // Read: https://chromium.googlesource.com/chromium/src/+/master/content/browser/webauth/pub_key_cred_params.md
-                        pubKeyCredParams: [{alg: -7, type: "public-key"}, {alg: -257, type: "public-key"}], // ES256 (-7),  RS256 (-257)
+                        pubKeyCredParams:
+                            [
+                                {alg: -7, type: "public-key"},
+                                {alg: -257, type: "public-key"}
+                            ], // ES256 (-7),  RS256 (-257)
                         authenticatorSelection: {
                             authenticatorAttachment: "platform",
                             userVerification: "required"
@@ -65,8 +71,10 @@ export function createPublicKey(username, callback){
                     credential.response instanceof AuthenticatorAttestationResponse){
 
                     // Read data for server verification
-                    let clientDataJSON = credential.response.clientDataJSON ? arrayBufferToBase64(credential.response.clientDataJSON) : null,
-                        attestationObject = credential.response.attestationObject ? arrayBufferToBase64(credential.response.attestationObject) : null;
+                    let clientDataJSON = credential.response.clientDataJSON ?
+                            arrayBufferToBase64(credential.response.clientDataJSON) : null,
+                        attestationObject = credential.response.attestationObject ?
+                            arrayBufferToBase64(credential.response.attestationObject) : null;
                     // Get user challenge
                     // decode the clientDataJSON into a utf-8 string
                     let utf8Decoder = new TextDecoder('utf-8'),

@@ -13,7 +13,8 @@ function usernameExists($username){
     $EscapedUsername = mysqli_real_escape_string($connection, strtolower($username));
 
     global $DATABASE_CoreTABLE__users;
-    $result = executeQueryMySQL($connection, "SELECT `UID` FROM $DATABASE_CoreTABLE__users WHERE `Username` = '$EscapedUsername'");
+    $result = executeQueryMySQL($connection,
+            "SELECT `UID` FROM $DATABASE_CoreTABLE__users WHERE `Username` = '$EscapedUsername'");
     if($result){
         $result = mysqli_fetch_assoc($result);
         $connection->close();
@@ -31,7 +32,9 @@ function getDisplayUsername($username){
     $EscapedUsername = mysqli_real_escape_string($connection, strtolower($username));
 
     global $DATABASE_CoreTABLE__users;
-    $result = executeQueryMySQL($connection, "SELECT `DisplayUsername` FROM $DATABASE_CoreTABLE__users WHERE `Username` = '$EscapedUsername'");
+    $result = executeQueryMySQL($connection, "SELECT `DisplayUsername`
+                                                FROM $DATABASE_CoreTABLE__users
+                                                WHERE `Username` = '$EscapedUsername'");
     $DisplayUsername = mysqli_fetch_assoc($result)["DisplayUsername"];
     $connection->close();
     return $DisplayUsername;
@@ -45,14 +48,19 @@ function usernameOnCooldown($username, $ignoreIP = false){
     global $DATABASE_CoreTABLE__reservedUsernames, $CLIENT_IPAddress;
     $connection = connectMySQL(DATABASE_READ_AND_WRITE);
     $Username = mysqli_real_escape_string($connection, strtolower($username));
-    $result = executeQueryMySQL($connection, "SELECT `IPAddress`, `TimeoutTimestamp` FROM $DATABASE_CoreTABLE__reservedUsernames WHERE `Username` = '$Username'");
+    $result = executeQueryMySQL($connection,
+                    "SELECT `IPAddress`, `TimeoutTimestamp`
+                        FROM $DATABASE_CoreTABLE__reservedUsernames
+                        WHERE `Username` = '$Username'");
     if($result){
         $result = mysqli_fetch_assoc($result);
         $timeoutTimestamp = strToTimestamp($result["TimeoutTimestamp"]);
         // Check if the username cooldown status is expired
         if(time() >= $timeoutTimestamp){
-            executeQueryMySQL($connection, "DELETE FROM $DATABASE_CoreTABLE__reservedUsernames WHERE `Username` = '$Username'");
-        }else if(($result["IPAddress"] != $CLIENT_IPAddress) || $ignoreIP){ // Check if this is not the same user
+            executeQueryMySQL($connection, "DELETE FROM $DATABASE_CoreTABLE__reservedUsernames
+                                            WHERE `Username` = '$Username'");
+        }else if(($result["IPAddress"] != $CLIENT_IPAddress) ||
+                    $ignoreIP){ // Check if this is not the same user
             $connection->close();
             return true;
         }
@@ -70,7 +78,8 @@ function cooldownUsername($username){
     $ClientIPAddress = mysqli_real_escape_string($connection, $CLIENT_IPAddress);
 
     // First remove all previously cooldowned usernames!
-    executeQueryMySQL($connection, "DELETE FROM $DATABASE_CoreTABLE__reservedUsernames WHERE `IPAddress` = '$ClientIPAddress'");
+    executeQueryMySQL($connection, "DELETE FROM $DATABASE_CoreTABLE__reservedUsernames
+                                    WHERE `IPAddress` = '$ClientIPAddress'");
 
     // Cooldown the new username!
     $Username = mysqli_real_escape_string($connection, strtolower($username));

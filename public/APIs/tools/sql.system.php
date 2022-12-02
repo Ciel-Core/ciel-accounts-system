@@ -11,7 +11,9 @@ function setAsCustomized(){
     $UID = getUID($connection);
 
     // Update CustomizationComplete status
-    $result = executeQueryMySQL($connection, "UPDATE $DATABASE_CoreTABLE__system SET `CustomizationComplete` = 1 WHERE `UID` = $UID", false);
+    $result = executeQueryMySQL($connection, "UPDATE $DATABASE_CoreTABLE__system
+                                                SET `CustomizationComplete` = 1
+                                                WHERE `UID` = $UID", false);
     $return = !!($result);
     unset($result);
 

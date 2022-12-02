@@ -10,7 +10,10 @@ import { processProps } from './_custom.jsx';
 
 export function Link(props){
     let basicProps = processProps(props, generalStyles.link)
-    return (<RouterLink ref={props.ref} href={props.href} class={basicProps.class} style={basicProps.style} disable={props.disable}>{props.children}</RouterLink>);
+    return (<RouterLink ref={props.ref} href={props.href} class={basicProps.class}
+                            style={basicProps.style} disable={props.disable}>
+                {props.children}
+            </RouterLink>);
 }
 
 export default Link;

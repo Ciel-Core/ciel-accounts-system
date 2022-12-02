@@ -7,7 +7,7 @@
 // import styles from './../assets/styles/pages/new.module.css';
 
 import { Title } from './../../assets/components/Title.jsx';
-import { Button, Mark, FlexContainer, UserMessage } from './../../assets/components/CustomElements.jsx';
+import { Button, FlexContainer, UserMessage } from './../../assets/components/CustomElements.jsx';
 import { onCleanup, onMount } from 'solid-js';
 import { userData } from './../../assets/scripts/user.jsx';
 

@@ -16,7 +16,8 @@ function registerUser($input){
     require_once 'client.info.php';
     $Username = mysqli_real_escape_string($connection, strtolower($input->username));
     $DisplayUsername = mysqli_real_escape_string($connection, $input->username);
-    $PasswordHash = hash("sha256", $DATABASE_secretSault1.($input->passwordHash).$DATABASE_secretSault2);
+    $PasswordHash = hash("sha256", $DATABASE_secretSault1.($input->passwordHash)
+                                    .$DATABASE_secretSault2);
     $FirstName = mysqli_real_escape_string($connection, $input->name->first);
     $LastName = mysqli_real_escape_string($connection, $input->name->last);
     $Birthdate = $input->birthdate->year."-".$input->birthdate->month."-".$input->birthdate->day;
@@ -28,15 +29,16 @@ function registerUser($input){
     // Attempt to register basic user info 
     if(executeQueryMySQL($connection,
             "INSERT INTO `$DATABASE_CoreTABLE__users`
-                (`Username`,  `DisplayUsername`,  `CreationIPAddress`,  `PasswordHash`,  `FirstName`,
-                 `LastName`,  `Birthdate`,  `GenderName`, `Pronounce`, `Lang`)
+                (`Username`,  `DisplayUsername`,  `CreationIPAddress`,  `PasswordHash`,
+                `FirstName`,  `LastName`,  `Birthdate`,  `GenderName`, `Pronounce`, `Lang`)
             VALUES
-                ('$Username', '$DisplayUsername', '$CreationIPAddress', '$PasswordHash', '$FirstName',
-                 '$LastName', '$Birthdate', '$GenderName', $Pronounce, '$Lang')"
+                ('$Username', '$DisplayUsername', '$CreationIPAddress', '$PasswordHash',
+                '$FirstName', '$LastName', '$Birthdate', '$GenderName', $Pronounce, '$Lang')"
         )){
 
         // Get the user ID (UID)
-        $result = executeQueryMySQL($connection, "SELECT `UID` FROM $DATABASE_CoreTABLE__users WHERE `Username` = '$Username'");
+        $result = executeQueryMySQL($connection, "SELECT `UID` FROM $DATABASE_CoreTABLE__users
+                                                                WHERE `Username` = '$Username'");
         $UID = mysqli_fetch_assoc($result)["UID"];
         $UIDStatus = (gettype($UID) == "string" && strlen($UID) > 10);
         unset($result);
@@ -45,9 +47,12 @@ function registerUser($input){
         $SecurityQuestion1 = $input->securityQuestions->q1;
         $SecurityQuestion2 = $input->securityQuestions->q2;
         $SecurityQuestion3 = $input->securityQuestions->q3;
-        $SecurityQuestionAns1 = mysqli_real_escape_string($connection, $input->securityQuestions->a1);
-        $SecurityQuestionAns2 = mysqli_real_escape_string($connection, $input->securityQuestions->a2);
-        $SecurityQuestionAns3 = mysqli_real_escape_string($connection, $input->securityQuestions->a3);
+        $SecurityQuestionAns1 = mysqli_real_escape_string($connection,
+                                                                $input->securityQuestions->a1);
+        $SecurityQuestionAns2 = mysqli_real_escape_string($connection,
+                                                                $input->securityQuestions->a2);
+        $SecurityQuestionAns3 = mysqli_real_escape_string($connection,
+                                                                $input->securityQuestions->a3);
 
         // Attempt to register the security questions
         if($UIDStatus && executeQueryMySQL($connection,
@@ -83,20 +88,28 @@ function registerUser($input){
                     )){
 
                     // Delete user data
-                    executeQueryMySQL($connection, "DELETE FROM `$DATABASE_CoreTABLE__users` WHERE `UID` = $UID");
+                    executeQueryMySQL($connection, "DELETE FROM `$DATABASE_CoreTABLE__users`
+                                                    WHERE `UID` = $UID");
                     // Delete the username cooldown
-                    executeQueryMySQL($connection, "DELETE FROM $DATABASE_CoreTABLE__reservedUsernames WHERE `IPAddress` = '$CreationIPAddress'");
+                    executeQueryMySQL($connection, "DELETE
+                                                    FROM $DATABASE_CoreTABLE__reservedUsernames
+                                                    WHERE `IPAddress` = '$CreationIPAddress'");
                     $connection->close();
                     return false;
                 }else{
                     // Delete the username cooldown
-                    executeQueryMySQL($connection, "DELETE FROM $DATABASE_CoreTABLE__reservedUsernames WHERE `IPAddress` = '$CreationIPAddress'", false);
+                    executeQueryMySQL($connection, "DELETE
+                                                    FROM $DATABASE_CoreTABLE__reservedUsernames
+                                                    WHERE `IPAddress` = '$CreationIPAddress'"
+                                                , false);
                 }
             }else{
                 // Delete user data
-                executeQueryMySQL($connection, "DELETE FROM `$DATABASE_CoreTABLE__users` WHERE `UID` = $UID");
+                executeQueryMySQL($connection, "DELETE FROM `$DATABASE_CoreTABLE__users`
+                                                        WHERE `UID` = $UID");
                 // Delete the username cooldown
-                executeQueryMySQL($connection, "DELETE FROM $DATABASE_CoreTABLE__reservedUsernames WHERE `IPAddress` = '$CreationIPAddress'");
+                executeQueryMySQL($connection, "DELETE FROM $DATABASE_CoreTABLE__reservedUsernames
+                                                        WHERE `IPAddress` = '$CreationIPAddress'");
                 $connection->close();
                 return false;
             }
@@ -105,17 +118,22 @@ function registerUser($input){
             // Note: all tables with the UID value are linked with the 'users' table! If a row in
             // the 'users' table is deleted, the correlated rows in the other linked tables will
             // also get deleted.
-            if(!($UIDStatus && executeQueryMySQL($connection, "DELETE FROM `$DATABASE_CoreTABLE__users` WHERE `UID` = $UID"))){
-                executeQueryMySQL($connection, "DELETE FROM `$DATABASE_CoreTABLE__users` WHERE `Username` = '$Username'");
+            if(!($UIDStatus && executeQueryMySQL($connection, "DELETE
+                                                                FROM `$DATABASE_CoreTABLE__users`
+                                                                WHERE `UID` = $UID"))){
+                executeQueryMySQL($connection, "DELETE FROM `$DATABASE_CoreTABLE__users`
+                                                        WHERE `Username` = '$Username'");
             }
             // Delete the username cooldown
-            executeQueryMySQL($connection, "DELETE FROM $DATABASE_CoreTABLE__reservedUsernames WHERE `IPAddress` = '$CreationIPAddress'");
+            executeQueryMySQL($connection, "DELETE FROM $DATABASE_CoreTABLE__reservedUsernames
+                                                    WHERE `IPAddress` = '$CreationIPAddress'");
             $connection->close();
             return false;
         }
     }else{
         // Delete the username cooldown
-        executeQueryMySQL($connection, "DELETE FROM $DATABASE_CoreTABLE__reservedUsernames WHERE `IPAddress` = '$CreationIPAddress'");
+        executeQueryMySQL($connection, "DELETE FROM $DATABASE_CoreTABLE__reservedUsernames
+                                                WHERE `IPAddress` = '$CreationIPAddress'");
         $connection->close();
         return false;
     }

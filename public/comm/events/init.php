@@ -173,20 +173,52 @@ while(true){
     // server-data-update event
     {
         // Send user details data update ping
-        if((($t = getTS($coreAccountsDB, $DATABASE_CoreTABLE__users)) > $ts["CORE_ACCOUNTS"]["USERS"]) ||
-            (($t = getTS($coreAccountsDB, $DATABASE_CoreTABLE__users)) == 0 && $ts["CORE_ACCOUNTS"]["USERS"] != 0)){
+        if(
+            (
+                ($t = getTS($coreAccountsDB, $DATABASE_CoreTABLE__users)) >
+                $ts["CORE_ACCOUNTS"]["USERS"]
+            ) ||
+            (
+                ($t = getTS($coreAccountsDB, $DATABASE_CoreTABLE__users)) == 0 &&
+                $ts["CORE_ACCOUNTS"]["USERS"] != 0
+            )){
+
             serverDataUpdate("CORE_ACCOUNTS", "USERS", $t);
         }
-        if((($t = getTS($coreAccountsDB, $DATABASE_CoreTABLE__preferences)) > $ts["CORE_ACCOUNTS"]["PREFERENCES"]) ||
-            (($t = getTS($coreAccountsDB, $DATABASE_CoreTABLE__preferences)) == 0 && $ts["CORE_ACCOUNTS"]["PREFERENCES"] != 0)){
+        if(
+            (
+                ($t = getTS($coreAccountsDB, $DATABASE_CoreTABLE__preferences)) >
+                $ts["CORE_ACCOUNTS"]["PREFERENCES"]
+            ) ||
+            (
+                ($t = getTS($coreAccountsDB, $DATABASE_CoreTABLE__preferences)) == 0 &&
+                $ts["CORE_ACCOUNTS"]["PREFERENCES"] != 0
+            )){
+
             serverDataUpdate("CORE_ACCOUNTS", "PREFERENCES", $t);
         }
-        if((($t = getTSbySID($coreAccountsDB, $DATABASE_CoreTABLE__sessions)) > $ts["CORE_ACCOUNTS"]["SESSIONS"]) ||
-            (($t = getTSbySID($coreAccountsDB, $DATABASE_CoreTABLE__sessions)) == 0 && $ts["CORE_ACCOUNTS"]["SESSIONS"] != 0)){
+        if(
+            (
+                ($t = getTSbySID($coreAccountsDB, $DATABASE_CoreTABLE__sessions)) >
+                $ts["CORE_ACCOUNTS"]["SESSIONS"]
+            ) ||
+            (
+                ($t = getTSbySID($coreAccountsDB, $DATABASE_CoreTABLE__sessions)) == 0 &&
+                $ts["CORE_ACCOUNTS"]["SESSIONS"] != 0
+            )){
+
             serverDataUpdate("CORE_ACCOUNTS", "SESSIONS", $t);
         }
-        if((($t = getTS($coreAccountsDB, $DATABASE_CoreTABLE__system)) > $ts["CORE_ACCOUNTS"]["SYSTEM"]) ||
-            (($t = getTS($coreAccountsDB, $DATABASE_CoreTABLE__system)) == 0 && $ts["CORE_ACCOUNTS"]["SYSTEM"] != 0)){
+        if(
+            (
+                ($t = getTS($coreAccountsDB, $DATABASE_CoreTABLE__system)) >
+                $ts["CORE_ACCOUNTS"]["SYSTEM"]
+            ) ||
+            (
+                ($t = getTS($coreAccountsDB, $DATABASE_CoreTABLE__system)) == 0 &&
+                $ts["CORE_ACCOUNTS"]["SYSTEM"] != 0
+            )){
+
             serverDataUpdate("CORE_ACCOUNTS", "SYSTEM", $t);
         }
         unset($t);

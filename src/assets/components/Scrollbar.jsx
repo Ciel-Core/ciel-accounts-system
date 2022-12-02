@@ -25,7 +25,13 @@ function observeBody(callback){
 }
 function setUpScroll(){
     window.onscroll = function(){
-        handle.style.marginTop = `${(window.scrollY + window.innerHeight)/(document.body.scrollHeight)*(window.innerHeight - 16) - handleHeight}px`;
+        handle.style.marginTop =
+            (
+                (window.scrollY + window.innerHeight)
+                /(document.body.scrollHeight)
+                *(window.innerHeight - 16)
+                - handleHeight
+            ) + "px";
         showScrollbar();
         hideScrollbar();
     };
@@ -72,7 +78,9 @@ export default function Scrollbar(){
                 scrollbarContainer.style.display = "none";
             }else{
                 handleHeight = (window.innerHeight/document.body.scrollHeight)
-                                *(window.innerHeight - 16); // WATCH OUT, REMEMBER TO UPDATE THIS WHEN YOU CHANGE THE STYLE OF THE SCROLLBAR
+                                *(window.innerHeight - 16); // WATCH OUT, REMEMBER TO UPDATE
+                                                            // THIS WHEN YOU CHANGE THE STYLE
+                                                            // OF THE SCROLLBAR
                 handle.style.height = `${handleHeight}px`;
                 scrollbarContainer.style.display = null;
             }

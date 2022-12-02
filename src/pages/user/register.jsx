@@ -8,7 +8,9 @@ import style from './../../assets/styles/pages/user.register.module.css';
 
 import { Title } from './../../assets/components/Title.jsx';
 import { Help } from './../../assets/components/Help.jsx';
-import { Input, setInputState, Button, Notice, Mark, FlexContainer, showDialog } from './../../assets/components/CustomElements.jsx';
+import {
+    Input, setInputState, Button, Notice, Mark, FlexContainer, showDialog
+} from './../../assets/components/CustomElements.jsx';
 import { onCleanup, onMount } from 'solid-js';
 import { useNavigate } from '@solidjs/router';
 import { registerData, resetRegisterData } from './../../assets/scripts/pages/registerData.jsx';
@@ -17,7 +19,9 @@ import { textProfanity } from '../../assets/scripts/filter.jsx';
 import ExpandDownIcon from './../../assets/icons/expand_down.svg';
 
 export function InputFieldsContainer(props){
-    return (<div style={{width: "100%", position: "relative", overflow: "hidden"}}>{props.children}</div>);
+    return (<div style={{width: "100%", position: "relative", overflow: "hidden"}}>
+        {props.children}
+    </div>);
 }
 
 export function clientDataCheck(buttonElm, ...elmIDs){
@@ -86,12 +90,14 @@ export function nextCheck(button, callback, action){
 export function redoRegister(navigate, prompt = false){
     resetRegisterData();
     if(prompt){
-        showDialog("Something went wrong!", "It looks like some of your registration data is missing!", [
-            ["Refill info", function(dialog, remove){
-                navigate("/user/register", { replace: true });
-                remove();
-            }]
-        ]);
+        showDialog("Something went wrong!",
+                    "It looks like some of your registration data is missing!",
+                    [
+                        ["Refill info", function(dialog, remove){
+                            navigate("/user/register", { replace: true });
+                            remove();
+                        }]
+                    ]);
     }else{
         navigate("/user/register", { replace: true });
     }
@@ -149,12 +155,17 @@ export default function Register(props){
         <h3>Enter your <Mark>first name</Mark> and <Mark>last name</Mark>!</h3>
         <FlexContainer space={"around"} style={{width: "400px"}}>
             <InputFieldsContainer>
-                <Input ref={firstName} id={"first_name"} type={"text"} label={"First name"} autocomplete={"given-name"}
-                        style={{width: "calc(100% - 8px)"}} maxlength={32} onSumbit={() => nextButton}/>
-                <Input ref={lastName} id={"last_name"} type={"text"} label={"Last name"} autocomplete={"family-name"}
-                        style={{width: "calc(100% - 8px)"}} maxlength={32} onSumbit={() => nextButton}/>
+                <Input ref={firstName} id={"first_name"} type={"text"} label={"First name"}
+                        autocomplete={"given-name"} style={{width: "calc(100% - 8px)"}}
+                        maxlength={32} onSumbit={() => nextButton}/>
+                <Input ref={lastName} id={"last_name"} type={"text"} label={"Last name"}
+                        autocomplete={"family-name"} style={{width: "calc(100% - 8px)"}}
+                        maxlength={32} onSumbit={() => nextButton}/>
             </InputFieldsContainer>
-            <Notice>It's recommended to use a device that you own and use frequently to create your {import.meta.env.VITE_NAME} account!</Notice>
+            <Notice>
+                It's recommended to use a device that you own and use frequently to create
+                your {import.meta.env.VITE_NAME} account!
+            </Notice>
             <ButtonsContainer>
                 <Button type={"link"} href={"/user/login"}>Sign in instead</Button>
                 <Button ref={nextButton} type={"action"} function={function(){
@@ -172,7 +183,8 @@ export default function Register(props){
                                 [lastNameInput, lastName]
                             ].forEach(function(elms){
                                 if(elms[0].value.length > 32){
-                                    setInputState(elms[1], false, "Can't be longer than 32 characters!");
+                                    setInputState(elms[1], false,
+                                                    "Can't be longer than 32 characters!");
                                     setError();
                                 }else if(!/^[a-zA-Z]+$/.test(elms[0].value)){
                                     setInputState(elms[1], false, "Can only contain letters!");

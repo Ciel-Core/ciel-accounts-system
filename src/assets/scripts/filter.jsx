@@ -21,8 +21,10 @@ export async function textProfanity(text){
                     // Check if the bad word is not a part of another word
                     if(
                         ((i + bWord.length) < text.length && (
-                                (/^[a-z]*$/g.test(text[i + bWord.length - 1]) && /^[A-Z]*$/g.test(text[i + bWord.length])) || // .aA
-                                (/^[A-Z]*$/g.test(text[i + bWord.length - 1]) && /^[a-z]*$/g.test(text[i + bWord.length])) || // .Az
+                                (/^[a-z]*$/g.test(text[i + bWord.length - 1])
+                                    && /^[A-Z]*$/g.test(text[i + bWord.length])) || // .aA
+                                (/^[A-Z]*$/g.test(text[i + bWord.length - 1])
+                                    && /^[a-z]*$/g.test(text[i + bWord.length])) || // .Az
                                 (!(/^[a-z]*$/g.test(lcText[i + bWord.length]))) // .a# ,.A#
                             )) ||
                         (text.length == (i + bWord.length))
@@ -30,7 +32,8 @@ export async function textProfanity(text){
                         if(i > 0){ // Not at the start of the string
                             if(/^[a-z]*$/g.test(text[i - 1]) && /^[A-Z]*$/g.test(text[i])){ //aA
                                 status = true;
-                            }else if(/^[A-Z]*$/g.test(text[i]) && /^[A-Z]*$/g.test(text[i - 1])){ // AA
+                            }else if(/^[A-Z]*$/g.test(text[i]) &&
+                                        /^[A-Z]*$/g.test(text[i - 1])){ // AA
                                 status = true;
                             }else if(!/^[a-z]*$/g.test(lcText[i - 1])){ //#a ,#A
                                 status = true;

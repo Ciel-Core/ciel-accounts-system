@@ -23,7 +23,9 @@ export default function Error(props){
             <h1 class={errorStyle.title}>Page <Mark>Not Found</Mark>!</h1>
             {
                 (props.viewMode != "content-only") ? 
-                    (<Button class={errorStyle.button} type={"link"} href={"/"} light>Go Home</Button>)
+                    (<Button class={errorStyle.button} type={"link"} href={"/"} light>
+                        Go Home
+                    </Button>)
                 :
                     undefined
             }

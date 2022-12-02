@@ -8,7 +8,9 @@ import style from './../../../assets/styles/pages/user.review.module.css';
 
 import { Title } from './../../../assets/components/Title.jsx';
 import { Help } from './../../../assets/components/Help.jsx';
-import { Button, Notice, Mark, FlexContainer, showDialog } from './../../../assets/components/CustomElements.jsx';
+import {
+    Button, Notice, Mark, FlexContainer, showDialog
+} from './../../../assets/components/CustomElements.jsx';
 import { createSignal, onMount, onCleanup } from "solid-js";
 import { useNavigate } from '@solidjs/router';
 import { registerData, checkDataByOrder } from './../../../assets/scripts/pages/registerData.jsx';
@@ -23,7 +25,9 @@ function ReviewTable(props){
 function ReviewItem(props){
     return (<tr class={style.item}>
         <td class={style.title} unselectable><text>{props.title}</text></td>
-        <td class={style.content}><text class={style.contentTextWrapper}>{props.children}</text></td>
+        <td class={style.content}>
+            <text class={style.contentTextWrapper}>{props.children}</text>
+        </td>
     </tr>);
 }
 
@@ -68,9 +72,21 @@ export default function RegisterReview(props){
         <h3>Make sure these are the <Mark>configurations</Mark> you want!</h3>
         <FlexContainer space={"around"} style={{width: "400px"}}>
             <ReviewTable>
-                <ReviewItem title={"Owner"}>{registerData.name.first} {registerData.name.last}</ReviewItem>
+                <ReviewItem title={"Owner"}>
+                    {registerData.name.first} {registerData.name.last}
+                </ReviewItem>
                 <ReviewItem title={"Username"}>{registerData.username}</ReviewItem>
-                <ReviewItem title={"Birthday"}>{(new Date(`${registerData.birthdate.month}/${registerData.birthdate.day}/${registerData.birthdate.year}`)).toLocaleDateString('en-UK')}</ReviewItem>
+                <ReviewItem title={"Birthday"}>
+                    {
+                        (
+                            new Date(
+                                registerData.birthdate.month + "/" +
+                                registerData.birthdate.day + "/" +
+                                registerData.birthdate.year
+                            )
+                        ).toLocaleDateString('en-UK')
+                    }
+                </ReviewItem>
                 <ReviewItem title={"Gender"}>{registerData.gender} ({(function(){
                     if(registerData.pronounce == 1){
                         return "he/him";
@@ -81,15 +97,18 @@ export default function RegisterReview(props){
                     }
                 })()})</ReviewItem>
                 <ReviewItem title={"Security Question #1"}>
-                    <SecurityQuestionItem question={securityQuesiton(securityQuestions(), 1, registerData.securityQuestions.q1)}
+                    <SecurityQuestionItem question={securityQuesiton(securityQuestions(), 1,
+                                                           registerData.securityQuestions.q1)}
                                             answer={registerData.securityQuestions.a1}/>
                 </ReviewItem>
                 <ReviewItem title={"Security Question #2"}>
-                    <SecurityQuestionItem question={securityQuesiton(securityQuestions(), 2, registerData.securityQuestions.q2)}
+                    <SecurityQuestionItem question={securityQuesiton(securityQuestions(), 2,
+                                                            registerData.securityQuestions.q2)}
                                             answer={registerData.securityQuestions.a2}/>
                 </ReviewItem>
                 <ReviewItem title={"Security Question #3"}>
-                    <SecurityQuestionItem question={securityQuesiton(securityQuestions(), 3, registerData.securityQuestions.q3)}
+                    <SecurityQuestionItem question={securityQuesiton(securityQuestions(), 3,
+                                                            registerData.securityQuestions.q3)}
                                             answer={registerData.securityQuestions.a3}/>
                 </ReviewItem>
                 <ReviewItem title={"Public Profile"}>{(function(){
@@ -112,7 +131,9 @@ export default function RegisterReview(props){
                     // 1 - Ciel.affiliated.third-party, 2 - Ciel.affiliated, 3 - Ciel
                     return null;
                 })()}</ReviewItem>
-                <ReviewItem title={"Location"}>{(registerData.quickSettings.location == 1) ? "Approximate" : "Disabled"}</ReviewItem>
+                <ReviewItem title={"Location"}>
+                    {(registerData.quickSettings.location == 1) ? "Approximate" : "Disabled"}
+                </ReviewItem>
                 <ReviewItem title={"Colour Scheme"}>{(function(){
                     //
                     if(registerData.quickSettings.colorScheme == 1){
@@ -124,7 +145,9 @@ export default function RegisterReview(props){
                     }
                 })()}</ReviewItem>
             </ReviewTable>
-            <Notice>You can always change your account configurations from your account console!</Notice>
+            <Notice>
+                You can always change your account configurations from your account console!
+            </Notice>
             <ButtonsContainer>
                 <Button type={"action"} function={function(){history.back()}}>Go back</Button>
                 <Button ref={nextButton} type={"action"} function={function(){
@@ -138,15 +161,19 @@ export default function RegisterReview(props){
                                     signUpPOST(registerData, function(isSuccessful, response){
                                         isDone();
                                         if(isSuccessful){
-                                            showDialog("Account created!", "You can sign in to your account!", [["Sign in", function(dialog, remove){
-                                                navigate("/user/login");
-                                                remove();
-                                            }]]);
+                                            showDialog("Account created!",
+                                                        "You can sign in to your account!",
+                                                        [["Sign in", function(dialog, remove){
+                                                            navigate("/user/login");
+                                                            remove();
+                                                        }]]);
                                         }else{
-                                            showDialog("Error!", `We couldn't create your ${import.meta.env.VITE_NAME} account! Please try again at a later time.`);
+                                            showDialog("Error!",
+                                                    `We couldn't create your
+                                                    ${import.meta.env.VITE_NAME} account!
+                                                    Please try again at a later time.`);
                                         }
                                     });
-                                    //showDialog("Unavailable!", "The accounts system infrastructure is not ready yet!");
                                 }
                             });
                         }, function(){});

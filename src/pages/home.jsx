@@ -8,10 +8,11 @@ import style from './../assets/styles/general.module.css';
 import homeStyle from './../assets/styles/pages/home.module.css';
 
 import { Title } from './../assets/components/Title.jsx';
-import { createEffect, createSignal, For, lazy, onCleanup, onMount } from 'solid-js';
+import { createEffect, createSignal, lazy, onCleanup, onMount } from 'solid-js';
 import { userData } from './../assets/scripts/user.jsx';
-import { FlexContainer, LoadingSpinner, Mark, NavBar, SearchBox } from './../assets/components/CustomElements.jsx';
-
+import {
+    FlexContainer, LoadingSpinner, Mark, NavBar, SearchBox
+} from './../assets/components/CustomElements.jsx';
 import { useLocation } from '@solidjs/router';
 
 function panelContent(location, loaded, loading, setContent){
@@ -72,13 +73,17 @@ export default function Home(props){
     });
     onMount(() => {
         createEffect(() => {
-            setContent(panelContent(location.pathname.replace(/[#?].*$/g, ""), props.pageLoaded, loading, setContent));
+            setContent(panelContent(location.pathname.replace(/[#?].*$/g, ""), props.pageLoaded,
+                        loading, setContent));
         });
     });
     return <>
         <Title></Title>
         <h2 class={style.pageTitle}>Welcome, <Mark>{userData().displayUsername}</Mark>!</h2>
-        <h4 class={style.pageDescription}>Manage your profile, privacy preferences, and security across all connected services and devices.</h4>
+        <h4 class={style.pageDescription}>
+            Manage your profile, privacy preferences, and security across all connected services
+            and devices.
+        </h4>
         <SearchBox/>
         <NavBar links={
             [

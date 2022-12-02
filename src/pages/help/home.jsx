@@ -19,7 +19,10 @@ export function ContentBar(props){
         <h4 class={helpStyle.title}>{props.title}</h4>
         <ExternalIcon class={`${style.svgButton} ${helpStyle.externalIcon}`}
                 onClick={function(){
-                    window.open(location.href.replace("/#in-frame", "").replace("#in-frame", ""), '_blank').focus();
+                    window.open(
+                                    location.href.replace("/#in-frame", "")
+                                    .replace("#in-frame", ""), '_blank'
+                                ).focus();
                     window.parent.closeNavContent();
                 }} />
     </div>);

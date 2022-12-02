@@ -20,7 +20,8 @@ function defaultUserProfile(){
             accentColor: "COLOR"
         },
         personal: {
-            profilePicture: "/images/icons/default_user.svg", // <String> - URL to profile picture, /images/users/XXXXXXXXXXXXXXXXXXXXXXXXXX/...
+            profilePicture: "/images/icons/default_user.svg", // <String> - URL to profile
+                                            // picture, /images/users/XXXXXXXXXXXXXXXXXXXXXXXXXX/...
             firstName: "[First]", // <String> - user's first name
             lastName: "[Last]", // <String> - user's last name
         },
@@ -61,7 +62,8 @@ function convertUserData(userData){
     profile.personal.lastName                   = userData.LastName;
     profile.personal.profilePicture             = (userData.ProfilePicutre == "DEFAULT") ?
                                                         profile.personal.profilePicture :
-                                                        "/images/users/" + userData.ProfilePicutre + ".png";
+                                                        "/images/users/" +
+                                                        userData.ProfilePicutre + ".png";
 
     profile.visual.preferredColorScheme         = userData.ColorScheme;
     profile.visual.accentColor                  = userData.AccentColor;

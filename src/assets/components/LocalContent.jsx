@@ -39,9 +39,11 @@ function LocalContent(props){
         var observer = new MutationObserver(function(mutations) {
             mutations.forEach(function(mutation) {
                 if (mutation.type === "attributes") {
-                    if(localContent.dataset.processing == "true" && !localContent.hasAttribute("inert")){
+                    if(localContent.dataset.processing == "true" &&
+                        !localContent.hasAttribute("inert")){
                         localContent.setAttribute("inert", "");
-                    }else if(localContent.dataset.processing == "false" && localContent.hasAttribute("inert")){
+                    }else if(localContent.dataset.processing == "false" &&
+                                localContent.hasAttribute("inert")){
                         localContent.removeAttribute("inert");
                     }
                 }
@@ -52,7 +54,8 @@ function LocalContent(props){
         });
     });
 
-    // Check https://github.com/solidjs/solid-router for more info on how the navigation system works
+    // Check https://github.com/solidjs/solid-router for more info on how the
+    // navigation system works
     return (
         <div ref={localContent} id={"local-content"} class={styles.localcontent}
             data-show-content={props.showContent} data-processing={false}

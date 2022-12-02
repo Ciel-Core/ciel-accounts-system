@@ -47,7 +47,8 @@ export function NavBar(props){
                         if(!stop){
                             if(l[1] == link[1]){
                                 stop = true;
-                                s -= (link[1] == linksElms[linksElms.length - 1][1]) ? 0 : lastW / 2;
+                                s -= (link[1] == linksElms[linksElms.length - 1][1]) ?
+                                        0 : lastW / 2;
                             }else{
                                 s += l[2].clientWidth;
                                 lastW = l[2].clientWidth;
@@ -63,7 +64,8 @@ export function NavBar(props){
             isHome = location.pathname.replace(/[#?].*$/g, "") == "/";
             linksElms.forEach(link => {
                 if((!selected && isHome) ||
-                    (!selected && location.pathname.indexOf(link[1]) == 0 && link[1] != props.links[0][1])){
+                    (!selected && location.pathname.indexOf(link[1]) == 0
+                        && link[1] != props.links[0][1])){
                     link[2].setAttribute("selected", "");
                     scrollToOption(link);
                     selected = true;
@@ -101,7 +103,8 @@ export function NavBar(props){
     });
     return (<div class={basicProps.class} style={basicProps.style} unselectable>
         <div ref={startShadow} class={generalStyles.startShadow} style={{display: "none"}}>
-            <BackArrowIcon class={generalStyles.icon} onClick={() => scrollToOption(undefined, content.scrollLeft - 100)} />
+            <BackArrowIcon class={generalStyles.icon}
+                            onClick={() => scrollToOption(undefined, content.scrollLeft - 100)} />
         </div>
         <div ref={content} class={generalStyles.navLinks} onScroll={function(){
                     updateShadows(content, startShadow, endShadow);
@@ -109,14 +112,19 @@ export function NavBar(props){
             <For each={props.links}>
                 {(link) => {
                     let l = linksElms.length;
-                    link.push(<Link class={generalStyles.navOption} href={link[1]}>{link[0]}</Link>);
+                    link.push(
+                        <Link class={generalStyles.navOption} href={link[1]}>
+                            {link[0]}
+                        </Link>
+                    );
                     linksElms[l] = link;
                     return linksElms[l][2];
                 }}
             </For>
         </div>
         <div ref={endShadow} class={generalStyles.endShadow}  style={{display: "none"}}>
-            <ForwardArrowIcon class={generalStyles.icon} onClick={() => scrollToOption(undefined, content.scrollLeft + 100)} />
+            <ForwardArrowIcon class={generalStyles.icon}
+                            onClick={() => scrollToOption(undefined, content.scrollLeft + 100)} />
         </div>
     </div>);
 }
