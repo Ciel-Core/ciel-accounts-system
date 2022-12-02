@@ -91,6 +91,15 @@ export function openConnection(successCallback, zeroTS = false){
                 // Success callback!
                 successCallback(event);
             };
+
+            // Close connection when inactive
+            document.onvisibilitychange = function(){
+                if(document.hidden){
+                    closeConnection();
+                }else{
+                    openConnection(successCallback, true);
+                }
+            };
         }
     }else{
         log("Server Events", "Server events connection already open!");
@@ -104,6 +113,7 @@ export function closeConnection(){
             eventSource.close();
             eventSource = undefined;
             window.activeEventSource = undefined;
+            log("Server Events", "Server events connection has been closed!");
         }else{
             log("Server Events", "No open server events connection found!");
         }
