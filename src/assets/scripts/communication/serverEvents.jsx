@@ -26,7 +26,7 @@ function closeDialog(allowWithoutConn = true){
         ]);
     }
 }
-function errorDialog(successCallback){
+function errorDialog(thisObj, args){
     closeConnection();
     if(!closeDialogVisible){
         // Check failed attempts
@@ -34,15 +34,15 @@ function errorDialog(successCallback){
             closeDialog();
         }else{
             // Do a silent attempt to reopen connection! (max limit is 3)
-            setTimeout(() => openConnection(successCallback), 3000);
+            setTimeout(() => openConnection.apply(thisObj, args), 3000);
         }
     }
 }
 
 // Open connection
-export function openConnection(successCallback){
+export function openConnection(successCallback, zeroTS = false){
     if(!isOnline()){
-        awaitConnection(() => openConnection(successCallback));
+        awaitConnection(() => openConnection(successCallback, true));
         return;
     }
     if(!window.EventSource){
@@ -59,14 +59,14 @@ export function openConnection(successCallback){
             eventSource.close();
         }
         eventSource = undefined;
-        eventSource = new EventSource("/comm/events/init.php");
+        eventSource = new EventSource("/comm/events/init.php" + ((zeroTS) ? "?zero=1" : ""));
         window.activeEventSource = eventSource;
 
         if(eventSource != undefined){
 
             // Detect errors
             eventSource.onerror = (error) => {
-                errorDialog(successCallback);
+                errorDialog(this, arguments);
                 log("Server Events", "EventSource failed", error);
                 throwError(error);
             };
@@ -75,7 +75,7 @@ export function openConnection(successCallback){
             eventSource.onopen = (event) => {
                 // Listen to server-{*} events!
                 listenTo("server-error", function(e){
-                    errorDialog(successCallback);
+                    errorDialog(this, arguments);
                 });
                 listenTo("server-open", function(e){ });
                 listenTo("server-close", function(e){
@@ -91,6 +91,28 @@ export function openConnection(successCallback){
                 // Success callback!
                 successCallback(event);
             };
+
+            // Close connection when inactive
+            let closedConnection = false,
+                timeout = undefined;
+            document.onvisibilitychange = function(){
+                if(document.hidden){
+                    timeout = setTimeout(function(){
+                        if(document.hidden){
+                            closedConnection = true;
+                            closeConnection();
+                        }else{
+                            closedConnection = false;
+                        }
+                    }, 10000);
+                }else{
+                    clearTimeout(timeout);
+                    if(closedConnection){
+                        openConnection(successCallback, true);
+                    }
+                    closedConnection = false;
+                }
+            };
         }
     }else{
         log("Server Events", "Server events connection already open!");
@@ -104,6 +126,7 @@ export function closeConnection(){
             eventSource.close();
             eventSource = undefined;
             window.activeEventSource = undefined;
+            log("Server Events", "Server events connection has been closed!");
         }else{
             log("Server Events", "No open server events connection found!");
         }

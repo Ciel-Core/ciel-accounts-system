@@ -25,7 +25,7 @@ function createDeviceID($connection){
 }
 
 // Add a trusted device
-function addTrustedDevice($credentialId, $publicKey, $environment){
+function addTrustedDevice($credentialId, $publicKey, $environment, $validRoot){
     // Connect to DB
     $connection = connectMySQL(DATABASE_READ_AND_WRITE);
     global $DATABASE_CoreTABLE__trustedDevices;
@@ -33,6 +33,7 @@ function addTrustedDevice($credentialId, $publicKey, $environment){
     // Check if credential is already registered
     $CredentialID = mysqli_real_escape_string($connection, $credentialId);
     $PublicKey = mysqli_real_escape_string($connection, $publicKey);
+    $ValidRoot = ($validRoot) ? 1 : 0;
     $result = executeQueryMySQL($connection, "SELECT 1 FROM $DATABASE_CoreTABLE__trustedDevices WHERE `CredentialID` = '$CredentialID' OR `PublicKey` = '$PublicKey'");
     if($result){
         if((mysqli_fetch_assoc($result)[1]) == 1){
@@ -44,9 +45,11 @@ function addTrustedDevice($credentialId, $publicKey, $environment){
             $DeviceID = createDeviceID($connection);
             executeQueryMySQL($connection,
                 "INSERT INTO `$DATABASE_CoreTABLE__trustedDevices`
-                    (`DeviceID`,  `UID`, `CredentialID`,  `PublicKey`,  `DeviceName`, `Environment`)
+                    (`DeviceID`,  `UID`, `CredentialID`,  `PublicKey`,  `DeviceName`, `Environment`,
+                     `ValidRoot`)
                 VALUES
-                    ('$DeviceID', $UID,  '$CredentialID', '$PublicKey', '',           '$Environment')");
+                    ('$DeviceID', $UID,  '$CredentialID', '$PublicKey', '',           '$Environment',
+                     $ValidRoot)");
             $connection->close();
             return $DeviceID;
         }

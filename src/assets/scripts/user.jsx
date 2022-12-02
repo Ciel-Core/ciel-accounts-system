@@ -36,13 +36,18 @@ function defaultUserProfile(){
     };
 }
 
-export const [isSignedIn, setSignedIn] = createSignal(null); // Must replace this value with a condition
+export const [isSignedIn, setSI] = createSignal(null); // Must replace this value with a condition
 export const [isUpdatingUserState, setUUS] = createSignal(null);
 export const [userData, setUD] = createSignal(defaultUserProfile());
 function setUserData(value){
     // For offline use!
     localStorage.setItem("last-user-data", JSON.stringify(value));
     setUD(value);
+}
+function setSignedIn(value){
+    // For offline use!
+    localStorage.setItem("last-user-state", Number(value));
+    setSI(value);
 }
 
 function convertUserData(userData){
@@ -68,16 +73,31 @@ function convertUserData(userData){
     return profile;
 }
 
+function listenToUserUpdates(){
+    // Open a Server Events connection
+    openConnection(function(){
+        // Listen to data updates
+        listenTo("server-data-update", function(e){
+            // Detect if the update relates to the USERS database!
+            if(e.data.indexOf("CORE_ACCOUNTS.") == 0){
+                updateUserState(undefined, false);
+            }
+        });
+    });
+}
+
 export function updateUserState(callback = undefined, expectURLChange = false){
     if(!isOnline()){
         setUserData(JSON.parse(localStorage.getItem("last-user-data")));
+        setSignedIn(!!Number(localStorage.getItem("last-user-state")));
+        listenToUserUpdates();
         if(typeof callback == "function"){
             callback();
         }
         return;
     }
     // Share user data with iframes!
-    if(window.sharedUserData != undefined){
+    else if(window.sharedUserData != undefined){
         setUserData(window.sharedUserData);
         setSignedIn(window.sharedUserState);
         if(typeof callback == "function"){
@@ -101,30 +121,14 @@ export function updateUserState(callback = undefined, expectURLChange = false){
                 // Set user state to signed in and add the user's profile
                 setUserData(convertUserData(data));
                 setSignedIn(true);
-
-                // Open a Server Events connection
-                openConnection(function(){
-                    // Listen to data updates
-                    listenTo("server-data-update", function(e){
-                        // Detect if the update relates to the USERS database!
-                        if(e.data.indexOf("CORE_ACCOUNTS.") == 0){
-                            updateUserState(undefined, false);
-                        }
-                    });
-                });
-
-                // Open a WebSocket to keep communicating with the server and wait for any updates
-                /*
-                openSocket(function(success){
-                    if(!success){
-                        showDialog("Warning!", "We can't sync your data on this device!");
-                    }
-                });
-                */
+                // Listen to any data updates
+                listenToUserUpdates();
             }else{
                 // Set user state to signed out and switch to the default profile
                 setUserData(defaultUserProfile());
                 setSignedIn(false);
+                // In case the connection wasn't closed properly
+                closeConnection();
             }
             // Enable page interactions
             if(enable){

@@ -39,14 +39,12 @@ if(base64_decode($INPUT_DATA->challenge) == $_SESSION["AUTHN__challengeKey"]){
             responseReport(BACKEND_ERROR, $e->getMessage());
         }
 
+        // Save device to database
+        $DeviceID = addTrustedDevice(base64_encode($data->credentialId), $data->credentialPublicKey, $INPUT_DATA->environment, $data->rootValid);
+
         // Check if root is valid
-        if ($data->rootValid === true) {
-            // Save device to database
-            $DeviceID = addTrustedDevice(base64_encode($data->credentialId), $data->credentialPublicKey, $INPUT_DATA->environment);
-        }else{
-            $RESPONSE_SUCCESS_STATUS = false;
-            $RESPONSE_TEXT = 'Certificate does not match any of the selected root ca.';
-            $RESPONSE_CODE = BLOCKED_DATA;
+        if($data->rootValid !== true){
+            $RESPONSE_TEXT = 'Certificate does not match any of the selected root CA!';
         }
     }else{
         $RESPONSE_SUCCESS_STATUS = false;

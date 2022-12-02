@@ -116,10 +116,17 @@ $ts = json_decode('{
         "SYSTEM": 0
     }
 }', true);
-$ts["CORE_ACCOUNTS"]["USERS"]       = getTS($coreAccountsDB, $DATABASE_CoreTABLE__users);
-$ts["CORE_ACCOUNTS"]["PREFERENCES"] = getTS($coreAccountsDB, $DATABASE_CoreTABLE__preferences);
-$ts["CORE_ACCOUNTS"]["SESSIONS"]    = getTS($coreAccountsDB, $DATABASE_CoreTABLE__sessions);
-$ts["CORE_ACCOUNTS"]["SYSTEM"]    = getTS($coreAccountsDB, $DATABASE_CoreTABLE__system);
+if(isset($_GET["zero"])){
+    $ts["CORE_ACCOUNTS"]["USERS"]       = 0;
+    $ts["CORE_ACCOUNTS"]["PREFERENCES"] = 0;
+    $ts["CORE_ACCOUNTS"]["SESSIONS"]    = 0;
+    $ts["CORE_ACCOUNTS"]["SYSTEM"]      = 0;
+}else{
+    $ts["CORE_ACCOUNTS"]["USERS"]       = getTS($coreAccountsDB, $DATABASE_CoreTABLE__users);
+    $ts["CORE_ACCOUNTS"]["PREFERENCES"] = getTS($coreAccountsDB, $DATABASE_CoreTABLE__preferences);
+    $ts["CORE_ACCOUNTS"]["SESSIONS"]    = getTS($coreAccountsDB, $DATABASE_CoreTABLE__sessions);
+    $ts["CORE_ACCOUNTS"]["SYSTEM"]      = getTS($coreAccountsDB, $DATABASE_CoreTABLE__system);
+}
 
 // Keep track of flush state
 global $needFlush;
