@@ -26,7 +26,7 @@ function closeDialog(allowWithoutConn = true){
         ]);
     }
 }
-function errorDialog(successCallback){
+function errorDialog(thisObj, args){
     closeConnection();
     if(!closeDialogVisible){
         // Check failed attempts
@@ -34,15 +34,15 @@ function errorDialog(successCallback){
             closeDialog();
         }else{
             // Do a silent attempt to reopen connection! (max limit is 3)
-            setTimeout(() => openConnection(successCallback), 3000);
+            setTimeout(() => openConnection.apply(thisObj, args), 3000);
         }
     }
 }
 
 // Open connection
-export function openConnection(successCallback){
+export function openConnection(successCallback, zeroTS = false){
     if(!isOnline()){
-        awaitConnection(() => openConnection(successCallback));
+        awaitConnection(() => openConnection(successCallback, true));
         return;
     }
     if(!window.EventSource){
@@ -59,14 +59,14 @@ export function openConnection(successCallback){
             eventSource.close();
         }
         eventSource = undefined;
-        eventSource = new EventSource("/comm/events/init.php");
+        eventSource = new EventSource("/comm/events/init.php" + ((zeroTS) ? "?zero=1" : ""));
         window.activeEventSource = eventSource;
 
         if(eventSource != undefined){
 
             // Detect errors
             eventSource.onerror = (error) => {
-                errorDialog(successCallback);
+                errorDialog(this, arguments);
                 log("Server Events", "EventSource failed", error);
                 throwError(error);
             };
@@ -75,7 +75,7 @@ export function openConnection(successCallback){
             eventSource.onopen = (event) => {
                 // Listen to server-{*} events!
                 listenTo("server-error", function(e){
-                    errorDialog(successCallback);
+                    errorDialog(this, arguments);
                 });
                 listenTo("server-open", function(e){ });
                 listenTo("server-close", function(e){

@@ -43,7 +43,7 @@ function offline(){
             window._theme.updateColorGroup(window.getComputedStyle(dialog , null).getPropertyValue("background-color"));
         });
         return <>
-            <div ref={dialog} class={style.box}>
+            <div ref={dialog} class={style.box} unselectable>
                 <SadIcon class={style.icon}/>
                 <text class={style.text}>You're offline!</text>
             </div>
