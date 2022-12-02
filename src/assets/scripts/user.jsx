@@ -83,7 +83,7 @@ function listenToUserUpdates(){
                 updateUserState(undefined, false);
             }
         });
-    });    
+    });
 }
 
 export function updateUserState(callback = undefined, expectURLChange = false){
