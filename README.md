@@ -147,18 +147,22 @@ Use the `npm run dev-build` command, and host the output inside the `dist` folde
 ![core_account](./github/images/core_accounts_db.png)
 
 > Read-and-write user privileges: **all**
+>
 > Read-only user privileges: `INDEX`, `SELECT`, `SHOW VIEW`
+>
 > Write-only privileges: all (IDK...)
 
 ## Deployment
 
-You can deploy the `dist` folder to any static host provider (netlify, surge, now, etc.)
+You can deploy the `dist` folder to any host provider with PHP and MySQL support
 
-> Must enable php_sockets extension (add `extension=php_sockets.dll` to `php.ini`)
->
-> Run the command `C:\xampp1\php\php.exe -q socket.php` before trying the website (if you wish to test the WebSocket dir)
->
 > PHP version 7.4
+
+### Using WebSockets
+
+Must enable php_sockets extension (add `extension=php_sockets.dll` to `php.ini`)
+
+Run the command `C:\xampp1\php\php.exe -q socket.php` before trying the website (if you wish to test the WebSocket dir)
 
 ## Used services
 
