@@ -38,7 +38,9 @@ if($INPUT_DATA->challenge == $_SESSION["AUTHN__challengeKey"]){
 
         // process the get request. throws WebAuthnException if it fails
         try{
-            $data = $WebAuthn->processGet($clientDataJSON, $authenticatorData, $signature, $credentialPublicKey, $_SESSION["AUTHN__challengeKey"], null, true);
+            $data = $WebAuthn->processGet($clientDataJSON, $authenticatorData, $signature,
+                                                $credentialPublicKey,
+                                                $_SESSION["AUTHN__challengeKey"], null, true);
         }catch(Exception $e){
             // User authn failed
             responseReport(BACKEND_ERROR, $e->getMessage());

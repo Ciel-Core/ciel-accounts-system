@@ -10,12 +10,17 @@ import { processProps } from './_custom.jsx';
 
 export function FlexContainer(props){
     let basicProps = processProps(props, generalStyles.flexContainer,
-                                    (props.space == "around") ? generalStyles.spaceAround : undefined,
-                                    (props.space == "between") ? generalStyles.spaceBetween : undefined,
+                                    (props.space == "around") ?
+                                        generalStyles.spaceAround : undefined,
+                                    (props.space == "between") ?
+                                        generalStyles.spaceBetween : undefined,
                                     (props.horozontal) ? generalStyles.horozontal : undefined,
                                     (props["no-grow"]) ? generalStyles.noFlexGrow : undefined);
     return (
-        <div ref={props.ref} class={basicProps.class} style={basicProps.style} tabindex={props.tabindex}>{props.children}</div>
+        <div ref={props.ref} class={basicProps.class} style={basicProps.style}
+                tabindex={props.tabindex}>
+            {props.children}
+        </div>
     );
 }
  

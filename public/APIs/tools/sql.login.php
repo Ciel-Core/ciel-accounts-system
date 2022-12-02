@@ -9,7 +9,8 @@ function signInStage1($input){
     $connection = connectMySQL(DATABASE_READ_AND_WRITE);
 
     $EscapedUsername = mysqli_real_escape_string($connection, strtolower($input->username));
-    $PasswordHash = hash("sha256", $DATABASE_secretSault1.($input->passwordHash).$DATABASE_secretSault2);
+    $PasswordHash = hash("sha256", $DATABASE_secretSault1.($input->passwordHash)
+                                    .$DATABASE_secretSault2);
 
     // Prepare return object
     $return = (object)array(
@@ -21,7 +22,8 @@ function signInStage1($input){
 
     // Get user ID
     $UID = NULL;
-    $result = executeQueryMySQL($connection, "SELECT `UID` FROM $DATABASE_CoreTABLE__users WHERE `Username` = '$EscapedUsername'");
+    $result = executeQueryMySQL($connection, "SELECT `UID` FROM $DATABASE_CoreTABLE__users
+                                                            WHERE `Username` = '$EscapedUsername'");
     if($result){
         $UID = mysqli_fetch_assoc($result)["UID"];
     }
@@ -33,7 +35,9 @@ function signInStage1($input){
     // Check if account is on login cooldown
     $FailedLoginAttempts = NULL;
     $LoginCooldownTimeout = NULL;
-    $result = executeQueryMySQL($connection, "SELECT `FailedLoginAttempts`, `LoginCooldownTimeout` FROM $DATABASE_CoreTABLE__security WHERE `UID` = $UID");
+    $result = executeQueryMySQL($connection, "SELECT `FailedLoginAttempts`, `LoginCooldownTimeout`
+                                                FROM $DATABASE_CoreTABLE__security
+                                                WHERE `UID` = $UID");
     if($result){
         $result = mysqli_fetch_assoc($result);
         $FailedLoginAttempts = $result["FailedLoginAttempts"];
@@ -58,10 +62,12 @@ function signInStage1($input){
 
     if(!($return->onCooldown)){
         // Check if the login info is correct
-        $result = executeQueryMySQL($connection, "SELECT 1 FROM $DATABASE_CoreTABLE__users WHERE `UID` = $UID AND `PasswordHash` = '$PasswordHash'");
+        $result = executeQueryMySQL($connection, "SELECT 1 FROM $DATABASE_CoreTABLE__users
+                                                            WHERE `UID` = $UID
+                                                            AND `PasswordHash` = '$PasswordHash'");
         if($result){
             if((mysqli_fetch_assoc($result)[1]) != 1){
-                // Add a cooldown for account login failure (8 failed attempts = 10 minutes cooldown)
+                // Add cooldown for account login failure (8 failed attempts = 10 minutes cooldown)
                 $FailedLoginAttempts = ($LoginCooldownTimeout == NULL ||
                                         time() >= strToTimestamp($LoginCooldownTimeout)) ?
                                             1
@@ -84,7 +90,9 @@ function signInStage1($input){
         if(gettype($UID) == "string" && strlen($UID) > 10){
             $return->validUser = true;
             $return->UID = $UID;
-            $result = executeQueryMySQL($connection, "SELECT `Require2FA` from $DATABASE_CoreTABLE__security WHERE `UID` = $UID");
+            $result = executeQueryMySQL($connection, "SELECT `Require2FA`
+                                                        FROM $DATABASE_CoreTABLE__security
+                                                        WHERE `UID` = $UID");
             if($result){
                 $return->require2FA = mysqli_fetch_assoc($result)["Require2FA"];
             }else{

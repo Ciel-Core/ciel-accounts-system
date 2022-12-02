@@ -6,7 +6,9 @@ require_once 'sql.database.php';
 function getTrustedDevices($UID){
     global $DATABASE_CoreTABLE__trustedDevices;
     $connection = connectMySQL(DATABASE_READ_ONLY);
-    $result = executeQueryMySQL($connection, "SELECT `DeviceID` FROM $DATABASE_CoreTABLE__trustedDevices WHERE `UID` = $UID");
+    $result = executeQueryMySQL($connection, "SELECT `DeviceID`
+                                                FROM $DATABASE_CoreTABLE__trustedDevices
+                                                WHERE `UID` = $UID");
     $return = array();
     if($result){
         while ($row = mysqli_fetch_array($result, MYSQLI_NUM)) {
@@ -25,7 +27,9 @@ function getTrustedDeviceCredential($deviceID){
     global $DATABASE_CoreTABLE__trustedDevices;
     $connection = connectMySQL(DATABASE_READ_ONLY);
     $DeviceID = mysqli_real_escape_string($connection, $deviceID);
-    $result = executeQueryMySQL($connection, "SELECT `CredentialID` FROM $DATABASE_CoreTABLE__trustedDevices WHERE `DeviceID` = '$DeviceID'");
+    $result = executeQueryMySQL($connection, "SELECT `CredentialID`
+                                                FROM $DATABASE_CoreTABLE__trustedDevices
+                                                WHERE `DeviceID` = '$DeviceID'");
     if($result){
         $connection->close();
         return mysqli_fetch_assoc($result)["CredentialID"];
@@ -39,7 +43,9 @@ function getTrustedDevicePublicKey($deviceID){
     global $DATABASE_CoreTABLE__trustedDevices;
     $connection = connectMySQL(DATABASE_READ_ONLY);
     $DeviceID = mysqli_real_escape_string($connection, $deviceID);
-    $result = executeQueryMySQL($connection, "SELECT `PublicKey` FROM $DATABASE_CoreTABLE__trustedDevices WHERE `DeviceID` = '$DeviceID'");
+    $result = executeQueryMySQL($connection, "SELECT `PublicKey`
+                                                FROM $DATABASE_CoreTABLE__trustedDevices
+                                                WHERE `DeviceID` = '$DeviceID'");
     if($result){
         $connection->close();
         return mysqli_fetch_assoc($result)["PublicKey"];

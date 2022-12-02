@@ -8,7 +8,9 @@ import generalStyles from './../../../assets/styles/general.module.css';
 
 import { Title } from './../../../assets/components/Title.jsx';
 import { Help } from './../../../assets/components/Help.jsx';
-import { Input, Button, Mark, FlexContainer, CheckBox, Link, showDialog, setInputState, Notice } from './../../../assets/components/CustomElements.jsx';
+import {
+    Input, Button, Mark, FlexContainer, CheckBox, Link, showDialog, setInputState
+} from './../../../assets/components/CustomElements.jsx';
 import { onCleanup, onMount } from 'solid-js';
 import { InputFieldsContainer, redoLogin, nextCheck, loginSuccessful } from './../login.jsx';
 import { loginData, loadAES, hash } from './../../../assets/scripts/pages/loginData.jsx';
@@ -64,9 +66,6 @@ export default function LoginPassword(props){
                                 document.getElementById("password").type = "password";
                             }}
                         />
-                    {/*<Notice>
-                    If you've used this device before as a trusted device, even on a diffrent browser/app, you can <Link href={"/user/device/auth"}>sign in using your device's authenticator</Link>!
-                    </Notice>*/}
             </InputFieldsContainer>
             <FlexContainer space={"between"} horozontal no-grow>
                 <Button type={"action"} function={function(){history.back()}}>Go back</Button>
@@ -81,7 +80,10 @@ export default function LoginPassword(props){
                                     }else{
                                         signInPOST({
                                             username: loginData.username,
-                                            passwordHash: hash(data[0] + passwordInput.value + data[1]),
+                                            passwordHash: hash(
+                                                data[0] +
+                                                passwordInput.value +
+                                                data[1]),
                                             timezoneOffset: (new Date()).getTimezoneOffset()
                                         }, function(isSuccessful, data){
                                             if(isSuccessful && data.validUser){
@@ -90,17 +92,25 @@ export default function LoginPassword(props){
                                                 });
                                             }else if(!data.validUser){
                                                 if(data.onCooldown){
-                                                    setInputState(password, false, "Account on login cooldown! Try again in 10 minutes!");
+                                                    setInputState(password, false,
+                                                                    `Account on login cooldown!
+                                                                    Try again in 10 minutes!`);
                                                 }else{
-                                                    // For some reason, using the <Link> element breaks the render function!
+                                                    // For some reason, using the <Link> element
+                                                    // breaks the render function!
                                                     setInputState(password, false, () => <>
-                                                        Incorrect password! Try again or try to <a class={generalStyles.link} href={"/user/recovery/password"}>reset the password</a>!
+                                                        Incorrect password! Try again or try
+                                                        to <a class={generalStyles.link}
+                                                                href={"/user/recovery/password"}>
+                                                                reset the password
+                                                            </a>!
                                                     </>);
                                                 }
                                                 setError();
                                             }else{
                                                 setError();
-                                                showDialog("Error!", "We couldn't sign you in, please try again later!");
+                                                showDialog("Error!", `We couldn't sign you in,
+                                                                        please try again later!`);
                                             }
                                         });
                                     }
@@ -116,7 +126,8 @@ export default function LoginPassword(props){
                         }else{
                             // Sign the user in!
                             updateUserState(function(){
-                                let deviceID = localStorage.getItem(`DEVICE_TRUSTED_${loginData.UID}`);
+                                let deviceID =
+                                        localStorage.getItem(`DEVICE_TRUSTED_${loginData.UID}`);
                                 if(deviceID == undefined && webAuthnSupport){
                                     navigate("/user/device/setup");
                                 }else{

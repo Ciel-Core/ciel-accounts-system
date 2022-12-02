@@ -14,7 +14,7 @@ import { render } from 'solid-js/web';
 
 // Check "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input" if you wish to support
 // a new input type!
-// Notice: you can refer to "https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete"
+// You can refer to "https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete"
 // for info on the diffrent types of autocomplete
 export function Input(props){
     let basicProps = processProps(props, generalStyles.inputFieldContainer),
@@ -35,8 +35,14 @@ export function Input(props){
                         //alert(window.innerHeight - y - height);
                     if(window.innerHeight - y - height < 175){
                         try {
-                            let s = inputElm.getBoundingClientRect().y - ((window.innerHeight)/2 + height);
-                            window.scrollTo(0, (window.scrollY - document.body.clientTop) + ((s > 0) ? s : 0) + 120)
+                            let s = inputElm.getBoundingClientRect().y -
+                                        ((window.innerHeight)/2 + height);
+                            window.scrollTo(
+                                0,
+                                (window.scrollY - document.body.clientTop) + 
+                                ((s > 0) ? s : 0) +
+                                120
+                            );
                         }catch{
                             inputElm.scrollIntoView(true);
                         }
@@ -78,7 +84,9 @@ export function Input(props){
             <div ref={props.ref} class={basicProps.class} style={basicProps.style}>
                 <div class={generalStyles.inputFieldDataContainer}>
                     {input}
-                    <label class={generalStyles.inputFieldLabel} for={props.id}>{props.label}</label>
+                    <label class={generalStyles.inputFieldLabel} for={props.id}>
+                        {props.label}
+                    </label>
                     <ErrorIcon class={generalStyles.inputErrorIcon}/>
                 </div>
                 {hint}

@@ -67,7 +67,8 @@ function showNavContent(navigate, pathname, container, spinner, mainTimeout, bar
                     };
                     // Detect size updates
                     window.sizeChange = function(){
-                        container.style.height = `${iframe.contentWindow.document.documentElement.scrollHeight}px`
+                        container.style.height =
+                                iframe.contentWindow.document.documentElement.scrollHeight + "px";
                     };
                     // Remove iframe when the body is focused
                     document.body.onfocus = window.closeNavContent;
@@ -76,7 +77,8 @@ function showNavContent(navigate, pathname, container, spinner, mainTimeout, bar
                 onCleanup(() => {
                     clearTimeout(timeout);
                 });
-                return (<iframe ref={iframe} src={`${pathname}/#in-frame`} title={"Help"} data-loaded={false}></iframe>);
+                return (<iframe ref={iframe} src={`${pathname}/#in-frame`} title={"Help"}
+                            data-loaded={false}></iframe>);
             }, container);
         }, 400);
     }else{
@@ -98,9 +100,11 @@ function LeftControls(props){
             <div class={styles.navControl}>
                 <BackArrowIcon onClick={() => history.back()} unselectable/>
             </div>
-            <div class={styles.otherControl} style={{display: (isSignedIn() || needHelp()) ? "inline-block" : "none"}}>
+            <div class={styles.otherControl}
+                    style={{display: (isSignedIn() || needHelp()) ? "inline-block" : "none"}}>
                 <HelpIcon id="help-icon" onClick={function(){
-                    showNavContent(navigate, `/help/feed/${helpFeed()}`, helpContainer, helpLoadingSpinner, helpTimeout, props.bar, true);
+                    showNavContent(navigate, `/help/feed/${helpFeed()}`, helpContainer,
+                                        helpLoadingSpinner, helpTimeout, props.bar, true);
                 }} unselectable disable={!isOnline()}/>
             </div>
             <div ref={helpContainer} class={styles.helpContainer} data-show={false}>
@@ -118,7 +122,8 @@ function RightControls(props){
     return (
         <div class={styles.rightControls} data-signed-in={isSignedIn()}>
             <div id="alerts-icon" class={styles.bellContainer} data-pin={false} onClick={function(){
-                    showNavContent(navigate, "/notifications", alertsContainer, alertsLoadingSpinner, alertsTimeout, props.bar, false);
+                    showNavContent(navigate, "/notifications", alertsContainer,
+                                        alertsLoadingSpinner, alertsTimeout, props.bar, false);
                 }} disable={!isOnline()}>
                 <BellIcon class={styles.bell} unselectable/>
                 <BellPinIcon class={styles.bellPin} unselectable/>
@@ -136,7 +141,10 @@ function UserProfile(props){
     return (
         <div class={styles.userprofile} unselectable>
             <LoadingSpinner style={{display: !showImage() ? null : 'none'}}/>
-            <img alt={"Profile Icon"} draggable={false} class={styles.userProfileImage} width={70} height={70} style={{display: showImage() ? null : 'none'}} onLoad={function(e){ setShowImage(true); props.report(); }} src={props.picture}/>
+            <img alt={"Profile Icon"} draggable={false} class={styles.userProfileImage} width={70}
+                    height={70} style={{display: showImage() ? null : 'none'}}
+                    onLoad={function(e){ setShowImage(true); props.report(); }}
+                    src={props.picture}/>
         </div>
     );
 }

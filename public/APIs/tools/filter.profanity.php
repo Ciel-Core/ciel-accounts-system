@@ -32,8 +32,10 @@ function checkProfanity($text){
                 $wordLength = strlen($PROFANITY_FILTER_wordsList[$i]);
                 if(
                     (($wIndex + $wordLength) < strlen($text) && (
-                            (ctype_lower($text[$wIndex + $wordLength - 1]) && ctype_upper($text[$wIndex + $wordLength])) || // .aA
-                            (ctype_upper($text[$wIndex + $wordLength - 1]) && ctype_lower($text[$wIndex + $wordLength])) || // .aA
+                            (ctype_lower($text[$wIndex + $wordLength - 1])
+                                && ctype_upper($text[$wIndex + $wordLength])) || // .aA
+                            (ctype_upper($text[$wIndex + $wordLength - 1])
+                                && ctype_lower($text[$wIndex + $wordLength])) || // .aA
                             (!(ctype_alpha($text_lowerCase[$wIndex + $wordLength]))) // .a#, .A#
                         )) ||
                     (strlen($text) == ($wIndex + $wordLength))
@@ -41,7 +43,8 @@ function checkProfanity($text){
                     if($wIndex > 0){
                         if(ctype_lower($text[$wIndex - 1]) && ctype_upper($text[$wIndex])){ //aA
                             return true;
-                        }else if(ctype_upper($text[$wIndex]) && ctype_upper($text[$wIndex - 1])){ // AA
+                        }else if(ctype_upper($text[$wIndex]) &&
+                                    ctype_upper($text[$wIndex - 1])){ // AA
                             return true;
                         }else if(!(ctype_alpha($text_lowerCase[$wIndex - 1]))){ // #a, #A
                             return true;

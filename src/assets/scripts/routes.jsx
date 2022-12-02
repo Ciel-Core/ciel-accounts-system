@@ -28,7 +28,8 @@ const Pages = {
     RegisterUsername: lazy(() => import("./../../pages/user/register/username.jsx")),
     RegisterPassword: lazy(() => import("./../../pages/user/register/password.jsx")),
     RegisterPersonalInfo: lazy(() => import("./../../pages/user/register/personal.jsx")),
-    RegisterSecurityQuestions: lazy(() => import("./../../pages/user/register/security-questions.jsx")),
+    RegisterSecurityQuestions:
+                        lazy(() => import("./../../pages/user/register/security-questions.jsx")),
     RegisterQuickSettings: lazy(() => import("./../../pages/user/register/quick-settings.jsx")),
     RegisterAgreement: lazy(() => import("./../../pages/user/register/agreement.jsx")),
     RegisterReview: lazy(() => import("./../../pages/user/register/review.jsx")),
@@ -52,43 +53,52 @@ export function WebRoutes(props){
     return (
     <Routes>
         {/* The error page */}
-        <Route path={"*"} element={<Error.NotFound {...reports}></Error.NotFound>} />
+        <Route path={"*"} element={<Error.NotFound {...reports} />} />
 
         {/* Pages that require the user to be signed in, and can be used only when signed in */}
-        <Route path={["/", "/home/*"]} element={<Pages.Home {...reports}></Pages.Home>} />
+        <Route path={["/", "/home/*"]} element={<Pages.Home {...reports} />} />
         <Route path={"/home"} element={<Navigate href={"/"}/>} />
-        <Route path={"/user/customization"} element={<Pages.AccountCustomization {...reports}></Pages.AccountCustomization>} />
+        <Route path={"/user/customization"} element={<Pages.AccountCustomization {...reports} />} />
 
-        <Route path={"/user/device/setup"} element={<Pages.DeviceAuthSetup {...reports}></Pages.DeviceAuthSetup>} />
-        <Route path={"/user/device/auth"} element={<Pages.DeviceAuth {...reports}></Pages.DeviceAuth>} />
+        <Route path={"/user/device/setup"} element={<Pages.DeviceAuthSetup {...reports} />} />
+        <Route path={"/user/device/auth"} element={<Pages.DeviceAuth {...reports} />} />
 
-        {/* Pages that DON'T require the user to be signed in, and the user can't use while signed in */}
-        <Route path={"/new"} element={<Pages.New {...reports}></Pages.New>} />
+        {/* Pages that DON'T require the user to be signed in, and the user can't use
+            while signed in */}
+        <Route path={"/new"} element={<Pages.New {...reports} />} />
 
-        <Route path={"/user/login"} element={<Pages.Login {...reports}></Pages.Login>} />
-        <Route path={"/user/login/password"} element={<Pages.LoginPassword {...reports}></Pages.LoginPassword>} />
-        <Route path={"/user/challenge"} element={<Pages.LoginChallenge {...reports}></Pages.LoginChallenge>} />
-        <Route path={"/user/challenge/key"} element={<Pages.LoginChallengeKey {...reports}></Pages.LoginChallengeKey>} />
-        <Route path={"/user/challenge/app-prompt"} element={<Pages.LoginChallengeAppPrompt {...reports}></Pages.LoginChallengeAppPrompt>} />
-        <Route path={"/user/challenge/app-code"} element={<Pages.LoginChallengeAppCode {...reports}></Pages.LoginChallengeAppCode>} />
-        <Route path={"/user/challenge/backup"} element={<Pages.LoginChallengeBackup {...reports}></Pages.LoginChallengeBackup>} />
-        <Route path={"/user/challenge/auth-app"} element={<Pages.LoginChallengeAuthApp {...reports}></Pages.LoginChallengeAuthApp>} />
+        <Route path={"/user/login"} element={<Pages.Login {...reports} />} />
+        <Route path={"/user/login/password"} element={<Pages.LoginPassword {...reports} />} />
+        <Route path={"/user/challenge"} element={<Pages.LoginChallenge {...reports} />} />
+        <Route path={"/user/challenge/key"} element={<Pages.LoginChallengeKey {...reports} />} />
+        <Route path={"/user/challenge/app-prompt"}
+                element={<Pages.LoginChallengeAppPrompt {...reports} />} />
+        <Route path={"/user/challenge/app-code"}
+                element={<Pages.LoginChallengeAppCode {...reports} />} />
+        <Route path={"/user/challenge/backup"}
+                element={<Pages.LoginChallengeBackup {...reports} />} />
+        <Route path={"/user/challenge/auth-app"}
+                element={<Pages.LoginChallengeAuthApp {...reports} />} />
 
-        <Route path={"/user/register"} element={<Pages.Register {...reports}></Pages.Register>} />
-        <Route path={"/user/register/username"} element={<Pages.RegisterUsername {...reports}></Pages.RegisterUsername>} />
-        <Route path={"/user/register/password"} element={<Pages.RegisterPassword {...reports}></Pages.RegisterPassword>} />
-        <Route path={"/user/register/personal"} element={<Pages.RegisterPersonalInfo {...reports}></Pages.RegisterPersonalInfo>} />
-        <Route path={"/user/register/security-questions"} element={<Pages.RegisterSecurityQuestions {...reports}></Pages.RegisterSecurityQuestions>} />
-        <Route path={"/user/register/quick-settings"} element={<Pages.RegisterQuickSettings {...reports}></Pages.RegisterQuickSettings>} />
-        <Route path={"/user/register/agreement"} element={<Pages.RegisterAgreement {...reports}></Pages.RegisterAgreement>} />
-        <Route path={"/user/register/review"} element={<Pages.RegisterReview {...reports}></Pages.RegisterReview>} />
+        <Route path={"/user/register"} element={<Pages.Register {...reports} />} />
+        <Route path={"/user/register/username"} element={<Pages.RegisterUsername {...reports} />} />
+        <Route path={"/user/register/password"} element={<Pages.RegisterPassword {...reports} />} />
+        <Route path={"/user/register/personal"}
+                element={<Pages.RegisterPersonalInfo {...reports} />} />
+        <Route path={"/user/register/security-questions"}
+                element={<Pages.RegisterSecurityQuestions {...reports} />} />
+        <Route path={"/user/register/quick-settings"}
+                element={<Pages.RegisterQuickSettings {...reports} />} />
+        <Route path={"/user/register/agreement"}
+                element={<Pages.RegisterAgreement {...reports} />} />
+        <Route path={"/user/register/review"} element={<Pages.RegisterReview {...reports} />} />
 
         {/* Pages that Don't require the user to be signed in or signed out */}
-        <Route path={"/help"} element={<Pages.HelpHome {...reports}></Pages.HelpHome>} />
+        <Route path={"/help"} element={<Pages.HelpHome {...reports} />} />
         <Route path={"/help/feed"} element={<Navigate href={"/help"}/>} />
-        <Route path={"/help/feed/*"} element={<Pages.HelpHome {...reports}></Pages.HelpHome>} />
+        <Route path={"/help/feed/*"} element={<Pages.HelpHome {...reports} />} />
         <Route path={"/help/article"} element={<Navigate href={"/help"}/>} />
-        <Route path={"/help/article/*"} element={<Pages.HelpArticle {...reports}></Pages.HelpArticle>} />
+        <Route path={"/help/article/*"} element={<Pages.HelpArticle {...reports} />} />
     </Routes>
     );
 }

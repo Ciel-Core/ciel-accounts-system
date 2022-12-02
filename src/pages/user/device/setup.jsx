@@ -6,9 +6,13 @@
 
 import { Title } from './../../../assets/components/Title.jsx';
 import { Help } from './../../../assets/components/Help.jsx';
-import { Button, Mark, FlexContainer, Notice, showDialog } from './../../../assets/components/CustomElements.jsx';
+import {
+    Button, Mark, FlexContainer, Notice, showDialog
+} from './../../../assets/components/CustomElements.jsx';
 import { onCleanup, onMount } from 'solid-js';
-import { checkPlatformSupport, createPublicKey } from './../../../assets/scripts/deviceCredential.jsx';
+import {
+    checkPlatformSupport, createPublicKey
+} from './../../../assets/scripts/deviceCredential.jsx';
 import { useNavigate } from '@solidjs/router';
 import { userData } from './../../../assets/scripts/user.jsx';
 import { loginSuccessful } from './../login.jsx';
@@ -30,10 +34,11 @@ export default function DeviceAuthSetup(props){
         // Check if WebAuthn platform credential is supported
         checkPlatformSupport(function(error, supported){
             if(!supported){
-                showDialog("Unsupported!", "This device doesn't support WebAuthn!", ["Ok", function(dialog, remove){
-                    remove();
-                    history.back();
-                }]);
+                showDialog("Unsupported!", "This device doesn't support WebAuthn!",
+                                ["Ok", function(dialog, remove){
+                                    remove();
+                                    history.back();
+                                }]);
             }
         });
     });
@@ -42,9 +47,14 @@ export default function DeviceAuthSetup(props){
         <Help feed={"login"}/>
         <h1>Trust this device?</h1>
         <br/>
-        <h3>You could use this device as a <Mark>trusted device</Mark> to authenticate your logins!</h3>
+        <h3>
+            You could use this device as a <Mark>trusted device</Mark> to authenticate your logins!
+        </h3>
         <FlexContainer space={"around"} style={{width: "400px"}}>
-            <Notice>You can only set up devices with passwords or other similar security measures as trusted devices!</Notice>
+            <Notice>
+                You can only set up devices with passwords or other similar security
+                measures as trusted devices!
+            </Notice>
             <FlexContainer space={"between"} horozontal no-grow>
                 <Button type={"action"} function={function(){
                     loginSuccessful(navigate);
@@ -56,16 +66,17 @@ export default function DeviceAuthSetup(props){
                         localContent.dataset.processing = false;
                         setupButton.removeAttribute("disabled");
                         if(error){
-                            showDialog("Something went wrong!", "We couldn't verify this authentication!",
-                                [
-                                    ["Ok", function(dialog, remove){
-                                        remove();
-                                        loginSuccessful(navigate, true);
-                                    }], ["Retry", function(dialog, remove){
-                                        remove();
-                                        setupButton.click();
-                                    }]
-                                ]);
+                            showDialog("Something went wrong!",
+                                        "We couldn't verify this authentication!",
+                                        [
+                                            ["Ok", function(dialog, remove){
+                                               remove();
+                                                loginSuccessful(navigate, true);
+                                            }], ["Retry", function(dialog, remove){
+                                                remove();
+                                                setupButton.click();
+                                            }]
+                                        ]);
                         }else{
                             // Success!
                             // Remember that this device is trusted

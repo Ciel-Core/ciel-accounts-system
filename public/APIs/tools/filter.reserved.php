@@ -7,7 +7,8 @@ $RESERVE_FILTER_status = true;
 require 'server.info.php';
 
 // Get the usernames list
-$RESERVE_FILTER__usernamesListString = file_get_contents("$SERVER_ROOT/lists/reserved_usernames.txt");
+$RESERVE_FILTER__usernamesListString =
+    file_get_contents("$SERVER_ROOT/lists/reserved_usernames.txt");
 $RESERVE_FILTER__status = !($RESERVE_FILTER__usernamesListString == false);
 
 // Convert the list into an array and clean up the string list

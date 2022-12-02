@@ -8,8 +8,10 @@ require_once './../../tools/tool.dates.php';
 
 function setBrowserCookie($name, $value, $expireDate, $HTTP_ONLY = true){
     global $STATE_HOSTED_LOCALLY;
-    setcookie($name, '', 0, "/", $_SERVER['SERVER_NAME'], !$STATE_HOSTED_LOCALLY, $HTTP_ONLY); // 86400 = 1 day
-    setcookie($name, $value, $expireDate, "/", $_SERVER['SERVER_NAME'], !$STATE_HOSTED_LOCALLY, $HTTP_ONLY);
+    // 86400 = 1 day
+    setcookie($name, '', 0, "/", $_SERVER['SERVER_NAME'], !$STATE_HOSTED_LOCALLY, $HTTP_ONLY);
+    setcookie($name, $value, $expireDate, "/", $_SERVER['SERVER_NAME'], !$STATE_HOSTED_LOCALLY,
+                $HTTP_ONLY);
 }
 
 // Remove a session from the database
@@ -22,7 +24,8 @@ function removeSession($InSID = "", $connection = ""){
     }
     $SID = mysqli_real_escape_string($connection, ($InSID == "") ? $_COOKIE["SID"] : $InSID);
     // Remove session
-    executeQueryMySQL($connection, "DELETE FROM $DATABASE_CoreTABLE__sessions WHERE `SID` = '$SID'");
+    executeQueryMySQL($connection, "DELETE FROM $DATABASE_CoreTABLE__sessions
+                                            WHERE `SID` = '$SID'");
     if($close){
         $connection->close();
         setBrowserCookie("SID", '', 0);
@@ -36,7 +39,8 @@ function createSessionID($connection){
     global $DATABASE_CoreTABLE__sessions;
     require_once 'tool.strings.php';
     $PlannedSID = randomString(216);
-    $result = executeQueryMySQL($connection, "SELECT 1 FROM $DATABASE_CoreTABLE__sessions WHERE `SID` = '$PlannedSID'");
+    $result = executeQueryMySQL($connection, "SELECT 1 FROM $DATABASE_CoreTABLE__sessions
+                                                        WHERE `SID` = '$PlannedSID'");
     if($result){
         if((mysqli_fetch_assoc($result)[1]) == 1){
             unset($PlannedSID);
@@ -108,12 +112,15 @@ function checkSessionStatus(){
     global $DATABASE_CoreTABLE__sessions;
     $connection = connectMySQL(DATABASE_READ_AND_WRITE);
     $SID = mysqli_real_escape_string($connection, $_COOKIE["SID"]);
-    $result = executeQueryMySQL($connection, "SELECT `TimeoutTimestamp` FROM $DATABASE_CoreTABLE__sessions WHERE `SID` = '$SID'");
+    $result = executeQueryMySQL($connection, "SELECT `TimeoutTimestamp`
+                                                FROM $DATABASE_CoreTABLE__sessions
+                                                WHERE `SID` = '$SID'");
     if($result){
         $timeoutTimestamp = strToTimestamp(mysqli_fetch_assoc($result)["TimeoutTimestamp"]);
         // Check if the session has expired!
         if(time() >= $timeoutTimestamp){
-            executeQueryMySQL($connection, "DELETE FROM $DATABASE_CoreTABLE__sessions WHERE `SID` = '$SID'");
+            executeQueryMySQL($connection, "DELETE FROM $DATABASE_CoreTABLE__sessions
+                                            WHERE `SID` = '$SID'");
             $connection->close();
             return false;
         }else{
@@ -132,7 +139,9 @@ function checkUserActiveSessions($UID){
     global $DATABASE_CoreTABLE__sessions;
     $connection = connectMySQL(DATABASE_READ_AND_WRITE);
     $UID = mysqli_real_escape_string($connection, $UID);
-    $result = executeQueryMySQL($connection, "SELECT `SID`, `TimeoutTimestamp` FROM $DATABASE_CoreTABLE__sessions WHERE `UID` = $UID");
+    $result = executeQueryMySQL($connection, "SELECT `SID`, `TimeoutTimestamp`
+                                                FROM $DATABASE_CoreTABLE__sessions
+                                                WHERE `UID` = $UID");
 
     // Start counting active sessions
     if($result){

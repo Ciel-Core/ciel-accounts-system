@@ -6,8 +6,12 @@
 
 import { Title } from './../../../assets/components/Title.jsx';
 import { Help } from './../../../assets/components/Help.jsx';
-import { Input, Select, Button, Notice, Mark, FlexContainer, setInputState, showDialog } from './../../../assets/components/CustomElements.jsx';
-import { InputFieldsContainer, clientDataCheck, nextCheck, redoRegister, ButtonsContainer } from './../register.jsx';
+import {
+    Input, Select, Button, Notice, Mark, FlexContainer, setInputState, showDialog
+} from './../../../assets/components/CustomElements.jsx';
+import {
+    InputFieldsContainer, clientDataCheck, nextCheck, redoRegister, ButtonsContainer
+} from './../register.jsx';
 import { onCleanup, onMount } from 'solid-js';
 import { useNavigate } from '@solidjs/router';
 import { registerData, checkDataByOrder } from './../../../assets/scripts/pages/registerData.jsx';
@@ -94,14 +98,17 @@ export default function RegisterPersonalInfo(props){
                                 <option value={"11"}>November</option>
                                 <option value={"12"}>December</option>
                             </Select>
-                    <Input ref={bDay} id={"birthday_day"} type={"number"} label={"Day"} autocomplete={"bday-day"}
+                    <Input ref={bDay} id={"birthday_day"} type={"number"} label={"Day"}
+                            autocomplete={"bday-day"}
                             style={{"margin-bottom": "auto"}} onSumbit={() => nextButton}/>
-                    <Input ref={bYear} id={"birthday_year"} type={"number"} label={"Year"} autocomplete={"bday-year"}
-                            style={{"margin-bottom": "auto", "min-width": "calc(28% + 8px)"}} onSumbit={() => nextButton}/>
+                    <Input ref={bYear} id={"birthday_year"} type={"number"} label={"Year"}
+                            autocomplete={"bday-year"}
+                            style={{"margin-bottom": "auto", "min-width": "calc(28% + 8px)"}}
+                            onSumbit={() => nextButton}/>
                 </FlexContainer>
                 <Notice smaller>Enter your birthday</Notice>
-                <Select ref={gender} id={"gender"} label={"Gender"} style={{width: "calc(100% - 8px)"}}
-                        onChange={genderChangeFunc}>
+                <Select ref={gender} id={"gender"} label={"Gender"}
+                        style={{width: "calc(100% - 8px)"}} onChange={genderChangeFunc}>
                     <option value={"male"}>Male</option>
                     <option value={"female"}>Female</option>
                     <option value={"unknown"}>Prefer not to say</option>
@@ -118,7 +125,11 @@ export default function RegisterPersonalInfo(props){
                             <option value={0}>they/them</option>
                 </Select>
             </InputFieldsContainer>
-            <Notice>Make sure to use your real date of birth. You can create a {import.meta.env.VITE_NAME} account as long as you are 13+ years old! (access to external services will be limited depending on your age)</Notice>
+            <Notice>
+                Make sure to use your real date of birth. You can create
+                a {import.meta.env.VITE_NAME} account as long as you are 13+ years old!
+                (access to external services will be limited depending on your age)
+            </Notice>
             <ButtonsContainer>
                 <Button type={"action"} function={function(){history.back()}}>Go back</Button>
                 <Button ref={nextButton} type={"action"} function={function(){
@@ -130,7 +141,8 @@ export default function RegisterPersonalInfo(props){
                             customGenderNameInput = customGenderName.children[0].children[0],
                             currentYear = (new Date()).getFullYear();
                         // Check year
-                        if(Number(bYearInput.value) < (currentYear - 120) || Number(bYearInput.value) > currentYear){
+                        if(Number(bYearInput.value) < (currentYear - 120) ||
+                            Number(bYearInput.value) > currentYear){
                             setInputState(bYear, false, "Invalid year!");
                             setError();
                         }
@@ -155,17 +167,25 @@ export default function RegisterPersonalInfo(props){
                         }else{
                             // Check if the year is a leap year
                             let year = Number(bYearInput.value),
-                                max = ((0 == year % 4) && (0 != year % 100) || (0 == year % 400)) ? 29 : 28;
+                                max = ((0 == year % 4) && (0 != year % 100) ||
+                                        (0 == year % 400)) ? 29 : 28;
                             if(Number(bDayInput.value) > max){
                                 setInputState(bDay, false, "Invalid day!");
                                 setError();
                             }
                         }
                         if(!error[0]){
-                            let ageInMilliseconds = new Date() - new Date(`${bYearInput.value}-${bMonthInput.value}-${bDayInput.value}`),
+                            let ageInMilliseconds = new Date() -
+                                                    new Date(
+                                                        bYearInput.value + "-" +
+                                                        bMonthInput.value + "-" +
+                                                        bDayInput.value),
                                 ageInYears = Math.floor(ageInMilliseconds/1000/60/60/24/365);
                             if(ageInYears < 13){
-                                showDialog("Cannot create an account!", `You cannot use ${import.meta.env.VITE_NAME} or any of its affiliated services when you're under the age of 13.`, [
+                                showDialog("Cannot create an account!",
+                                            `You cannot use ${import.meta.env.VITE_NAME} or any
+                                            of its affiliated services when you're under the
+                                            age of 13.`, [
                                     ["Ok", function(dialog, remove){
                                         setInputState(bYear, false, "");
                                         remove();
@@ -176,16 +196,23 @@ export default function RegisterPersonalInfo(props){
                         }
                         if(genderInput.value == "custom"){
                             if(customGenderNameInput.value.length > 32){
-                                setInputState(customGenderName, false, "Can't be longer than 32 characters!");
+                                setInputState(customGenderName, false,
+                                                "Can't be longer than 32 characters!");
                                 setError();
                             }else if(!/^[a-zA-Z\s]+$/.test(customGenderNameInput.value)){
-                                setInputState(customGenderName, false, "Can only contain letters and whitespaces!");
+                                setInputState(customGenderName, false,
+                                                "Can only contain letters and whitespaces!");
                                 setError();
-                            }else if(customGenderNameInput.value[0] == " " || customGenderNameInput.value[customGenderNameInput.value.length - 1] == " "){
-                                setInputState(customGenderName, false, "Can't start or end with whitespace!");
+                            }else if(customGenderNameInput.value[0] == " " ||
+                                        customGenderNameInput.value[
+                                            customGenderNameInput.value.length - 1
+                                        ] == " "){
+                                setInputState(customGenderName, false,
+                                                "Can't start or end with whitespace!");
                                 setError();
                             }else if(customGenderNameInput.value.indexOf("  ") != -1){
-                                setInputState(customGenderName, false, "Can't contain consecutive whitespaces!");
+                                setInputState(customGenderName, false,
+                                                "Can't contain consecutive whitespaces!");
                                 setError();
                             }
                             textProfanity(customGenderNameInput.value).then(function(status){
@@ -204,11 +231,14 @@ export default function RegisterPersonalInfo(props){
                         registerData.birthdate.year = Number(bYear.children[0].children[0].value);
                         let genderValue = gender.children[0].children[0].value,
                             processGenderName = (gender) => {
-                                return gender.charAt(0).toUpperCase() + gender.slice(1).toLowerCase();
+                                return gender.charAt(0).toUpperCase() +
+                                        gender.slice(1).toLowerCase();
                             };
                         if(genderValue == "custom"){
-                            registerData.gender = processGenderName(customGenderName.children[0].children[0].value);
-                            registerData.pronounce = Number(customGenderPronouns.children[0].children[0].value);
+                            registerData.gender =
+                                processGenderName(customGenderName.children[0].children[0].value);
+                            registerData.pronounce =
+                                Number(customGenderPronouns.children[0].children[0].value);
                         }else{
                             registerData.gender = processGenderName(genderValue);
                             if(registerData.gender == "Male"){

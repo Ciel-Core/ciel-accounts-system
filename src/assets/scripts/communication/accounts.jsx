@@ -63,7 +63,9 @@ export function signUpPOST(data, callback){
     });
 }
 
-export function usernameCheckPOST(username, callback, getDisplayUsername = true, reserveUsername = false, getCooldown = false, getTrustedDevices = false){
+export function usernameCheckPOST(username, callback, getDisplayUsername = true,
+                                    reserveUsername = false, getCooldown = false,
+                                    getTrustedDevices = false){
     jsonPOST("/APIs/accounts/core/username.check.json.php",{
         username,
         getDisplayUsername,
@@ -120,7 +122,8 @@ export function getAuthnLoginDataPOST(deviceID, callback){
     });
 }
 
-export function authnRegisterPOST(clientDataJSON, attestationObject, challenge, environment, callback){
+export function authnRegisterPOST(clientDataJSON, attestationObject, challenge, environment,
+                                    callback){
     jsonPOST("/APIs/accounts/authn/register.json.php", {
         clientDataJSON,
         attestationObject,

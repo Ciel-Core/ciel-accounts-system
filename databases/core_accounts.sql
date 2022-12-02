@@ -37,10 +37,14 @@ CREATE TABLE `preferences` (
 -- Dumping data for table `preferences`
 --
 
-INSERT INTO `preferences` (`UID`, `ProfileVisibility`, `ActivityMode`, `Location`) VALUES
-(10000000000, 1, 1, 1);
-INSERT INTO `preferences` (`UID`, `ProfileVisibility`, `ActivityMode`, `Location`, `AccentColor`) VALUES
-(10000000001, 3, 3, 2, 'purple');
+INSERT INTO `preferences`
+    (`UID`, `ProfileVisibility`, `ActivityMode`, `Location`)
+  VALUES
+    (10000000000, 1, 1, 1);
+INSERT INTO `preferences`
+    (`UID`, `ProfileVisibility`, `ActivityMode`, `Location`, `AccentColor`)
+  VALUES
+    (10000000001, 3, 3, 2, 'purple');
 
 -- --------------------------------------------------------
 
@@ -77,10 +81,16 @@ CREATE TABLE `security` (
 -- Dumping data for table `security`
 --
 
-INSERT INTO `security` (`UID`, `SecurityQuestion1`, `SecurityQuestion2`, `SecurityQuestion3`, `SecurityQuestionAns1`, `SecurityQuestionAns2`, `SecurityQuestionAns3`) VALUES
-(10000000000, 1, 1, 1, '~answer~', '~answer~', '~answer~');
-INSERT INTO `security` (`UID`, `SecurityQuestion1`, `SecurityQuestion2`, `SecurityQuestion3`, `SecurityQuestionAns1`, `SecurityQuestionAns2`, `SecurityQuestionAns3`) VALUES
-(10000000001, 1, 1, 1, '~answer~', '~answer~', '~answer~');
+INSERT INTO `security`
+    (`UID`, `SecurityQuestion1`, `SecurityQuestion2`, `SecurityQuestion3`, `SecurityQuestionAns1`,
+    `SecurityQuestionAns2`, `SecurityQuestionAns3`)
+  VALUES
+    (10000000000, 1, 1, 1, '~answer~', '~answer~', '~answer~');
+INSERT INTO `security`
+    (`UID`, `SecurityQuestion1`, `SecurityQuestion2`, `SecurityQuestion3`, `SecurityQuestionAns1`,
+    `SecurityQuestionAns2`, `SecurityQuestionAns3`)
+  VALUES
+    (10000000001, 1, 1, 1, '~answer~', '~answer~', '~answer~');
 
 -- --------------------------------------------------------
 
@@ -119,10 +129,8 @@ CREATE TABLE `system` (
 -- Dumping data for table `system`
 --
 
-INSERT INTO `system` (`UID`) VALUES
-(10000000000);
-INSERT INTO `system` (`UID`) VALUES
-(10000000001);
+INSERT INTO `system` (`UID`) VALUES (10000000000);
+INSERT INTO `system` (`UID`) VALUES (10000000001);
 
 -- --------------------------------------------------------
 
@@ -167,11 +175,21 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`UID`, `Username`, `DisplayUsername`, `PasswordHash`, `FirstName`, `LastName`, `Birthdate`, `GenderName`, `Pronounce`) VALUES
-(10000000000, 'system', 'SYSTEM', 'aa839b55020c3932f704a15c68740cec4e506f4beb80038e6195fcba74e59d33', 'Ciel', 'System', '2022-11-01', 'Robot', 0);
+INSERT INTO `users`
+    (`UID`, `Username`, `DisplayUsername`, `PasswordHash`, `FirstName`, `LastName`, `Birthdate`,
+    `GenderName`, `Pronounce`)
+  VALUES
+    (10000000000, 'system', 'SYSTEM',
+    'aa839b55020c3932f704a15c68740cec4e506f4beb80038e6195fcba74e59d33', 'Ciel', 'System',
+    '2022-11-01', 'Robot', 0);
 -- tester, password12345
-INSERT INTO `users` (`UID`, `Username`, `DisplayUsername`, `PasswordHash`, `FirstName`, `LastName`, `Birthdate`, `GenderName`, `Pronounce`) VALUES
-(10000000001, 'tester', 'TESTER', 'a39c2e34b43adb546aab7e1a28d2d3e478c08285192469bd9c7de01b39b41b77', 'Test', 'User', '2022-11-01', 'Unknown', 0);
+INSERT INTO `users`
+    (`UID`, `Username`, `DisplayUsername`, `PasswordHash`, `FirstName`, `LastName`, `Birthdate`,
+    `GenderName`, `Pronounce`)
+  VALUES
+    (10000000001, 'tester', 'TESTER',
+    'a39c2e34b43adb546aab7e1a28d2d3e478c08285192469bd9c7de01b39b41b77', 'Test', 'User',
+    '2022-11-01', 'Unknown', 0);
 
 --
 -- Indexes for dumped tables
@@ -242,31 +260,36 @@ ALTER TABLE `users`
 -- Constraints for table `preferences`
 --
 ALTER TABLE `preferences`
-  ADD CONSTRAINT `preferences_ibfk_1` FOREIGN KEY (`UID`) REFERENCES `users` (`UID`) ON DELETE CASCADE;
+  ADD CONSTRAINT `preferences_ibfk_1` FOREIGN KEY (`UID`) REFERENCES `users` (`UID`)
+    ON DELETE CASCADE;
 
 --
 -- Constraints for table `security`
 --
 ALTER TABLE `security`
-  ADD CONSTRAINT `security_ibfk_1` FOREIGN KEY (`UID`) REFERENCES `users` (`UID`) ON DELETE CASCADE;
+  ADD CONSTRAINT `security_ibfk_1` FOREIGN KEY (`UID`) REFERENCES `users` (`UID`)
+    ON DELETE CASCADE;
 
 --
 -- Constraints for table `sessions`
 --
 ALTER TABLE `sessions`
-  ADD CONSTRAINT `sessions_ibfk_1` FOREIGN KEY (`UID`) REFERENCES `users` (`UID`) ON DELETE CASCADE;
+  ADD CONSTRAINT `sessions_ibfk_1` FOREIGN KEY (`UID`) REFERENCES `users` (`UID`)
+    ON DELETE CASCADE;
 
 --
 -- Constraints for table `system`
 --
 ALTER TABLE `system`
-  ADD CONSTRAINT `system_ibfk_1` FOREIGN KEY (`UID`) REFERENCES `users` (`UID`) ON DELETE CASCADE;
+  ADD CONSTRAINT `system_ibfk_1` FOREIGN KEY (`UID`) REFERENCES `users` (`UID`)
+    ON DELETE CASCADE;
 
 --
 -- Constraints for table `trusteddevices`
 --
 ALTER TABLE `trusteddevices`
-  ADD CONSTRAINT `trusteddevices_ibfk_1` FOREIGN KEY (`UID`) REFERENCES `users` (`UID`) ON DELETE CASCADE;
+  ADD CONSTRAINT `trusteddevices_ibfk_1` FOREIGN KEY (`UID`) REFERENCES `users` (`UID`)
+    ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

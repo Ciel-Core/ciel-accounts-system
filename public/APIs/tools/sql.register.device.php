@@ -11,7 +11,8 @@ function createDeviceID($connection){
     global $DATABASE_CoreTABLE__trustedDevices;
     require_once 'tool.strings.php';
     $PlannedDeviceID = randomString(216);
-    $result = executeQueryMySQL($connection, "SELECT 1 FROM $DATABASE_CoreTABLE__trustedDevices WHERE `DeviceID` = '$PlannedDeviceID'");
+    $result = executeQueryMySQL($connection, "SELECT 1 FROM $DATABASE_CoreTABLE__trustedDevices
+                                                        WHERE `DeviceID` = '$PlannedDeviceID'");
     if($result){
         if((mysqli_fetch_assoc($result)[1]) == 1){
             unset($PlannedDeviceID);
@@ -34,7 +35,9 @@ function addTrustedDevice($credentialId, $publicKey, $environment, $validRoot){
     $CredentialID = mysqli_real_escape_string($connection, $credentialId);
     $PublicKey = mysqli_real_escape_string($connection, $publicKey);
     $ValidRoot = ($validRoot) ? 1 : 0;
-    $result = executeQueryMySQL($connection, "SELECT 1 FROM $DATABASE_CoreTABLE__trustedDevices WHERE `CredentialID` = '$CredentialID' OR `PublicKey` = '$PublicKey'");
+    $result = executeQueryMySQL($connection, "SELECT 1 FROM $DATABASE_CoreTABLE__trustedDevices
+                                                        WHERE `CredentialID` = '$CredentialID'
+                                                        OR `PublicKey` = '$PublicKey'");
     if($result){
         if((mysqli_fetch_assoc($result)[1]) == 1){
             responseReport(BLOCKED_REQUEST, "CredentialID or PublicKey already exist!");
@@ -45,11 +48,11 @@ function addTrustedDevice($credentialId, $publicKey, $environment, $validRoot){
             $DeviceID = createDeviceID($connection);
             executeQueryMySQL($connection,
                 "INSERT INTO `$DATABASE_CoreTABLE__trustedDevices`
-                    (`DeviceID`,  `UID`, `CredentialID`,  `PublicKey`,  `DeviceName`, `Environment`,
-                     `ValidRoot`)
+                    (`DeviceID`,  `UID`, `CredentialID`,  `PublicKey`,  `DeviceName`,
+                    `Environment`,  `ValidRoot`)
                 VALUES
-                    ('$DeviceID', $UID,  '$CredentialID', '$PublicKey', '',           '$Environment',
-                     $ValidRoot)");
+                    ('$DeviceID', $UID,  '$CredentialID', '$PublicKey', '',
+                    '$Environment', $ValidRoot)");
             $connection->close();
             return $DeviceID;
         }
@@ -68,8 +71,9 @@ function getUserData($username){
 
     // Get user data
     $return = (object)array("displayUsername" => "", "UID" => "");
-    $result = executeQueryMySQL($connection,
-        "SELECT `UID`, `DisplayUsername` FROM $DATABASE_CoreTABLE__users WHERE `Username` = '$EscapedUsername'");
+    $result = executeQueryMySQL($connection, "SELECT `UID`, `DisplayUsername`
+                                                FROM $DATABASE_CoreTABLE__users
+                                                WHERE `Username` = '$EscapedUsername'");
     if($result){
         $result = mysqli_fetch_assoc($result);
         $return->displayUsername = $result["DisplayUsername"];

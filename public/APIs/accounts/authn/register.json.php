@@ -34,13 +34,16 @@ if(base64_decode($INPUT_DATA->challenge) == $_SESSION["AUTHN__challengeKey"]){
 
         // processCreate returns data to be stored for future logins.
         try{
-            $data = $WebAuthn->processCreate($clientDataJSON, $attestationObject, $_SESSION['AUTHN__challengeKey'], true, true, false);
+            $data = $WebAuthn->processCreate($clientDataJSON, $attestationObject,
+                                                $_SESSION['AUTHN__challengeKey'], true,
+                                                true, false);
         }catch(Exception $e){
             responseReport(BACKEND_ERROR, $e->getMessage());
         }
 
         // Save device to database
-        $DeviceID = addTrustedDevice(base64_encode($data->credentialId), $data->credentialPublicKey, $INPUT_DATA->environment, $data->rootValid);
+        $DeviceID = addTrustedDevice(base64_encode($data->credentialId), $data->credentialPublicKey,
+                                                        $INPUT_DATA->environment, $data->rootValid);
 
         // Check if root is valid
         if($data->rootValid !== true){

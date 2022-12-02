@@ -26,14 +26,6 @@ export function loadLibraryJS(src, callback){
     document.head.appendChild(script);
 }
 
-export function loadCBOR(callback){
-    if(typeof CBOR != "object"){
-        loadLibraryJS('/libraries/cbor.js', callback);
-    }else{
-        callback();
-    }
-}
-
 export function loadAES(callback){
     if(typeof CryptoJS != "object"){
         loadLibraryJS('/libraries/aes.js', callback);

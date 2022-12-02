@@ -23,13 +23,16 @@ function connectMySQL($mode, $die = true){
     $conn = NULL;
     if($mode == "RW"){
         global $DATABASE_username_RW, $DATABASE_password_RW;
-        $conn = new mysqli($DATABASE_serverName, $DATABASE_username_RW, $DATABASE_password_RW, $DATABASE_name);
+        $conn = new mysqli($DATABASE_serverName, $DATABASE_username_RW, $DATABASE_password_RW,
+                                $DATABASE_name);
     }else if($mode == "W"){
         global $DATABASE_username_W, $DATABASE_password_W;
-        $conn = new mysqli($DATABASE_serverName, $DATABASE_username_W, $DATABASE_password_W, $DATABASE_name);
+        $conn = new mysqli($DATABASE_serverName, $DATABASE_username_W, $DATABASE_password_W,
+                                $DATABASE_name);
     }else if($mode == "R"){
         global $DATABASE_username_R, $DATABASE_password_R;
-        $conn = new mysqli($DATABASE_serverName, $DATABASE_username_R, $DATABASE_password_R, $DATABASE_name);
+        $conn = new mysqli($DATABASE_serverName, $DATABASE_username_R, $DATABASE_password_R,
+                                $DATABASE_name);
     }else if($die){
         responseReport(BACKEND_ERROR, "Can't connect to database!");
     }

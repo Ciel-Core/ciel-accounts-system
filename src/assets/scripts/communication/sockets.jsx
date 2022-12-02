@@ -35,7 +35,8 @@ StructuredMessage.parse = function(string){
 let socket = undefined;
 window.activeWebSocket = undefined;
 export function openSocket(callback){
-    if(parent.activeWebSocket != undefined && parent.activeWebSocket.url == `ws://${location.host}:81`){
+    if(parent.activeWebSocket != undefined &&
+        parent.activeWebSocket.url == `ws://${location.host}:81`){
         socket = parent.activeWebSocket;
         window.activeWebSocket = socket;
     }else if(socket == undefined && parent.activeWebSocket == undefined){
@@ -59,7 +60,8 @@ export function openSocket(callback){
 
         socket.onclose = function(event){
             if (event.wasClean) {
-                log("Socket", `Connection closed cleanly, code=${event.code} reason=${event.reason}`);
+                log("Socket",
+                    `Connection closed cleanly, code=${event.code} reason=${event.reason}`);
             }else{
                 // e.g. server process killed or network down
                 // event.code is usually 1006 in this case

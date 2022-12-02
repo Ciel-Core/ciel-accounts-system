@@ -48,11 +48,10 @@ render(() =>{
     const [showContent, setShowContent] = createSignal(false);
 
     let contentLoadData = {GlobalBar: false, LocalContent: false, UserState: false},
-        contentLoadReport = (context) => { // context - "GlobalBar", "LocalContent"
+        contentLoadReport = (context) => {
             contentLoadData[context] = true;
-            if(contentLoadData.GlobalBar && contentLoadData.LocalContent && contentLoadData.UserState){
-                // Must run this when the user's basic info are aquired from the server and fully loaded!
-                // setTimeout(() => setShowContent(true), 1500); // TMP
+            if(contentLoadData.GlobalBar && contentLoadData.LocalContent &&
+                contentLoadData.UserState){
                 setShowContent(true);
                 document.body.dataset.loaded = true;
             }
@@ -64,18 +63,21 @@ render(() =>{
             stopEffect = true;
             setTimeout(function(){
                 if(isForcedDarkMode()){
-                    showDialog("Clarification!", "This website supports dark mode. Your browser's 'forced dark mode' could result in theme abnormalities!", [["Ok", function(dialog, remove){remove()}]]);
+                    showDialog("Clarification!", `This website supports dark mode. Your
+                                                 browser's 'forced dark mode' could result
+                                                 in theme abnormalities!`);
                 }
-                // showDialog("Demo", "No backend!");
                 checkConnection();
-            }, 1800);
+            }, 2000);
         }
     });
 
     // Console-related warnings
     alertDevMode();
     detectDevTools(function(){
-        showDialog("Caution!", "Do NOT paste anything into your console, and don't show your console to anyone you don't trust. Your data could be stolen by attackers should you proceed without knowing what you're doing!");
+        showDialog("Caution!", `Do NOT paste anything into your console, and don't show your
+                               console to anyone you don't trust. Your data could be stolen by
+                               attackers should you proceed without knowing what you're doing!`);
     });
 
     // Update the user's state and profile
@@ -120,7 +122,8 @@ render(() =>{
                         viewMode={viewMode}/>
         {
             (viewMode == "full") ?
-                <GlobalFooter showAnimationFinished={showAnimFinished()} showContent={showContent()}/>
+                <GlobalFooter showAnimationFinished={showAnimFinished()}
+                                showContent={showContent()}/>
             :
                 undefined
         }
