@@ -112,8 +112,15 @@ export function ButtonsContainer(props){
         {threshold: [1]});
         observer.observe(flexContainer)
     });
-    return (<FlexContainer ref={flexContainer} class={style.buttonsStickyContainer} space={"between"} horozontal no-grow>
-            <ExpandDownIcon tabindex={0} onClick={function(){window.scrollTo(0, window.scrollY + window.innerHeight/2)}}/>
+    return (<FlexContainer ref={flexContainer} class={style.buttonsStickyContainer}
+                space={"between"} horozontal no-grow>
+            <ExpandDownIcon tabindex={0} onClick={function(){
+                    window.scrollTo({
+                        top: (window.scrollY + window.innerHeight/2),
+                        behavior: 'smooth'
+                    });
+                }}
+            />
             {props.children}
         </FlexContainer>);
 }
