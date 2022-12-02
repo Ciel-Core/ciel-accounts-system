@@ -62,7 +62,7 @@ export function openConnection(successCallback, zeroTS = false){
         eventSource = new EventSource("/comm/events/init.php" + ((zeroTS) ? "?zero=1" : ""));
         window.activeEventSource = eventSource;
 
-        if(eventSource != undefined){
+        if(eventSource instanceof EventSource){
 
             // Detect errors
             eventSource.onerror = (error) => {
@@ -90,27 +90,29 @@ export function openConnection(successCallback, zeroTS = false){
 
                 // Success callback!
                 successCallback(event);
-            };
 
-            // Close connection when inactive
-            let closedConnection = false,
-                timeout = undefined;
-            document.onvisibilitychange = function(){
-                if(document.hidden){
-                    timeout = setTimeout(function(){
+                // Close connection when inactive
+                {
+                    let closedConnection = false,
+                        timeout = undefined;
+                    document.onvisibilitychange = function(){
                         if(document.hidden){
-                            closedConnection = true;
-                            closeConnection();
+                            timeout = setTimeout(function(){
+                                if(document.hidden){
+                                    closedConnection = true;
+                                    closeConnection();
+                                }else{
+                                    closedConnection = false;
+                                }
+                            }, 10000);
                         }else{
+                            clearTimeout(timeout);
+                            if(closedConnection){
+                                openConnection(successCallback, true);
+                            }
                             closedConnection = false;
                         }
-                    }, 10000);
-                }else{
-                    clearTimeout(timeout);
-                    if(closedConnection){
-                        openConnection(successCallback, true);
-                    }
-                    closedConnection = false;
+                    };
                 }
             };
         }
