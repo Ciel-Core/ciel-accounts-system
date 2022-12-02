@@ -93,11 +93,24 @@ export function openConnection(successCallback, zeroTS = false){
             };
 
             // Close connection when inactive
+            let closedConnection = false,
+                timeout = undefined;
             document.onvisibilitychange = function(){
                 if(document.hidden){
-                    closeConnection();
+                    timeout = setTimeout(function(){
+                        if(document.hidden){
+                            closedConnection = true;
+                            closeConnection();
+                        }else{
+                            closedConnection = false;
+                        }
+                    }, 10000);
                 }else{
-                    openConnection(successCallback, true);
+                    clearTimeout(timeout);
+                    if(closedConnection){
+                        openConnection(successCallback, true);
+                    }
+                    closedConnection = false;
                 }
             };
         }
