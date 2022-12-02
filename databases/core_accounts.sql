@@ -136,7 +136,8 @@ CREATE TABLE `trusteddevices` (
   `CredentialID` text NOT NULL,
   `PublicKey` text NOT NULL,
   `DeviceName` tinytext NOT NULL,
-  `Environment` tinytext NOT NULL
+  `Environment` tinytext NOT NULL,
+  `ValidRoot` tinyint(1) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
