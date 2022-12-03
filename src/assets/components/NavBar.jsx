@@ -4,12 +4,12 @@
  * 
  **/
 
- import generalStyles from './../styles/general.module.css';
+import generalStyles from './../styles/general.module.css';
  
 import { For, onCleanup, onMount } from 'solid-js';
 import { afterURLChange } from './../scripts/traffic.jsx';
 import Link from './Link.jsx';
-import { processProps } from './_custom.jsx';
+import { processProps, watchStickyContent, watchStickyContentRemove } from './_custom.jsx';
 
 import BackArrowIcon from './../icons/arrow_back.svg';
 import ForwardArrowIcon from './../icons/arrow_forward.svg';
@@ -72,7 +72,7 @@ export function NavBar(props){
                 }
             });
         },
-        content,
+        container, content,
         startShadow, endShadow,
         resizeUpdate = function(){
             updateShadows(content, startShadow, endShadow);
@@ -96,12 +96,14 @@ export function NavBar(props){
         content.onscroll = function(){
             updateShadows(content, startShadow, endShadow);
         };
+        watchStickyContent(container, 99);
     });
     onCleanup(() => {
         updateShadows(content, startShadow, endShadow);
         window.removeEventListener("resize", resizeUpdate);
+        watchStickyContentRemove(container, 99);
     });
-    return (<div class={basicProps.class} style={basicProps.style} unselectable>
+    return (<div ref={container} class={basicProps.class} style={basicProps.style} unselectable>
         <div ref={startShadow} class={generalStyles.startShadow} style={{display: "none"}}>
             <BackArrowIcon class={generalStyles.icon}
                             onClick={() => scrollToOption(undefined, content.scrollLeft - 100)} />

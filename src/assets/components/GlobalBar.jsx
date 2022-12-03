@@ -19,6 +19,7 @@ import { render } from "solid-js/web";
 import { useNavigate } from "@solidjs/router";
 import { helpFeed, needHelp } from './Help.jsx';
 import { isOnline } from './../scripts/internetConnection.jsx';
+import { watchSticky } from './_custom.jsx';
 
 function showNavContent(navigate, pathname, container, spinner, mainTimeout, bar, external){
     if(!window.mobileView.matches){
@@ -152,17 +153,7 @@ function UserProfile(props){
 function GlobalBar(props){
     let globalBar;
     onMount(() => {
-        var observer = new IntersectionObserver(function(entries) {
-            if(entries[0].intersectionRatio === 0)
-                globalBar.dataset.sticky = true;
-            else if(entries[0].intersectionRatio === 1)
-                globalBar.dataset.sticky = false;
-        }, { threshold: [0,1] });
-        observer.observe(globalBar);
-        var observer = new IntersectionObserver( 
-            ([e]) => globalBar.dataset.sticky = e.intersectionRatio < 1,
-        {threshold: [1]});
-        observer.observe(globalBar)
+        watchSticky(globalBar);
     });
     return (
         <div id="global-bar" ref={globalBar} class={styles.globalbar}
