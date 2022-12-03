@@ -19,6 +19,7 @@ import { render } from "solid-js/web";
 import { useNavigate } from "@solidjs/router";
 import { helpFeed, needHelp } from './Help.jsx';
 import { isOnline } from './../scripts/internetConnection.jsx';
+import { watchSticky } from './_custom.jsx';
 
 function showNavContent(navigate, pathname, container, spinner, mainTimeout, bar, external){
     if(!window.mobileView.matches){
@@ -151,6 +152,9 @@ function UserProfile(props){
 
 function GlobalBar(props){
     let globalBar;
+    onMount(() => {
+        watchSticky(globalBar);
+    });
     return (
         <div id="global-bar" ref={globalBar} class={styles.globalbar}
             data-show-content={props.showContent}

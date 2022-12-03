@@ -3,3 +3,32 @@
  * The style of the "home" page
  *
 **/
+
+.panelOption {
+    width: -moz-available;
+    width: -webkit-fill-available;
+    width: fill-available;
+    border: solid 2px var(--background-blend);
+    background-color: var(--main-background);
+    border-radius: 12px;
+    padding: 24px;
+    margin: 14px 12px;
+}
+
+:not(.panelOption)+.panelOption {
+    margin-top: 28px;
+}
+
+.panelOption:last-of-type {
+    margin-bottom: 28px;
+}
+
+.panelOption .optionTitle {
+    text-align: left;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.panelOption .optionContent {
+    margin: 24px;
+}

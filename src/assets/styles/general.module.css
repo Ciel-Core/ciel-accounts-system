@@ -872,7 +872,6 @@ screen and (max-height: 450px) {
     justify-content: center;
     align-items: start;
     padding: 8px;
-    max-width: 750px;
 }
 
 .userMessage.warning {
@@ -931,12 +930,22 @@ screen and (max-height: 450px) {
 /* <NavBar> */
 
 .navBar {
+    --narbar-background-color: var(--main-background);
     width: 100%;
     height: fit-content;
     position: relative;
     overflow: hidden;
     min-height: 45px;
     margin: 12px 0px;
+    margin-bottom: 2px;
+    padding-bottom: 10px;
+    position: sticky;
+    top: calc(var(--globalbar--height) - 22px);
+    background-color: var(--narbar-background-color);
+}
+
+.navBar[data-sticky=true] {
+    box-shadow: 0 4px 18px var(--narbar-background-color);
 }
 
 @media (pointer:none),
@@ -945,6 +954,9 @@ screen and (max-width: 920px),
 screen and (max-height: 450px) {
     .navBar {
         width: 100vw;
+    }
+    .navBar[data-sticky=true] {
+        --narbar-background-color: var(--globalbar-background);
     }
 }
 
@@ -968,12 +980,12 @@ screen and (max-height: 450px) {
 }
 
 .navBar .startShadow {
-    background-image: radial-gradient(farthest-side at 0% 50%, var(--main-background) 60%, transparent 100%);
+    background-image: radial-gradient(farthest-side at 0% 50%, var(--narbar-background-color) 60%, transparent 100%);
     left: 0px;
 }
 
 .navBar .endShadow {
-    background-image: radial-gradient(farthest-side at 100% 50%, var(--main-background) 60%, transparent 100%);
+    background-image: radial-gradient(farthest-side at 100% 50%, var(--narbar-background-color) 60%, transparent 100%);
     right: 0px;
 }
 

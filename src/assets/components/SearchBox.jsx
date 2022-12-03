@@ -66,6 +66,7 @@ function updateSearchBox(isURLUpdate, container, input, results, resultsLoading,
 }
 
 function updateSearch(container, input, results, resultsLoading, resultsContent){
+    let localContent = document.getElementById("local-content");
     // Manage input interactions
     input.setValue = function(value){
         input.value = value;
@@ -85,6 +86,7 @@ function updateSearch(container, input, results, resultsLoading, resultsContent)
         container.dataset.resultsVisible = false;
         resultsLoading.style.display = "none";
         resultsContent.style.display = null;
+        localContent.dataset.contentOverflow = false;
     };
 
     // Manage other interactions
@@ -97,6 +99,7 @@ function updateSearch(container, input, results, resultsLoading, resultsContent)
         }, 0);
     };
     input.onfocus = function(){
+        localContent.dataset.contentOverflow = true;
         if(input.value.replace(/\s/g, "") != "" || window.mobileView.matches){
             container.dataset.resultsVisible = true;
             if(window.mobileView.matches && location.hash.substring(0, 7) != "#search"){
@@ -112,6 +115,7 @@ function updateSearch(container, input, results, resultsLoading, resultsContent)
         }, 0);
     };
     results.onfocus = function(){
+        localContent.dataset.contentOverflow = true;
         if(input.value.replace(/\s/g, "") != ""){
             container.dataset.resultsVisible = true;
         }

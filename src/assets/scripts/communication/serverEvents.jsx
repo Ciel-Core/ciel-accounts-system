@@ -6,7 +6,7 @@
 
 import { awaitConnection, isOnline } from "./../internetConnection.jsx";
 import { showDialog } from "./../../components/Dialog.jsx";
-import { log, throwError } from "./../console.jsx";
+import { isDevMode, log, throwError } from "./../console.jsx";
 
 let eventSource = undefined;
 window.activeEventSource = undefined;
@@ -104,7 +104,7 @@ export function openConnection(successCallback, zeroTS = false){
                                 }else{
                                     closedConnection = false;
                                 }
-                            }, 10000);
+                            }, (isDevMode) ? 1000 : 10000);
                         }else{
                             clearTimeout(timeout);
                             if(closedConnection){

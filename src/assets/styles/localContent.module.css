@@ -5,8 +5,11 @@
 **/
 
 .localcontent {
-    max-width: 86%;
-    margin: 0px 10%;
+    max-width: clamp(100px, 86%, 800px);
+    width: -moz-available;
+    width: -webkit-fill-available;
+    width: fill-available;
+    margin: 0px auto;
     position: relative;
     display: flex;
     align-items: stretch;
@@ -24,6 +27,9 @@ screen and (max-height: 450px) {
     .localcontent {
         max-width: 100%;
         margin: 0px;
+    }
+    .localcontent[data-content-overflow=true] {
+        z-index: 2;
     }
 }
 
