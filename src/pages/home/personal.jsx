@@ -10,8 +10,8 @@ import { Title } from './../../assets/components/Title.jsx';
 import { Button, FlexContainer, UserMessage } from './../../assets/components/CustomElements.jsx';
 import { onCleanup, onMount } from 'solid-js';
 import { userData } from './../../assets/scripts/user.jsx';
-
-import { setAsCustomizedPOST } from './../../assets/scripts/communication/accounts';
+import { setAsCustomizedPOST } from './../../assets/scripts/communication/accounts.jsx';
+import { PanelOption } from './main.jsx';
 
 export function Alerts(){
     return (<>
@@ -32,6 +32,14 @@ export function Alerts(){
     </>);
 }
 
+export function ImportantFeed(){
+    return (<>
+        <PanelOption title={"Personal title!"}>
+            Personal content!
+        </PanelOption>
+    </>);
+}
+
 export default function HomeMain(props){
     onCleanup(() => {
         // 
@@ -40,8 +48,8 @@ export default function HomeMain(props){
         // 
     });
     return (<>
-       <Title>Personal</Title>
-       <Alerts />
-        TEST 1
+        <Title>Personal</Title>
+        <Alerts />
+        <ImportantFeed />
     </>);
 }

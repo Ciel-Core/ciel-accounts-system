@@ -151,6 +151,19 @@ function UserProfile(props){
 
 function GlobalBar(props){
     let globalBar;
+    onMount(() => {
+        var observer = new IntersectionObserver(function(entries) {
+            if(entries[0].intersectionRatio === 0)
+                globalBar.dataset.sticky = true;
+            else if(entries[0].intersectionRatio === 1)
+                globalBar.dataset.sticky = false;
+        }, { threshold: [0,1] });
+        observer.observe(globalBar);
+        var observer = new IntersectionObserver( 
+            ([e]) => globalBar.dataset.sticky = e.intersectionRatio < 1,
+        {threshold: [1]});
+        observer.observe(globalBar)
+    });
     return (
         <div id="global-bar" ref={globalBar} class={styles.globalbar}
             data-show-content={props.showContent}

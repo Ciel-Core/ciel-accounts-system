@@ -12,6 +12,17 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    position: -webkit-sticky;
+    position: sticky;
+    z-index: 2;
+    top: -1px;
+    background-color: var(--main-background);
+}
+
+.globalbar[data-sticky=true] {
+    height: calc(var(--globalbar--height) - 20px);
+    margin-bottom: 20px;
+    box-shadow: 0px 2px 10px var(--main-background);
 }
 
 .globalbar[data-prioritize=true] {
@@ -52,6 +63,7 @@
     overflow: hidden;
     opacity: 0.4;
     position: absolute;
+    transition: width 0.05s ease, height 0.05s ease;
 }
 
 .globalbar[data-show-content=false] .userprofile {
@@ -62,8 +74,15 @@
     animation: fadeInPPFull 2s cubic-bezier(0.87, 0.02, 0.01, 1) forwards;
 }
 
+.globalbar[data-sticky=true] .userprofile {
+    width: 58px;
+    height: 58px;
+}
+
 .userProfileImage {
     border-radius: 100%;
+    width: inherit;
+    height: inherit;
 }
 
 .globalbar[data-show-content=false] .userProfileImage {

@@ -9,6 +9,15 @@
 import { Title } from './../../assets/components/Title.jsx';
 import { Button, Mark, FlexContainer } from './../../assets/components/CustomElements.jsx';
 import { onCleanup, onMount } from 'solid-js';
+import { PanelOption } from './main.jsx';
+
+export function ImportantFeed(){
+    return (<>
+        <PanelOption title={"Security title!"}>
+            Security content!
+        </PanelOption>
+    </>);
+}
 
 export default function HomeMain(props){
     onCleanup(() => {
@@ -18,7 +27,7 @@ export default function HomeMain(props){
         // 
     });
     return (<>
-       <Title>Security</Title>
-        TEST 3
+        <Title>Security</Title>
+        <ImportantFeed />
     </>);
 }

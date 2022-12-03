@@ -872,7 +872,6 @@ screen and (max-height: 450px) {
     justify-content: center;
     align-items: start;
     padding: 8px;
-    max-width: 750px;
 }
 
 .userMessage.warning {
@@ -937,6 +936,12 @@ screen and (max-height: 450px) {
     overflow: hidden;
     min-height: 45px;
     margin: 12px 0px;
+    margin-bottom: 2px;
+    padding-bottom: 10px;
+    position: sticky;
+    top: calc(var(--globalbar--height) - 22px);
+    background-color: var(--main-background);
+    box-shadow: 0px 2px 10px var(--main-background);
 }
 
 @media (pointer:none),
