@@ -17,6 +17,7 @@
     z-index: 2;
     top: -1px;
     background-color: var(--main-background);
+    transition: margin 0.1s ease-out, height 0.1s ease-out;
 }
 
 .globalbar[data-sticky=true] {
@@ -63,7 +64,7 @@
     overflow: hidden;
     opacity: 0.4;
     position: absolute;
-    transition: width 0.05s ease, height 0.05s ease;
+    transition: width 0.1s ease-out, height 0.1s ease-out;
 }
 
 .globalbar[data-show-content=false] .userprofile {
