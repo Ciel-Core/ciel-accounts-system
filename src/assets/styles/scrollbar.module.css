@@ -82,16 +82,15 @@
 @media (pointer: fine) {
     body {
         -ms-overflow-style: none;
-        /* for Internet Explorer, Edge */
         scrollbar-width: none;
-        /* for Firefox overflow-y: scroll; */
+        overflow-y: -moz-scrollbars-none;
         overflow-y: scroll;
         position: relative;
     }
     body::-webkit-scrollbar {
         -webkit-appearance: none;
+        appearance: none;
         display: none;
-        /* for Chrome, Safari, and Opera */
     }
     .scrollbarContainer {
         display: flex;

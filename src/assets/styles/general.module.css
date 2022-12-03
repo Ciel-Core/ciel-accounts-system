@@ -618,17 +618,29 @@ screen and (max-height: 450px) {
 
 /* <Dialog> */
 
-.dialogContainer {
+.dialogTrap {
+    display: block;
     position: fixed;
-    top: 0px;
-    bottom: 0px;
-    right: 0px;
-    left: 0px;
+    inset: 0;
     z-index: 100;
+    max-height: calc(100 * var(--vh));
+    overflow: hidden scroll;
+    scrollbar-width: none;
+    overscroll-behavior: contain;
+}
+
+.dialogTrap::-webkit-scrollbar {
+    -webkit-appearance: none;
+    appearance: none;
+    display: none;
+}
+
+.dialogContainer {
     display: flex;
     justify-content: center;
     align-items: center;
     background-color: var(--dialog-container-background);
+    height: calc(100 * var(--vh) + 1px);
 }
 
 .dialogContainer .dialogBox {
@@ -679,6 +691,9 @@ screen and (max-height: 450px) {
     font-size: 15px;
     font-weight: 200;
     margin: 8px 0px;
+    max-height: calc(50 * var(--vh));
+    overflow: hidden auto;
+    overscroll-behavior: contain;
 }
 
 .dialogContainer .dialogBox .dialogContent {
@@ -942,6 +957,7 @@ screen and (max-height: 450px) {
     position: sticky;
     top: calc(var(--globalbar--height) - 22px);
     background-color: var(--narbar-background-color);
+    z-index: 1;
 }
 
 .navBar[data-sticky=true] {
@@ -1004,6 +1020,8 @@ screen and (max-height: 450px) {
 }
 
 .navBar .navLinks::-webkit-scrollbar {
+    -webkit-appearance: none;
+    appearance: none;
     display: none;
 }
 

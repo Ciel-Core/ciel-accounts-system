@@ -14,14 +14,12 @@ export function setDialogState(dialog, show, remove = false){
     // Keep it as a function in case you need to do something additional later
     if(show){
         dialog.style.display = null;
-        document.documentElement.style.overflow = "hidden";
         [
             document.getElementById("local-content").children[1],
             document.getElementById("global-bar"),
             document.getElementById("global-footer")
         ].forEach(elm => elm.setAttribute("inert", ""));
     }else{
-        document.documentElement.style.overflow = null;
         [
             document.getElementById("local-content").children[1],
             document.getElementById("global-bar"),
@@ -41,26 +39,36 @@ export function showDialog(title, description, actions = [["Ok",function(d,r){r(
 }
 
 export function Dialog(props){
-    let dialog =  (<div ref={props.ref} class={generalStyles.dialogContainer}>
-        <div class={generalStyles.dialogBox}>
-            <div class={generalStyles.dialogText}>
-                <text class={generalStyles.dialogTitle}>{props.title}</text>
-                <text class={generalStyles.dialogDescription}>{props.description}</text>
-            </div>
-            <div class={generalStyles.dialogContent}>
-                <For each={props.actions}>{(action) => {
-                    if(action != undefined){
-                        return <Button type={"action"} function={function(){
-                            action[1](dialog, function(){
-                                setDialogState(dialog, false, true);
-                            });
-                        }} light small>{action[0]}</Button>
-                    }
-                }}</For>
+    let dialog = (<div ref={props.ref} class={generalStyles.dialogTrap}>
+        <div class={generalStyles.dialogContainer}>
+            <div class={generalStyles.dialogBox}>
+                <div class={generalStyles.dialogText}>
+                    <text class={generalStyles.dialogTitle}>{props.title}</text>
+                    <text class={generalStyles.dialogDescription}>{props.description}</text>
+                </div>
+                <div class={generalStyles.dialogContent}>
+                    <For each={props.actions}>{(action) => {
+                        if(action != undefined){
+                            return <Button type={"action"} function={function(){
+                                action[1](dialog, function(){
+                                    setDialogState(dialog, false, true);
+                                });
+                            }} light small>{action[0]}</Button>
+                        }
+                    }}</For>
+                </div>
             </div>
         </div>
     </div>);
     onMount(() => {
+        dialog.onscroll = () => dialog.scrollTo(0, 0);
+        dialog.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+        }, {
+            passive: false
+        });
         setDialogState(dialog, props.show);
     });
     return dialog;

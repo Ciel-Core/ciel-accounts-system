@@ -89,7 +89,7 @@
                 let vh = window.innerHeight * 0.01;
                 document.documentElement.style.setProperty('--vhu', `${vh}px`);
             }
-            window.onresize = updateVHUnit;
+            window.addEventListener("resize", updateVHUnit);
             updateVHUnit();
         }
         /* Add "stateupdate" event */
@@ -136,7 +136,7 @@
             --background-blend: #e8ebf0;
             --background-blend-rgb: 232, 235, 240;
             --background-bold: #6b737a;
-            --globalbar-background: #e8ebf0;
+            --globalbar-background: var(--main-background);
             --error-color: #e7463e;
             --error-color-faint: #ffc6c4;
             --warn-color: #e1a12f;
@@ -163,7 +163,7 @@
             --background-blend: #202529;
             --background-blend-rgb: 32, 37, 41;
             --background-bold: #96a4af;
-            --globalbar-background: #1b1e20;
+            --globalbar-background: var(--main-background);
             --error-color: #e9564e;
             --error-color-faint: #3c2524;
             --warn-color: #d19a37;
