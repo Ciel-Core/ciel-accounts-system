@@ -15,6 +15,7 @@ import { onCleanup, onMount } from 'solid-js';
 import { useNavigate } from '@solidjs/router';
 import { registerData, resetRegisterData } from './../../assets/scripts/pages/registerData.jsx';
 import { textProfanity } from '../../assets/scripts/filter.jsx';
+import { watchSticky } from './../../assets/components/_custom.jsx';
 
 import ExpandDownIcon from './../../assets/icons/expand_down.svg';
 
@@ -106,17 +107,7 @@ export function redoRegister(navigate, prompt = false){
 export function ButtonsContainer(props){
     let flexContainer;
     onMount(() => {
-        var observer = new IntersectionObserver(function(entries) {
-            if(entries[0].intersectionRatio === 0)
-                flexContainer.dataset.sticky = true;
-            else if(entries[0].intersectionRatio === 1)
-                flexContainer.dataset.sticky = false;
-        }, { threshold: [0,1] });
-        observer.observe(flexContainer);
-        var observer = new IntersectionObserver( 
-            ([e]) => flexContainer.dataset.sticky = e.intersectionRatio < 1,
-        {threshold: [1]});
-        observer.observe(flexContainer)
+        watchSticky(flexContainer);
     });
     return (<FlexContainer ref={flexContainer} class={style.buttonsStickyContainer}
                 space={"between"} horozontal no-grow>
