@@ -19,10 +19,10 @@
     background-color: var(--main-background);
     margin: 0px calc(-1 * var(--page-margin));
     padding: 0px var(--page-margin);
-    transition: margin 0.12s ease-in-out, height 0.12s ease-in-out;
 }
 
 .globalbar[data-sticky=true] {
+    transition: margin 0.12s ease-in-out, height 0.12s ease-in-out;
     height: calc(var(--globalbar--height) - 20px);
     margin-bottom: 20px;
     box-shadow: 0 4px 18px var(--main-background);
@@ -76,7 +76,6 @@ screen and (max-height: 450px) {
     overflow: hidden;
     opacity: 0.4;
     position: absolute;
-    transition: width 0.12s ease-in-out, height 0.12s ease-in-out;
 }
 
 .globalbar[data-show-content=false] .userprofile {
@@ -88,6 +87,7 @@ screen and (max-height: 450px) {
 }
 
 .globalbar[data-sticky=true] .userprofile {
+    transition: width 0.12s ease-in-out, height 0.12s ease-in-out;
     width: 58px;
     height: 58px;
 }
