@@ -61,7 +61,7 @@ export function Dialog(props){
         </div>
     </div>);
     onMount(() => {
-        dialog.onscroll = () => dialog.scrollTo(0, 0);
+        dialog.onscroll = () => dialog.scrollTo({top: 0, behavior: 'auto'});
         dialog.addEventListener('wheel', (e) => {
             e.preventDefault();
             e.stopPropagation();
