@@ -24,11 +24,6 @@ $WebAuthn->addRootCertificates("$SERVER_ROOT/certificates/root/hypersecu.pem");
 $WebAuthn->addRootCertificates("$SERVER_ROOT/certificates/root/globalSign.pem");
 $WebAuthn->addRootCertificates("$SERVER_ROOT/certificates/root/googleHardware.pem");
 $WebAuthn->addRootCertificates("$SERVER_ROOT/certificates/root/microsoftTpmCollection.pem");
-$WebAuthn->addRootCertificates("$SERVER_ROOT/certificates/root/mds");
-
-// Add FIDO certificates to validate data
-foreach(glob("$SERVER_ROOT/certificates/fido/*.*") as $file) {
-    $WebAuthn->addRootCertificates("$SERVER_ROOT/certificates/fido/$file");
-}
+$WebAuthn->addRootCertificates("$SERVER_ROOT/certificates/fido"); // FIDO
 
 ?>
