@@ -9,11 +9,52 @@ require_once "server.info.php";
 // Load WebAuthn library
 require_once "$SERVER_ROOT/libraries/WebAuthn/WebAuthn.php";
 
+// Load CabArchive library
+require_once "$SERVER_ROOT/libraries/BinaryStream/BinaryStream.php";
+require_once "$SERVER_ROOT/libraries/CabArchive/CabArchive.php";
+
 global $updateXMLCertificateFile;
 $updateXMLCertificateFile = false;
 
+// External communication
+function saveTemporaryFile($url){
+    global $G_SERVER_ROOT;
+    // Get temporary folder
+    $TmpFolderPath = "$G_SERVER_ROOT/certificates/tmp";
+    if(!is_dir($TmpFolderPath)){
+        mkdir($TmpFolderPath);
+    }
+    // Save file, and return temporary path
+    $N = rand(100000000, 999999999);
+    $filePath = "$TmpFolderPath/$N.tmp";
+    file_put_contents($filePath, file_get_contents($url));
+    return $filePath;
+}
+function emptyTemporary(){
+    global $G_SERVER_ROOT;
+    $tmp = "$G_SERVER_ROOT/certificates/tmp";
+    array_map('unlink', glob("$tmp/*.*"));
+    rmdir($tmp);
+    unset($tmp);
+}
+
 // Data conversion
-function cerToPem($data){
+function cabToPem($path){
+    $r = "";
+    $cab = new CabArchive($path);
+    $fileNames = $cab->getFileNames();
+    foreach($fileNames as $fileName){
+        if(in_array(pathinfo($fileName, PATHINFO_EXTENSION), array('crt', 'cer', 'der'))){
+            $r .= "File: $fileName".PHP_EOL;
+            $data = $cab->getFileContent($fileName);
+            $r .= crtToPem($data);
+            unset($data);
+        }
+    }
+    unset($cab, $fileNames);
+    return $r;
+}
+function crtToPem($data){
     // Source: https://gist.github.com/ajzele/4585931
     return
         '-----BEGIN CERTIFICATE-----'.PHP_EOL.
@@ -94,21 +135,24 @@ function updateCertificates(){
                     file_put_contents("$FolderPath/$FileName", $content);
                     unset($content);
                 }else if(hasCabFileSource($certificate)){
-                    //
-                    getCabFileSource($certificate);
+                    $source = saveTemporaryFile(getCabFileSource($certificate));
+                    $content = cabToPem($source);
+                    file_put_contents("$FolderPath/$FileName", $content);
+                    unset($source, $content);
                 }
                 setLastUpdate($certificate, time());
                 unset($ParentFolder, $FolderPath, $FileName);
             }
         }
-
         // Save data
         if($updateXMLCertificateFile){
             $data->saveXML();
             saveXML($data, "$G_SERVER_ROOT/certificates/data.xml");
         }
         unset($data);
+        emptyTemporary();
     }else{
+        emptyTemporary();
         throw new Exception("Couldn't update certificates!");
     }
 }
