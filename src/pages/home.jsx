@@ -61,8 +61,9 @@ function sectionContent(location, done){
 function isSectionVisable(parent, section){
     let sectionClient = section.getBoundingClientRect(),
         parentClient = parent.getBoundingClientRect();
-    return (Math.abs(sectionClient.x - parentClient.x) < Math.round(parentClient.width - 0.5));
+    return (Math.abs(sectionClient.x - parentClient.x) < (parentClient.width / 2));
 }
+let allowResize = true;
 function Sections(props){
     let navigate = useNavigate(),
         sections = (<div ref={props.ref} class={homeStyle.sectionsContainer}>
@@ -92,7 +93,7 @@ function Sections(props){
                             sections.interObs = undefined;
                         }
                         // Start updating section height
-                        section.style.opacity = 1;
+                        allowResize = true;
                         watchSectionHeight(sections, section);
                     }else{
                         timeoutCall(section);
@@ -117,7 +118,12 @@ function Sections(props){
                     });
                     timeoutCall(section);
                     sections.interObs.observe(section);
-                    navigate(section.dataset.path);
+                    // Navigate
+                    allowResize = false;
+                    if(location.pathname != section.dataset.path){
+                        section.style.opacity = 1;
+                        navigate(section.dataset.path);
+                    }
                     break;
                 }
             }
@@ -135,6 +141,7 @@ function watchSectionHeight(parent, section){
             obs.disconnect();
         }
     }
+    section.style.opacity = 1;
     // Observe this element
     parent.style.height = section.children[0].clientHeight + "px";
     section.resizeObs = new ResizeObserver(function(entries) {
@@ -183,7 +190,7 @@ export default function Home(props){
                     sectionsParent.scrollTo(section.getBoundingClientRect().left
                                             - sectionsParent.getBoundingClientRect().left, 0);
                     watchSectionHeight(sectionsParent, section);
-                }else if(sectionsParent.dataset.blockCodedScroll != "true"){
+                }else if(sectionsParent.dataset.blockCodedScroll != "true" && allowResize){
                     sectionsParent.style.height = section.children[0].clientHeight + "px";
                     section.scrollIntoView();
                     watchSectionHeight(sectionsParent, section);
