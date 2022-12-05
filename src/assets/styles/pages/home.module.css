@@ -33,6 +33,34 @@
     margin: 24px;
 }
 
-.homeSection {
-    display: block;
+.sectionsContainer {
+    position: relative;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 100%;
+    grid-auto-columns: 100%;
+    grid-auto-flow: column;
+    overflow: scroll hidden;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    min-height: 50%;
+}
+
+.sectionsContainer::-webkit-scrollbar {
+    -webkit-appearance: none;
+    appearance: none;
+    display: none;
+}
+
+.sectionsContainer .homeSection {
+    display: inline-block;
+    min-width: 100%;
+    max-width: 100%;
+    width: 100%;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+}
+
+.sectionsContainer .homeSection .sectionContent {
+    overflow: hidden;
 }

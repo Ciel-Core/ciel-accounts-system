@@ -8,20 +8,14 @@ import style from './../assets/styles/general.module.css';
 import homeStyle from './../assets/styles/pages/home.module.css';
 
 import { Title } from './../assets/components/Title.jsx';
-import { createEffect, createSignal, lazy, onCleanup, onMount } from 'solid-js';
+import { createEffect, createSignal, For, lazy, onCleanup, onMount } from 'solid-js';
 import { userData } from './../assets/scripts/user.jsx';
 import {
     FlexContainer, LoadingSpinner, Mark, NavBar, SearchBox
 } from './../assets/components/CustomElements.jsx';
-import { useLocation } from '@solidjs/router';
+import { useLocation, useNavigate } from '@solidjs/router';
 
-function panelContent(location, loaded, loading, setContent){
-    let done = () => {
-        loading.style.display = "none";
-        loaded();
-    };
-    setContent(undefined);
-    loading.style.display = null;
+function sectionContent(location, done){
     if(location == "/"){
         return lazy(() => {
             let r = import(`./home/main.jsx`);
@@ -64,17 +58,135 @@ function panelContent(location, loaded, loading, setContent){
     }
 }
 
+function isSectionVisable(parent, section){
+    let sectionClient = section.getBoundingClientRect(),
+        parentClient = parent.getBoundingClientRect();
+    return (Math.abs(sectionClient.x - parentClient.x) < (parentClient.width - 80));
+}
+function Sections(props){
+    let navigate = useNavigate(),
+        sections = (<div ref={props.ref} class={homeStyle.sectionsContainer}>
+            {props.children}
+        </div>),
+        timeout = undefined,
+        allowScroll = () => {
+            timeout = setTimeout(() => sections.dataset.blockCodedScroll = false, 150);
+        },
+        blockScroll = () => {
+            clearTimeout(timeout);
+            sections.dataset.blockCodedScroll = true;
+        };
+    onMount(() => {
+        // Prevent scrolling glitches on touch devices!
+        sections.addEventListener("touchstart", blockScroll);
+        sections.addEventListener("touchend", allowScroll);
+        sections.addEventListener("touchcancel", allowScroll);
+        // Prevent scroll resize glitches
+        let timeout = undefined,
+            timeoutCall = function(section){
+                clearTimeout(timeout);
+                timeout = setTimeout(() => {
+                    if(sections.dataset.blockCodedScroll != "true"){
+                        if(sections.interObs instanceof IntersectionObserver){
+                            sections.interObs.disconnect();
+                            sections.interObs = undefined;
+                        }
+                        // Start updating section height
+                        watchSectionHeight(sections, section);
+                    }else{
+                        timeoutCall(section);
+                    }
+                }, 200);
+            };
+        // Navigate on scroll
+        sections.onscroll = function(){
+            let children = sections.children;
+            for(let i = 0; i < children.length; i++){
+                let section = children[i];
+                if(isSectionVisable(sections, section)){
+                    // Watch section intersections updates
+                    if(sections.interObs instanceof IntersectionObserver){
+                        sections.interObs.disconnect();
+                        sections.interObs = undefined;
+                    }
+                    sections.interObs = new IntersectionObserver(function(payload){
+                        if(payload[0].isIntersecting){
+                            timeoutCall(section);
+                        }
+                    });
+                    timeoutCall(section);
+                    sections.interObs.observe(section);
+                    navigate(section.dataset.path);
+                    break;
+                }
+            }
+        };
+    });
+    return sections;
+}
+
+function watchSectionHeight(parent, section){
+    // Remove all other resize observers
+    for(let i = 0; i < parent.children.length; i++){
+        let obs = parent.children[i].children[0].resizeObs;
+        if(obs instanceof ResizeObserver){
+            obs.disconnect();
+        }
+    }
+    // Observe this element
+    parent.style.height = section.children[0].clientHeight + "px";
+    section.resizeObs = new ResizeObserver(function(entries) {
+        parent.style.height = entries[0].contentRect.height + "px";
+    });
+    section.resizeObs.observe(section.children[0]);
+}
+function HomeSection(props){
+    return (<div class={homeStyle.homeSection} {...props}>
+        <div class={homeStyle.sectionContent}>
+            {props.children}
+        </div>
+    </div>);
+}
+
 export default function Home(props){
     let location = useLocation(),
-        loading;
-    const [content, setContent] = createSignal(undefined);
+        loading,
+        loadedCount = 0,
+        firstLoad = true,
+        loadedSection = function(){
+            if(++loadedCount == links.length){
+                loading.style.display = "none";
+                props.pageLoaded(() => setTimeout(() => setAFS(true), 1200));
+            }
+        }, links = [
+            ["Home", "/"],
+            ["Personal info", "/home/personal"],
+            ["Data and privacy", "/home/privacy"],
+            ["Security", "/home/security"],
+            ["People and sharing", "/home/sharing"],
+            ["Payments and subscriptions", "/home/financial"]
+        ], sectionsParent;
+    const [allowFirstScroll, setAFS] = createSignal(false);
     onCleanup(() => {
         props.pageUnloading();
     });
     onMount(() => {
         createEffect(() => {
-            setContent(panelContent(location.pathname.replace(/[#?].*$/g, ""), props.pageLoaded,
-                        loading, setContent));
+            let loc = location.pathname.replace(/[#?].*$/g, "");
+            let section = document.querySelector(`[data-path='${loc}']`);
+            if(section instanceof HTMLElement){
+                if(firstLoad && allowFirstScroll()){
+                    firstLoad = false;
+                    sectionsParent.style.height = section.children[0].clientHeight + "px";
+                    sectionsParent.scrollTo(section.getBoundingClientRect().left
+                                            - sectionsParent.getBoundingClientRect().left, 0);
+                    watchSectionHeight(sectionsParent, section);
+                }else if(sectionsParent.dataset.blockCodedScroll != "true"){
+                    sectionsParent.style.height = section.children[0].clientHeight + "px";
+                    section.scrollIntoView();
+                    watchSectionHeight(sectionsParent, section);
+                }
+            }
         });
     });
     return <>
@@ -85,19 +197,16 @@ export default function Home(props){
             and devices.
         </h4>
         <SearchBox/>
-        <NavBar links={
-            [
-                ["Home", "/"],
-                ["Personal info", "/home/personal"],
-                ["Data and privacy", "/home/privacy"],
-                ["Security", "/home/security"],
-                ["People and sharing", "/home/sharing"],
-                ["Payments and subscriptions", "/home/financial"]
-            ]
-        } />
-        <FlexContainer ref={loading} style={{display: "none"}}>
+        <NavBar links={links} />
+        <FlexContainer ref={loading}>
             <LoadingSpinner />
         </FlexContainer>
-        {content()}
+        <Sections ref={sectionsParent}>
+            <For each={links}>{(link) => {
+                return (<HomeSection data-path={link[1]}>
+                    {sectionContent(link[1], loadedSection)}
+                </HomeSection>);
+            }}</For>
+        </Sections>
     </>;
 }
