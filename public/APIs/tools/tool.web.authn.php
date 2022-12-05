@@ -1,8 +1,11 @@
 <?php
 
+// Load WebAuthn library
 require_once "$SERVER_ROOT/libraries/WebAuthn/WebAuthn.php";
-
 global $WebAuthn;
+
+// Get certificates functions
+require_once "tool.certificates.php";
 
 // Formats
 $formats = array('android-key', 'android-safetynet', 'apple', 'fido-u2f', 'none', 'packed', 'tpm');
@@ -16,14 +19,15 @@ $rpId = $_SERVER['SERVER_NAME'];
 // new Instance of the server library.
 $WebAuthn = new lbuchs\WebAuthn\WebAuthn('Ciel', $rpId, $formats);
 
-// add root certificates to validate data
-$WebAuthn->addRootCertificates("$SERVER_ROOT/certificates/root/solo.pem");
-$WebAuthn->addRootCertificates("$SERVER_ROOT/certificates/root/apple.pem");
-$WebAuthn->addRootCertificates("$SERVER_ROOT/certificates/root/yubico.pem");
-$WebAuthn->addRootCertificates("$SERVER_ROOT/certificates/root/hypersecu.pem");
-$WebAuthn->addRootCertificates("$SERVER_ROOT/certificates/root/globalSign.pem");
-$WebAuthn->addRootCertificates("$SERVER_ROOT/certificates/root/googleHardware.pem");
-$WebAuthn->addRootCertificates("$SERVER_ROOT/certificates/root/microsoftTpmCollection.pem");
-$WebAuthn->addRootCertificates("$SERVER_ROOT/certificates/fido"); // FIDO
+// Update certificates
+try{
+    updateCertificates();
+}catch(Exception $e){
+    responseReport(BACKEND_ERROR, $e->getMessage());
+}
+
+// add trusted certificates
+$WebAuthn->addRootCertificates("$SERVER_ROOT/certificates/root"); // Trusted root certificates
+$WebAuthn->addRootCertificates("$SERVER_ROOT/certificates/FIDO"); // FIDO-affiliated certificates
 
 ?>
