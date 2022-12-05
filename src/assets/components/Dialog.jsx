@@ -9,6 +9,7 @@ import { render } from "solid-js/web";
 import generalStyles from './../styles/general.module.css';
 import { Button } from './Button.jsx';
 import { For } from "solid-js/web";
+import { isDevMode } from './../scripts/console.jsx';
 
 export function setDialogState(dialog, show, remove = false){
     // Keep it as a function in case you need to do something additional later
@@ -33,8 +34,8 @@ export function setDialogState(dialog, show, remove = false){
     }
 }
 
-export function showDialog(title, description, actions = [["Ok",function(d,r){r()}]]){
-    render(() => (<Dialog title={title} description={description} actions={actions} show></Dialog>)
+export function showDialog(title, description, actions = [["Ok",function(d,r){r()}]], devAttachment = undefined){
+    render(() => (<Dialog title={title} description={description} attachment={devAttachment} actions={actions} show></Dialog>)
             , document.body);
 }
 
@@ -44,7 +45,13 @@ export function Dialog(props){
             <div class={generalStyles.dialogBox}>
                 <div class={generalStyles.dialogText}>
                     <text class={generalStyles.dialogTitle}>{props.title}</text>
-                    <text class={generalStyles.dialogDescription}>{props.description}</text>
+                    <text class={generalStyles.dialogDescription}>{props.description}{
+                        (isDevMode &&
+                        typeof props.attachment == "string" &&
+                        props.attachment.replace(/\s/g, "") != "") ?
+                            ` (${props.attachment})` :
+                            ""
+                    }</text>
                 </div>
                 <div class={generalStyles.dialogContent}>
                     <For each={props.actions}>{(action) => {
