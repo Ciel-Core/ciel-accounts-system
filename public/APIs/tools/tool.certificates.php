@@ -10,13 +10,14 @@ require_once "server.info.php";
 require_once "$SERVER_ROOT/libraries/WebAuthn/WebAuthn.php";
 
 // Load CabArchive library
-require_once "$SERVER_ROOT/libraries/BinaryStream/BinaryStream.php";
-require_once "$SERVER_ROOT/libraries/CabArchive/CabArchive.php";
+// require_once "$SERVER_ROOT/libraries/BinaryStream/BinaryStream.php";
+// require_once "$SERVER_ROOT/libraries/CabArchive/CabArchive.php";
 
 global $updateXMLCertificateFile;
 $updateXMLCertificateFile = false;
 
 // External communication
+/*
 function saveTemporaryFile($url){
     global $G_SERVER_ROOT;
     // Get temporary folder
@@ -37,8 +38,10 @@ function emptyTemporary(){
     rmdir($tmp);
     unset($tmp);
 }
+*/
 
 // Data conversion
+/*
 function cabToPem($path){
     $r = "";
     $cab = new CabArchive($path);
@@ -62,6 +65,7 @@ function crtToPem($data){
         '-----END CERTIFICATE-----'.PHP_EOL;
 
 }
+*/
 
 // "last-update" functions
 function getLastUpdate($element){
@@ -135,13 +139,14 @@ function updateCertificates(){
                     file_put_contents("$FolderPath/$FileName", $content);
                     unset($content);
                 }else if(hasCabFileSource($certificate)){
-                    $source = saveTemporaryFile(getCabFileSource($certificate));
-                    $content = cabToPem($source);
-                    file_put_contents("$FolderPath/$FileName", $content);
-                    unset($source, $content);
+                    // $source = saveTemporaryFile(getCabFileSource($certificate));
+                    // $content = cabToPem($source);
+                    // file_put_contents("$FolderPath/$FileName", $content);
+                    // unset($source, $content);
                 }
                 setLastUpdate($certificate, time());
                 unset($ParentFolder, $FolderPath, $FileName);
+                sleep(1);
             }
         }
         // Save data
@@ -150,9 +155,9 @@ function updateCertificates(){
             saveXML($data, "$G_SERVER_ROOT/certificates/data.xml");
         }
         unset($data);
-        emptyTemporary();
+        // emptyTemporary();
     }else{
-        emptyTemporary();
+        // emptyTemporary();
         throw new Exception("Couldn't update certificates!");
     }
 }
