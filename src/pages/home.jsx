@@ -61,7 +61,7 @@ function sectionContent(location, done){
 function isSectionVisable(parent, section){
     let sectionClient = section.getBoundingClientRect(),
         parentClient = parent.getBoundingClientRect();
-    return (Math.abs(sectionClient.x - parentClient.x) < (parentClient.width - 80));
+    return (Math.abs(sectionClient.x - parentClient.x) < Math.round(parentClient.width - 0.5));
 }
 function Sections(props){
     let navigate = useNavigate(),
@@ -92,11 +92,12 @@ function Sections(props){
                             sections.interObs = undefined;
                         }
                         // Start updating section height
+                        section.style.opacity = 1;
                         watchSectionHeight(sections, section);
                     }else{
                         timeoutCall(section);
                     }
-                }, 200);
+                }, 50);
             };
         // Navigate on scroll
         sections.onscroll = function(){
@@ -128,6 +129,7 @@ function Sections(props){
 function watchSectionHeight(parent, section){
     // Remove all other resize observers
     for(let i = 0; i < parent.children.length; i++){
+        parent.children[i].style.opacity = null;
         let obs = parent.children[i].children[0].resizeObs;
         if(obs instanceof ResizeObserver){
             obs.disconnect();
