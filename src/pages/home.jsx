@@ -61,7 +61,7 @@ function sectionContent(location, done){
 function isSectionVisable(parent, section){
     let sectionClient = section.getBoundingClientRect(),
         parentClient = parent.getBoundingClientRect();
-    return (Math.abs(sectionClient.x - parentClient.x) < (parentClient.width / 2));
+    return (Math.abs(sectionClient.x - parentClient.x) < ((parentClient.width / 2) - 80));
 }
 let allowResize = true;
 function Sections(props){
@@ -192,8 +192,10 @@ export default function Home(props){
                     watchSectionHeight(sectionsParent, section);
                 }else if(sectionsParent.dataset.blockCodedScroll != "true" && allowResize){
                     sectionsParent.style.height = section.children[0].clientHeight + "px";
-                    section.scrollIntoView();
                     watchSectionHeight(sectionsParent, section);
+                    section.scrollIntoView({
+                        behavior: "smooth"
+                    });
                 }
             }
         });
