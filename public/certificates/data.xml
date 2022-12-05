@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+
+<!--
+Certificate element format:
+    <certificate>
+        <file-name>[FILE_NAME]</file-name>
+        <last-update>0</last-update> <!- PHP timestamp ->
+        <update-interval>1</update-interval> <!- days ->
+        <source>
+            <content>[CONTENT_URL]</content> <!- source of the final content of the file ->
+            <cer-cab>[URL]</cer-cab> <!- source of a .cab file for "cer" files ->
+        </source>
+    </certificate>
+-->
+
+<certificates-data>
+    <!-- <certificate> element CAN'T be used in the <FIDO> element -->
+    <FIDO>
+        <last-update>0</last-update>
+        <update-interval>14</update-interval>
+    </FIDO>
+    <!--
+        <DIR>
+            <CERTIFICATE />
+            <CERTIFICATE />
+            ...
+        </DIR>
+    -->
+    <root>
+        <certificate>
+            <file-name>apple.pem</file-name>
+            <last-update>0</last-update>
+            <update-interval>40</update-interval>
+            <source>
+                <content>https://www.apple.com/certificateauthority/Apple_WebAuthn_Root_CA.pem</content>
+            </source>
+        </certificate>
+        <certificate>
+            <file-name>yubico.pem</file-name>
+            <last-update>0</last-update>
+            <update-interval>40</update-interval>
+            <source>
+                <content>https://developers.yubico.com/u2f/yubico-u2f-ca-certs.txt</content>
+            </source>
+        </certificate>
+        <certificate>
+            <file-name>microsoft-tpm-collection.pem</file-name>
+            <last-update>0</last-update>
+            <update-interval>40</update-interval>
+            <source>
+                <cab-file>https://go.microsoft.com/fwlink/?linkid=2097925</cab-file>
+            </source>
+        </certificate>
+    </root>
+</certificates-data>
