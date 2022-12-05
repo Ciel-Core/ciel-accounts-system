@@ -23,7 +23,8 @@ import { updateUserState } from './../../../assets/scripts/user.jsx';
 import { loginSuccessful } from './../login.jsx';
 
 export default function DeviceAuth(props){
-    let navigate = useNavigate();
+    let navigate = useNavigate(),
+        localContent = document.getElementById("local-content");
     checkPlatformSupport(function(error, supported){
         if(!supported){
             navigate("/");
@@ -54,6 +55,7 @@ export default function DeviceAuth(props){
                         errorFunc();
                         throwError(error);
                     }else{
+                        localContent.dataset.processing = true;
                         // Check if the server accepted this challenge and logged the user in
                         authnSignInPOST({
                             deviceID: localStorage.getItem(`DEVICE_TRUSTED_${loginData.UID}`),
@@ -66,6 +68,7 @@ export default function DeviceAuth(props){
                             challenge,
                             timezoneOffset: (new Date()).getTimezoneOffset()
                         }, function(success, data){
+                            localContent.dataset.processing = false;
                             if(success && data.validUser){
                                 // Sign the user in!
                                 updateUserState(function(){

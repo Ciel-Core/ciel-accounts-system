@@ -16,7 +16,7 @@ import {
 import { useNavigate } from '@solidjs/router';
 import { userData } from './../../../assets/scripts/user.jsx';
 import { loginSuccessful } from './../login.jsx';
-import { isDevMode } from './../../../assets/scripts/console.jsx';
+import { isDevMode, throwError } from './../../../assets/scripts/console.jsx';
 
 export default function DeviceAuthSetup(props){
     let navigate = useNavigate(),
@@ -77,7 +77,7 @@ export default function DeviceAuthSetup(props){
                                                 remove();
                                                 setupButton.click();
                                             }]
-                                        ], data.responseInfo.text);
+                                        ], ((data != undefined && data.responseInfo != undefined) ? data.responseInfo.text : String(error)));
                         }else{
                             // Success!
                             // Remember that this device is trusted

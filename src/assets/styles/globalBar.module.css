@@ -6,7 +6,6 @@
 
 .globalbar {
     height: var(--globalbar--height);
-    transition: all 0.1s;
     flex-grow: 1;
     position: relative;
     display: flex;
