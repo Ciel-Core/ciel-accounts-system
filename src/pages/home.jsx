@@ -193,7 +193,9 @@ export default function Home(props){
                 }else if(sectionsParent.dataset.blockCodedScroll != "true" && allowResize){
                     sectionsParent.style.height = section.children[0].clientHeight + "px";
                     watchSectionHeight(sectionsParent, section);
-                    section.scrollIntoView({
+                    sectionsParent.scrollTo({
+                        left: (section.getBoundingClientRect().left
+                                - sectionsParent.getBoundingClientRect().left),
                         behavior: "smooth"
                     });
                 }
