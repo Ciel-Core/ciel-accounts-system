@@ -60,6 +60,8 @@ export function createPublicKey(username, callback){
                             ], // ES256 (-7),  RS256 (-257)
                         authenticatorSelection: {
                             authenticatorAttachment: "platform",
+                            requireResidentKey: false,
+                            residentKey: "discouraged",
                             userVerification: "required"
                         },
                         timeout: 60000,
