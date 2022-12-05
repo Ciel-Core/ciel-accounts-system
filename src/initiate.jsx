@@ -48,11 +48,18 @@ render(() =>{
     const [showContent, setShowContent] = createSignal(false);
 
     let contentLoadData = {GlobalBar: false, LocalContent: false, UserState: false},
-        contentLoadReport = (context) => {
+        callbackList = [],
+        contentLoadReport = (context, callback = undefined) => {
+            if(typeof callback == "function"){
+                callbackList.push(callback);
+            }
             contentLoadData[context] = true;
             if(contentLoadData.GlobalBar && contentLoadData.LocalContent &&
                 contentLoadData.UserState){
                 setShowContent(true);
+                while(callbackList.length != 0){
+                    (callbackList.pop())();
+                }
                 document.body.dataset.loaded = true;
             }
         };
@@ -117,7 +124,7 @@ render(() =>{
         }
         <LocalContent userData={userData()} showAnimationFinished={showAnimFinished()}
                         showContent={showContent()}
-                        report={() => { contentLoadReport("LocalContent"); }}
+                        report={(callback) => { contentLoadReport("LocalContent", callback); }}
                         userDataLoaded={loadedUserData()}
                         viewMode={viewMode}/>
         {
