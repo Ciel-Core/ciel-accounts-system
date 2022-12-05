@@ -192,12 +192,8 @@ export default function Home(props){
                     watchSectionHeight(sectionsParent, section);
                 }else if(sectionsParent.dataset.blockCodedScroll != "true" && allowResize){
                     sectionsParent.style.height = section.children[0].clientHeight + "px";
+                    section.scrollIntoView();
                     watchSectionHeight(sectionsParent, section);
-                    sectionsParent.scrollTo({
-                        left: (section.getBoundingClientRect().left
-                                - sectionsParent.getBoundingClientRect().left),
-                        behavior: "smooth"
-                    });
                 }
             }
         });
