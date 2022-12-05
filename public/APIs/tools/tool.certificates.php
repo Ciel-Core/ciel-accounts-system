@@ -121,7 +121,7 @@ function updateCertificates(){
         }
         unset($FIDO);
 
-        // Update root certificates
+        // Update all other certificates
         $certificates = $data->documentElement->getElementsByTagName("certificate");
         foreach($certificates as $certificate){
             if(getLastUpdate($certificate) + getUpdateInterval($certificate) <= time()){
@@ -146,7 +146,6 @@ function updateCertificates(){
                 }
                 setLastUpdate($certificate, time());
                 unset($ParentFolder, $FolderPath, $FileName);
-                sleep(1);
             }
         }
         // Save data

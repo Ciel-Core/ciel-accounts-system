@@ -82,7 +82,7 @@ export default function RegisterPersonalInfo(props){
         <h3>Enter your <Mark>personal details</Mark>!</h3>
         <FlexContainer space={"around"} style={{width: "400px"}}>
             <InputFieldsContainer>
-                <FlexContainer horozontal style={{margin: 0}}>
+                <FlexContainer horizontal style={{margin: 0}}>
                     <Select ref={bMonth} id={"birthday_month"} label={"Month"}
                             style={{"min-width": "40%", "margin-bottom": "auto"}}>
                                 <option value={"1"}>January</option>

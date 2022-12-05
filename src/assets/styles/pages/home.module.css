@@ -32,3 +32,39 @@
 .panelOption .optionContent {
     margin: 24px;
 }
+
+.sectionsContainer {
+    position: relative;
+    width: 100%;
+    padding: 0px var(--page-margin);
+    display: grid;
+    grid-template-columns: calc(100% + 2 * var(--page-margin));
+    grid-auto-columns: calc(100% + 2 * var(--page-margin));
+    grid-auto-flow: column;
+    overflow: scroll hidden;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    min-height: 50%;
+}
+
+.sectionsContainer::-webkit-scrollbar {
+    -webkit-appearance: none;
+    appearance: none;
+    display: none;
+}
+
+.sectionsContainer .homeSection {
+    display: inline-block;
+    min-width: 100%;
+    max-width: 100%;
+    width: 100%;
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+    opacity: 0;
+    transition: opacity 0.1s linear;
+}
+
+.sectionsContainer .homeSection .sectionContent {
+    overflow: visible hidden;
+    padding: 0px var(--page-margin);
+}

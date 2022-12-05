@@ -80,7 +80,7 @@ export default function Login(props){
             <Notice>
                 Not using your own device? Use Guest mode or Incognito mode to sign in privately.
             </Notice>
-            <FlexContainer space={"between"} horozontal no-grow>
+            <FlexContainer space={"between"} horizontal no-grow>
                 <Button type={"link"} href={"/user/register"}>Create account</Button>
                 <Button ref={nextButton} type={"action"} function={function(){
                     // usernameCheckPOST

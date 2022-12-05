@@ -110,7 +110,7 @@ export function ButtonsContainer(props){
         watchSticky(flexContainer);
     });
     return (<FlexContainer ref={flexContainer} class={style.buttonsStickyContainer}
-                space={"between"} horozontal no-grow>
+                space={"between"} horizontal no-grow>
             <ExpandDownIcon tabindex={0} onClick={function(){
                     window.scrollTo({
                         top: (window.scrollY + window.innerHeight/2),

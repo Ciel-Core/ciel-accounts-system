@@ -29,7 +29,7 @@ function GlobalFooter(props){
             <InfoIcon class={styles.icon}
                         onClick={() => showDialog(`About ${import.meta.env.VITE_NAME}`,
             
-                (<FlexContainer class={styles.aboutContainer} horizontal>
+                (<FlexContainer class={styles.aboutContainer}>
                     <h5>
                         Version {
                             import.meta.env.VITE_V_FRONT_MAJOR}.

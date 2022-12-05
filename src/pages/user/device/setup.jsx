@@ -56,7 +56,7 @@ export default function DeviceAuthSetup(props){
                 You can only set up devices with passwords or other similar security
                 measures as trusted devices!
             </Notice>
-            <FlexContainer space={"between"} horozontal no-grow>
+            <FlexContainer space={"between"} horizontal no-grow>
                 <Button type={"action"} function={function(){
                     loginSuccessful(navigate);
                 }}>Skip</Button>

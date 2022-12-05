@@ -67,7 +67,7 @@ export default function LoginPassword(props){
                             }}
                         />
             </InputFieldsContainer>
-            <FlexContainer space={"between"} horozontal no-grow>
+            <FlexContainer space={"between"} horizontal no-grow>
                 <Button type={"action"} function={function(){history.back()}}>Go back</Button>
                 <Button ref={nextButton} type={"action"} function={function(){
                     nextCheck(nextButton, function(setError, isDone){
