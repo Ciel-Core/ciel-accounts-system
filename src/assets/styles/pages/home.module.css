@@ -38,8 +38,8 @@
     width: 100%;
     padding: 0px var(--page-margin);
     display: grid;
-    grid-template-columns: 100%;
-    grid-auto-columns: 100%;
+    grid-template-columns: calc(100% + 2 * var(--page-margin));
+    grid-auto-columns: calc(100% + 2 * var(--page-margin));
     grid-auto-flow: column;
     overflow: scroll hidden;
     scroll-snap-type: x mandatory;
@@ -66,4 +66,5 @@
 
 .sectionsContainer .homeSection .sectionContent {
     overflow: visible hidden;
+    padding: 0px var(--page-margin);
 }
