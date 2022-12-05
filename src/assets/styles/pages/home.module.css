@@ -61,7 +61,7 @@
     scroll-snap-align: center;
     scroll-snap-stop: always;
     opacity: 0;
-    transition: opacity 0.04s linear;
+    transition: opacity 0.1s linear;
 }
 
 .sectionsContainer .homeSection .sectionContent {
