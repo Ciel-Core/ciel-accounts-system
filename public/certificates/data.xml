@@ -43,13 +43,5 @@ Certificate element format:
                 <content>https://developers.yubico.com/u2f/yubico-u2f-ca-certs.txt</content>
             </source>
         </certificate>
-        <certificate>
-            <file-name>microsoft-tpm-collection.pem</file-name>
-            <last-update>0</last-update>
-            <update-interval>40</update-interval>
-            <source>
-                <cab-file>https://go.microsoft.com/fwlink/?linkid=2097925</cab-file>
-            </source>
-        </certificate>
     </root>
 </certificates-data>
