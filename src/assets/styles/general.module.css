@@ -423,7 +423,7 @@ screen and (max-height: 450px) {
     justify-content: space-around;
 }
 
-.flexContainer.horozontal {
+.flexContainer.horizontal {
     flex-direction: row;
     height: fit-content;
     max-width: 100%;

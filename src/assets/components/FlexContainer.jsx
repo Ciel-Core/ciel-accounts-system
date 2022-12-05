@@ -14,7 +14,7 @@ export function FlexContainer(props){
                                         generalStyles.spaceAround : undefined,
                                     (props.space == "between") ?
                                         generalStyles.spaceBetween : undefined,
-                                    (props.horozontal) ? generalStyles.horozontal : undefined,
+                                    (props.horizontal) ? generalStyles.horizontal : undefined,
                                     (props["no-grow"]) ? generalStyles.noFlexGrow : undefined);
     return (
         <div ref={props.ref} class={basicProps.class} style={basicProps.style}
