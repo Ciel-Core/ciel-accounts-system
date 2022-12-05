@@ -4,7 +4,7 @@
 function loadXML($path, $editable = false){
     if($editable){
         $dom = new DOMDocument();
-        if(@$dom->load($path) === false){
+        if(@($dom->load($path)) === false){
             unset($dom);
             return false;
         }else{
@@ -16,12 +16,12 @@ function loadXML($path, $editable = false){
 }
 
 // Save XML file
-function saveXML(DOMDocument $doc, $path){
+function saveXML($doc, $path){
     file_put_contents($path, $doc->saveXML());
 }
 
 // Get first element
-function getElement($element, $name): DOMElement|NULL{
+function getElement($element, $name){
     return $element->getElementsByTagName($name)->item(0);
 }
 
