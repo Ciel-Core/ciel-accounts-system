@@ -36,6 +36,7 @@
 .sectionsContainer {
     position: relative;
     width: 100%;
+    padding: 0px var(--page-margin);
     display: grid;
     grid-template-columns: 100%;
     grid-auto-columns: 100%;
@@ -57,10 +58,12 @@
     min-width: 100%;
     max-width: 100%;
     width: 100%;
-    scroll-snap-align: start;
+    scroll-snap-align: center;
     scroll-snap-stop: always;
+    opacity: 0;
+    transition: opacity 0.04s linear;
 }
 
 .sectionsContainer .homeSection .sectionContent {
-    overflow: hidden;
+    overflow: visible hidden;
 }
