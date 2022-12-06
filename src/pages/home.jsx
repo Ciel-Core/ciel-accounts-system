@@ -71,10 +71,15 @@ function Sections(props){
             {props.children}
         </div>),
         timeout = undefined,
+        touchStarted = false,
         allowScroll = () => {
-            timeout = setTimeout(() => sections.dataset.blockCodedScroll = false, 150);
+            if(touchStarted){
+                touchStarted = false;
+                timeout = setTimeout(() => sections.dataset.blockCodedScroll = false, 200);
+            }
         },
         blockScroll = () => {
+            touchStarted = true;
             if(!allowScrollNav){
                 allowScrollNav = true;
                 sections.onscroll();
@@ -82,11 +87,15 @@ function Sections(props){
             clearTimeout(timeout);
             sections.dataset.blockCodedScroll = true;
         };
+    onCleanup(() => {
+        window.removeEventListener("touchend", allowScroll);
+        window.removeEventListener("touchcancel", allowScroll);
+    });
     onMount(() => {
         // Prevent scrolling glitches on touch devices!
         sections.addEventListener("touchstart", blockScroll);
-        sections.addEventListener("touchend", allowScroll);
-        sections.addEventListener("touchcancel", allowScroll);
+        window.addEventListener("touchend", allowScroll);
+        window.addEventListener("touchcancel", allowScroll);
         // Prevent scroll resize glitches
         let timeout = undefined,
             timeoutCall = function(section){
