@@ -75,7 +75,7 @@ function Sections(props){
         allowScroll = () => {
             if(touchStarted){
                 touchStarted = false;
-                timeout = setTimeout(() => sections.dataset.blockCodedScroll = false, 200);
+                timeout = setTimeout(() => sections.dataset.blockCodedScroll = false, 400);
             }
         },
         blockScroll = () => {
