@@ -63,10 +63,11 @@ function isSectionVisable(parent, section){
         parentClient = parent.getBoundingClientRect();
     return (Math.abs(sectionClient.x - parentClient.x) < ((parentClient.width / 2) - 80));
 }
-let allowResize = true;
+let allowResize = true,
+    allowScrollNav = false;
 function Sections(props){
     let navigate = useNavigate(),
-        sections = (<div ref={props.ref} class={homeStyle.sectionsContainer}>
+        sections = (<div ref={props.ref} class={homeStyle.sectionsContainer} {...props}>
             {props.children}
         </div>),
         timeout = undefined,
@@ -74,6 +75,10 @@ function Sections(props){
             timeout = setTimeout(() => sections.dataset.blockCodedScroll = false, 150);
         },
         blockScroll = () => {
+            if(!allowScrollNav){
+                allowScrollNav = true;
+                sections.onscroll();
+            }
             clearTimeout(timeout);
             sections.dataset.blockCodedScroll = true;
         };
@@ -101,30 +106,33 @@ function Sections(props){
                 }, 50);
             };
         // Navigate on scroll
+        // Disable vert horizontal scrolling
         sections.onscroll = function(){
-            let children = sections.children;
-            for(let i = 0; i < children.length; i++){
-                let section = children[i];
-                if(isSectionVisable(sections, section)){
-                    // Watch section intersections updates
-                    if(sections.interObs instanceof IntersectionObserver){
-                        sections.interObs.disconnect();
-                        sections.interObs = undefined;
-                    }
-                    sections.interObs = new IntersectionObserver(function(payload){
-                        if(payload[0].isIntersecting){
-                            timeoutCall(section);
+            if(allowScrollNav){
+                let children = sections.children;
+                for(let i = 0; i < children.length; i++){
+                    let section = children[i];
+                    if(isSectionVisable(sections, section)){
+                        // Watch section intersections updates
+                        if(sections.interObs instanceof IntersectionObserver){
+                            sections.interObs.disconnect();
+                            sections.interObs = undefined;
                         }
-                    });
-                    timeoutCall(section);
-                    sections.interObs.observe(section);
-                    // Navigate
-                    allowResize = false;
-                    if(location.pathname != section.dataset.path){
-                        section.style.opacity = 1;
-                        navigate(section.dataset.path);
+                        sections.interObs = new IntersectionObserver(function(payload){
+                            if(payload[0].isIntersecting){
+                                timeoutCall(section);
+                            }
+                        });
+                        timeoutCall(section);
+                        sections.interObs.observe(section);
+                        // Navigate
+                        allowResize = false;
+                        if(location.pathname != section.dataset.path){
+                            section.style.opacity = 1;
+                            navigate(section.dataset.path);
+                        }
+                        break;
                     }
-                    break;
                 }
             }
         };
@@ -164,7 +172,6 @@ export default function Home(props){
         firstLoad = true,
         loadedSection = function(){
             if(++loadedCount == links.length){
-                loading.style.display = "none";
                 props.pageLoaded(() => setTimeout(() => setAFS(true), 1200));
             }
         }, links = [
@@ -174,7 +181,18 @@ export default function Home(props){
             ["Security", "/home/security"],
             ["People and sharing", "/home/sharing"],
             ["Payments and subscriptions", "/home/financial"]
-        ], sectionsParent;
+        ], sectionsParent
+        , showContent = function(section){
+            loading.style.display = "none";
+            sectionsParent.style.display = null;
+            sectionsParent.style.height = section.children[0].clientHeight + "px";
+            // Scroll section into view
+            setTimeout(function(){
+                sectionsParent.scrollTo(sectionsParent.clientWidth *
+                                        Array.from(sectionsParent.children).indexOf(section), 0);
+                watchSectionHeight(sectionsParent, section);
+            }, 1);
+        };
     const [allowFirstScroll, setAFS] = createSignal(false);
     onCleanup(() => {
         props.pageUnloading();
@@ -183,17 +201,12 @@ export default function Home(props){
         createEffect(() => {
             let loc = location.pathname.replace(/[#?].*$/g, "");
             let section = document.querySelector(`[data-path='${loc}']`);
-            if(section instanceof HTMLElement){
-                if(firstLoad && allowFirstScroll()){
+            if(section instanceof HTMLElement && allowFirstScroll()){
+                if(firstLoad){
                     firstLoad = false;
-                    sectionsParent.style.height = section.children[0].clientHeight + "px";
-                    sectionsParent.scrollTo(section.getBoundingClientRect().left
-                                            - sectionsParent.getBoundingClientRect().left, 0);
-                    watchSectionHeight(sectionsParent, section);
+                    showContent(section);
                 }else if(sectionsParent.dataset.blockCodedScroll != "true" && allowResize){
-                    sectionsParent.style.height = section.children[0].clientHeight + "px";
-                    section.scrollIntoView();
-                    watchSectionHeight(sectionsParent, section);
+                    showContent(section);
                 }
             }
         });
@@ -210,7 +223,7 @@ export default function Home(props){
         <FlexContainer ref={loading}>
             <LoadingSpinner />
         </FlexContainer>
-        <Sections ref={sectionsParent}>
+        <Sections ref={sectionsParent} style={{display: "none"}}>
             <For each={links}>{(link) => {
                 return (<HomeSection data-path={link[1]}>
                     {sectionContent(link[1], loadedSection)}
