@@ -25,6 +25,10 @@
     margin-top: 0px;
 }
 
+.panelOption .optionTitle {
+    margin-right: auto;
+}
+
 .panelOption .optionContent {
     padding: 24px;
     margin-top: auto;
