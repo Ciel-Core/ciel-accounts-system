@@ -174,14 +174,17 @@ function HomeSection(props){
     </div>);
 }
 
+let firstLoad = true;
 export default function Home(props){
     let location = useLocation(),
         loading,
         loadedCount = 0,
-        firstLoad = true,
         loadedSection = function(){
             if(++loadedCount == links.length){
-                props.pageLoaded(() => setTimeout(() => setAFS(true), 1200));
+                props.pageLoaded(() => (firstLoad) ?
+                                            setTimeout(() => setAFS(true), 1200)
+                                        :
+                                            setAFS(true));
             }
         }, links = [
             ["Home", "/"],
@@ -224,7 +227,7 @@ export default function Home(props){
         <Title></Title>
         <h2 class={style.pageTitle}>Welcome, <Mark>{userData().displayUsername}</Mark>!</h2>
         <h4 class={style.pageDescription}>
-            Manage your profile, privacy preferences, and security across all connected services
+            Manage your privacy, security, and preferences across all connected services
             and devices.
         </h4>
         <SearchBox/>

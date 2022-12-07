@@ -38,11 +38,19 @@ export function PanelOption(props){
     </div>);
 }
 
+export function PanelGroup(props){
+    return (<div class={homeStyle.panelGroup}>
+        {props.children}
+    </div>);
+}
+
 function Feed(){
     return (<>
-        <SecurityFeed />
         <FinancialFeed />
-        <PrivacyFeed />
+        <PanelGroup>
+            <PrivacyFeed />
+            <SecurityFeed />
+        </PanelGroup>
         <SharingFeed />
         <PersonalFeed />
     </>);

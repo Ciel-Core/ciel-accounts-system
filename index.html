@@ -112,6 +112,12 @@
             window.mobileView =
                 window.matchMedia('(pointer:none), (pointer:coarse), screen and (max-width: 920px), screen and (max-height: 450px)');
         }
+        /* Touch device detection */
+        {
+            document.documentElement.dataset.touchInput =
+                (('ontouchstart' in window) || (navigator.maxTouchPoints > 0) ||
+                    (navigator.msMaxTouchPoints > 0));
+        }
     </script>
 
     <!-- NOTE: use this website to generate the favicon once an icon has been selected: https://favicon.io/favicon-converter/ -->
