@@ -21,6 +21,7 @@ import { throwError } from './../../../assets/scripts/console.jsx';
 import { authnSignInPOST } from './../../../assets/scripts/communication/accounts.jsx';
 import { updateUserState } from './../../../assets/scripts/user.jsx';
 import { loginSuccessful } from './../login.jsx';
+import { sessionsLimit } from './../login/password.jsx';
 
 export default function DeviceAuth(props){
     let navigate = useNavigate(),
@@ -69,13 +70,24 @@ export default function DeviceAuth(props){
                             timezoneOffset: (new Date()).getTimezoneOffset()
                         }, function(success, data){
                             localContent.dataset.processing = false;
-                            if(success && data.validUser){
+                            if(data != undefined && data.sessionsLimitExceeded){
+                                sessionsLimit(navigate);
+                            }else if(success && data.validUser){
                                 // Sign the user in!
                                 updateUserState(function(){
                                     loginSuccessful(navigate);
                                 }, true);
-                            }else{
+                            }else if(!data.validUser){
                                 errorFunc();
+                            }else{
+                                // Authn successful, couldn't log user in!
+                                showDialog("Error!", `We couldn't sign you in,
+                                                        please try again later!`, [
+                                                            ["Ok", function(dialog, remove){
+                                                                history.back();
+                                                                remove();
+                                                            }]
+                                                        ]);
                             }
                         });
                     }

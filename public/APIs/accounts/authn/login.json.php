@@ -25,6 +25,7 @@ require './../../tools/sql.register.device.php';
 // Check if challenge key is valid
 session_start();
 $ValidUser = false;
+$SessionsLimitExceeded = false;
 if($INPUT_DATA->challenge == $_SESSION["AUTHN__challengeKey"]){
     if(time() < $_SESSION["AUTHN__challengeKey_timeout"]){
         // Include WebAuthn library
@@ -52,11 +53,18 @@ if($INPUT_DATA->challenge == $_SESSION["AUTHN__challengeKey"]){
             // The user is good to go, initialise a new session!
             require_once './../../tools/sql.user.data.php';
             require_once './../../tools/sql.sessions.php';
-            // Create a session
-            $UID = getUIDByDeviceID($INPUT_DATA->deviceID);
-            addSession($UID, $INPUT_DATA);
             // User login successful!
             $ValidUser = true;
+            // Create a session
+            $UID = getUIDByDeviceID($INPUT_DATA->deviceID);
+            if(!checkUserSessionsLimit($UID, false)){
+                addSession($UID, $INPUT_DATA);
+            }else{
+                $SessionsLimitExceeded = true;
+                $RESPONSE_SUCCESS_STATUS = false;
+                $RESPONSE_TEXT = "Sessions limit exceeded!";
+                $RESPONSE_CODE = BLOCKED_REQUEST;
+            }
         }
     }else{
         $RESPONSE_SUCCESS_STATUS = false;
@@ -75,5 +83,6 @@ clearServerSession();
 ?>
 {
     "validUser": <?php echo ($ValidUser) ? 'true' : 'false'; ?>,
+    "sessionsLimitExceeded": <?php echo ($SessionsLimitExceeded) ? 'true' : 'false'; ?>,
     <?php require './../../_chips/JSON_response_attachment.php'; ?>
 }

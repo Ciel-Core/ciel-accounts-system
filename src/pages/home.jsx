@@ -8,6 +8,7 @@ import style from './../assets/styles/general.module.css';
 import homeStyle from './../assets/styles/pages/home.module.css';
 
 import { Title } from './../assets/components/Title.jsx';
+import { Help, setHelp } from './../assets/components/Help.jsx';
 import { createEffect, createSignal, For, lazy, onCleanup, onMount } from 'solid-js';
 import { userData } from './../assets/scripts/user.jsx';
 import {
@@ -213,6 +214,7 @@ export default function Home(props){
         createEffect(() => {
             let loc = location.pathname.replace(/[#?].*$/g, "");
             let section = document.querySelector(`[data-path='${loc}']`);
+            setHelp("control-panel");
             if(section instanceof HTMLElement && allowFirstScroll()){
                 if(firstLoad){
                     firstLoad = false;
@@ -225,6 +227,7 @@ export default function Home(props){
     });
     return <>
         <Title></Title>
+        <Help feed={"control-panel"}/>
         <h2 class={style.pageTitle}>Welcome, <Mark>{userData().displayUsername}</Mark>!</h2>
         <h4 class={style.pageDescription}>
             Manage your privacy, security, and preferences across all connected services

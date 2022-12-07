@@ -19,6 +19,17 @@ import { getSalts, signInPOST } from './../../../assets/scripts/communication/ac
 import { updateUserState } from './../../../assets/scripts/user.jsx';
 import { checkPlatformSupport } from './../../../assets/scripts/deviceCredential.jsx';
 
+export function sessionsLimit(nav){
+    showDialog("Sessions limit exceeded!",
+                "We couldn't sign you in because your account's sessions limit has been exceeded!",
+                [
+                    ["Ok", function(dialog, remove){
+                        remove();
+                        nav("/user/login");
+                    }]
+                ]);
+}
+
 export default function LoginPassword(props){
     let nextButton,
         password, passwordInput,
@@ -86,7 +97,10 @@ export default function LoginPassword(props){
                                                 data[1]),
                                             timezoneOffset: (new Date()).getTimezoneOffset()
                                         }, function(isSuccessful, data){
-                                            if(isSuccessful && data.validUser){
+                                            if(data != undefined && data.sessionsLimitExceeded){
+                                                setError();
+                                                sessionsLimit(navigate);
+                                            }else if(isSuccessful && data.validUser){
                                                 checkPlatformSupport(function(error, supported){
                                                     isDone(data, supported);
                                                 });

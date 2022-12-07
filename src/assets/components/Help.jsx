@@ -10,11 +10,11 @@ export const [helpFeed, setHelpFeed] = createSignal("");
 export const [needHelp, setNeedHelp] = createSignal(false);
 export let blockReset = false;
 
-export function Help(props){
+export function setHelp(feed){
     setTimeout(() => {
-        if(props.feed){
+        if(feed){
             blockReset = location.pathname.replace(/[#?].*$/g, "");
-            setHelpFeed(props.feed);
+            setHelpFeed(feed);
             setNeedHelp(true);
         }else{
             blockReset = undefined;
@@ -22,6 +22,10 @@ export function Help(props){
             setNeedHelp(false);
         }
     }, 1);
+}
+
+export function Help(props){
+    setHelp(props.feed);
     return <></>;
 }
 
