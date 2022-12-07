@@ -46,12 +46,18 @@ function addTrustedDevice($credentialId, $publicKey, $environment, $validRoot){
             $UID = getUID($connection);
             $Environment = mysqli_real_escape_string($connection, $environment);
             $DeviceID = createDeviceID($connection);
+            // Device name
+            $devicesCount = (int)mysqli_fetch_assoc(
+                executeQueryMySQL($connection,
+                    "SELECT COUNT(*) FROM $DATABASE_CoreTABLE__trustedDevices
+                        WHERE `UID` = $UID"))["COUNT(*)"];
+            $DeviceName = "Device".((++$devicesCount > 1) ? " ($devicesCount)" : "");
             executeQueryMySQL($connection,
                 "INSERT INTO `$DATABASE_CoreTABLE__trustedDevices`
                     (`DeviceID`,  `UID`, `CredentialID`,  `PublicKey`,  `DeviceName`,
                     `Environment`,  `ValidRoot`)
                 VALUES
-                    ('$DeviceID', $UID,  '$CredentialID', '$PublicKey', '',
+                    ('$DeviceID', $UID,  '$CredentialID', '$PublicKey', '$DeviceName',
                     '$Environment', $ValidRoot)");
             $connection->close();
             return $DeviceID;
