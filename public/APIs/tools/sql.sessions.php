@@ -164,10 +164,14 @@ function checkUserActiveSessions($UID){
 
 // Check the sessions and limit them
 // Each user can sign in to a max of 3 devices at a given moment!
-function checkUserSessionsLimit($UID){
+function checkUserSessionsLimit($UID, $die = true){
     if(checkUserActiveSessions($UID) >= 3){
-        responseReport(BLOCKED_REQUEST, "Active sessions limit exceeded!");
+        if($die){
+            responseReport(BLOCKED_REQUEST, "Active sessions limit exceeded!");
+        }
+        return true;
     }
+    return false;
 }
 
 // Check active sessions (Platform-wide)

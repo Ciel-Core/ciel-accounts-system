@@ -19,6 +19,7 @@ require './../../tools/client.info.php';
 // Start a session
 session_start();
 
+$SessionsLimitExceeded = false;
 if(!(CLIENT_isSessionValid())){
     // Remove registered Auth UID
     if(isset($_SESSION["AUTH_UID"])){
@@ -43,7 +44,14 @@ if(!(CLIENT_isSessionValid())){
                 // The user is good to go, initialise a new session!
                 require_once './../../tools/sql.sessions.php';
                 // Create a session
-                addSession($result->UID, $INPUT_DATA);
+                if(!checkUserSessionsLimit($result->UID, false)){
+                    addSession($result->UID, $INPUT_DATA);
+                }else{
+                    $SessionsLimitExceeded = true;
+                    $RESPONSE_SUCCESS_STATUS = false;
+                    $RESPONSE_TEXT = "Sessions limit exceeded!";
+                    $RESPONSE_CODE = BLOCKED_REQUEST;
+                }
             }
         }
     }
@@ -57,6 +65,7 @@ if(!(CLIENT_isSessionValid())){
 {
     "require2FA": <?php echo ($result->require2FA) ? 'true' : 'false'; ?>,
     "validUser": <?php echo ($result->validUser) ? 'true' : 'false'; ?>,
+    "sessionsLimitExceeded": <?php echo ($SessionsLimitExceeded) ? 'true' : 'false'; ?>,
     "onCooldown": <?php echo ($result->onCooldown) ? 'true' : 'false'; ?>,
     <?php require './../../_chips/JSON_response_attachment.php'; ?>
 }
