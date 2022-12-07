@@ -20,9 +20,14 @@ import { updateUserState } from './../../../assets/scripts/user.jsx';
 import { checkPlatformSupport } from './../../../assets/scripts/deviceCredential.jsx';
 
 export function sessionsLimit(nav){
-    nav("/user/login");
     showDialog("Sessions limit exceeded!",
-                "We couldn't sign you in because your account's sessions limit has been exceeded!");
+                "We couldn't sign you in because your account's sessions limit has been exceeded!",
+                [
+                    ["Ok", function(dialog, remove){
+                        remove();
+                        nav("/user/login");
+                    }]
+                ]);
 }
 
 export default function LoginPassword(props){
