@@ -47,6 +47,10 @@
     min-height: 50%;
 }
 
+:root[data-touch-input=false] .sectionsContainer {
+    overflow: hidden;
+}
+
 .sectionsContainer::-webkit-scrollbar {
     -webkit-appearance: none;
     appearance: none;
