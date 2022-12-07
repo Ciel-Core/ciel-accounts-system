@@ -34,7 +34,8 @@ const lists = {
     signedInOnly: [
         ["/user/device/setup", "/new"],
         ["/notifications", "/user/login"],
-        ["/user/customization", "/user/login"]
+        ["/user/customization", "/user/login"],
+        ["/home", "/new"],
     ],
     signedOutOnly: [
         ["/new", "/"],
