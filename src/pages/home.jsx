@@ -227,7 +227,7 @@ export default function Home(props){
         <Title></Title>
         <h2 class={style.pageTitle}>Welcome, <Mark>{userData().displayUsername}</Mark>!</h2>
         <h4 class={style.pageDescription}>
-            Manage your profile, privacy preferences, and security across all connected services
+            Manage your privacy, security, and preferences across all connected services
             and devices.
         </h4>
         <SearchBox/>

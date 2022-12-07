@@ -12,25 +12,22 @@
     background-color: var(--main-background);
     border-radius: 12px;
     padding: 24px;
-    margin: 14px 12px;
+    margin: 28px 12px;
+    display: flex;
+    flex-direction: column;
 }
 
-:not(.panelOption)+.panelOption {
-    margin-top: 28px;
+.panelOption+.panelGroup {
+    margin-top: -28px
 }
 
-.panelOption:last-of-type {
-    margin-bottom: 28px;
-}
-
-.panelOption .optionTitle {
-    text-align: left;
-    font-size: 16px;
-    font-weight: 600;
+.panelGroup:not(:empty)+.panelOption {
+    margin-top: 0px;
 }
 
 .panelOption .optionContent {
-    margin: 24px;
+    padding: 24px;
+    margin-top: auto;
 }
 
 .sectionsContainer {
@@ -44,7 +41,7 @@
     overflow: scroll hidden;
     scroll-snap-type: x mandatory;
     scrollbar-width: none;
-    min-height: 50%;
+    min-height: calc(100 * var(--vh) - 2 * var(--page-margin) - var(--globalbar--height) - var(--globalfooter--height));
 }
 
 :root[data-touch-input=false] .sectionsContainer {
@@ -71,4 +68,21 @@
 .sectionsContainer .homeSection .sectionContent {
     overflow: visible hidden;
     padding: 0px var(--page-margin);
+}
+
+.panelGroup {
+    display: flex;
+}
+
+@media (pointer:none),
+(pointer:coarse),
+screen and (max-width: 920px),
+screen and (max-height: 450px) {
+    .panelGroup {
+        display: unset;
+    }
+}
+
+.panelGroup:empty {
+    display: none;
 }
