@@ -65,7 +65,6 @@ export default function HomeMain(props){
     });
     return (<>
         <Title></Title>
-        <Help feed={"control-panel"}/>
         <Alerts />
         <Feed />
     </>);
