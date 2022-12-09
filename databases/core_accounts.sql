@@ -101,6 +101,7 @@ INSERT INTO `security`
 CREATE TABLE `sessions` (
   `SID` varchar(216) NOT NULL,
   `UID` bigint(11) UNSIGNED NOT NULL,
+  `LocalID` tinyint(1) UNSIGNED NOT NULL,
   `StartTimestamp` timestamp NOT NULL DEFAULT current_timestamp(),
   `TimeoutTimestamp` timestamp NULL DEFAULT NULL,
   `IPAddress` varchar(39) NOT NULL,

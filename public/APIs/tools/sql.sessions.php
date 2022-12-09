@@ -81,6 +81,11 @@ function addSession($UID, $input){
     $connection = connectMySQL(DATABASE_WRITE_ONLY);
     // Prepare session data
     $SID = createSessionID($connection);
+    $LocalID = (int)mysqli_fetch_assoc(
+                    executeQueryMySQL($connection,
+                                        "SELECT MAX(`LocalID`) FROM $DATABASE_CoreTABLE__sessions
+                                            WHERE `UID` = $UID")
+                )["MAX(`LocalID`)"] + 1;
     $TimeoutTimestamp = date('Y-m-d H:i:s', time() + 60*60*24*20);
     $UserAgent = mysqli_real_escape_string($connection, $_SERVER['HTTP_USER_AGENT']);
     $ClientIPAddress = mysqli_real_escape_string($connection, $CLIENT_IPAddress);
@@ -95,10 +100,10 @@ function addSession($UID, $input){
     // Insert session into DB
     executeQueryMySQL($connection,
             "INSERT INTO `$DATABASE_CoreTABLE__sessions`
-                (`SID`,  `UID`, `TimeoutTimestamp`,  `IPAddress`,        `UserAgent`,
+                (`SID`,  `UID`, `LocalID`, `TimeoutTimestamp`,  `IPAddress`,        `UserAgent`,
                 `TimezoneOffset`, `Country`,  `Region`,  `City`,  `LocationCoordinates`)
             VALUES
-                ('$SID', $UID,  '$TimeoutTimestamp', '$ClientIPAddress', '$UserAgent',
+                ('$SID', $UID,  $LocalID,  '$TimeoutTimestamp', '$ClientIPAddress', '$UserAgent',
                 $TimezoneOffset,  '$Country', '$Region', '$City', '$LocationCoordinates')"
             );
     // Set a cookie to recover the session ID when the server's session ends
