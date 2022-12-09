@@ -19,7 +19,8 @@ export function throwError(error){
 export function log() {
     // Check 'https://vitejs.dev/guide/env-and-mode.html#modes'
     if (isDevMode) {
-        console.log.apply(null, [`%c[${arguments[0]}]`, 'color: green; font-weight: 800;',
+        console.log.apply(null, [`%c[${arguments[0]}]${(window.childProcess) ? " [Child]" : ""}`,
+                                    'color: green; font-weight: 800;',
                                     ...[...arguments].slice(1)]);
     }
 }
