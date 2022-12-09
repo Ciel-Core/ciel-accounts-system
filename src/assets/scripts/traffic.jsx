@@ -104,7 +104,7 @@ export function landingCheck(){
             }
     
             // All homepage redirections
-            if(location.pathname == '/'){
+            if(location.pathname.replace(/[#?].*$/g, "") == '/'){
                 // Always redirect new users to the path "/new" from the home page
                 if(isSignedIn() == false){
                     navigate("/new", { replace: true });
