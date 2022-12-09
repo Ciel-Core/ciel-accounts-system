@@ -4,7 +4,7 @@
  * 
  **/
 
-import { createSignal } from "solid-js";
+import { createEffect, createSignal } from "solid-js";
 import { showDialog } from "./../components/Dialog.jsx";
 import { signOutPOST, userDataPOST } from "./communication/accounts.jsx";
 import { afterURLChange } from "./traffic.jsx";
@@ -92,19 +92,27 @@ export function updateUserState(callback = undefined, expectURLChange = false){
     if(!isOnline()){
         setUserData(JSON.parse(localStorage.getItem("last-user-data")));
         setSignedIn(!!Number(localStorage.getItem("last-user-state")));
-        listenToUserUpdates();
         if(typeof callback == "function"){
             callback();
         }
-        return;
+        // Wait for user to get online!
+        if(isSignedIn()){
+            listenToUserUpdates();
+        }
     }
     // Share user data with iframes!
-    else if(window.sharedUserData != undefined){
-        setUserData(window.sharedUserData);
-        setSignedIn(window.sharedUserState);
-        if(typeof callback == "function"){
-            callback();
-        }
+    else if(window.requestSharedData != undefined){
+        window.requestSharedData(function(data){
+            setUserData(data.userData);
+            setSignedIn(data.userState);
+            if(typeof callback == "function"){
+                callback();
+            }
+            // Wait for any updates
+            if(isSignedIn()){
+                listenToUserUpdates();
+            }
+        });
     }else{
         // Disable page interactions (only when callback is defined)
         let localContent = document.getElementById("local-content"),

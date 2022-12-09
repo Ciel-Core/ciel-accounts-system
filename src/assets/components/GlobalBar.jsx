@@ -6,7 +6,7 @@
 
 import styles from './../styles/globalBar.module.css';
  
-import { createSignal, onCleanup, onMount } from "solid-js";
+import { createEffect, createSignal, onCleanup, onMount } from "solid-js";
 import { isSignedIn, signOut, userData } from "./../scripts/user.jsx";
 import LoadingSpinner from './LoadingSpinner.jsx';
 
@@ -20,6 +20,25 @@ import { useNavigate } from "@solidjs/router";
 import { helpFeed, needHelp } from './Help.jsx';
 import { isOnline } from './../scripts/internetConnection.jsx';
 import { watchSticky } from './_custom.jsx';
+
+// Keep track of the state of the user's data!
+let userDataUpdated = false;
+createEffect(() => {
+    userData();
+    isSignedIn();
+    userDataUpdated = true;
+});
+function requestSharedData(callback){
+    if(userDataUpdated){
+        userDataUpdated = false;
+        callback({
+            userData: userData(),
+            userState: isSignedIn()    
+        });
+    }else{
+        setTimeout(() => requestSharedData(callback), 10);
+    }
+}
 
 function showNavContent(navigate, pathname, container, spinner, mainTimeout, bar, external){
     if(!window.mobileView.matches){
@@ -43,12 +62,14 @@ function showNavContent(navigate, pathname, container, spinner, mainTimeout, bar
                 let iframe,
                     timeout;
                 onMount(() => {
+                    // Allow iframe to get user data
+                    userDataUpdated = true;
                     // Focus iframe
                     iframe.contentWindow.focus();
+                    iframe.contentWindow.childProcess = true;
                     iframe.contentWindow.restrictEventSource = true;
                     iframe.contentWindow.noDevToolsDetect = true;
-                    iframe.contentWindow.sharedUserData = userData();
-                    iframe.contentWindow.sharedUserState = isSignedIn();        
+                    iframe.contentWindow.requestSharedData = requestSharedData;
                     window.closeNavContent = function(){
                         bar.dataset.prioritize = false;
                         iframe.remove();
