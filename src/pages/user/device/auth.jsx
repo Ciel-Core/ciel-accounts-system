@@ -77,7 +77,7 @@ export default function DeviceAuth(props){
                                 updateUserState(function(){
                                     loginSuccessful(navigate);
                                 }, true);
-                            }else if(!data.validUser){
+                            }else if(data != undefined && !data.validUser){
                                 errorFunc();
                             }else{
                                 // Authn successful, couldn't log user in!
