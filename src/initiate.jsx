@@ -53,7 +53,9 @@ render(() =>{
             if(typeof callback == "function"){
                 callbackList.push(callback);
             }
-            contentLoadData[context] = true;
+            if(typeof context == "string"){
+                contentLoadData[context] = true;
+            }
             if(contentLoadData.GlobalBar && contentLoadData.LocalContent &&
                 contentLoadData.UserState){
                 setShowContent(true);
@@ -134,6 +136,6 @@ render(() =>{
             :
                 undefined
         }
-        <Scrollbar/>
+        <Scrollbar report={(callback) => { contentLoadReport(undefined, callback) }}/>
     </Router>;
 }, document.body);
