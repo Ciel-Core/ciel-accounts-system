@@ -114,28 +114,27 @@ function addSession($UID, $input){
 
 // Check if a session ID is valid (true-valid,false-invalid)
 function checkSessionStatus(){
+    $isValid = true;
     global $DATABASE_CoreTABLE__sessions;
     $connection = connectMySQL(DATABASE_READ_AND_WRITE);
     $SID = mysqli_real_escape_string($connection, $_COOKIE["SID"]);
+    // Check if the session has expired!
     $result = executeQueryMySQL($connection, "SELECT `TimeoutTimestamp`
                                                 FROM $DATABASE_CoreTABLE__sessions
                                                 WHERE `SID` = '$SID'");
     if($result){
         $timeoutTimestamp = strToTimestamp(mysqli_fetch_assoc($result)["TimeoutTimestamp"]);
-        // Check if the session has expired!
         if(time() >= $timeoutTimestamp){
-            executeQueryMySQL($connection, "DELETE FROM $DATABASE_CoreTABLE__sessions
-                                            WHERE `SID` = '$SID'");
-            $connection->close();
-            return false;
-        }else{
-            $connection->close();
-            return true;
+            $isValid = false;
         }
-    }else{
-        $connection->close();
-        return false;
     }
+    // Delete session from database
+    if(!($isValid)){
+        executeQueryMySQL($connection, "DELETE FROM $DATABASE_CoreTABLE__sessions
+                                            WHERE `SID` = '$SID'");
+    }
+    $connection->close();
+    return $isValid;
 }
 
 // Check active sessions (user-specific)
