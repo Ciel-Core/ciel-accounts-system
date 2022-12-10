@@ -21,14 +21,11 @@ if($_SERVER['REQUEST_METHOD'] != 'POST'){
 // Only allow the host to access these pages
 // (works only with browsers that support the 'referer' value, dependent on the client)
 // Might be better off without this code!
-if($_SERVER['SERVER_NAME'] != parse_url($_SERVER['HTTP_REFERER'])['host']){
+if($_SERVER['SERVER_NAME'] != parse_url($_SERVER['HTTP_REFERER'])['host'] ||
+    $_SERVER['SERVER_NAME'] != parse_url($_SERVER['HTTP_ORIGIN'])['host']){
     $RESPONSE_SUCCESS_STATUS = false;
     $RESPONSE_CODE = BLOCKED_REQUEST;
-    if($_SERVER['HTTP_REFERER'] == ""){
-        $RESPONSE_TEXT = "Request must include the referer value!";
-    }else{
-        $RESPONSE_TEXT = "Only the script host is allowed to access this page!";
-    }
+    $RESPONSE_TEXT = "Only the script host is allowed to access this page!";
     echo '{';
     require 'JSON_response_attachment.php';
     exit("}");
