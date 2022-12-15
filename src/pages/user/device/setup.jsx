@@ -52,7 +52,7 @@ export default function DeviceAuthSetup(props){
             You could use this device as a <Mark>trusted device</Mark> to authenticate your logins!
         </h3>
         <FlexContainer space={"around"} style={{width: "400px"}}>
-            <Notice>
+            <Notice center>
                 You can only set up devices with passwords or other similar security
                 measures as trusted devices!
             </Notice>
