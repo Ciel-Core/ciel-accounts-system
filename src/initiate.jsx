@@ -36,6 +36,15 @@ import { isForcedDarkMode } from './assets/scripts/theme.jsx';
 import { checkConnection } from './assets/scripts/internetConnection.jsx';
 import { detectDevTools, alertDevMode } from './assets/scripts/console.jsx';
 
+let animFinishCallback = [];
+export const [showAnimFinished, setSAF] = createSignal(false),
+    onLoadAnimationFinished = function(callback){
+        if(showAnimFinished()){
+            callback();
+        }else{
+            animFinishCallback.push(callback);
+        }
+    };
 render(() =>{
 
     // Detect desired view form
@@ -102,13 +111,16 @@ render(() =>{
     });
 
     // Detect when the content animation is finished
-    const [showAnimFinished, setSAF] = createSignal(false);
     createEffect(() => {
         if(showContent() && !showAnimFinished()){
             if(viewMode == "content-only" && typeof parent.contentLoaded == "function"){
                 parent.contentLoaded();
             }
             setTimeout(function(){
+                // Animations finished
+                while(animFinishCallback.length != 0){
+                    (animFinishCallback.pop())();
+                }
                 setSAF(true);
             }, 1500);
         }
