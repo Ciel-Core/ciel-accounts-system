@@ -53,10 +53,17 @@ function closeConnection($d){
 }
 
 // Import needed libraries
-require_once './../../APIs/tools/data.secret.php';
+require "./../../security/check.php";
+require "./../../data.secret.php";
 require_once './../../APIs/tools/tool.dates.php';
 require_once './../../APIs/tools/sql.database.php';
 require_once './../../APIs/tools/sql.user.data.php';
+
+// Check if the connection is not allowed
+if(!($STATE_HOSTED_LOCALLY) && !(isSecureConnection())){
+    serverErrorUpdate("CONNECTION");
+    closeConnection("1");
+}
 
 // Connect to the core_accounts database
 $coreAccountsDB = connectMySQL(DATABASE_READ_ONLY, false);
