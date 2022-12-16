@@ -108,7 +108,7 @@ export default function DeviceAuth(props){
         <h3>Verify your identity using <Mark>your device</Mark>!</h3>
         <FlexContainer space={"around"} style={{width: "400px"}}>
             <Notice center>
-                You will be prompted with an authentication dialogue in a moment!
+                You will be prompted with an authentication dialog in a moment!
             </Notice>
         </FlexContainer>
     </>);
