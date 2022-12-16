@@ -43,6 +43,27 @@ export let richData = {
                 "query-input": "required name=search_term_string"
             }
         }
+    },
+    // [name, ?item], [], ...
+    breadcrumbList(...items){
+        let list = [];
+        for(let i = 0; i < items.length; i++){
+            let item = items[i],
+                data = {
+                    "@type": "ListItem",
+                    "position": i + 1,
+                    "name": item[0]
+                };
+            if(item[1] != undefined){
+                data.item = item[1];
+            }
+            list.push(data);
+        }
+        return {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": list
+        }
     }
 };
 

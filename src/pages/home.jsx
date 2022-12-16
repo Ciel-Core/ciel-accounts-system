@@ -16,6 +16,16 @@ import {
 } from './../assets/components/CustomElements.jsx';
 import { onLoadAnimationFinished, showAnimFinished } from './../initiate.jsx';
 import { useLocation, useNavigate } from '@solidjs/router';
+import { addRichData, richData } from './../assets/scripts/SEO/richData.jsx';
+
+export function homeRichData(){
+    addRichData(true,
+        richData.breadcrumbList(
+            ["Home", `${location.origin}/`],
+            ["Help", `${location.origin}/help`]
+        )
+    );
+}
 
 function sectionContent(location, done){
     if(location == "/"){
@@ -208,6 +218,7 @@ export default function Home(props){
         props.pageUnloading();
     });
     onMount(() => {
+        homeRichData();
         createEffect(() => {
             let loc = location.pathname.replace(/[#?].*$/g, "");
             let section = document.querySelector(`[data-path='${loc}']`);
