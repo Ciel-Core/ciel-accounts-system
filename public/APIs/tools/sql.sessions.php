@@ -115,19 +115,47 @@ function addSession($UID, $input){
 // Check if a session ID is valid (true-valid,false-invalid)
 function checkSessionStatus(){
     $isValid = true;
-    global $DATABASE_CoreTABLE__sessions;
+    global $DATABASE_CoreTABLE__sessions, $DATABASE_CoreTABLE__security, $CLIENT_IPAddress;
     $connection = connectMySQL(DATABASE_READ_AND_WRITE);
     $SID = mysqli_real_escape_string($connection, $_COOKIE["SID"]);
     // Check if the session has expired!
-    $result = executeQueryMySQL($connection, "SELECT `TimeoutTimestamp`
+    $result = executeQueryMySQL($connection, "SELECT `TimeoutTimestamp`, `IPAddress`
                                                 FROM $DATABASE_CoreTABLE__sessions
                                                 WHERE `SID` = '$SID'");
     if($result){
-        $timeoutTimestamp = strToTimestamp(mysqli_fetch_assoc($result)["TimeoutTimestamp"]);
+        $result = mysqli_fetch_assoc($result);
+        $timeoutTimestamp = strToTimestamp($result["TimeoutTimestamp"]);
         if(time() >= $timeoutTimestamp){
             $isValid = false;
+        }else if($result["IPAddress"] != $CLIENT_IPAddress){
+            // Get the user's ID!
+            $UID = 0;
+            $result = executeQueryMySQL($connection,
+                            "SELECT `UID` FROM $DATABASE_CoreTABLE__sessions WHERE `SID` = '$SID'");
+            if($result){
+                $UID = mysqli_fetch_assoc($result)["UID"];
+            }
+            if($UID == 0){
+                $isValid = false;
+            }else{
+                // Check the user's security preferences in order to decide if this session
+                // should be terminated!
+                // (Note that the user's IP address could change from time to time!)
+                $result = executeQueryMySQL($connection, "SELECT `StrictConnectionPolicy`
+                                                            FROM $DATABASE_CoreTABLE__security
+                                                            WHERE `UID` = $UID");
+                if($result){
+                    $strictConnectionPolicy = mysqli_fetch_assoc($result)["StrictConnectionPolicy"];
+                    if($strictConnectionPolicy){
+                        $isValid = false;
+                    }
+                }else{
+                    $isValid = false;
+                }    
+            }
         }
     }
+    unset($result);
     // Delete session from database
     if(!($isValid)){
         executeQueryMySQL($connection, "DELETE FROM $DATABASE_CoreTABLE__sessions

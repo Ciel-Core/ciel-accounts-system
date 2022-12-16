@@ -74,7 +74,8 @@ CREATE TABLE `security` (
   `SecurityQuestionAns3` tinytext NOT NULL,
   `Require2FA` tinyint(1) UNSIGNED NOT NULL DEFAULT 0,
   `FailedLoginAttempts` tinyint(3) UNSIGNED NOT NULL DEFAULT 0,
-  `LoginCooldownTimeout` timestamp NULL DEFAULT NULL
+  `LoginCooldownTimeout` timestamp NULL DEFAULT NULL,
+  `StrictConnectionPolicy` tinyint(1) UNSIGNED NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
