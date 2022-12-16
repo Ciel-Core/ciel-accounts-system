@@ -104,7 +104,7 @@ export default function LoginPassword(props){
                                                 checkPlatformSupport(function(error, supported){
                                                     isDone(data, supported);
                                                 });
-                                            }else if(!data.validUser){
+                                            }else if(data != undefined && !data.validUser){
                                                 if(data.onCooldown){
                                                     setInputState(password, false,
                                                                     `Account on login cooldown!

@@ -77,7 +77,7 @@ export default function DeviceAuth(props){
                                 updateUserState(function(){
                                     loginSuccessful(navigate);
                                 }, true);
-                            }else if(!data.validUser){
+                            }else if(data != undefined && !data.validUser){
                                 errorFunc();
                             }else{
                                 // Authn successful, couldn't log user in!
@@ -107,8 +107,8 @@ export default function DeviceAuth(props){
         <br/>
         <h3>Verify your identity using <Mark>your device</Mark>!</h3>
         <FlexContainer space={"around"} style={{width: "400px"}}>
-            <Notice style={{"text-align": "center"}}>
-                You will be prompted with an authentication dialogue in a moment!
+            <Notice center>
+                You will be prompted with an authentication dialog in a moment!
             </Notice>
         </FlexContainer>
     </>);

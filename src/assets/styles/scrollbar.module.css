@@ -37,7 +37,7 @@
 
 .scrollbarContainer:hover,
 .scrollbarContainer:focus-within {
-    width: calc(var(--page-margin) * 1.5);
+    width: calc(var(--page-margin) + 8px);
     animation-name: fadeIn;
     animation-duration: 0s;
     animation-delay: 0s;

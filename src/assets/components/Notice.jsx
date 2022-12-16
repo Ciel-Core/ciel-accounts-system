@@ -10,7 +10,8 @@ import { processProps } from './_custom.jsx';
 
 export function Notice(props){
     let basicProps = processProps(props, generalStyles.notice,
-                                    (props.smaller) ? generalStyles.smallerNotice : undefined);
+                                    (props.smaller) ? generalStyles.smallerNotice : undefined,
+                                    (props.center) ? generalStyles.centerNotice : undefined);
     return (
         <div ref={props.ref} class={basicProps.class} style={basicProps.style}>
             <text>{props.children}</text>

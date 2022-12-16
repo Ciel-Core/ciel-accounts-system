@@ -64,6 +64,7 @@ export function createPublicKey(username, callback){
                             residentKey: "discouraged",
                             userVerification: "required"
                         },
+                        excludeCredentials: [],
                         timeout: 60000,
                         attestation: "direct"
                     }

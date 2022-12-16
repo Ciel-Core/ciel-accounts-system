@@ -14,7 +14,18 @@ import { userData } from './../assets/scripts/user.jsx';
 import {
     FlexContainer, LoadingSpinner, Mark, NavBar, SearchBox
 } from './../assets/components/CustomElements.jsx';
+import { onLoadAnimationFinished, showAnimFinished } from './../initiate.jsx';
 import { useLocation, useNavigate } from '@solidjs/router';
+import { addRichData, richData } from './../assets/scripts/SEO/richData.jsx';
+
+export function homeRichData(){
+    addRichData(true,
+        richData.breadcrumbList(
+            ["Home", `${location.origin}/`],
+            ["Help", `${location.origin}/help`]
+        )
+    );
+}
 
 function sectionContent(location, done){
     if(location == "/"){
@@ -175,17 +186,13 @@ function HomeSection(props){
     </div>);
 }
 
-let firstLoad = true;
 export default function Home(props){
     let location = useLocation(),
         loading,
         loadedCount = 0,
         loadedSection = function(){
             if(++loadedCount == links.length){
-                props.pageLoaded(() => (firstLoad) ?
-                                            setTimeout(() => setAFS(true), 1200)
-                                        :
-                                            setAFS(true));
+                props.pageLoaded();
             }
         }, links = [
             ["Home", "/"],
@@ -211,19 +218,22 @@ export default function Home(props){
         props.pageUnloading();
     });
     onMount(() => {
+        homeRichData();
         createEffect(() => {
             let loc = location.pathname.replace(/[#?].*$/g, "");
             let section = document.querySelector(`[data-path='${loc}']`);
             setHelp("control-panel");
             if(section instanceof HTMLElement && allowFirstScroll()){
-                if(firstLoad){
-                    firstLoad = false;
+                if(!showAnimFinished()){
                     showContent(section);
                 }else if(sectionsParent.dataset.blockCodedScroll != "true" && allowResize){
                     showContent(section);
                 }
             }
         });
+    });
+    onLoadAnimationFinished(() => {
+        setAFS(true);
     });
     return <>
         <Title></Title>

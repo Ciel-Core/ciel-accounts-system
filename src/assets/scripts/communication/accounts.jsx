@@ -5,30 +5,8 @@
  **/
 
 import { makeRequest } from './../loader.jsx';
-import { log, throwError, isDevMode } from './../console.jsx';
-
-async function jsonPOST(url, json){
-    return new Promise((resolve,reject)=>{
-        fetch(url, {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                devMode: isDevMode,
-                ...json
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            log("Accounts", url, data);
-            resolve(data);
-        }).catch(error => {
-            reject(error);
-        });
-    });
-}
+import { throwError } from './../console.jsx';
+import { jsonPOST } from './post.jsx';
 
 // Prevent callback errors from causing unintended callbacks!
 function errorWrapper(callback, ...args){

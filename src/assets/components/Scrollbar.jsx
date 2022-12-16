@@ -65,31 +65,44 @@ function setupScrollEnd(){
     document.onmouseup = f;
 }
 
-export default function Scrollbar(){
+export default function Scrollbar(props){
     // Scrollbar height: calc(100VH - 12px)
     let scrollbarContainer;
 
     onMount(() => {
-        let updateScrollbar = function(){
-            if(typeof parent.sizeChange == "function"){
-                parent.sizeChange();
-            }
-            if(document.body.scrollHeight <= window.innerHeight){
-                scrollbarContainer.style.display = "none";
-            }else{
-                handleHeight = (window.innerHeight/document.body.scrollHeight)
-                                *(window.innerHeight - 16); // WATCH OUT, REMEMBER TO UPDATE
-                                                            // THIS WHEN YOU CHANGE THE STYLE
-                                                            // OF THE SCROLLBAR
-                handle.style.height = `${handleHeight}px`;
-                scrollbarContainer.style.display = null;
-            }
-        };
-        observeBody(updateScrollbar);
-        afterURLChange(updateScrollbar);
-        setUpScroll();
-        setupScrollStart();
-        setupScrollEnd();
+        let lockScrollbar = false,
+            updateScrollbar = function(){
+                // Global bar content size change report
+                if(typeof parent.sizeChange == "function"){
+                    parent.sizeChange();
+                }
+                if(!lockScrollbar){
+                    if(document.body.scrollHeight <= window.innerHeight){
+                        scrollbarContainer.style.display = "none";
+                    }else{
+                        handleHeight = (window.innerHeight/document.body.scrollHeight)
+                                        *(window.innerHeight - 16); // WATCH OUT, REMEMBER TO UPDATE
+                                                                    // THIS WHEN YOU CHANGE THE
+                                                                    // STYLE OF THE SCROLLBAR
+                        handle.style.height = `${handleHeight}px`;
+                        scrollbarContainer.style.display = null;
+                    }
+                }
+            };
+        scrollbarContainer.style.display = "none";
+        props.report(function(){
+            observeBody(updateScrollbar);
+            afterURLChange(updateScrollbar);
+            setUpScroll();
+            setupScrollStart();
+            setupScrollEnd();
+            lockScrollbar = true;
+            // Do not show the scrollbar unti the loading animations are finished!
+            setTimeout(function(){
+                lockScrollbar = false;
+                updateScrollbar();
+            }, 1900);
+        });
         onScrollMove(function(diff){
             window.scrollTo(0, window.scrollY +
                                 diff*(document.body.scrollHeight/(window.innerHeight - 16)));

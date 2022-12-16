@@ -53,7 +53,7 @@ INSERT INTO `preferences`
 --
 
 CREATE TABLE `reservedusernames` (
-  `IPAddress` varchar(15) NOT NULL,
+  `IPAddress` varchar(39) NOT NULL,
   `Username` varchar(20) NOT NULL,
   `TimeoutTimestamp` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -74,7 +74,8 @@ CREATE TABLE `security` (
   `SecurityQuestionAns3` tinytext NOT NULL,
   `Require2FA` tinyint(1) UNSIGNED NOT NULL DEFAULT 0,
   `FailedLoginAttempts` tinyint(3) UNSIGNED NOT NULL DEFAULT 0,
-  `LoginCooldownTimeout` timestamp NULL DEFAULT NULL
+  `LoginCooldownTimeout` timestamp NULL DEFAULT NULL,
+  `StrictConnectionPolicy` tinyint(1) UNSIGNED NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -101,9 +102,10 @@ INSERT INTO `security`
 CREATE TABLE `sessions` (
   `SID` varchar(216) NOT NULL,
   `UID` bigint(11) UNSIGNED NOT NULL,
+  `LocalID` tinyint(1) UNSIGNED NOT NULL,
   `StartTimestamp` timestamp NOT NULL DEFAULT current_timestamp(),
   `TimeoutTimestamp` timestamp NULL DEFAULT NULL,
-  `IPAddress` varchar(15) NOT NULL,
+  `IPAddress` varchar(39) NOT NULL,
   `UserAgent` text NOT NULL,
   `Country` tinytext NOT NULL,
   `Region` tinytext NOT NULL,
@@ -159,7 +161,7 @@ CREATE TABLE `users` (
   `Username` varchar(20) NOT NULL,
   `DisplayUsername` varchar(20) NOT NULL,
   `CreationDate` timestamp NOT NULL DEFAULT current_timestamp(),
-  `CreationIPAddress` varchar(15) NOT NULL DEFAULT '0.0.0.0',
+  `CreationIPAddress` varchar(39) NOT NULL DEFAULT 'UNKNOWN',
   `PasswordHash` varchar(64) NOT NULL,
   `FirstName` varchar(32) NOT NULL,
   `LastName` varchar(32) NOT NULL,

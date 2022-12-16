@@ -35,7 +35,17 @@ import { showDialog } from './assets/components/CustomElements.jsx';
 import { isForcedDarkMode } from './assets/scripts/theme.jsx';
 import { checkConnection } from './assets/scripts/internetConnection.jsx';
 import { detectDevTools, alertDevMode } from './assets/scripts/console.jsx';
+import { addConstantRichData, richData } from './assets/scripts/SEO/richData.jsx';
 
+let animFinishCallback = [];
+export const [showAnimFinished, setSAF] = createSignal(false),
+    onLoadAnimationFinished = function(callback){
+        if(showAnimFinished()){
+            callback();
+        }else{
+            animFinishCallback.push(callback);
+        }
+    };
 render(() =>{
 
     // Detect desired view form
@@ -53,7 +63,9 @@ render(() =>{
             if(typeof callback == "function"){
                 callbackList.push(callback);
             }
-            contentLoadData[context] = true;
+            if(typeof context == "string"){
+                contentLoadData[context] = true;
+            }
             if(contentLoadData.GlobalBar && contentLoadData.LocalContent &&
                 contentLoadData.UserState){
                 setShowContent(true);
@@ -100,17 +112,23 @@ render(() =>{
     });
 
     // Detect when the content animation is finished
-    const [showAnimFinished, setSAF] = createSignal(false);
     createEffect(() => {
         if(showContent() && !showAnimFinished()){
             if(viewMode == "content-only" && typeof parent.contentLoaded == "function"){
                 parent.contentLoaded();
             }
             setTimeout(function(){
+                // Animations finished
+                while(animFinishCallback.length != 0){
+                    (animFinishCallback.pop())();
+                }
                 setSAF(true);
             }, 1500);
         }
     });
+
+    // Manage global rich data
+    addConstantRichData(richData.searchAction());
 
     // Return the global page content
     return <Router>
@@ -134,6 +152,6 @@ render(() =>{
             :
                 undefined
         }
-        <Scrollbar/>
+        <Scrollbar report={(callback) => { contentLoadReport(undefined, callback) }}/>
     </Router>;
 }, document.body);

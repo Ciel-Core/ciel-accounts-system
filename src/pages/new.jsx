@@ -7,12 +7,14 @@
 import { Title } from './../assets/components/Title.jsx';
 import { Button, Mark, FlexContainer } from './../assets/components/CustomElements.jsx';
 import { onCleanup, onMount } from 'solid-js';
+import { homeRichData } from './home.jsx';
 
 export default function New(props){
     onCleanup(() => {
         props.pageUnloading();
     });
     onMount(() => {
+        homeRichData();
         props.pageLoaded();
     });
     return (<>

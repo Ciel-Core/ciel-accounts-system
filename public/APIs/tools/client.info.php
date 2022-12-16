@@ -16,6 +16,8 @@ if(filter_var($client, FILTER_VALIDATE_IP)){
 }else{
     $CLIENT_IPAddress = $remote;
 }
+$CLIENT_IPAddress = filter_var($CLIENT_IPAddress, FILTER_VALIDATE_IP);
+$CLIENT_IPAddress = ($CLIENT_IPAddress === false) ? 'UNKNOWN' : $CLIENT_IPAddress;
 
 require_once 'sql.sessions.php';
 function CLIENT_isSessionValid(){
