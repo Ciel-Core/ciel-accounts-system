@@ -42,11 +42,11 @@ if(!($STATE_HOSTED_LOCALLY) && !(isSecureConnection())){
     endRequest();
 }
 
-// Only allow connections through port 80
-if($_SERVER['SERVER_PORT'] != 80){
+// Only allow connections through port 443 (HTTPS)
+if(!($STATE_HOSTED_LOCALLY) && $_SERVER['SERVER_PORT'] != 443){
     $RESPONSE_SUCCESS_STATUS = false;
     $RESPONSE_CODE = BLOCKED_REQUEST;
-    $RESPONSE_TEXT = "Requests are only permitted through port 80!";
+    $RESPONSE_TEXT = "Requests are only permitted through port 443!";
     endRequest();
 }
 
