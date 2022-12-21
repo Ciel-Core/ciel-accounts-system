@@ -26,7 +26,7 @@
     echo        strval($RESPONSE_CODE);
     echo    ',';
     echo    '"text": "';
-    echo        addslashes($RESPONSE_TEXT);
+    echo        addcslashes($RESPONSE_TEXT, '"');
     echo    '"';
     echo '}';
 
