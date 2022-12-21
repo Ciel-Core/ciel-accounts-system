@@ -3,11 +3,15 @@
 // Mark this file as a JSON file
 header('Content-Type: application/json; charset=utf-8');
 
+// Check if the user is making a request in dev mode
+global $DEV_MODE;
+$DEV_MODE = (isset($_SERVER['HTTP_DEV_MODE']) && $_SERVER['HTTP_DEV_MODE'] == "true");
+
 require __DIR__.'/../../data.secret.php';
 require __DIR__.'/../../security/check.php';
 
 // Disable warnings
-error_reporting(E_ERROR | E_PARSE);
+error_reporting(($DEV_MODE) ? (E_ERROR | E_PARSE) : (0));
 
 // End request
 function endRequest(){
