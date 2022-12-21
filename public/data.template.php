@@ -57,7 +57,8 @@ $STATE_HOSTED_LOCALLY           =    ($_SERVER['SERVER_NAME'] === "localhost");
 // core_accounts database
 /*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*/
 if($STATE_HOSTED_LOCALLY){    /*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*/
-$DATABASE_serverName            =    $_SERVER['HTTP_HOST'].':PORT';        /*-*/
+$DATABASE_serverName            =    $_SERVER['HTTP_HOST'];                /*-*/
+$DATABASE_serverPort            =    3306;                                 /*-*/
 $DATABASE_name                  =    "core_accounts";                      /*-*/
 $DATABASE_username_RW           =    "username"; // Read and write         /*-*/
 $DATABASE_password_RW           =    "password";                           /*-*/
@@ -68,7 +69,8 @@ $DATABASE_password_W            =    "password";                           /*-*/
 /*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*/
 }else{    /*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*/
 /*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*/
-$DATABASE_serverName            =    $_SERVER['HTTP_HOST'].':PORT';        /*-*/
+$DATABASE_serverName            =    $_SERVER['HTTP_HOST'];                /*-*/
+$DATABASE_serverPort            =    3306;                                 /*-*/
 $DATABASE_name                  =    "core_accounts";                      /*-*/
 $DATABASE_username_RW           =    "username"; // Read and write         /*-*/
 $DATABASE_password_RW           =    "password";                           /*-*/
