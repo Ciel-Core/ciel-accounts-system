@@ -3,3 +3,5 @@ php_server_folder
 dist
 dev-dist
 **.secret.**
+**.secret
+secret.**
