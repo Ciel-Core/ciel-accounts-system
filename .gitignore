@@ -1,7 +1,6 @@
 node_modules
-php_server_folder
 dist
-dev-dist
+**-dist
 **.secret.**
 **.secret
 secret.**
