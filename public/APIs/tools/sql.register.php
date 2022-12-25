@@ -2,13 +2,33 @@
 
 require_once 'sql.database.php';
 
+// Delete waste data
+function deleteRegisterFailWaste($connection, $CreationIPAddress, $UID, $Username = ''){
+    global $DATABASE_CoreTABLE__users;
+    // Delete user data!
+    // Note: all tables with the UID value are linked with the 'users' table! If a row in
+    // the 'users' table is deleted, the correlated rows in the other linked tables will
+    // also get deleted.
+    executeQueryMySQL($connection, "DELETE FROM `$DATABASE_CoreTABLE__users`
+                                            WHERE `UID` = $UID
+                                            OR `Username` = '$Username'", false);
+    // Delete other waste data
+    deleteRegisterWaste($connection, $CreationIPAddress);
+}
+function deleteRegisterWaste($connection, $CreationIPAddress){
+    global $DATABASE_CoreTABLE__reservedUsernames;
+    // Delete the username cooldown
+    executeQueryMySQL($connection, "DELETE FROM $DATABASE_CoreTABLE__reservedUsernames
+                                            WHERE `IPAddress` = '$CreationIPAddress'", false);
+}
+
 // Attempt to register the user in the databse
 // return TRUE on success, FALSE on failure
 function registerUser($input){
     global $DATABASE_CoreTABLE__preferences, $DATABASE_CoreTABLE__security,
         $DATABASE_CoreTABLE__users, $DATABASE_CoreTABLE__reservedUsernames,
         $DATABASE_CoreTABLE__system,
-        $DATABASE_secretSault1, $DATABASE_secretSault2,
+        $DATABASE_secretSalt1, $DATABASE_secretSalt2,
         $CLIENT_IPAddress;
     $connection = connectMySQL(DATABASE_READ_AND_WRITE);
 
@@ -16,8 +36,6 @@ function registerUser($input){
     require_once 'client.info.php';
     $Username = mysqli_real_escape_string($connection, strtolower($input->username));
     $DisplayUsername = mysqli_real_escape_string($connection, $input->username);
-    $PasswordHash = hash("sha256", $DATABASE_secretSault1.($input->passwordHash)
-                                    .$DATABASE_secretSault2);
     $FirstName = mysqli_real_escape_string($connection, $input->name->first);
     $LastName = mysqli_real_escape_string($connection, $input->name->last);
     $Birthdate = $input->birthdate->year."-".$input->birthdate->month."-".$input->birthdate->day;
@@ -29,10 +47,10 @@ function registerUser($input){
     // Attempt to register basic user info 
     if(executeQueryMySQL($connection,
             "INSERT INTO `$DATABASE_CoreTABLE__users`
-                (`Username`,  `DisplayUsername`,  `CreationIPAddress`,  `PasswordHash`,
+                (`Username`,  `DisplayUsername`,  `CreationIPAddress`,
                 `FirstName`,  `LastName`,  `Birthdate`,  `GenderName`, `Pronounce`, `Lang`)
             VALUES
-                ('$Username', '$DisplayUsername', '$CreationIPAddress', '$PasswordHash',
+                ('$Username', '$DisplayUsername', '$CreationIPAddress',
                 '$FirstName', '$LastName', '$Birthdate', '$GenderName', $Pronounce, '$Lang')"
         )){
 
@@ -53,14 +71,42 @@ function registerUser($input){
                                                                 $input->securityQuestions->a2);
         $SecurityQuestionAns3 = mysqli_real_escape_string($connection,
                                                                 $input->securityQuestions->a3);
+        
+        // Create the user's key pair!
+        require_once "tool.ssl.php";
+        $keys = generateKeyPair(true, false);
+        if(!($keys)){
+            // Delete user data
+            deleteRegisterFailWaste($connection, $CreationIPAddress, $UID, $Username);
+            $connection->close();
+            // Report error!
+            responseReport(BACKEND_ERROR, "Couldn't generate user key pair!");
+        }
+        $PublicKey = $keys->public;
+        $PrivateKey = $keys->private;
+
+        // Update the user's password hash!
+        // By doing this, hackers can't use a completed hash table for one user on
+        // other user's password hash!
+        $PasswordHash = hash("sha256",
+                                    dataScatter($DATABASE_secretSalt1, $PublicKey).
+                                        ($input->passwordHash).
+                                    dataScatter($DATABASE_secretSalt2, $PublicKey)
+                                );
+            executeQueryMySQL($connection, "UPDATE $DATABASE_CoreTABLE__users
+                                            SET `PasswordHash` = '$PasswordHash'
+                                            WHERE `UID` = $UID");
+
 
         // Attempt to register the security questions
         if($UIDStatus && executeQueryMySQL($connection,
                 "INSERT INTO `$DATABASE_CoreTABLE__security`
-                    (`UID`, `SecurityQuestion1`, `SecurityQuestion2`, `SecurityQuestion3`,
+                    (`UID`, `PrivateKey`,  `PublicKey`,
+                     `SecurityQuestion1`, `SecurityQuestion2`, `SecurityQuestion3`,
                      `SecurityQuestionAns1`,  `SecurityQuestionAns2`,  `SecurityQuestionAns3`)
                 VALUES
-                    ($UID,  $SecurityQuestion1,  $SecurityQuestion2,  $SecurityQuestion3,
+                    ($UID,  '$PrivateKey', '$PublicKey',
+                     $SecurityQuestion1,  $SecurityQuestion2,  $SecurityQuestion3,
                      '$SecurityQuestionAns1', '$SecurityQuestionAns2', '$SecurityQuestionAns3')"
             )){
 
@@ -88,28 +134,16 @@ function registerUser($input){
                     )){
 
                     // Delete user data
-                    executeQueryMySQL($connection, "DELETE FROM `$DATABASE_CoreTABLE__users`
-                                                    WHERE `UID` = $UID");
-                    // Delete the username cooldown
-                    executeQueryMySQL($connection, "DELETE
-                                                    FROM $DATABASE_CoreTABLE__reservedUsernames
-                                                    WHERE `IPAddress` = '$CreationIPAddress'");
+                    deleteRegisterFailWaste($connection, $CreationIPAddress, $UID, $Username);
                     $connection->close();
                     return false;
                 }else{
-                    // Delete the username cooldown
-                    executeQueryMySQL($connection, "DELETE
-                                                    FROM $DATABASE_CoreTABLE__reservedUsernames
-                                                    WHERE `IPAddress` = '$CreationIPAddress'"
-                                                , false);
+                    // Delete waste data
+                    deleteRegisterWaste($connection, $CreationIPAddress);
                 }
             }else{
                 // Delete user data
-                executeQueryMySQL($connection, "DELETE FROM `$DATABASE_CoreTABLE__users`
-                                                        WHERE `UID` = $UID");
-                // Delete the username cooldown
-                executeQueryMySQL($connection, "DELETE FROM $DATABASE_CoreTABLE__reservedUsernames
-                                                        WHERE `IPAddress` = '$CreationIPAddress'");
+                deleteRegisterFailWaste($connection, $CreationIPAddress, $UID, $Username);
                 $connection->close();
                 return false;
             }
@@ -118,15 +152,7 @@ function registerUser($input){
             // Note: all tables with the UID value are linked with the 'users' table! If a row in
             // the 'users' table is deleted, the correlated rows in the other linked tables will
             // also get deleted.
-            if(!($UIDStatus && executeQueryMySQL($connection, "DELETE
-                                                                FROM `$DATABASE_CoreTABLE__users`
-                                                                WHERE `UID` = $UID"))){
-                executeQueryMySQL($connection, "DELETE FROM `$DATABASE_CoreTABLE__users`
-                                                        WHERE `Username` = '$Username'");
-            }
-            // Delete the username cooldown
-            executeQueryMySQL($connection, "DELETE FROM $DATABASE_CoreTABLE__reservedUsernames
-                                                    WHERE `IPAddress` = '$CreationIPAddress'");
+            deleteRegisterFailWaste($connection, $CreationIPAddress, $UID, $Username);
             $connection->close();
             return false;
         }

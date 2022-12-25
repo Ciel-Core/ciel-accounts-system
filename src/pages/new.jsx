@@ -21,10 +21,7 @@ export default function New(props){
         <Title>Welcome</Title>
         <h1>Track your internets,<br/>with a <Mark>{import.meta.env.VITE_NAME} account</Mark>!</h1>
         <br/>
-        <h3>
-            Use one account for all supported websites and services and keep track of all your
-            important activities in one place!
-        </h3>
+        <h3>{import.meta.env.VITE_DESCRIPTION}</h3>
         <FlexContainer>
             <Button type={"link"} href={"/user/login"} primary>Sign In to your Account</Button>
             <br/>

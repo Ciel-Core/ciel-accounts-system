@@ -1,16 +1,13 @@
 <?php
 
 require_once 'sql.database.php';
+require_once 'sql.user.data.php';
 require_once './../../tools/tool.dates.php';
 
 function signInStage1($input){
     global $DATABASE_CoreTABLE__users, $DATABASE_CoreTABLE__security,
-        $DATABASE_secretSault1, $DATABASE_secretSault2;
+        $DATABASE_secretSalt1, $DATABASE_secretSalt2;
     $connection = connectMySQL(DATABASE_READ_AND_WRITE);
-
-    $EscapedUsername = mysqli_real_escape_string($connection, strtolower($input->username));
-    $PasswordHash = hash("sha256", $DATABASE_secretSault1.($input->passwordHash)
-                                    .$DATABASE_secretSault2);
 
     // Prepare return object
     $return = (object)array(
@@ -21,16 +18,7 @@ function signInStage1($input){
     );
 
     // Get user ID
-    $UID = NULL;
-    $result = executeQueryMySQL($connection, "SELECT `UID` FROM $DATABASE_CoreTABLE__users
-                                                            WHERE `Username` = '$EscapedUsername'");
-    if($result){
-        $UID = mysqli_fetch_assoc($result)["UID"];
-    }
-    unset($result);
-    if($UID == NULL || !(strlen($UID) > 10)){
-        responseReport(BLOCKED_REQUEST, "Couldn't find user ID!");
-    }
+    $UID = getUIDByUsername($input->username);
 
     // Check if account is on login cooldown
     $FailedLoginAttempts = NULL;
@@ -61,6 +49,15 @@ function signInStage1($input){
     }
 
     if(!($return->onCooldown)){
+        // Generate password hash
+        require_once "tool.ssl.php";
+        $keys = getUserKeyPair($UID);
+        $PasswordHash = hash("sha256",
+                                dataScatter($DATABASE_secretSalt1, $keys->public).
+                                    ($input->passwordHash).
+                                dataScatter($DATABASE_secretSalt2, $keys->public)
+                            );
+    
         // Check if the login info is correct
         $result = executeQueryMySQL($connection, "SELECT 1 FROM $DATABASE_CoreTABLE__users
                                                             WHERE `UID` = $UID

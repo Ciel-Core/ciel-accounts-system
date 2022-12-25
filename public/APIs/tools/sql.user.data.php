@@ -3,7 +3,8 @@
 require_once 'sql.database.php';
 
 function getDataFromTable($connection, $table, $UID, $data){
-    $result = executeQueryMySQL($connection, "SELECT $data FROM $table WHERE `UID` = '$UID'");
+    $UserID = mysqli_real_escape_string($connection, $UID);
+    $result = executeQueryMySQL($connection, "SELECT $data FROM $table WHERE `UID` = $UserID");
     if($result){
         return mysqli_fetch_assoc($result);
     }else{
@@ -40,7 +41,7 @@ function getUID($connection = null, $die = true, $close = true){
     return $UID;
 }
 
-// Get UID by username
+// Get UID by device ID
 function getUIDByDeviceID($deviceID, $connection = null){
     // Connect to database
     global $DATABASE_CoreTABLE__trustedDevices;
@@ -67,6 +68,53 @@ function getUIDByDeviceID($deviceID, $connection = null){
         $connection->close();
     }
     return $UID;
+}
+
+// Get UID by username
+function getUIDByUsername($username, $connection = null){
+    // Connect to database
+    global $DATABASE_CoreTABLE__users;
+    $closeCon = false;
+    if($connection == null){
+        $connection = connectMySQL(DATABASE_READ_ONLY);
+        $closeCon = true;
+    }
+    $Username = mysqli_real_escape_string($connection, $username);
+
+    // Get UID
+    $UID = 0;
+    $result = executeQueryMySQL($connection,
+        "SELECT `UID` FROM $DATABASE_CoreTABLE__users WHERE `Username` = '$Username'");
+    if($result){
+        $UID = mysqli_fetch_assoc($result)["UID"];
+        unset($result);
+    }else{
+        responseReport(BACKEND_ERROR, "Couldn't get user ID");
+    }
+
+    // Return result
+    return $UID;
+}
+
+// Get the key pair of a user
+function getUserKeyPair($UID = NULL){
+    // Connect to database
+    global $DATABASE_CoreTABLE__security;
+    $connection = connectMySQL(DATABASE_READ_ONLY);
+
+    // Get UID
+    if($UID == NULL){
+        $UID = getUID($connection);
+    }
+
+    // Get user data from 'security'
+    $security = (object)getDataFromTable($connection, $DATABASE_CoreTABLE__security, $UID,
+                "`PrivateKey`, `PublicKey`");
+    
+    return (object)array(
+        "public" => $security->PublicKey,
+        "private" => $security->PrivateKey
+    );
 }
 
 // Get all the user data needed by the client!

@@ -7,6 +7,8 @@ header('Content-Type: application/json; charset=utf-8');
 global $DEV_MODE;
 $DEV_MODE = (isset($_SERVER['HTTP_DEV_MODE']) && $_SERVER['HTTP_DEV_MODE'] == "true");
 
+// Get important data
+require __DIR__."/../../config.env.php";
 require __DIR__.'/../../data.secret.php';
 require __DIR__.'/../../security/check.php';
 
