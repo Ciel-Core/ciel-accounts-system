@@ -42,8 +42,8 @@ $DATABASE_serverName, $DATABASE_name,
 $DATABASE_username_RW, $DATABASE_password_RW,
 $DATABASE_username_R, $DATABASE_password_R,
 $DATABASE_username_W, $DATABASE_password_W,
-$DATABASE_secretSault1,
-$DATABASE_secretSault2,
+$DATABASE_secretSalt1,
+$DATABASE_secretSalt2,
 $DATABASE_encryptionKey,
 
 // Secret tokens (for used third-party services)
@@ -81,9 +81,9 @@ $DATABASE_password_W            =    "password";                           /*-*/
 }    /*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*/
 /*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*//*-*/
 
-// Database password saults (24c long each)
-$DATABASE_secretSault1          =    "XXXXXXXXXXXXXXXXXXXXXXXX";
-$DATABASE_secretSault2          =    "XXXXXXXXXXXXXXXXXXXXXXXX";
+// Database global password salts (24c long each)
+$DATABASE_secretSalt1          =    "XXXXXXXXXXXXXXXXXXXXXXXX";
+$DATABASE_secretSalt2          =    "XXXXXXXXXXXXXXXXXXXXXXXX";
 
 // Database encryption key (randomly generated string - 32c long)
 $DATABASE_encryptionKey         =    "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
