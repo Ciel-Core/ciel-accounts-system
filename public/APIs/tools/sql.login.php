@@ -53,9 +53,9 @@ function signInStage1($input){
         require_once "tool.ssl.php";
         $keys = getUserKeyPair($UID);
         $PasswordHash = hash("sha256",
-                                encryptPublic($DATABASE_secretSalt1, $keys->public).
+                                dataScatter($DATABASE_secretSalt1, $keys->public).
                                     ($input->passwordHash).
-                                encryptPublic($DATABASE_secretSalt2, $keys->public)
+                                dataScatter($DATABASE_secretSalt2, $keys->public)
                             );
     
         // Check if the login info is correct

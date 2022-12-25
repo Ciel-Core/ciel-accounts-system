@@ -88,13 +88,12 @@ function registerUser($input){
         // Update the user's password hash!
         // By doing this, hackers can't use a completed hash table for one user on
         // other user's password hash!
-        $d = encryptPublic("Hello there!", $PublicKey);
         $PasswordHash = hash("sha256",
-                                    encryptPublic($DATABASE_secretSalt1, $PublicKey).
+                                    dataScatter($DATABASE_secretSalt1, $PublicKey).
                                         ($input->passwordHash).
-                                    encryptPublic($DATABASE_secretSalt2, $PublicKey)
+                                    dataScatter($DATABASE_secretSalt2, $PublicKey)
                                 );
-        executeQueryMySQL($connection, "UPDATE $DATABASE_CoreTABLE__users
+            executeQueryMySQL($connection, "UPDATE $DATABASE_CoreTABLE__users
                                             SET `PasswordHash` = '$PasswordHash'
                                             WHERE `UID` = $UID");
 

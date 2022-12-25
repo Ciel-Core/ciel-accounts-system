@@ -50,4 +50,26 @@ function decryptPrivate($data, $privateKey){
     return base64_decode($output);
 }
 
+function dataScatter($data, $publicKey){
+    // A hash that is randomised according to the user's public key!
+    // Note that a user's hash seed is not unique!
+    // Get a unique string
+    $hexData = bin2hex(md5($publicKey));
+    // Generate a number (not unique)
+    $seed = 0;
+    for($i = 0; $i < strlen($hexData); $i++){
+        for($d = 1; $d <= 10; $d++){
+            if($i % $d == 0){
+                $seed += (hexdec($hexData[$i]) + 1)*$d + $d + 1;
+            }
+        }
+        if($i % 5 == 0){
+        	$seed *= 10;
+        }
+        $seed++;
+    }
+    // Return a random murmur hash
+    return hash("md5", hash("murmur3f", $data, options: ["seed" => $seed]));
+}
+
 ?>
