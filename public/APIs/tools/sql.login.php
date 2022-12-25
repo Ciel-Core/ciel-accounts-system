@@ -50,6 +50,7 @@ function signInStage1($input){
 
     if(!($return->onCooldown)){
         // Generate password hash
+        require_once "tool.ssl.php";
         $keys = getUserKeyPair($UID);
         $PasswordHash = hash("sha256",
                                 encryptPublic($DATABASE_secretSalt1, $keys->public).
