@@ -157,7 +157,7 @@ Use the `npm run dev-build` command, and host the output inside the `dist` folde
 
 You can deploy the `dist` folder to any host provider with PHP and MySQL support
 
-> PHP version 7.4
+> PHP version 8.1
 
 ### Using WebSockets
 
