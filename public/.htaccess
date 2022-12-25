@@ -34,6 +34,3 @@ RewriteRule .* /index.html [L,NC]
     Header always set   X-Content-Type-Options          "nosniff"
     Header always set   Permissions-Policy              "display-capture=(), screen-wake-lock=(self), payment=(), document-domain=(), publickey-credentials-get=(self), autoplay=(self), camera=(self), fullscreen=(self), microphone=(self), sync-xhr=(self), accelerometer=(), geolocation=(), gyroscope=(), magnetometer=(), encrypted-media=(), picture-in-picture=(), web-share=()"
 </IfModule>
-
-# Environment variables
-SetEnv LOCAL_OPENSSL_CONFIG_PATH C:/xampp1/php/extras/openssl/openssl.cnf
