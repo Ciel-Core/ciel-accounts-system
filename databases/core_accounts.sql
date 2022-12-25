@@ -66,8 +66,8 @@ CREATE TABLE `reservedusernames` (
 
 CREATE TABLE `security` (
   `UID` bigint(11) UNSIGNED NOT NULL,
-  `PrivateKey` text NOT NULL,
-  `PublicKey` text NOT NULL,
+  `PrivateKey` text NULL,
+  `PublicKey` text NULL,
   `SecurityQuestion1` tinyint(1) UNSIGNED NOT NULL,
   `SecurityQuestion2` tinyint(1) UNSIGNED NOT NULL,
   `SecurityQuestion3` tinyint(1) UNSIGNED NOT NULL,
