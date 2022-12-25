@@ -72,7 +72,7 @@ function dataScatter($data, $key){
         $seed++;
     }
     // Return a random murmur hash
-    return hash("md5", hash("murmur3f", hash("md5", $data), options: ["seed" => $seed]));
+    return hash("md5", hash("murmur3f", hash("md5", $data), false, ["seed" => $seed]));
 }
 
 ?>
