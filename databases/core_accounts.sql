@@ -91,9 +91,49 @@ INSERT INTO `security`
     (10000000000, 1, 1, 1, '~answer~', '~answer~', '~answer~');
 INSERT INTO `security`
     (`UID`, `SecurityQuestion1`, `SecurityQuestion2`, `SecurityQuestion3`, `SecurityQuestionAns1`,
-    `SecurityQuestionAns2`, `SecurityQuestionAns3`)
+    `SecurityQuestionAns2`, `SecurityQuestionAns3`,
+    `PrivateKey`, `PublicKey`)
   VALUES
-    (10000000001, 1, 1, 1, '~answer~', '~answer~', '~answer~');
+    (10000000001, 1, 1, 1, '~answer~', '~answer~', '~answer~',
+    '-----BEGIN PRIVATE KEY-----
+MIIEugIBADANBgkqhkiG9w0BAQEFAASCBKQwggSgAgEAAoIBAQDAox2ms/jxWpdH
+UYUK4wKsUEx3g+BjMKmGbhB+vkm/07P0EFcEUZGNDDPVC1tRmRZlV6EZbM4J6IDx
+hyuVXdX0W/vKcWyURwkH1Yx8RXXz76N69LJHn1DenQZgxHh91grHF0XxJFAM72xs
+W6DhMB1NQFnfdZ5sTyAgjl2yXDP0pRlOTsFK5autOox+BzpEJcSFaV5HeeFhaJ2+
+AaJl2ztmM52xy0Poc7qC/J9lL//9q7ZVTgBr+EznCt6FiV/8eqBrifwkXxgGP+ji
+23zdyP0CNCT7MBwmtK8R47OYUMjQzBy6J5FWyvFBIiCw0OvmIfNJyXeNewBFW682
+PeQjKkXPAgMBAAECgf96p2E5w12+TvADeOQ9Ck2paXdGobE9dr552ZqnGIHcoe7y
+d3TwSv9hz2MxQwnh6pdX73OjvKNzq5ZuMqKNeDHCZM7tF0sLHi+hzValyZRQvURa
+BXN+JvJWy6RD+NS/SomSOj9OStCta8SdObo1p20Awvh2T22PiNHr6Lm/1vU9zsSL
+o/LuNbm5HlKuihdP7DJP1G/utoO8Qcb4/8Cqy5pnDegBVooQ1IFG2Ak9i1VxznKp
+gUkD8mNDLz2ysWFAqUBxp9Uyq9W8atXjWoFyhOxqLTPfCLolX0GfYbBt1xCWApoZ
+MyF6waki8+k3q/AHE1OQDMwH/6zBrYsAXetnR4ECgYEA+dqqj7Ku/mcO6czymiu3
+W7Nn3uXORA6nIj+sEKWF91z4jad5+Rb/0j9MmrwaKQuWtFrUhiOK3IOLZqTDPJ/+
+I5n9WJ9XWyzZ6xwts583A0oka743JCBAdPn0yd6tbndRuNPujeF9nPj09QUcls49
+e7ORtZJcp+9zIyrEAmsfpo8CgYEAxWAnV/YygWdlrG3DUDr2P54i3477ArR9JMCm
+GVfQ6jQscVIt4ocOft6f0kU6oZB81URdSllW0W8p3iX7ah8rmOxk8LTs/JouH9k6
+hHPuDj1mtHOR8XXOr+Ssdc05Wa4rkUZWfncMt2UNr1Ros8x8QS+Kbp00y17HGFPc
+81sRDMECgYBRN0IP+b4mVeukFgmaEbHFbhjKfJrCxpyPZnEQ7C0SzjbBHPpp/I7l
+kcvd1F0QkILJV2kTvUPrEBtlHxOThlI+0lRm1Uy5B2hCo2M7qvpf6F7UYv1bkdxB
+6eonIGnxqXl4AfPeTLjfKJG/f4zefGXB6wnnIo9Zy1z6xnD2dEnSgwKBgE30/XUr
+o6UizrC9JcChmTNlZUbBdXkLCsaiZLhry/NFKiyUFdV8HIiVq7BkcZTwua2Oc/5y
+rOzJqFK608OFjjW3YOMFwvi+eOtRZGB+XY84R0GMyB8DteAZRNi+dyFpvoGBs5X9
+tYMWIcKXZ0dkw8sHWPj5lKmixKZiMUnZNTHBAoGAFoGF3PleBr9SttL/Fxvzqq5a
+62e1bqU/DV7B62hMc7g7KUz8xm08ilKFvGCfP8/LAMM4hpLx1gS9JnKrUr2IkVl+
+AJBdbW1UCnT6HrYk4XnN5NblygE7fZZ0BU/IkxQfxVJkHetRhTT8gtnyqWzMsDaR
+gBEZX9YU6bwF3QS4T3o=
+-----END PRIVATE KEY-----
+',
+'-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwKMdprP48VqXR1GFCuMC
+rFBMd4PgYzCphm4Qfr5Jv9Oz9BBXBFGRjQwz1QtbUZkWZVehGWzOCeiA8YcrlV3V
+9Fv7ynFslEcJB9WMfEV18++jevSyR59Q3p0GYMR4fdYKxxdF8SRQDO9sbFug4TAd
+TUBZ33WebE8gII5dslwz9KUZTk7BSuWrrTqMfgc6RCXEhWleR3nhYWidvgGiZds7
+ZjOdsctD6HO6gvyfZS///au2VU4Aa/hM5wrehYlf/Hqga4n8JF8YBj/o4tt83cj9
+AjQk+zAcJrSvEeOzmFDI0MwcuieRVsrxQSIgsNDr5iHzScl3jXsARVuvNj3kIypF
+zwIDAQAB
+-----END PUBLIC KEY-----
+');
 
 -- --------------------------------------------------------
 
@@ -184,7 +224,7 @@ INSERT INTO `users`
     `GenderName`, `Pronounce`)
   VALUES
     (10000000000, 'system', 'SYSTEM',
-    'aa839b55020c3932f704a15c68740cec4e506f4beb80038e6195fcba74e59d33', 'Ciel', 'System',
+    NULL, 'Ciel', 'System',
     '2022-11-01', 'Robot', 0);
 -- tester, password12345
 INSERT INTO `users`
@@ -192,7 +232,7 @@ INSERT INTO `users`
     `GenderName`, `Pronounce`)
   VALUES
     (10000000001, 'tester', 'TESTER',
-    'a39c2e34b43adb546aab7e1a28d2d3e478c08285192469bd9c7de01b39b41b77', 'Test', 'User',
+    '9cb8e7c115cdeadef9787792e455ec336cc67b41572429c351a12995c1f59eca', 'Test', 'User',
     '2022-11-01', 'Unknown', 0);
 
 --
