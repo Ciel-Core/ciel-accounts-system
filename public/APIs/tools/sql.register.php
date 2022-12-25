@@ -2,6 +2,26 @@
 
 require_once 'sql.database.php';
 
+// Delete waste data
+function deleteRegisterFailWaste($connection, $CreationIPAddress, $UID, $Username = ''){
+    global $DATABASE_CoreTABLE__users;
+    // Delete user data!
+    // Note: all tables with the UID value are linked with the 'users' table! If a row in
+    // the 'users' table is deleted, the correlated rows in the other linked tables will
+    // also get deleted.
+    executeQueryMySQL($connection, "DELETE FROM `$DATABASE_CoreTABLE__users`
+                                            WHERE `UID` = $UID
+                                            OR `Username` = '$Username'", false);
+    // Delete other waste data
+    deleteRegisterWaste($connection, $CreationIPAddress);
+}
+function deleteRegisterWaste($connection, $CreationIPAddress){
+    global $DATABASE_CoreTABLE__reservedUsernames;
+    // Delete the username cooldown
+    executeQueryMySQL($connection, "DELETE FROM $DATABASE_CoreTABLE__reservedUsernames
+                                            WHERE `IPAddress` = '$CreationIPAddress'", false);
+}
+
 // Attempt to register the user in the databse
 // return TRUE on success, FALSE on failure
 function registerUser($input){
@@ -54,13 +74,21 @@ function registerUser($input){
         
         // Create the user's key pair!
         require_once "tool.ssl.php";
-        $keys =  generateKeyPair(true);
+        $keys = generateKeyPair(true, false);
+        if(!($keys)){
+            // Delete user data
+            deleteRegisterFailWaste($connection, $CreationIPAddress, $UID, $Username);
+            $connection->close();
+            // Report error!
+            responseReport(BACKEND_ERROR, "Couldn't generate user key pair!");
+        }
         $PublicKey = $keys->public;
         $PrivateKey = $keys->private;
 
         // Update the user's password hash!
         // By doing this, hackers can't use a completed hash table for one user on
         // other user's password hash!
+        $d = encryptPublic("Hello there!", $PublicKey);
         $PasswordHash = hash("sha256",
                                     encryptPublic($DATABASE_secretSalt1, $PublicKey).
                                         ($input->passwordHash).
@@ -107,28 +135,16 @@ function registerUser($input){
                     )){
 
                     // Delete user data
-                    executeQueryMySQL($connection, "DELETE FROM `$DATABASE_CoreTABLE__users`
-                                                    WHERE `UID` = $UID");
-                    // Delete the username cooldown
-                    executeQueryMySQL($connection, "DELETE
-                                                    FROM $DATABASE_CoreTABLE__reservedUsernames
-                                                    WHERE `IPAddress` = '$CreationIPAddress'");
+                    deleteRegisterFailWaste($connection, $CreationIPAddress, $UID, $Username);
                     $connection->close();
                     return false;
                 }else{
-                    // Delete the username cooldown
-                    executeQueryMySQL($connection, "DELETE
-                                                    FROM $DATABASE_CoreTABLE__reservedUsernames
-                                                    WHERE `IPAddress` = '$CreationIPAddress'"
-                                                , false);
+                    // Delete waste data
+                    deleteRegisterWaste($connection, $CreationIPAddress);
                 }
             }else{
                 // Delete user data
-                executeQueryMySQL($connection, "DELETE FROM `$DATABASE_CoreTABLE__users`
-                                                        WHERE `UID` = $UID");
-                // Delete the username cooldown
-                executeQueryMySQL($connection, "DELETE FROM $DATABASE_CoreTABLE__reservedUsernames
-                                                        WHERE `IPAddress` = '$CreationIPAddress'");
+                deleteRegisterFailWaste($connection, $CreationIPAddress, $UID, $Username);
                 $connection->close();
                 return false;
             }
@@ -137,15 +153,7 @@ function registerUser($input){
             // Note: all tables with the UID value are linked with the 'users' table! If a row in
             // the 'users' table is deleted, the correlated rows in the other linked tables will
             // also get deleted.
-            if(!($UIDStatus && executeQueryMySQL($connection, "DELETE
-                                                                FROM `$DATABASE_CoreTABLE__users`
-                                                                WHERE `UID` = $UID"))){
-                executeQueryMySQL($connection, "DELETE FROM `$DATABASE_CoreTABLE__users`
-                                                        WHERE `Username` = '$Username'");
-            }
-            // Delete the username cooldown
-            executeQueryMySQL($connection, "DELETE FROM $DATABASE_CoreTABLE__reservedUsernames
-                                                    WHERE `IPAddress` = '$CreationIPAddress'");
+            deleteRegisterFailWaste($connection, $CreationIPAddress, $UID, $Username);
             $connection->close();
             return false;
         }
