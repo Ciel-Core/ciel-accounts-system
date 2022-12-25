@@ -51,11 +51,11 @@ function decryptPrivate($data, $privateKey){
 }
 
 // Scatter data in a predictable pattern
-function dataScatter($data, $publicKey){
+function dataScatter($data, $key){
     // A hash that is randomised according to the user's public key!
     // Note that a user's hash seed is not unique!
     // Get a unique string
-    $md5Key = md5($publicKey);
+    $md5Key = md5($key);
     $hexKey = bin2hex($md5Key);
     // Generate a number (not unique)
     $seed = 0;
