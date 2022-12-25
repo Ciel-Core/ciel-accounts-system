@@ -66,6 +66,8 @@ CREATE TABLE `reservedusernames` (
 
 CREATE TABLE `security` (
   `UID` bigint(11) UNSIGNED NOT NULL,
+  `PrivateKey` text NOT NULL,
+  `PublicKey` text NOT NULL,
   `SecurityQuestion1` tinyint(1) UNSIGNED NOT NULL,
   `SecurityQuestion2` tinyint(1) UNSIGNED NOT NULL,
   `SecurityQuestion3` tinyint(1) UNSIGNED NOT NULL,
@@ -162,7 +164,7 @@ CREATE TABLE `users` (
   `DisplayUsername` varchar(20) NOT NULL,
   `CreationDate` timestamp NOT NULL DEFAULT current_timestamp(),
   `CreationIPAddress` varchar(39) NOT NULL DEFAULT 'UNKNOWN',
-  `PasswordHash` varchar(64) NOT NULL,
+  `PasswordHash` varchar(64) NULL DEFAULT NULL,
   `FirstName` varchar(32) NOT NULL,
   `LastName` varchar(32) NOT NULL,
   `ProfilePicutre` varchar(26) NOT NULL DEFAULT 'DEFAULT',
