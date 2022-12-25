@@ -196,7 +196,7 @@ export default function Home(props){
             }
         }, links = [
             ["Home", "/"],
-            ["Personal info", "/home/personal"],
+            ["Profile and personalisation", "/home/personal"],
             ["Data and privacy", "/home/privacy"],
             ["Security", "/home/security"],
             ["People and sharing", "/home/sharing"],
