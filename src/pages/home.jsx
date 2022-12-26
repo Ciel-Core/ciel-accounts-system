@@ -7,7 +7,7 @@
 import style from './../assets/styles/general.module.css';
 import homeStyle from './../assets/styles/pages/home.module.css';
 
-import { Title } from './../assets/components/Title.jsx';
+import { setTitle, Title } from './../assets/components/Title.jsx';
 import { Help, setHelp } from './../assets/components/Help.jsx';
 import { createEffect, createSignal, For, lazy, onCleanup, onMount } from 'solid-js';
 import { userData } from './../assets/scripts/user.jsx';
@@ -129,11 +129,11 @@ function Sections(props){
         // Navigate on scroll
         // Disable vert horizontal scrolling
         sections.onscroll = function(){
-            if(allowScrollNav){
-                let children = sections.children;
-                for(let i = 0; i < children.length; i++){
-                    let section = children[i];
-                    if(isSectionVisable(sections, section)){
+            let children = sections.children;
+            for(let i = 0; i < children.length; i++){
+                let section = children[i];
+                if(isSectionVisable(sections, section)){
+                    if(allowScrollNav){
                         // Watch section intersections updates
                         if(sections.interObs instanceof IntersectionObserver){
                             sections.interObs.disconnect();
@@ -152,8 +152,14 @@ function Sections(props){
                             section.style.opacity = 1;
                             navigate(section.dataset.path);
                         }
-                        break;
                     }
+                    // Change page title
+                    if(section.dataset.title.toLowerCase() != "home"){
+                        setTitle(section.dataset.title);
+                    }else{
+                        setTitle();
+                    }
+                    break;
                 }
             }
         };
@@ -250,7 +256,7 @@ export default function Home(props){
         </FlexContainer>
         <Sections ref={sectionsParent} style={{display: "none"}}>
             <For each={links}>{(link) => {
-                return (<HomeSection data-path={link[1]}>
+                return (<HomeSection data-title={link[0]} data-path={link[1]}>
                     {sectionContent(link[1], loadedSection)}
                 </HomeSection>);
             }}</For>
