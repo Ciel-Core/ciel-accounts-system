@@ -9,6 +9,22 @@
     <meta id="theme-color-dark" name="theme-color" media="(prefers-color-scheme: dark)" content="#101313">
 
     <script type="text/javascript">
+        /* Keep track of the console logs */
+        {
+            const consoleLog = console.log;
+            window.IGNORE_LOG = "Log.History.Ignore";
+            console.history = [];
+            console.log = function(...args) {
+                if (args[0] != IGNORE_LOG) {
+                    console.history.push(args);
+                    // Max of 20 logs
+                    if (console.history.length > 20) {
+                        console.history.shift();
+                    }
+                }
+                consoleLog.apply(null, args.slice((args[0] == IGNORE_LOG) ? 1 : 0));
+            };
+        }
         /* Quick colour scheme detection */
         {
             // Get theme colours
