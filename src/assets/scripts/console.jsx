@@ -18,10 +18,13 @@ export function throwError(error){
 
 export function log() {
     // Check 'https://vitejs.dev/guide/env-and-mode.html#modes'
+    let args = [`%c[${arguments[0]}]${(window.childProcess) ? " [Child]" : ""}`,
+                'color: green; font-weight: 800;',
+                ...[...arguments].slice(1)];
     if (isDevMode) {
-        console.log.apply(null, [`%c[${arguments[0]}]${(window.childProcess) ? " [Child]" : ""}`,
-                                    'color: green; font-weight: 800;',
-                                    ...[...arguments].slice(1)]);
+        console.log.apply(null, args);
+    }else{
+        console.log.apply(null, [SILENT_LOG, ...args]);
     }
 }
 
