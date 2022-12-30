@@ -48,6 +48,7 @@ export function alertDevMode(){
     }
 }
 
+let timeout;
 export function detectDevTools(callback) {
     if (!isDevMode && !window.noDevToolsDetect) {
         let userWarned = false,
@@ -64,19 +65,22 @@ export function detectDevTools(callback) {
                                         "or paste code/text into it!", 'font-size: 16px;');
                     }
 
-                    if (isNaN(+allow)) allow = 100;
-                    var start = +new Date();
-                    debugger;
-                    var end = +new Date();
-                    if (isNaN(start) || isNaN(end) || end - start > allow) {
-                        callback();
-                        userWarned = true;
-                        window.removeEventListener('load', dDevTool);
-                        window.removeEventListener('resize', ldDevTool);
-                        window.removeEventListener('mousemove', ldDevTool);
-                        window.removeEventListener('focus', dDevTool);
-                        window.removeEventListener('blur', dDevTool);
-                    }
+                    clearTimeout(timeout);
+                    timeout = setTimeout(() => {
+                        if (isNaN(+allow)) allow = 100;
+                        var start = +new Date();
+                        debugger;
+                        var end = +new Date();
+                        if (isNaN(start) || isNaN(end) || end - start > allow) {
+                            callback();
+                            userWarned = true;
+                            window.removeEventListener('load', dDevTool);
+                            window.removeEventListener('resize', ldDevTool);
+                            window.removeEventListener('mousemove', ldDevTool);
+                            window.removeEventListener('focus', dDevTool);
+                            window.removeEventListener('blur', dDevTool);
+                        }
+                    }, 100);
                 }
             },
             ldDevTool = (allow) => {
