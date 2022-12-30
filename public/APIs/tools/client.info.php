@@ -21,7 +21,7 @@ $CLIENT_IPAddress = ($CLIENT_IPAddress === false) ? 'UNKNOWN' : $CLIENT_IPAddres
 
 require_once 'sql.sessions.php';
 function CLIENT_isSessionValid(){
-    if(isset($_COOKIE["SID"]) && preg_match('/^[a-zA-Z0-9]{216}$/', $_COOKIE["SID"])){
+    if(isset($_COOKIE["SID"]) && checkSIDFormat($_COOKIE["SID"])){
         if(!(checkSessionStatus())){
             return false;
         }else{
