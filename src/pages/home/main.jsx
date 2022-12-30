@@ -7,8 +7,6 @@
 // import styles from './../assets/styles/pages/new.module.css';
 import homeStyle from './../../assets/styles/pages/home.module.css';
 
-import { Title } from './../../assets/components/Title.jsx';
-import { Help } from './../../assets/components/Help.jsx';
 import { Button, FlexContainer, UserMessage } from './../../assets/components/CustomElements.jsx';
 import { onCleanup, onMount } from 'solid-js';
 import { Alerts as PersonalAlerts, ImportantFeed as PersonalFeed } from './personal.jsx';
@@ -64,7 +62,6 @@ export default function HomeMain(props){
         // 
     });
     return (<>
-        <Title></Title>
         <Alerts />
         <Feed />
     </>);

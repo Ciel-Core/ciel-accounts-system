@@ -24,7 +24,7 @@ $CustomizationComplete      = 0;
 require_once './../../tools/client.info.php';
 if(CLIENT_isSessionValid()){
     if($INPUT_DATA->fullRequest){
-        require './../../tools/sql.user.data.php';
+        require_once './../../tools/sql.user.data.php';
         $user = getUserDataC();
         $UID                            = $user->UID;
         $Username                       = $user->Username;

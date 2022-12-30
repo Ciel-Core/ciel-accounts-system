@@ -14,6 +14,7 @@ require __DIR__.'/../../security/check.php';
 
 // Disable warnings
 error_reporting(($DEV_MODE) ? (E_ERROR | E_PARSE) : (0));
+// Use `error_reporting(-1)` when you see no errors
 
 // End request
 function endRequest(){

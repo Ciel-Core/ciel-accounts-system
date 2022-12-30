@@ -5,12 +5,16 @@
  **/
 
 export function Title(props){
-    if(typeof props.children == "string" && props.children.replace(/\s/g, "") != ""){
-        document.title = props.children + " | " + import.meta.env.VITE_NAME;
+    setTitle(props.children);
+    return <></>;
+}
+
+export function setTitle(title){
+    if(typeof title == "string" && title.replace(/\s/g, "") != ""){
+        document.title = title + " | " + import.meta.env.VITE_NAME;
     }else{
         document.title = import.meta.env.VITE_NAME;
     }
-    return <></>;
 }
 
 export default Title;

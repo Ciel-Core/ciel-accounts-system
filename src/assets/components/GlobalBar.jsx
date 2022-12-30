@@ -79,6 +79,7 @@ function showNavContent(navigate, pathname, container, spinner, mainTimeout, bar
                         window.sizeChange = undefined;
                         window.closeNavContent = undefined;
                         document.body.onfocus = undefined;
+                        document.onmousedown = undefined;
                         window.contentLoaded = undefined;
                     };
                     // Wait for the signal from the iframe
@@ -92,8 +93,9 @@ function showNavContent(navigate, pathname, container, spinner, mainTimeout, bar
                         container.style.height =
                                 iframe.contentWindow.document.documentElement.scrollHeight + "px";
                     };
-                    // Remove iframe when the body is focused
+                    // Remove iframe when the body is focused/clicked
                     document.body.onfocus = window.closeNavContent;
+                    document.onmousedown = window.closeNavContent;
                     iframe.contentWindow.onblur = window.closeNavContent;
                 });
                 onCleanup(() => {

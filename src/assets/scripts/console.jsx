@@ -18,10 +18,13 @@ export function throwError(error){
 
 export function log() {
     // Check 'https://vitejs.dev/guide/env-and-mode.html#modes'
+    let args = [`%c[${arguments[0]}]${(window.childProcess) ? " [Child]" : ""}`,
+                'color: green; font-weight: 800;',
+                ...[...arguments].slice(1)];
     if (isDevMode) {
-        console.log.apply(null, [`%c[${arguments[0]}]${(window.childProcess) ? " [Child]" : ""}`,
-                                    'color: green; font-weight: 800;',
-                                    ...[...arguments].slice(1)]);
+        console.log.apply(null, args);
+    }else{
+        console.log.apply(null, [SILENT_LOG, ...args]);
     }
 }
 
@@ -45,6 +48,7 @@ export function alertDevMode(){
     }
 }
 
+let timeout;
 export function detectDevTools(callback) {
     if (!isDevMode && !window.noDevToolsDetect) {
         let userWarned = false,
@@ -52,28 +56,31 @@ export function detectDevTools(callback) {
                 if(!userWarned){
                     if(!noConsoleLog){
                         console.clear();
-                        console.log('%cStop!',
+                        console.log(IGNORE_LOG, '%cStop!',
                                         'color: crimson; font-size: 46px; font-weight: 800;');
-                        console.log('%cDo NOT paste any code or text into the console!',
+                        console.log(IGNORE_LOG, '%cDo NOT paste any code or text into the console!',
                                         'color: orange; font-size: 24px;');
-                        console.log("%cYour account, data, and privacy could be compromised " +
+                        console.log(IGNORE_LOG, "%cYour account, data, and privacy could be compromised " +
                                         "should you allow other people to access your console " +
                                         "or paste code/text into it!", 'font-size: 16px;');
                     }
 
-                    if (isNaN(+allow)) allow = 100;
-                    var start = +new Date();
-                    debugger;
-                    var end = +new Date();
-                    if (isNaN(start) || isNaN(end) || end - start > allow) {
-                        callback();
-                        userWarned = true;
-                        window.removeEventListener('load', dDevTool);
-                        window.removeEventListener('resize', ldDevTool);
-                        window.removeEventListener('mousemove', ldDevTool);
-                        window.removeEventListener('focus', dDevTool);
-                        window.removeEventListener('blur', dDevTool);
-                    }
+                    clearTimeout(timeout);
+                    timeout = setTimeout(() => {
+                        if (isNaN(+allow)) allow = 100;
+                        var start = +new Date();
+                        debugger;
+                        var end = +new Date();
+                        if (isNaN(start) || isNaN(end) || end - start > allow) {
+                            callback();
+                            userWarned = true;
+                            window.removeEventListener('load', dDevTool);
+                            window.removeEventListener('resize', ldDevTool);
+                            window.removeEventListener('mousemove', ldDevTool);
+                            window.removeEventListener('focus', dDevTool);
+                            window.removeEventListener('blur', dDevTool);
+                        }
+                    }, 100);
                 }
             },
             ldDevTool = (allow) => {

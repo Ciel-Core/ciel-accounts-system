@@ -4,6 +4,8 @@ require_once 'sql.database.php';
 
 require_once 'client.info.php';
 
+require_once 'sql.user.data.php';
+
 require_once './../../tools/tool.dates.php';
 
 function setBrowserCookie($name, $value, $expireDate, $HTTP_ONLY = true){
@@ -28,8 +30,42 @@ function removeSession($InSID = "", $connection = ""){
                                             WHERE `SID` = '$SID'");
     if($close){
         $connection->close();
+    }
+    if($InSID == "" || $_COOKIE["SID"] == $InSID){
         setBrowserCookie("SID", '', 0);
     }
+}
+
+// Function check the format of the SID
+function checkSIDFormat($SID){
+    return preg_match('/^[a-zA-Z0-9]{216}$/', $SID);
+}
+
+// Get session ID by local ID
+function getSIDByLocalID($localID){
+    // Connect to the database
+    global $DATABASE_CoreTABLE__sessions;
+    $connection = connectMySQL(DATABASE_READ_ONLY);
+    // Get SID
+    $OutSID = NULL;
+    $UID = getUID($connection, false, false);
+    $LocalID = mysqli_real_escape_string($connection, $localID);
+    if($UID != 0){
+        $OutSID = 0;
+        $result = executeQueryMySQL($connection, "SELECT `SID`
+                                                        FROM $DATABASE_CoreTABLE__sessions
+                                                        WHERE `UID` = $UID
+                                                        AND `LocalID` = $LocalID");
+        if($result){
+            $OutSID = mysqli_fetch_assoc($result)["SID"];
+        }
+    }
+    if($OutSID == NULL || !checkSIDFormat($OutSID)){
+        responseReport(BACKEND_ERROR, "Couldn't find session by local ID!");
+    }
+    // Close connection
+    $connection->close();
+    return $OutSID;
 }
 
 // Create a safe session ID
@@ -129,12 +165,7 @@ function checkSessionStatus(){
             $isValid = false;
         }else if($result["IPAddress"] != $CLIENT_IPAddress){
             // Get the user's ID!
-            $UID = 0;
-            $result = executeQueryMySQL($connection,
-                            "SELECT `UID` FROM $DATABASE_CoreTABLE__sessions WHERE `SID` = '$SID'");
-            if($result){
-                $UID = mysqli_fetch_assoc($result)["UID"];
-            }
+            $UID = getUID($connection, false, false);
             if($UID == 0){
                 $isValid = false;
             }else{
@@ -158,8 +189,7 @@ function checkSessionStatus(){
     unset($result);
     // Delete session from database
     if(!($isValid)){
-        executeQueryMySQL($connection, "DELETE FROM $DATABASE_CoreTABLE__sessions
-                                            WHERE `SID` = '$SID'");
+        removeSession($SID, $connection);
     }
     $connection->close();
     return $isValid;
@@ -226,5 +256,5 @@ function checkSessionsLimit($Limit = 10){
         responseReport(BLOCKED_REQUEST, "Server-wide sessions limit exceeded! ($Limit)");
     }
 }
-    
+
 ?>

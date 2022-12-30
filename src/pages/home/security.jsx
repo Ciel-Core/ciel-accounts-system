@@ -6,10 +6,10 @@
 
 // import styles from './../assets/styles/pages/new.module.css';
 
-import { Title } from './../../assets/components/Title.jsx';
 import { Button, Mark, FlexContainer } from './../../assets/components/CustomElements.jsx';
 import { onCleanup, onMount } from 'solid-js';
 import { PanelGroup, PanelOption } from './main.jsx';
+import { removeSessionPOST } from './../../assets/scripts/communication/settings.jsx';
 
 export function ImportantFeed(){
     return (<>
@@ -26,8 +26,8 @@ export default function HomeMain(props){
     onMount(() => {
         // 
     });
+    // removeSessionPOST;
     return (<>
-        <Title>Security</Title>
         <ImportantFeed />
         <PanelGroup>
             <PanelOption title={"Trusted devices"}>

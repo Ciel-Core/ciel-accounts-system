@@ -9,6 +9,47 @@
     <meta id="theme-color-dark" name="theme-color" media="(prefers-color-scheme: dark)" content="#101313">
 
     <script type="text/javascript">
+        /* Keep track of the console logs */
+        {
+            const consoleFunc = {
+                log: console.log,
+                warn: console.warn,
+                error: console.error
+            };
+            window.IGNORE_LOG = "Log.History.Ignore";
+            window.SILENT_LOG = "Log.Silent"
+            console.fire = function(name, args) {
+                if (args[0] != SILENT_LOG) {
+                    consoleFunc[name].apply(null, args.slice((args[0] == IGNORE_LOG) ? 1 : 0));
+                }
+            }
+            console.history = {
+                push(name, args, ignore = []) {
+                    if (args[0] != IGNORE_LOG) {
+                        this[name].push(args.slice((ignore.includes(args[0])) ? 1 : 0));
+                        // Max of 20 logs
+                        if (this[name].length > 20) {
+                            this[name].shift();
+                        }
+                    }
+                },
+                log: [],
+                warn: [],
+                error: []
+            };
+            console.log = function(...args) {
+                console.history.push("log", args, [SILENT_LOG]);
+                console.fire("log", args);
+            };
+            console.warn = function(...args) {
+                console.history.push("warn", args);
+                console.fire("warn", args);
+            }
+            console.error = function(...args) {
+                console.history.push("error", args);
+                console.fire("error", args);
+            }
+        }
         /* Quick colour scheme detection */
         {
             // Get theme colours
