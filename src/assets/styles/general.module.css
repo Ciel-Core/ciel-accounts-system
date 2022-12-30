@@ -987,6 +987,7 @@ screen and (max-height: 450px) {
     width: calc(var(--page-margin) + 60px);
     height: calc(100% + 20px);
     top: -10px;
+    z-index: 1;
 }
 
 .navBar .startShadow .icon,
@@ -1070,6 +1071,48 @@ screen and (max-height: 450px) {
 
 .navBar .navLinks .navOption[selected]::after {
     display: block;
+}
+
+@media (pointer: fine) and (min-width: 1440px) {
+    .navBar {
+        position: fixed;
+        width: calc(300px - var(--page-margin));
+        height: calc(100 * var(--vh) - 2 * var(--page-margin));
+        top: var(--page-margin);
+        left: var(--page-margin);
+        margin: 0px;
+        padding: 0px;
+        z-index: 10;
+    }
+    .navBar .startShadow,
+    .navBar .endShadow {
+        display: none;
+    }
+    .navBar .navLinks {
+        min-height: 100%;
+        padding: 0px;
+        display: flex;
+        align-items: left;
+        justify-content: center;
+        flex-direction: column;
+    }
+    .navBar .navLinks .navOption {
+        display: block;
+        margin: 0px;
+        margin-top: 40px;
+        text-align: left;
+        width: fit-content;
+        position: relative;
+    }
+    .navBar .navLinks .navOption::after {
+        position: absolute;
+        height: 40px;
+        margin-top: -30px;
+        width: calc(100% + 6px);
+        min-width: 65px;
+        margin-left: -12px;
+        border-radius: 50px 50px 30px 30px;
+    }
 }
 
 @keyframes popInNav {
