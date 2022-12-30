@@ -15,9 +15,9 @@ function errorWrapper(callback, ...args){
 }
 
 export function removeSessionPOST(localID, callback){
-    jsonPOST("/APIs/accounts/settings/delete.session.json.php",
+    jsonPOST("/APIs/accounts/settings/delete.session.json.php", {
         localID
-    ).then(function(data){
+    }).then(function(data){
         errorWrapper(callback, data.responseInfo.successful, data);
     }).catch(function(error){
         callback(false, undefined);
