@@ -23,7 +23,6 @@ require_once 'sql.sessions.php';
 function CLIENT_isSessionValid(){
     if(isset($_COOKIE["SID"]) && preg_match('/^[a-zA-Z0-9]{216}$/', $_COOKIE["SID"])){
         if(!(checkSessionStatus())){
-            setBrowserCookie('SID', '', 0);
             return false;
         }else{
             return true;

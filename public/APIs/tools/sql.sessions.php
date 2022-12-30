@@ -28,6 +28,8 @@ function removeSession($InSID = "", $connection = ""){
                                             WHERE `SID` = '$SID'");
     if($close){
         $connection->close();
+    }
+    if($InSID == "" || $_COOKIE["SID"] == $InSID){
         setBrowserCookie("SID", '', 0);
     }
 }
@@ -158,8 +160,7 @@ function checkSessionStatus(){
     unset($result);
     // Delete session from database
     if(!($isValid)){
-        executeQueryMySQL($connection, "DELETE FROM $DATABASE_CoreTABLE__sessions
-                                            WHERE `SID` = '$SID'");
+        removeSession($SID, $connection);
     }
     $connection->close();
     return $isValid;
@@ -226,5 +227,5 @@ function checkSessionsLimit($Limit = 10){
         responseReport(BLOCKED_REQUEST, "Server-wide sessions limit exceeded! ($Limit)");
     }
 }
-    
+
 ?>
