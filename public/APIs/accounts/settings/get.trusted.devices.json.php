@@ -1,10 +1,10 @@
 <?php
 
 // Initiate the page
-require './../../../_chips/comb.start_inputJSON.php';
+require './../../_chips/comb.start_inputJSON.php';
 
 // Get client info
-require './../../../tools/client.info.php';
+require './../../tools/client.info.php';
 
 if(CLIENT_isSessionValid()){
     // Do stuff!

@@ -1,7 +1,7 @@
 <?php
 
 // Initiate the page
-require './../../../_chips/comb.start_inputJSON.php';
+require './../../_chips/comb.start_inputJSON.php';
 
 // Do a basic check for the input data!
 checkInputData(
@@ -9,8 +9,8 @@ checkInputData(
 );
 
 // Get client info
-require './../../../tools/client.info.php';
-require_once './../../../tools/sql.sessions.php';
+require './../../tools/client.info.php';
+require_once './../../tools/sql.sessions.php';
 
 if(CLIENT_isSessionValid()){
     // Do stuff!
