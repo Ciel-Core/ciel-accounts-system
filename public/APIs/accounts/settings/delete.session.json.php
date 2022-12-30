@@ -13,7 +13,6 @@ require './../../tools/client.info.php';
 require_once './../../tools/sql.sessions.php';
 
 if(CLIENT_isSessionValid()){
-    // Do stuff!
     $SID = getSIDByLocalID($INPUT_DATA->localID);
     removeSession($SID);
 }else{
