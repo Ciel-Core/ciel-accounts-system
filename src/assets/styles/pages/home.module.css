@@ -32,6 +32,8 @@
 .panelOption .optionContent {
     padding: 24px;
     margin-top: auto;
+    max-width: 100%;
+    overflow: hidden;
 }
 
 .sectionsContainer {
@@ -78,12 +80,19 @@
     display: flex;
 }
 
+.panelGroup:has(> :last-child:nth-child(2)) .panelOption {
+    max-width: calc(50% - 2 * 24px);
+}
+
 @media (pointer:none),
 (pointer:coarse),
 screen and (max-width: 920px),
 screen and (max-height: 450px) {
     .panelGroup {
         display: unset;
+    }
+    .panelGroup .panelOption {
+        max-width: unset !important;
     }
 }
 
