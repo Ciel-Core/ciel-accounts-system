@@ -6,7 +6,8 @@
 
 // Keyboard secret activation
 function awaitKeybaordSecret(secretWord, callback){
-    let list = [];
+    let list = [],
+        isActive = false;
     window.addEventListener("keypress", function(e){
         let input = false;
         e.path.forEach((elm) => {
@@ -19,8 +20,9 @@ function awaitKeybaordSecret(secretWord, callback){
             while(list.length > secretWord.length){
                 list.shift();
             }
-            if(list.join("") == secretWord){
+            if(!isActive && list.join("") == secretWord){
                 // Activate action
+                isActive = true;
                 callback();
             }
         }else{
