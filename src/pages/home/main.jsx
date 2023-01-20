@@ -8,12 +8,13 @@
 import homeStyle from './../../assets/styles/pages/home.module.css';
 
 import { Button, FlexContainer, UserMessage } from './../../assets/components/CustomElements.jsx';
-import { onCleanup, onMount } from 'solid-js';
+import { children, onCleanup, onMount } from 'solid-js';
 import { Alerts as PersonalAlerts, ImportantFeed as PersonalFeed } from './personal.jsx';
 import { ImportantFeed as FinancialFeed } from './financial.jsx';
 import { ImportantFeed as PrivacyFeed } from './privacy.jsx';
 import { ImportantFeed as SecurityFeed } from './security.jsx';
 import { ImportantFeed as SharingFeed } from './sharing.jsx';
+import { render } from 'solid-js/web';
 
 export function Alerts(props){
     return (<>
@@ -38,6 +39,31 @@ export function PanelOption(props){
 
 export function PanelGroup(props){
     return (<div class={homeStyle.panelGroup}>
+        {props.children}
+    </div>);
+}
+
+export function OptionsGroup(props){
+    const childrenList = children(() => props.children);
+    if(props.children != undefined){
+        for(let i = 0; i < childrenList().length; i++){
+            // Add the shared attachment
+            if(props.attachments instanceof Array){
+                for(let c = 0; c < props.attachments.length; c++){
+                    render(props.attachments[c], childrenList()[i]);
+                }
+            }
+        }
+    }
+    return (<FlexContainer>
+        {childrenList()}
+    </FlexContainer>);
+}
+
+export function Option(props){
+    return (<div>
+        <text>{props.title}</text>
+        <text>{props.description}</text>
         {props.children}
     </div>);
 }

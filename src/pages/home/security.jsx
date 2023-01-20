@@ -8,7 +8,7 @@
 
 import { Button, Mark, FlexContainer } from './../../assets/components/CustomElements.jsx';
 import { onCleanup, onMount } from 'solid-js';
-import { PanelGroup, PanelOption } from './main.jsx';
+import { Option, OptionsGroup, PanelGroup, PanelOption } from './main.jsx';
 import { removeSessionPOST } from './../../assets/scripts/communication/settings.jsx';
 
 export function ImportantFeed(){
@@ -34,7 +34,11 @@ export default function HomeMain(props){
                 ?
             </PanelOption>
             <PanelOption title={"Active sessions"}>
-                ?
+                <OptionsGroup attachments={[(props) => (<div>Test</div>)]}>
+                    <Option title={"[title_1]"} description={"[description]"} />
+                    <Option title={"[title_2]"} description={"[description]"} />
+                    <Option title={"[title_3]"} description={"[description]"} />
+                </OptionsGroup>
             </PanelOption>
         </PanelGroup>
     </>);
