@@ -36,7 +36,7 @@ import { isForcedDarkMode } from './assets/scripts/theme.jsx';
 import { checkConnection } from './assets/scripts/internetConnection.jsx';
 import { detectDevTools, alertDevMode } from './assets/scripts/console.jsx';
 import { addConstantRichData, richData } from './assets/scripts/SEO/richData.jsx';
-import { colorsSecret } from './assets/scripts/_fun.jsx';
+import { fun } from './assets/scripts/_fun.jsx';
 
 let animFinishCallback = [];
 export const [showAnimFinished, setSAF] = createSignal(false),
@@ -91,7 +91,7 @@ render(() =>{
                 // Check connection
                 checkConnection();
                 // Do fun stuff
-                colorsSecret();
+                fun();
             }, 2000);
         }
     });

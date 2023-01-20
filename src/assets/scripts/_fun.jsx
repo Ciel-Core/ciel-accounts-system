@@ -9,21 +9,42 @@ function awaitKeybaordSecret(secretWord, callback){
     let list = [],
         isActive = false;
     window.addEventListener("keypress", function(e){
-        let input = false;
-        e.path.forEach((elm) => {
-            if((elm.tagName || "").toLowerCase() == "input"){
-                input = true;
-            }
-        });
+        // Block event if the secret is active
+        if(isActive){
+            return;
+        }
+        let input = e.target instanceof HTMLInputElement;
+        // if(e.path instanceof Array){
+        //     e.path.forEach((elm) => {
+        //         if((elm.tagName || "").toLowerCase() == "input"){
+        //             input = true;
+        //         }
+        //     });
+        // }
         if(!input){
+            // Get max secret length
+            let secretLength = 0;
+            for(let i = 0; i < secretWord.length; i++){
+                if(secretWord[i].length > secretLength){
+                    secretLength = secretWord[i].length;
+                }
+            }
+            // Add new key to list
+            while(list.length < secretLength){
+                list.push("#");
+            }
             list.push(e.key.toLowerCase());
-            while(list.length > secretWord.length){
+            while(list.length > secretLength){
                 list.shift();
             }
-            if(!isActive && list.join("") == secretWord){
-                // Activate action
-                isActive = true;
-                callback();
+            // Check if a secret is present!
+            for(let i = 0; i < secretWord.length; i++){
+                if(list.join("").indexOf(secretWord[i]) == secretLength - secretWord[i].length){
+                    // Activate secret
+                    isActive = true;
+                    callback();
+                    break;
+                }
             }
         }else{
             while(list.length > 0){
@@ -54,10 +75,7 @@ function colorsSwitch(){
     }, (((i + 1) % 2) * 150 + 50))
 }
 
-// Await colours secret activation
-export function colorsSecret(){
-    // Desktop activation
-    awaitKeybaordSecret("colours", colorsSwitch);
-    // Mobile activation
-    // ???
+export function fun(){
+    // Switch between available accent colours
+    awaitKeybaordSecret(["colours", "colors"], colorsSwitch);
 }
