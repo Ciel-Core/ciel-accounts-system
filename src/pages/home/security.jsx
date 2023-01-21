@@ -31,8 +31,8 @@ export default function HomeMain(props){
         <ImportantFeed />
         <PanelOption title={"Account access"}>
             <OptionsGroup>
-                <Option title={"Password"} description={"Last changed 30 days ago"} />
-                <Option title={"2-Step Verification"} description={"On"} />
+                <Option title={"Password"} description={"Last changed XX days ago"} />
+                <Option title={"2-Step Verification"} description={"Off"} />
                 <Option title={"Emergency keys"} description={"0 active keys"} />
             </OptionsGroup>
         </PanelOption>
