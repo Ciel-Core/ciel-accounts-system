@@ -41,6 +41,28 @@ function checkSIDFormat($SID){
     return preg_match('/^[a-zA-Z0-9]{216}$/', $SID);
 }
 
+// Get session local ID
+function getSessionLocalID($InSID = ""){
+    // Connect to the database
+    global $DATABASE_CoreTABLE__sessions;
+    $connection = connectMySQL(DATABASE_READ_ONLY);
+    // Get SID
+    $OutLocalID = NULL;
+    $SID = mysqli_real_escape_string($connection, ($InSID == "") ? $_COOKIE["SID"] : $InSID);
+    $result = executeQueryMySQL($connection, "SELECT `LocalID`
+                                                    FROM $DATABASE_CoreTABLE__sessions
+                                                    WHERE `SID` = '$SID'");
+    if($result){
+        $OutLocalID = mysqli_fetch_assoc($result)["LocalID"];
+    }
+    if($OutLocalID == NULL){
+        responseReport(BACKEND_ERROR, "Couldn't find session local ID!");
+    }
+    // Close connection
+    $connection->close();
+    return $OutLocalID;
+}
+
 // Get session ID by local ID
 function getSIDByLocalID($localID){
     // Connect to the database
@@ -255,6 +277,31 @@ function checkSessionsLimit($Limit = 10){
     if(checkActiveSessions() >= $Limit){
         responseReport(BLOCKED_REQUEST, "Server-wide sessions limit exceeded! ($Limit)");
     }
+}
+
+// Get all active sessions
+function listActiveSessions($richData = false){
+    global $DATABASE_CoreTABLE__sessions;
+    $connection = connectMySQL(DATABASE_READ_AND_WRITE);
+    $UID = getUID($connection, false, false);
+    $sessions = array();
+    $data = ($richData) ? "`LocalID`, `StartTimestamp`, `IPAddress`, `UserAgent`, `Country`,
+                                `Region`, `City`" :
+                        "`LocalID`, `StartTimestamp`, `UserAgent`";
+    $result = executeQueryMySQL($connection, "SELECT $data
+                                                FROM $DATABASE_CoreTABLE__sessions
+                                                WHERE `UID` = $UID");
+
+    // Start counting active sessions
+    if($result){
+        while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+            array_push($sessions, $row);
+        }
+    }else{
+        responseReport(BACKEND_ERROR, "Couldn't make a list of active sessions!");
+    }
+    $connection->close();
+    return $sessions;
 }
 
 ?>

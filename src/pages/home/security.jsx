@@ -6,11 +6,13 @@
 
 // import styles from './../assets/styles/pages/new.module.css';
 
-import { Button, Mark, FlexContainer } from './../../assets/components/CustomElements.jsx';
+import { Button, Mark, FlexContainer, showDialog } from './../../assets/components/CustomElements.jsx';
 import { onCleanup, onMount } from 'solid-js';
 import { Option, OptionsGroup, PanelGroup, PanelOption } from './main.jsx';
-import { removeSessionPOST } from './../../assets/scripts/communication/settings.jsx';
+import { getSessionsPOST, removeSessionPOST } from './../../assets/scripts/communication/settings.jsx';
 import { useNavigate } from '@solidjs/router';
+import { loadPlatformJS } from '../../assets/scripts/loader.jsx';
+import { render } from 'solid-js/web';
 
 export function ImportantFeed(){
     return (<>
@@ -21,12 +23,35 @@ export function ImportantFeed(){
 }
 
 export default function HomeMain(props){
-    let navigate = useNavigate();
+    let navigate = useNavigate(),
+        activeSessionsList;
     onCleanup(() => {
         // 
     });
     onMount(() => {
-        // 
+        loadPlatformJS(function(){
+            getSessionsPOST(false, function(success, data){
+                if(success){
+                    data.localID;
+                    data.sessions;
+                    for(let i = 0; i < data.sessions.length; i++){
+                        console.log(data.sessions[i], activeSessionsList);
+                        // Ready session info
+                        let info = platform.parse(data.sessions[i].userAgent);
+                        // Render session items
+                        render(() =>
+                            (<Option title={`${info.name} on ${info.os.family}`}
+                                                description={
+                                                    (data.sessions[i].localID == data.localID) ?
+                                                        "This device!" :
+                                                        undefined} />),
+                                activeSessionsList);
+                    }
+                }else{
+                    showDialog("Something went wrong!", "Couldn't fetch a list of active sessions!");
+                }
+            });    
+        });
     });
     // removeSessionPOST;
     return (<>
@@ -47,10 +72,7 @@ export default function HomeMain(props){
             </PanelOption>
             <PanelOption title={"Active sessions"} navigate={["Manage all sessions",
                                                             "/security/sessions"]}>
-                <OptionsGroup attachments={[]}>
-                    <Option title={"[title_1]"} />
-                    <Option title={"[title_2]"} />
-                    <Option title={"[title_3]"} />
+                <OptionsGroup ref={activeSessionsList} attachments={[]}>
                 </OptionsGroup>
             </PanelOption>
         </PanelGroup>
