@@ -114,10 +114,6 @@ screen and (max-height: 450px) {
     text-align: left;
 }
 
-.optionsGroup[vertical] .option {
-    background-color: red;
-}
-
 .optionsGroup .option:hover,
 .optionsGroup .option:active {
     background-color: var(--background-blend);
