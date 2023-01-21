@@ -27,13 +27,13 @@
 
 .panelOption .optionTitle {
     margin-right: auto;
+    font-weight: 700;
 }
 
 .panelOption .optionContent {
-    padding: 24px;
+    padding-top: 24px;
     margin-top: auto;
     max-width: 100%;
-    overflow: hidden;
 }
 
 .sectionsContainer {
@@ -98,4 +98,27 @@ screen and (max-height: 450px) {
 
 .panelGroup:empty {
     display: none;
+}
+
+.optionsGroup {
+    margin: 0px;
+}
+
+.optionsGroup .option {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    padding: 16px 24px;
+    cursor: pointer;
+    gap: 16px;
+    text-align: left;
+}
+
+.optionsGroup[vertical] .option {
+    background-color: red;
+}
+
+.optionsGroup .option:hover,
+.optionsGroup .option:active {
+    background-color: var(--background-blend);
 }

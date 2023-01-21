@@ -29,6 +29,13 @@ export default function HomeMain(props){
     // removeSessionPOST;
     return (<>
         <ImportantFeed />
+        <PanelOption title={"Account access"}>
+            <OptionsGroup>
+                <Option title={"Password"} description={"Last changed 30 days ago"} />
+                <Option title={"2-Step Verification"} description={"On"} />
+                <Option title={"Emergency keys"} description={"0 active keys"} />
+            </OptionsGroup>
+        </PanelOption>
         <PanelGroup>
             <PanelOption title={"Trusted devices"}>
                 ?

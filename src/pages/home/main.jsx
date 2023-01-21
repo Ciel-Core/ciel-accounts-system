@@ -55,13 +55,13 @@ export function OptionsGroup(props){
             }
         }
     }
-    return (<FlexContainer>
+    return (<FlexContainer class={homeStyle.optionsGroup}>
         {childrenList()}
     </FlexContainer>);
 }
 
 export function Option(props){
-    return (<div>
+    return (<div class={homeStyle.option}>
         <text>{props.title}</text>
         <text>{props.description}</text>
         {props.children}
