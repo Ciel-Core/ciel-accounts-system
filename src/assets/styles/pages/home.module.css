@@ -32,8 +32,19 @@
 
 .panelOption .optionContent {
     padding-top: 24px;
-    margin-top: auto;
+    margin-bottom: auto;
     max-width: 100%;
+}
+
+.panelOption .optionAction {
+    width: -webkit-fill-available;
+    width: fill-available;
+    margin: -24px;
+    margin-top: 12px;
+    border-radius: 0px 0px 8px 8px;
+    padding: 24px;
+    padding-bottom: 26px;
+    text-align: center;
 }
 
 .sectionsContainer {
@@ -84,18 +95,6 @@
     max-width: calc(50% - 2 * 24px);
 }
 
-@media (pointer:none),
-(pointer:coarse),
-screen and (max-width: 920px),
-screen and (max-height: 450px) {
-    .panelGroup {
-        display: unset;
-    }
-    .panelGroup .panelOption {
-        max-width: unset !important;
-    }
-}
-
 .panelGroup:empty {
     display: none;
 }
@@ -109,12 +108,64 @@ screen and (max-height: 450px) {
     width: 100%;
     justify-content: space-between;
     padding: 16px 24px;
-    cursor: pointer;
     gap: 16px;
     text-align: left;
 }
 
-.optionsGroup .option:hover,
-.optionsGroup .option:active {
+.optionsGroup .option .description {
+    --width-p: 50%;
+    width: calc(var(--width-p) - 24px);
+    min-width: calc(var(--width-p) - 24px);
+    max-width: calc(var(--width-p) - 24px);
+    overflow: hidden visible;
+    color: var(--background-bold);
+}
+
+.optionsGroup .option[icon=true] {
+    position: relative;
+    width: calc(100% - 2 * 24px);
+    padding-right: calc(3 * 24px);
+    cursor: pointer;
+}
+
+.optionsGroup .option[icon=true]:hover,
+.optionsGroup .option[icon=true]:active {
     background-color: var(--background-blend);
+}
+
+.optionsGroup .option[icon=true] svg {
+    position: absolute;
+    width: 1.5em;
+    height: 1.5em;
+    right: 24px;
+    --svg-color: var(--background-bold);
+}
+
+.optionsGroup .option[icon=true] .title {
+    max-width: calc(100% - var(--width-p) - 2 * 24px);
+}
+
+.optionsGroup .option[icon=true] .description {
+    width: calc(var(--width-p) - 2 * 24px);
+    min-width: calc(var(--width-p) - 2 * 24px);
+    max-width: calc(var(--width-p) - 2 * 24px);
+}
+
+@media (pointer:none),
+(pointer:coarse),
+screen and (max-width: 920px),
+screen and (max-height: 450px) {
+    .panelGroup {
+        display: unset;
+    }
+    .panelGroup .panelOption {
+        max-width: unset !important;
+    }
+    .optionsGroup .option .description {
+        --width-p: 65%;
+    }
+    .optionsGroup .option[icon=true] .description {
+        display: block;
+        margin-right: 6px;
+    }
 }

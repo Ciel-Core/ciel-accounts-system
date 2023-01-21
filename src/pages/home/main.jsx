@@ -16,6 +16,8 @@ import { ImportantFeed as SecurityFeed } from './security.jsx';
 import { ImportantFeed as SharingFeed } from './sharing.jsx';
 import { render } from 'solid-js/web';
 
+import ArrowIcon from './../../assets/icons/arrow_forward.svg';
+
 export function Alerts(props){
     return (<>
         <PersonalAlerts/>
@@ -34,6 +36,16 @@ export function PanelOption(props){
         <div class={homeStyle.optionContent}>
             {props.children}
         </div>
+        {(() => {
+            if(props.navigate instanceof Array){
+                return (
+                    <Button class={homeStyle.optionAction} type={"link"} href={props.navigate[1]}
+                            light>
+                        {props.navigate[0]}
+                    </Button>
+                );
+            }
+        })()}
     </div>);
 }
 
@@ -61,10 +73,19 @@ export function OptionsGroup(props){
 }
 
 export function Option(props){
-    return (<div class={homeStyle.option}>
-        <text>{props.title}</text>
-        <text>{props.description}</text>
+    return (<div class={homeStyle.option} icon={(!!props.icon || props.action instanceof Function)}
+                disable={props.disabled} onClick={props.action}>
+        <text class={homeStyle.title}>{props.title}</text>
+        <text class={homeStyle.description}>{props.description}</text>
         {props.children}
+        {(() => {
+            //
+            if(props.icon == "arrow" || props.action instanceof Function){
+                return (<ArrowIcon />);
+            }else{
+                return props.icon;
+            }
+        })}
     </div>);
 }
 
