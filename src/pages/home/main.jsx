@@ -67,7 +67,7 @@ export function OptionsGroup(props){
             }
         }
     }
-    return (<FlexContainer class={homeStyle.optionsGroup}>
+    return (<FlexContainer ref={props.ref} class={homeStyle.optionsGroup}>
         {childrenList()}
     </FlexContainer>);
 }
