@@ -32,10 +32,7 @@ export default function HomeMain(props){
         loadPlatformJS(function(){
             getSessionsPOST(false, function(success, data){
                 if(success){
-                    data.localID;
-                    data.sessions;
                     for(let i = 0; i < data.sessions.length; i++){
-                        console.log(data.sessions[i], activeSessionsList);
                         // Ready session info
                         let info = platform.parse(data.sessions[i].userAgent);
                         // Render session items
