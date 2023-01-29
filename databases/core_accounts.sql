@@ -186,6 +186,7 @@ INSERT INTO `system` (`UID`) VALUES (10000000001);
 CREATE TABLE `trusteddevices` (
   `DeviceID` varchar(216) NOT NULL,
   `UID` bigint(11) UNSIGNED NOT NULL,
+  `LocalID` tinyint UNSIGNED NOT NULL,
   `CredentialID` text NOT NULL,
   `PublicKey` text NOT NULL,
   `DeviceName` tinytext NOT NULL,

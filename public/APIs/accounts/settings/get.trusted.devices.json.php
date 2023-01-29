@@ -5,6 +5,7 @@ require './../../_chips/comb.start_inputJSON.php';
 
 // Get client info
 require './../../tools/client.info.php';
+require_once './../../tools/sql.sessions.php';
 
 if(CLIENT_isSessionValid()){
     // Do stuff!
