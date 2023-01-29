@@ -135,6 +135,10 @@ function registerUser($input){
 
                     // Delete user data
                     deleteRegisterFailWaste($connection, $CreationIPAddress, $UID, $Username);
+
+                    // Take care of things that are not related to the database! 
+                    finalizeUserRegistration();
+
                     $connection->close();
                     return false;
                 }else{
@@ -165,6 +169,39 @@ function registerUser($input){
     }
     $connection->close();
     return true;
+}
+
+// Take care of non-SQL registration process
+function finalizeUserRegistration(){
+    // Generate a unique profile picture!
+    // Note: The user's *default profile picture* can never be changed at all!
+    // API request input:
+    /*
+        https://api.dicebear.com/5.x/thumbs/svg
+            ?backgroundColor=ff0000
+            
+            &shapeColor=0000ff
+            
+            &eyesColor=00ff00
+            &mouthColor=00ff00
+            
+            &faceOffsetX=0
+            &faceOffsetY=0
+            
+            &radius=0
+            &scale=80
+            
+            &rotate=[0-360]
+            &seed=[hash('ciel~' + $UID)]
+        
+        LICENSE: https://dicebear.com/styles/thumbs#thumbs
+    */
+    // The generated SVG image will be saved, with the following strings being replaced:
+    //     #ff0000 -> <background>
+    //     #0000ff -> <body>
+    //     #00ff00 -> <inner>
+    //
+    // The user's profile picture colours are linked to the user's prefered accent colour!
 }
 
 ?>
