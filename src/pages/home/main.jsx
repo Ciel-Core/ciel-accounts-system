@@ -89,6 +89,10 @@ export function Option(props){
     </div>);
 }
 
+export function RichOption(props){
+    return (<Option {...props}/>);
+}
+
 function Feed(){
     return (<>
         <FinancialFeed />

@@ -6,9 +6,9 @@
 
 // import styles from './../assets/styles/pages/new.module.css';
 
-import { Button, Mark, FlexContainer, showDialog } from './../../assets/components/CustomElements.jsx';
+import { Button, Mark, FlexContainer, showDialog, Await } from './../../assets/components/CustomElements.jsx';
 import { onCleanup, onMount } from 'solid-js';
-import { Option, OptionsGroup, PanelGroup, PanelOption } from './main.jsx';
+import { Option, RichOption, OptionsGroup, PanelGroup, PanelOption } from './main.jsx';
 import { getSessionsPOST, removeSessionPOST } from './../../assets/scripts/communication/settings.jsx';
 import { useNavigate } from '@solidjs/router';
 import { loadPlatformJS } from '../../assets/scripts/loader.jsx';
@@ -29,26 +29,7 @@ export default function HomeMain(props){
         // 
     });
     onMount(() => {
-        loadPlatformJS(function(){
-            getSessionsPOST(false, function(success, data){
-                if(success){
-                    for(let i = 0; i < data.sessions.length; i++){
-                        // Ready session info
-                        let info = platform.parse(data.sessions[i].userAgent);
-                        // Render session items
-                        render(() =>
-                            (<Option title={`${info.name} on ${info.os.family}`}
-                                                description={
-                                                    (data.sessions[i].localID == data.localID) ?
-                                                        "This device!" :
-                                                        undefined} />),
-                                activeSessionsList);
-                    }
-                }else{
-                    showDialog("Something went wrong!", "Couldn't fetch a list of active sessions!");
-                }
-            });    
-        });
+        //
     });
     // removeSessionPOST;
     return (<>
@@ -70,6 +51,30 @@ export default function HomeMain(props){
             <PanelOption title={"Active sessions"} navigate={["Manage all sessions",
                                                             "/security/sessions"]}>
                 <OptionsGroup ref={activeSessionsList} attachments={[]}>
+            	    <Await target={() => activeSessionsList} call={function(inject){
+                        loadPlatformJS(function(){
+                            getSessionsPOST(false, function(success, data){
+                                if(success){
+                                    for(let i = 0; i < data.sessions.length; i++){
+                                        // Ready session info
+                                        let info = platform.parse(data.sessions[i].userAgent);
+                                        // Render session items
+                                        inject(() =>
+                                            (<RichOption
+                                                title=
+                                                {`${info.name ?? "?"} on ${info.os.family ?? "?"}`}
+                                                description={
+                                                    (data.sessions[i].localID == data.localID) ?
+                                                                    "This device!" :
+                                                                    undefined} />)
+                                                                    );
+                                    }
+                                }else{
+                                    showDialog("Something went wrong!", "Couldn't fetch a list of active sessions!");
+                                }
+                            });    
+                        });                
+                    }} />
                 </OptionsGroup>
             </PanelOption>
         </PanelGroup>
