@@ -18,6 +18,7 @@ $DisplayUsername            = "USERNAME";
 $ColorScheme                = 0;
 $AccentColor                = "COLOR";
 $Lang                       = "LANG";
+$FinalizedUserRegistration  = 0;
 $CustomizationComplete      = 0;
 
 // Check if the user has a valid session going on!
@@ -35,6 +36,7 @@ if(CLIENT_isSessionValid()){
         $ColorScheme                    = $user->ColorScheme;
         $AccentColor                    = $user->AccentColor;
         $Lang                           = $user->Lang;
+        $FinalizedUserRegistration      = $user->FinalizedUserRegistration;
         $CustomizationComplete          = $user->CustomizationComplete;
     }else{
         $RESPONSE_SUCCESS_STATUS = false;
@@ -58,6 +60,7 @@ if(CLIENT_isSessionValid()){
     "ColorScheme": <?php echo $ColorScheme; ?>,
     "AccentColor": "<?php echo $AccentColor; ?>",
     "Lang": "<?php echo $Lang; ?>",
+    "FinalizedUserRegistration": <?php echo strval($FinalizedUserRegistration); ?>,
     "CustomizationComplete": <?php echo ($CustomizationComplete) ? 'true' : 'false'; ?>,
     <?php require './../../_chips/JSON_response_attachment.php'; ?>
 }

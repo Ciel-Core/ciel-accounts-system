@@ -29,6 +29,7 @@ function defaultUserProfile(){
             language: "en-GB"
         },
         system: {
+            FinalizedUserRegistration: 0,
             customizationComplete: false
         },
         id: 0, // User ID
@@ -70,6 +71,7 @@ function convertUserData(userData){
 
     profile.content.language                    = userData.Lang;
 
+    profile.system.finalizedUserRegistration    = userData.FinalizedUserRegistration;
     profile.system.customizationComplete        = userData.CustomizationComplete;
 
     return profile;
