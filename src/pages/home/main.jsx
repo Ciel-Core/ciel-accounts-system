@@ -25,7 +25,7 @@ export function CriticalAlerts(){
             (userData().system.finalizedUserRegistration < 10) ?
                 <UserMessage type={"urgent"} links={
                     [
-                        ["Reattempt finalisation", "/user/abnormal/finalise"]
+                        // ["Reattempt finalisation", "/user/abnormal/finalise"]
                     ]
                     }
                 >Account registration wasn't finalised successfully!</UserMessage>
