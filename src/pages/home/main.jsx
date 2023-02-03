@@ -22,7 +22,7 @@ import ArrowIcon from './../../assets/icons/arrow_forward.svg';
 export function CriticalAlerts(){
     return (<>
         {
-            (userData().system.finalizedUserRegistration < 10) ?
+            (userData().system.finalizedUserRegistration != 100) ?
                 <UserMessage type={"urgent"} links={
                     [
                         // ["Reattempt finalisation", "/user/abnormal/finalise"]

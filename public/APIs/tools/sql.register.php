@@ -142,8 +142,8 @@ function registerUser($input){
                     // Delete waste data
                     deleteRegisterWaste($connection, $CreationIPAddress);
 
-                    // Take care of things that are not related to the database! 
-                    finalizeUserRegistration();
+                    // Take care of things that are not related to the database!
+                    finalizeUserRegistration($connection, $UID);
                 }
             }else{
                 // Delete user data
@@ -171,10 +171,35 @@ function registerUser($input){
     return true;
 }
 
+// Report the current level of registration finalisation
+global $finalizeProgressCount;
+$finalizeProgressCount = 0;
+function reportFinalizeProgress($connection, $UID, $c = NULL){
+    global $DATABASE_CoreTABLE__system, $finalizeProgressCount;
+    $finalizeProgressCount++;
+    // Enable change of value through function input
+    if($c != NULL){
+        $finalizeProgressCount = $c;
+    }
+    // Update database value
+    executeQueryMySQL($connection, "UPDATE $DATABASE_CoreTABLE__system
+                                        SET `FinalizedUserRegistration` = $finalizeProgressCount
+                                    WHERE `UID` = $UID", true);
+
+}
+
 // Take care of non-SQL registration process
-function finalizeUserRegistration(){
+// Note that failures within this process are not allowed to result in a "unsuccessful response
+// status" from the server!
+function finalizeUserRegistration($connection, $UID){
     // To finalize the user's registration, a unique user folder must be created with the provided
     // "_UID" user folder template in "/data"!
+    include_once "tool.files.php";
+    $root = __DIR__."/../../data/";
+    xcopy($root."_UID", $root."$UID");
+    // Report folder creation success!
+    reportFinalizeProgress($connection, $UID);
+
     // Generate a unique profile picture!
     // Note: The user's *default profile picture* can never be changed at all!
     // API request input:
@@ -204,6 +229,12 @@ function finalizeUserRegistration(){
     //     #00ff00 -> @inner
     //
     // The user's profile picture colours are linked to the user's prefered accent colour!
+    //
+    // Report default profile picture creation success!
+    // reportFinalizeProgress($connection, $UID);
+
+    // Set the account finalisation status as successful
+    reportFinalizeProgress($connection, $UID, 100);
 }
 
 ?>
