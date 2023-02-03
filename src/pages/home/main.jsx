@@ -14,17 +14,35 @@ import { ImportantFeed as FinancialFeed } from './financial.jsx';
 import { ImportantFeed as PrivacyFeed } from './privacy.jsx';
 import { ImportantFeed as SecurityFeed } from './security.jsx';
 import { ImportantFeed as SharingFeed } from './sharing.jsx';
+import { userData } from './../../assets/scripts/user.jsx';
 import { render } from 'solid-js/web';
 
 import ArrowIcon from './../../assets/icons/arrow_forward.svg';
 
-export function Alerts(props){
+export function CriticalAlerts(){
     return (<>
-        <PersonalAlerts/>
+        {
+            (userData().system.finalizedUserRegistration < 10) ?
+                <UserMessage type={"urgent"} links={
+                    [
+                        ["Reattempt finalisation", "/user/abnormal/finalise"]
+                    ]
+                    }
+                >Account registration wasn't finalised successfully!</UserMessage>
+            :
+                undefined
+        }
         <UserMessage type="warning">
             The accounts system is still incomplete. Your account/data could
             get deleted at any time!
         </UserMessage>
+    </>);
+}
+
+export function Alerts(props){
+    return (<>
+        <CriticalAlerts />
+        <PersonalAlerts />
     </>);
 }
 
