@@ -136,14 +136,14 @@ function registerUser($input){
                     // Delete user data
                     deleteRegisterFailWaste($connection, $CreationIPAddress, $UID, $Username);
 
-                    // Take care of things that are not related to the database! 
-                    finalizeUserRegistration();
-
                     $connection->close();
                     return false;
                 }else{
                     // Delete waste data
                     deleteRegisterWaste($connection, $CreationIPAddress);
+
+                    // Take care of things that are not related to the database! 
+                    finalizeUserRegistration();
                 }
             }else{
                 // Delete user data
