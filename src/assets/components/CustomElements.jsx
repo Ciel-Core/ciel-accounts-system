@@ -7,6 +7,7 @@
 import generalStyles from './../styles/general.module.css';
 import { processProps } from './_custom';;
 
+import { Await } from './Await.jsx';
 import { Link } from './Link.jsx';
 import { Button } from './Button.jsx';
 import { Input, setInputState } from './Input.jsx';
@@ -28,6 +29,8 @@ export function Divider(props){
 }
 
 export {
+    Await,
+
     Input,
     setInputState,
 

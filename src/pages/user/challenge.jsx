@@ -108,8 +108,9 @@ export default function Challenge(props){
         <div class={style.suggestion}>
             <Divider/>
             <text>
-                Can't do any of these? Try to
-                <Link href={"/user/recovery/two-factor"}>recover your account</Link>!
+                Can't do any of these? Try to <Link href={"/user/recovery/two-factor"}>
+                    recover your account
+                </Link>!
             </text>
         </div>
     </>;

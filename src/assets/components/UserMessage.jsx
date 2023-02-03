@@ -18,9 +18,9 @@ import { isOnline } from './../scripts/internetConnection.jsx';
 function Icon(props){
     if(props.type == "message"){
         return <FireIcon class={props.class} />
-    }else if(props.type == "warning"){
+    }else if(props.type == "warning" || props.type == "urgent"){
         return <InfoIcon class={props.class} />
-    }else if(props.type == "urgent"){
+    }else if(props.type == "security"){
         return <ShieldIcon class={props.class} />
     }
     return <></>;
@@ -29,7 +29,7 @@ function Icon(props){
 export function UserMessage(props){
     let basicProps = processProps(props, generalStyles.mark, generalStyles.userMessage,
                                     generalStyles[props.type]);
-    if(!["message", "warning", "urgent"].includes(props.type)){
+    if(!["message", "warning", "urgent", "security"].includes(props.type)){
         throw new Error("Invalid <UserMessage> type!");
     }
     let message = (<div class={basicProps.class} style={basicProps.style}>

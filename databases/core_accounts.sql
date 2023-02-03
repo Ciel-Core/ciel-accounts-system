@@ -165,7 +165,9 @@ CREATE TABLE `sessions` (
 
 CREATE TABLE `system` (
   `UID` bigint(11) UNSIGNED NOT NULL,
-  `CustomizationComplete` tinyint(1) NOT NULL DEFAULT 0,
+  `FinalizedUserRegistration` tinyint UNSIGNED NOT NULL DEFAULT 0,
+  `CustomizationComplete` tinyint(1) UNSIGNED NOT NULL DEFAULT 0,
+  `LastPasswordUpdate` timestamp NOT NULL DEFAULT current_timestamp(),
   `UpdateTimestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -185,6 +187,7 @@ INSERT INTO `system` (`UID`) VALUES (10000000001);
 CREATE TABLE `trusteddevices` (
   `DeviceID` varchar(216) NOT NULL,
   `UID` bigint(11) UNSIGNED NOT NULL,
+  `LocalID` tinyint UNSIGNED NOT NULL,
   `CredentialID` text NOT NULL,
   `PublicKey` text NOT NULL,
   `DeviceName` tinytext NOT NULL,

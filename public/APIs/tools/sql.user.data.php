@@ -138,7 +138,7 @@ function getUserDataC(){
 
     // Get user data from 'system'
     $system = getDataFromTable($connection, $DATABASE_CoreTABLE__system, $UID,
-                                    "`CustomizationComplete`");
+                                    "`FinalizedUserRegistration`, `CustomizationComplete`");
 
     return (object)array_merge((array)$users, (array)$preferences, (array)$system);
 }

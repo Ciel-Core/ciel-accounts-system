@@ -24,3 +24,14 @@ export function removeSessionPOST(localID, callback){
         throwError(error);
     });
 }
+
+export function getSessionsPOST(richData, callback){
+    jsonPOST("/APIs/accounts/settings/get.sessions.json.php", {
+        richData
+    }).then(function(data){
+        errorWrapper(callback, data.responseInfo.successful, data);
+    }).catch(function(error){
+        callback(false, undefined);
+        throwError(error);
+    });
+}

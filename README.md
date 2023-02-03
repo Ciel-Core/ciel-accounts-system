@@ -41,6 +41,10 @@ This is a project that aims to provide developers with an easy-to-use third-part
   - [ ] Tracking functions
   - [ ] Login/Logout functions
   - [ ] Data-related requests channels (for account deletion/data copy requests)
+- [ ] Add report dialogs
+  - [ ] Changelogs
+  - [ ] Bug reports
+  - [ ] Feedback
 
 > The sign up process:
 >

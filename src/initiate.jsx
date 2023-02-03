@@ -36,6 +36,7 @@ import { isForcedDarkMode } from './assets/scripts/theme.jsx';
 import { checkConnection } from './assets/scripts/internetConnection.jsx';
 import { detectDevTools, alertDevMode } from './assets/scripts/console.jsx';
 import { addConstantRichData, richData } from './assets/scripts/SEO/richData.jsx';
+import { fun } from './assets/scripts/_fun.jsx';
 
 let animFinishCallback = [];
 export const [showAnimFinished, setSAF] = createSignal(false),
@@ -81,12 +82,16 @@ render(() =>{
         if(!stopEffect && showContent()){
             stopEffect = true;
             setTimeout(function(){
+                // Check for "forced dark mode"
                 if(isForcedDarkMode()){
                     showDialog("Clarification!", `This website supports dark mode. Your
                                                  browser's 'forced dark mode' could result
                                                  in theme abnormalities!`);
                 }
+                // Check connection
                 checkConnection();
+                // Do fun stuff
+                fun();
             }, 2000);
         }
     });

@@ -4,7 +4,6 @@
  * 
  **/
 
-
 // Deep ""includes"
 export function deepIncludes(array, value){
     if(array.includes(value)){
