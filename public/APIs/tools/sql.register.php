@@ -195,43 +195,53 @@ function finalizeUserRegistration($connection, $UID){
     // To finalize the user's registration, a unique user folder must be created with the provided
     // "_UID" user folder template in "/data"!
     include_once "tool.files.php";
-    $root = __DIR__."/../../data/";
-    xcopy($root."_UID", $root."$UID");
+    $root = __DIR__."/../../data";
+    xcopy($root."/_UID", $root."/$UID");
     // Report folder creation success!
     reportFinalizeProgress($connection, $UID);
 
+    // Update $root value
+    $root = __DIR__."/../../data/$UID";
+
     // Generate a unique profile picture!
     // Note: The user's *default profile picture* can never be changed at all!
-    // API request input:
-    /*
-        https://api.dicebear.com/5.x/thumbs/svg
-            ?backgroundColor=ff0000
-            
-            &shapeColor=0000ff
-            
-            &eyesColor=00ff00
-            &mouthColor=00ff00
-            
-            &faceOffsetX=0
-            &faceOffsetY=0
-            
-            &radius=0
-            &scale=80
-            
-            &rotate=[0-360]
-            &seed=[hash('ciel~' + $UID)]
-        
-        LICENSE: https://dicebear.com/styles/thumbs#thumbs
-    */
+    // https://dicebear.com/styles/thumbs
+    $thumb = file_get_contents("https://api.dicebear.com/5.x/thumbs/svg?".
+        // Set the colours
+        "backgroundColor=ff0000".
+        "&shapeColor=0000ff".
+        "&eyesColor=00ff00".
+        "&mouthColor=00ff00".
+
+        // Make sure the face doesn't get cut off
+        "&faceOffsetX=0".
+        "&faceOffsetY=0".
+        "&scale=80".
+        "&radius=0".
+
+        // Randomise output
+        "&rotate=".
+            strval(
+                // Base the image rotation on the user's ID
+                (30 * ($UID % 2 + 1))
+                * $UID
+                // 360deg value
+                % 360).
+        "&seed=".
+            md5('ciel:'.$UID)
+    );
     // The generated SVG image will be saved, with the following strings being replaced:
     //     #ff0000 -> @background
     //     #0000ff -> @body
     //     #00ff00 -> @inner
-    //
+    $thumb = str_replace("#ff0000", "@background", $thumb);
+    $thumb = str_replace("#0000ff", "@body", $thumb);
+    $thumb = str_replace("#00ff00", "@inner", $thumb);
     // The user's profile picture colours are linked to the user's prefered accent colour!
-    //
-    // Report default profile picture creation success!
-    // reportFinalizeProgress($connection, $UID);
+    // Save the output for future image generation
+    file_put_contents("$root/general/profile/.default", $thumb);
+    // Report "default profile picture template" creation success!
+    reportFinalizeProgress($connection, $UID);
 
     // Set the account finalisation status as successful
     reportFinalizeProgress($connection, $UID, 100);
