@@ -210,7 +210,7 @@ CREATE TABLE `users` (
   `PasswordHash` varchar(64) NULL DEFAULT NULL,
   `FirstName` varchar(32) NOT NULL,
   `LastName` varchar(32) NOT NULL,
-  `ProfilePicutre` varchar(26) NOT NULL DEFAULT 'DEFAULT',
+  `ProfilePicture` varchar(32) NULL DEFAULT NULL,
   `Birthdate` date NOT NULL,
   `GenderName` varchar(32) NOT NULL,
   `Pronounce` tinyint(1) UNSIGNED NOT NULL DEFAULT 0,

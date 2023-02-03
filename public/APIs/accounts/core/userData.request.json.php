@@ -9,7 +9,7 @@ checkInputData(
 );
 
 // Prepare variables
-$ProfilePicutre             = "DEFAULT";
+$ProfilePicture             = NULL;
 $FirstName                  = "[First]";
 $LastName                   = "[Last]";
 $UID                        = 0;
@@ -32,7 +32,7 @@ if(CLIENT_isSessionValid()){
         $DisplayUsername                = $user->DisplayUsername;
         $FirstName                      = $user->FirstName;
         $LastName                       = $user->LastName;
-        $ProfilePicutre                 = $user->ProfilePicutre;
+        $ProfilePicture                 = $user->ProfilePicture;
         $ColorScheme                    = $user->ColorScheme;
         $AccentColor                    = $user->AccentColor;
         $Lang                           = $user->Lang;
@@ -56,7 +56,7 @@ if(CLIENT_isSessionValid()){
     "DisplayUsername": "<?php echo $DisplayUsername; ?>",
     "FirstName": "<?php echo $FirstName; ?>",
     "LastName": "<?php echo $LastName; ?>",
-    "ProfilePicutre": "<?php echo $ProfilePicutre; ?>",
+    "ProfilePicture": <?php echo ($ProfilePicture == NULL) ? "null" : '"'.($ProfilePicture).'"'; ?>,
     "ColorScheme": <?php echo $ColorScheme; ?>,
     "AccentColor": "<?php echo $AccentColor; ?>",
     "Lang": "<?php echo $Lang; ?>",
