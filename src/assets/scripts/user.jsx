@@ -61,10 +61,11 @@ function convertUserData(userData){
 
     profile.personal.firstName                  = userData.FirstName;
     profile.personal.lastName                   = userData.LastName;
-    profile.personal.profilePicture             = (userData.ProfilePicutre == "DEFAULT") ?
+    profile.personal.profilePicture             = (userData.ProfilePicture == null) ?
                                                         profile.personal.profilePicture :
-                                                        "/images/users/" +
-                                                        userData.ProfilePicutre + ".png";
+                                                        `/data/${userData.UID}/general/profile/` +
+                                                        userData.ProfilePicture +
+                                                        "/96.png";
 
     profile.visual.preferredColorScheme         = userData.ColorScheme;
     profile.visual.accentColor                  = userData.AccentColor;

@@ -207,18 +207,18 @@ function finalizeUserRegistration($connection, $UID){
     // Note: The user's *default profile picture* can never be changed at all!
     // https://dicebear.com/styles/thumbs
     $thumb = file_get_contents("https://api.dicebear.com/5.x/thumbs/svg?".
+        // Set size
+        "size=512".
         // Set the colours
-        "backgroundColor=ff0000".
+        "&backgroundColor=ff0000".
         "&shapeColor=0000ff".
         "&eyesColor=00ff00".
         "&mouthColor=00ff00".
-
         // Make sure the face doesn't get cut off
         "&faceOffsetX=0".
         "&faceOffsetY=0".
         "&scale=80".
         "&radius=0".
-
         // Randomise output
         "&rotate=".
             strval(
@@ -240,6 +240,9 @@ function finalizeUserRegistration($connection, $UID){
     // The user's profile picture colours are linked to the user's prefered accent colour!
     // Save the output for future image generation
     file_put_contents("$root/general/profile/.default", $thumb);
+    // Update the user's default profile picture
+    require_once "sql.profile.php";
+    updateDefaultProfileSet($UID);
     // Report "default profile picture template" creation success!
     reportFinalizeProgress($connection, $UID);
 
