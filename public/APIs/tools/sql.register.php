@@ -173,6 +173,8 @@ function registerUser($input){
 
 // Take care of non-SQL registration process
 function finalizeUserRegistration(){
+    // To finalize the user's registration, a unique user folder must be created with the provided
+    // "_UID" user folder template in "/data"!
     // Generate a unique profile picture!
     // Note: The user's *default profile picture* can never be changed at all!
     // API request input:
@@ -197,9 +199,9 @@ function finalizeUserRegistration(){
         LICENSE: https://dicebear.com/styles/thumbs#thumbs
     */
     // The generated SVG image will be saved, with the following strings being replaced:
-    //     #ff0000 -> <background>
-    //     #0000ff -> <body>
-    //     #00ff00 -> <inner>
+    //     #ff0000 -> @background
+    //     #0000ff -> @body
+    //     #00ff00 -> @inner
     //
     // The user's profile picture colours are linked to the user's prefered accent colour!
 }
