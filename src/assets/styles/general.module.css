@@ -898,7 +898,8 @@ screen and (max-height: 450px) {
     --accent-color-faint: var(--warn-color-faint);
 }
 
-.userMessage.urgent {
+.userMessage.urgent,
+.userMessage.security {
     --accent-color: var(--error-color);
     --accent-color-faint: var(--error-color-faint);
 }
