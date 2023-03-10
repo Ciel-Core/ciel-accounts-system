@@ -22,7 +22,7 @@ export function ImportantFeed(){
     </>);
 }
 
-export default function HomeMain(props){
+export default function HomeSecurity(props){
     let navigate = useNavigate(),
         activeSessionsList;
     onCleanup(() => {
@@ -70,7 +70,8 @@ export default function HomeMain(props){
                                                                     );
                                     }
                                 }else{
-                                    showDialog("Something went wrong!", "Couldn't fetch a list of active sessions!");
+                                    showDialog("Something went wrong!",
+                                                "Couldn't fetch a list of active sessions!");
                                 }
                             });    
                         });                
