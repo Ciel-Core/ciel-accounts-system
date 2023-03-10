@@ -71,7 +71,7 @@ export default function HomeSecurity(props){
                                     }
                                 }else{
                                     showDialog("Something went wrong!",
-                                                "Couldn't fetch a list of active sessions!");
+                                    "Couldn't fetch a list of active sessions!");
                                 }
                             });    
                         });                
