@@ -255,11 +255,13 @@ export default function Home(props){
             <LoadingSpinner />
         </FlexContainer>
         <Sections ref={sectionsParent} style={{display: "none"}}>
-            <For each={links}>{(link) => {
-                return (<HomeSection data-title={link[0]} data-path={link[1]}>
-                    {sectionContent(link[1], loadedSection)}
-                </HomeSection>);
-            }}</For>
+            <For each={links}>
+                {(link) => {
+                    return (<HomeSection data-title={link[0]} data-path={link[1]}>
+                        {sectionContent(link[1], loadedSection)}
+                    </HomeSection>);
+                }}
+            </For>
         </Sections>
     </>;
 }
