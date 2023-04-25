@@ -146,8 +146,13 @@ Builds the app for testing to the `dist` folder.
 Use the `npm run dev-build` command, and host the output inside the `dist` folder. Remember to import the databases in the `databases` folder to your MySQL server!
 
 > We recommend *[XAMPP](https://www.apachefriends.org/)* for local hosting
+>
+> PHP version 8.1
+>
+> \+ [`imagick` support](https://phpandmysql.com/extras/install-imagemagick-and-imagick-xampp/)
 
-## Database
+
+### Database
 
 ![core_account](./github/images/core_accounts_db.png)
 
@@ -157,13 +162,9 @@ Use the `npm run dev-build` command, and host the output inside the `dist` folde
 >
 > Write-only privileges: all (IDK...)
 
-## Deployment
+### Deployment
 
 You can deploy the `dist` folder to any host provider with PHP and MySQL support
-
-> PHP version 8.1
->
-> \+ `imagick` support
 
 ### Using WebSockets
 
