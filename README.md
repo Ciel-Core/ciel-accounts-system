@@ -121,7 +121,7 @@ In the project directory, you can run:
 
 ### `npm dev` or `npm start`
 
-Runs the app in the development mode.
+Runs the app in development mode.
 
 Open [http://localhost:4000](http://localhost:4000) to view it in the browser.
 
@@ -175,6 +175,14 @@ Run the command `C:\xampp1\php\php.exe -q socket.php` before trying the website 
 ## Used services
 
 *Cloudflare* (security), *IPInfo* (location info), and *iFastNet* (hosting).
+
+## Contact
+
+Email: *webmaster@ciel.today*, Email: *app@ciel.today*
+
+## Accounts
+
+- Google_Play:G00gle_Play
 
 ## License
 
