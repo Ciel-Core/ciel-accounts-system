@@ -18,7 +18,7 @@ export function ImportantFeed(){
     </>);
 }
 
-export default function HomeMain(props){
+export default function HomeFinancial(props){
     onCleanup(() => {
         // 
     });

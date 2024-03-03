@@ -10,7 +10,7 @@ import { log } from './console.jsx';
 import { resetRegisterData, registerData } from './pages/registerData.jsx';
 import { loginData, resetLoginData } from './pages/loginData.jsx';
 import { isSignedIn, isUpdatingUserState } from './user.jsx';
-import { blockReset, setBlockReset, setHelpFeed, setNeedHelp } from './../components/Help.jsx';
+import { blockReset, setHelpFeed, setNeedHelp } from './../components/Help.jsx'; // Removed 'setBlockReset'
 
 export function afterURLChange(callback, once = false){
     // Note: don't use useLocation, it doesn't work in all contexts!

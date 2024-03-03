@@ -27,9 +27,17 @@ export default function Error(props){
             {
                 (props.viewMode != "content-only") ? 
                     (<Button ref={button} class={errorStyle.button} type={"action"} function={() => {
+                        // Note to self: make a custom "back" function based on this code for use
+                        // across all pages!
                         button.setAttribute("disabled", "");
                         history.back();
-                        let timeout = setTimeout(() => navigate("/"), 200);
+                        let timeout = setTimeout(() => {
+                            if(window.opener != null || window.history.length == 1){
+                                window.close();
+                            }else{
+                                navigate("/");
+                            }
+                        }, 500);
                         window.addEventListener('popstate', () => clearTimeout(timeout));
                     }} light>
                         Go Back

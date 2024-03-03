@@ -10,7 +10,7 @@ import homeStyle from './../assets/styles/pages/home.module.css';
 import { setTitle, Title } from './../assets/components/Title.jsx';
 import { Help, setHelp } from './../assets/components/Help.jsx';
 import { createEffect, createSignal, For, lazy, onCleanup, onMount } from 'solid-js';
-import { userData } from './../assets/scripts/user.jsx';
+import { isSignedIn, userData } from './../assets/scripts/user.jsx';
 import {
     FlexContainer, LoadingSpinner, Mark, NavBar, SearchBox
 } from './../assets/components/CustomElements.jsx';
@@ -254,12 +254,19 @@ export default function Home(props){
         <FlexContainer ref={loading}>
             <LoadingSpinner />
         </FlexContainer>
-        <Sections ref={sectionsParent} style={{display: "none"}}>
-            <For each={links}>{(link) => {
-                return (<HomeSection data-title={link[0]} data-path={link[1]}>
-                    {sectionContent(link[1], loadedSection)}
-                </HomeSection>);
-            }}</For>
-        </Sections>
+        {
+            isSignedIn() ?
+                <Sections ref={sectionsParent} style={{display: "none"}}>
+                    <For each={links}>
+                        {(link) => {
+                            return (<HomeSection data-title={link[0]} data-path={link[1]}>
+                                {sectionContent(link[1], loadedSection)}
+                            </HomeSection>);
+                        }}
+                    </For>
+                </Sections>
+            :
+                undefined
+        }
     </>;
 }

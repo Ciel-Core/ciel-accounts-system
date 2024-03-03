@@ -13,7 +13,7 @@ RewriteBase /
 
 # Redirect all pages to the index.html file
 RewriteCond %{REQUEST_URI} !^/index.html$
-RewriteCond %{REQUEST_URI} !(\.js|\.webmanifest|\.txt)$
+RewriteCond %{REQUEST_URI} !\.(jpg|png|css|js|webmanifest|json|txt)$
 RewriteCond %{REQUEST_URI} !^(/data)
 RewriteCond %{REQUEST_URI} !^(/assets)
 RewriteCond %{REQUEST_URI} !^(/images)
@@ -24,6 +24,7 @@ RewriteCond %{REQUEST_URI} !^(/APIs)
 RewriteCond %{REQUEST_URI} !^(/comm)
 RewriteCond %{REQUEST_URI} !^(/cdn-cgi)
 RewriteCond %{REQUEST_URI} !^(/phpmyadmin)
+RewriteCond %{REQUEST_URI} !^(/excluded)
 RewriteRule .* /index.html [L,NC]
 
 <IfModule mod_headers.c>

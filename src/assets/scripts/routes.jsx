@@ -35,6 +35,12 @@ const Pages = {
     RegisterReview: lazy(() => import("./../../pages/user/register/review.jsx")),
     DeviceAuthSetup: lazy(() => import("./../../pages/user/device/setup.jsx")),
 
+    LegalPrivacy: lazy(() => import("./../../pages/legal/privacy.jsx")),
+    LegalTerms: lazy(() => import("./../../pages/legal/terms.jsx")),
+    LegalDisclaimer: lazy(() => import("./../../pages/legal/disclaimer.jsx")),
+    LegalCookies: lazy(() => import("./../../pages/legal/cookies.jsx")),
+    LegalEULA: lazy(() => import("./../../pages/legal/eula.jsx")),
+
     HelpHome: lazy(() => import("./../../pages/help/home.jsx")),
     HelpArticle: lazy(() => import("./../../pages/help/article.jsx"))
 }, Error = {
@@ -99,6 +105,11 @@ export function WebRoutes(props){
         <Route path={"/help/feed/*"} element={<Pages.HelpHome {...reports} />} />
         <Route path={"/help/article"} element={<Navigate href={"/help"}/>} />
         <Route path={"/help/article/*"} element={<Pages.HelpArticle {...reports} />} />
+        <Route path={"/legal/privacy"} element={<Pages.LegalPrivacy {...reports} />} />
+        <Route path={"/legal/terms"} element={<Pages.LegalTerms {...reports} />} />
+        <Route path={"/legal/disclaimer"} element={<Pages.LegalDisclaimer {...reports} />} />
+        <Route path={"/legal/cookies"} element={<Pages.LegalCookies {...reports} />} />
+        <Route path={"/legal/eula"} element={<Pages.LegalEULA {...reports} />} />
     </Routes>
     );
 }

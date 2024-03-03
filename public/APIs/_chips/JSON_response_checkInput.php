@@ -38,7 +38,7 @@ function checkInputData(...$data){
         // Check if the data follows the expected patterns
         for($i = 0; $i < sizeof($arg) - 3; $i++){
             if(gettype($arg[3 + $i]) == "string" && !(preg_match($arg[3 + $i], $arg[0]))){
-                responseReport(INVALID_DATA, "Data doesn't follow the expected pattern!");
+                responseReport(INVALID_DATA, "Data doesn't follow the expected pattern! (['".implode("', '", $arg)."']");
             }
         }
     }

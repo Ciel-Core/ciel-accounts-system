@@ -20,8 +20,14 @@ export function Await(props){
     const [content, setContent] = createSignal(<LoadingContainer />);
     let contentCleared = false,
         contentElm,
+        firstInject = true,
         awaitCall = props.call,
         inject = (elmCall) => {
+            // Prevent duplicate injections
+            if(firstInject){
+                firstInject = false;
+                contentElm.innerHTML = '';
+            }
             // Clear loading animation
             if(!contentCleared){
                 setContent(undefined);

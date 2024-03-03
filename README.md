@@ -121,7 +121,7 @@ In the project directory, you can run:
 
 ### `npm dev` or `npm start`
 
-Runs the app in the development mode.
+Runs the app in development mode.
 
 Open [http://localhost:4000](http://localhost:4000) to view it in the browser.
 
@@ -146,8 +146,13 @@ Builds the app for testing to the `dist` folder.
 Use the `npm run dev-build` command, and host the output inside the `dist` folder. Remember to import the databases in the `databases` folder to your MySQL server!
 
 > We recommend *[XAMPP](https://www.apachefriends.org/)* for local hosting
+>
+> PHP version 8.1
+>
+> \+ [`imagick` support](https://phpandmysql.com/extras/install-imagemagick-and-imagick-xampp/)
 
-## Database
+
+### Database
 
 ![core_account](./github/images/core_accounts_db.png)
 
@@ -157,13 +162,9 @@ Use the `npm run dev-build` command, and host the output inside the `dist` folde
 >
 > Write-only privileges: all (IDK...)
 
-## Deployment
+### Deployment
 
 You can deploy the `dist` folder to any host provider with PHP and MySQL support
-
-> PHP version 8.1
->
-> \+ `imagick` support
 
 ### Using WebSockets
 
@@ -174,6 +175,14 @@ Run the command `C:\xampp1\php\php.exe -q socket.php` before trying the website 
 ## Used services
 
 *Cloudflare* (security), *IPInfo* (location info), and *iFastNet* (hosting).
+
+## Contact
+
+Email: *webmaster@ciel.today*, Email: *app@ciel.today*
+
+## Accounts
+
+- Google_Play:G00gle_Play
 
 ## License
 

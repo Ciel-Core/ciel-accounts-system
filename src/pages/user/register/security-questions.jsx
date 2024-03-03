@@ -93,12 +93,12 @@ export default function RegisterSecurityQuestions(props){
                         style={{width: "calc(100% - 8px)"}} onChange={function(){
                             checkQuestionStatus(1, ansElm1);
                         }}>
-                    <option value={1}>{securityQuestions()[1][0]}</option>
-                    <option value={2}>{securityQuestions()[1][1]}</option>
-                    <option value={3}>{securityQuestions()[1][2]}</option>
-                    <option value={4}>{securityQuestions()[1][3]}</option>
-                    <option value={5}>{securityQuestions()[1][4]}</option>
-                    <option value={6}>{securityQuestions()[1][5]}</option>
+                    <option value="1">{securityQuestions()[1][0]}</option>
+                    <option value="2">{securityQuestions()[1][1]}</option>
+                    <option value="3">{securityQuestions()[1][2]}</option>
+                    <option value="4">{securityQuestions()[1][3]}</option>
+                    <option value="5">{securityQuestions()[1][4]}</option>
+                    <option value="6">{securityQuestions()[1][5]}</option>
                 </Select>
                 <Input ref={ansElm1} id={"security-a1"} type={"text"} label={"Answer 1"}
                         style={{width: "calc(100% - 8px)"}} maxlength={255}
@@ -109,12 +109,12 @@ export default function RegisterSecurityQuestions(props){
                         style={{width: "calc(100% - 8px)"}} onChange={function(){
                             checkQuestionStatus(2, ansElm2);
                         }}>
-                    <option value={1}>{securityQuestions()[2][0]}</option>
-                    <option value={2}>{securityQuestions()[2][1]}</option>
-                    <option value={3}>{securityQuestions()[2][2]}</option>
-                    <option value={4}>{securityQuestions()[2][3]}</option>
-                    <option value={5}>{securityQuestions()[2][4]}</option>
-                    <option value={6}>{securityQuestions()[2][5]}</option>
+                    <option value="1">{securityQuestions()[2][0]}</option>
+                    <option value="2">{securityQuestions()[2][1]}</option>
+                    <option value="3">{securityQuestions()[2][2]}</option>
+                    <option value="4">{securityQuestions()[2][3]}</option>
+                    <option value="5">{securityQuestions()[2][4]}</option>
+                    <option value="6">{securityQuestions()[2][5]}</option>
                 </Select>
                 <Input ref={ansElm2} id={"security-a2"} type={"text"} label={"Answer 2"}
                         style={{width: "calc(100% - 8px)"}} maxlength={255}
@@ -125,12 +125,12 @@ export default function RegisterSecurityQuestions(props){
                         style={{width: "calc(100% - 8px)"}} onChange={function(){
                             checkQuestionStatus(3, ansElm3);
                         }}>
-                    <option value={1}>{securityQuestions()[3][0]}</option>
-                    <option value={2}>{securityQuestions()[3][1]}</option>
-                    <option value={3}>{securityQuestions()[3][2]}</option>
-                    <option value={4}>{securityQuestions()[3][3]}</option>
-                    <option value={5}>{securityQuestions()[3][4]}</option>
-                    <option value={6}>{securityQuestions()[3][5]}</option>
+                    <option value="1">{securityQuestions()[3][0]}</option>
+                    <option value="2">{securityQuestions()[3][1]}</option>
+                    <option value="3">{securityQuestions()[3][2]}</option>
+                    <option value="4">{securityQuestions()[3][3]}</option>
+                    <option value="5">{securityQuestions()[3][4]}</option>
+                    <option value="6">{securityQuestions()[3][5]}</option>
                 </Select>
                 <Input ref={ansElm3} id={"security-a3"} type={"text"} label={"Answer 3"}
                         style={{width: "calc(100% - 8px)"}} maxlength={255}

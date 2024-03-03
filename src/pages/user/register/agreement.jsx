@@ -34,8 +34,8 @@ function AgreementItem(props){
         <text ref={desc} class={style.description}>{props.description}</text>
         {(function(){
             if(props.link != undefined){
-                return (<Button class={style.button} type={"action"} function={function(){}}
-                                light small disabled>Read more</Button>);
+                return (<Button class={style.button} type={"action"} function={() => window.open(props.link)}
+                                light small>Read more</Button>);
             }
         })()}
     </div>);
@@ -67,14 +67,13 @@ export default function RegisterAgreement(props){
         </h3>
         <FlexContainer space={"around"} style={{width: "400px"}}>
             <InputFieldsContainer>
-                {/* https://www.freeprivacypolicy.com/free-privacy-policy-generator/ */}
-                <AgreementItem link={0} title={"Terms and Conditions"} icon={<PaperIcon/>}/>
-                <AgreementItem link={0} title={"Privacy Policy"} icon={<PaperIcon/>}/>
-                <AgreementItem link={0} title={"Disclaimer"} icon={<PaperIcon/>}/>
-                <AgreementItem link={0} title={"Cookies Policy"} icon={<PaperIcon/>}
+                <AgreementItem link={"/legal/terms"} title={"Terms and Conditions"} icon={<PaperIcon/>}/>
+                <AgreementItem link={"/legal/privacy"} title={"Privacy Policy"} icon={<PaperIcon/>}/>
+                <AgreementItem link={"/legal/disclaimer"} title={"Disclaimer"} icon={<PaperIcon/>}/>
+                <AgreementItem link={"/legal/cookies"} title={"Cookies Policy"} icon={<PaperIcon/>}
                                 description={`Applies to the ${import.meta.env.VITE_NAME} website` +
                                                 ` and all login/permission prompts.`}/>
-                <AgreementItem link={0} title={"End-user license agreement (EULA)"}
+                <AgreementItem link={"/legal/eula"} title={"End-user license agreement (EULA)"}
                                 icon={<PaperIcon/>}
                                 description={`Applies when using software created by, or` +
                                     ` officially affiliated with, ${import.meta.env.VITE_NAME}.`}/>
