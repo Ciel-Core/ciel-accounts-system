@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "F:\\development\\Ciel\\accounts-system\\applications\\android\\bubblewrap-pwa\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v16\\values-v16.xml",
+            "outputFile": "com.ciel.twa.app-mergeDebugResources-9:/values-v16/values-v16.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\adels\\.gradle\\caches\\transforms-3\\d11930c98af9c54320307f7205908b44\\transformed\\core-1.2.0\\res\\values-v16\\values-v16.xml",
+                    "source": "C:\\Users\\adels\\.gradle\\caches\\transforms-3\\0b8921ecb709d584d59cb98b15117b47\\transformed\\core-1.2.0\\res\\values-v16\\values-v16.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

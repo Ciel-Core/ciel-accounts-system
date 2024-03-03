@@ -1,10 +1,20 @@
 {
     "logs": [
         {
-            "outputFile": "F:\\development\\Ciel\\accounts-system\\applications\\android\\bubblewrap-pwa\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-pt\\values-pt.xml",
+            "outputFile": "com.ciel.twa.app-mergeDebugResources-9:/values-pt/values-pt.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\adels\\.gradle\\caches\\transforms-3\\d11930c98af9c54320307f7205908b44\\transformed\\core-1.2.0\\res\\values-pt\\values-pt.xml",
+                    "source": "C:\\Users\\adels\\.gradle\\caches\\transforms-3\\fa3f0ed0febe7c82afcf07656338649b\\transformed\\browser-1.4.0\\res\\values-pt\\values-pt.xml",
+                    "from": {
+                        "startLines": "2,3,4,5",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,170,269,381",
+                        "endColumns": "114,98,111,105",
+                        "endOffsets": "165,264,376,482"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\adels\\.gradle\\caches\\transforms-3\\0b8921ecb709d584d59cb98b15117b47\\transformed\\core-1.2.0\\res\\values-pt\\values-pt.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -18,16 +28,6 @@
                         "startOffsets": "487",
                         "endColumns": "100",
                         "endOffsets": "583"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\adels\\.gradle\\caches\\transforms-3\\193d533916babea2ff6feaeaf6e01cc3\\transformed\\browser-1.4.0\\res\\values-pt\\values-pt.xml",
-                    "from": {
-                        "startLines": "2,3,4,5",
-                        "startColumns": "4,4,4,4",
-                        "startOffsets": "55,170,269,381",
-                        "endColumns": "114,98,111,105",
-                        "endOffsets": "165,264,376,482"
                     }
                 }
             ]

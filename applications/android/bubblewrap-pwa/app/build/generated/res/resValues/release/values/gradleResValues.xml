@@ -4,7 +4,9 @@
     <!-- Automatically generated file. DO NOT MODIFY -->
 
     <!-- Value from default config. -->
-    <string name="appName" translatable="false">Ciel</string>
+    <bool name="enableNotification">true</bool>
+    <!-- Value from default config. -->
+    <bool name="enableSiteSettingsShortcut">true</bool>
     <!-- Value from default config. -->
     <color name="backgroundColor">#D22B55</color>
     <!-- Value from default config. -->
@@ -12,9 +14,17 @@
     <!-- Value from default config. -->
     <color name="colorPrimaryDark">#000000</color>
     <!-- Value from default config. -->
-    <bool name="enableNotification">true</bool>
+    <color name="navigationColor">#000000</color>
     <!-- Value from default config. -->
-    <bool name="enableSiteSettingsShortcut">true</bool>
+    <color name="navigationColorDark">#000000</color>
+    <!-- Value from default config. -->
+    <color name="navigationDividerColor">#000000</color>
+    <!-- Value from default config. -->
+    <color name="navigationDividerColorDark">#000000</color>
+    <!-- Value from default config. -->
+    <integer name="splashScreenFadeOutDuration">300</integer>
+    <!-- Value from default config. -->
+    <string name="appName" translatable="false">Ciel</string>
     <!-- Value from default config. -->
     <string name="fallbackType" translatable="false">customtabs</string>
     <!-- Value from default config. -->
@@ -28,19 +38,9 @@
     <!-- Value from default config. -->
     <string name="launcherName" translatable="false">Ciel</string>
     <!-- Value from default config. -->
-    <color name="navigationColor">#000000</color>
-    <!-- Value from default config. -->
-    <color name="navigationColorDark">#000000</color>
-    <!-- Value from default config. -->
-    <color name="navigationDividerColor">#000000</color>
-    <!-- Value from default config. -->
-    <color name="navigationDividerColorDark">#000000</color>
-    <!-- Value from default config. -->
     <string name="orientation" translatable="false">any</string>
     <!-- Value from default config. -->
     <string name="providerAuthority" translatable="false">com.ciel.twa.fileprovider</string>
-    <!-- Value from default config. -->
-    <integer name="splashScreenFadeOutDuration">300</integer>
     <!-- Value from default config. -->
     <string name="webManifestUrl" translatable="false">https://ciel.today/manifest.webmanifest</string>
 

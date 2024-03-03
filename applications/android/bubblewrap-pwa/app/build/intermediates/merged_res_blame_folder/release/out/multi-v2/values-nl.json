@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "F:\\development\\Ciel\\accounts-system\\applications\\android\\bubblewrap-pwa\\app\\build\\intermediates\\incremental\\mergeReleaseResources\\merged.dir\\values-nl\\values-nl.xml",
+            "outputFile": "com.ciel.twa.app-mergeReleaseResources-9:/values-nl/values-nl.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\adels\\.gradle\\caches\\transforms-3\\029ce34aebc7b10bd47a7963a221d29a\\transformed\\browser-1.4.0\\res\\values-nl\\values-nl.xml",
+                    "source": "C:\\Users\\adels\\.gradle\\caches\\transforms-3\\fa3f0ed0febe7c82afcf07656338649b\\transformed\\browser-1.4.0\\res\\values-nl\\values-nl.xml",
                     "from": {
                         "startLines": "2,3,4,5",
                         "startColumns": "4,4,4,4",
@@ -21,7 +21,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\adels\\.gradle\\caches\\transforms-3\\e3d84bd9f2c1c93e804b23b486b0402a\\transformed\\play-services-base-18.1.0\\res\\values-nl\\values.xml",
+                    "source": "C:\\Users\\adels\\.gradle\\caches\\transforms-3\\8c9dd428f01907497112191d185a6b48\\transformed\\play-services-base-18.1.0\\res\\values-nl\\values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
                         "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
@@ -38,24 +38,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\adels\\.gradle\\caches\\transforms-3\\9381f0fddf57b249891dcdafb6e699a5\\transformed\\core-1.2.0\\res\\values-nl\\values-nl.xml",
-                    "from": {
-                        "startLines": "2",
-                        "startColumns": "4",
-                        "startOffsets": "55",
-                        "endColumns": "100",
-                        "endOffsets": "151"
-                    },
-                    "to": {
-                        "startLines": "24",
-                        "startColumns": "4",
-                        "startOffsets": "2767",
-                        "endColumns": "100",
-                        "endOffsets": "2863"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\adels\\.gradle\\caches\\transforms-3\\832c2bd6e4c1c5cdd4a53a6fb39950bf\\transformed\\play-services-basement-18.1.0\\res\\values-nl\\values.xml",
+                    "source": "C:\\Users\\adels\\.gradle\\caches\\transforms-3\\28a741edc80a99d6fd4d8140326ebccf\\transformed\\play-services-basement-18.1.0\\res\\values-nl\\values.xml",
                     "from": {
                         "startLines": "4",
                         "startColumns": "0",
@@ -69,6 +52,23 @@
                         "startOffsets": "1076",
                         "endColumns": "142",
                         "endOffsets": "1214"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\adels\\.gradle\\caches\\transforms-3\\0b8921ecb709d584d59cb98b15117b47\\transformed\\core-1.2.0\\res\\values-nl\\values-nl.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "100",
+                        "endOffsets": "151"
+                    },
+                    "to": {
+                        "startLines": "24",
+                        "startColumns": "4",
+                        "startOffsets": "2767",
+                        "endColumns": "100",
+                        "endOffsets": "2863"
                     }
                 }
             ]
