@@ -1,0 +1,14 @@
+com.ciel.twa.app-core-1.2.0-0 C:\Users\adels\.gradle\caches\transforms-3\0b8921ecb709d584d59cb98b15117b47\transformed\core-1.2.0\res
+com.ciel.twa.app-play-services-basement-18.1.0-1 C:\Users\adels\.gradle\caches\transforms-3\28a741edc80a99d6fd4d8140326ebccf\transformed\play-services-basement-18.1.0\res
+com.ciel.twa.app-coordinatorlayout-1.0.0-2 C:\Users\adels\.gradle\caches\transforms-3\3fa6512a9d4dee4adc600ab35404b8df\transformed\coordinatorlayout-1.0.0\res
+com.ciel.twa.app-androidbrowserhelper-2.5.0-3 C:\Users\adels\.gradle\caches\transforms-3\5dcbb869a94322fa033f794fd9989151\transformed\androidbrowserhelper-2.5.0\res
+com.ciel.twa.app-play-services-base-18.1.0-4 C:\Users\adels\.gradle\caches\transforms-3\8c9dd428f01907497112191d185a6b48\transformed\play-services-base-18.1.0\res
+com.ciel.twa.app-browser-1.4.0-5 C:\Users\adels\.gradle\caches\transforms-3\fa3f0ed0febe7c82afcf07656338649b\transformed\browser-1.4.0\res
+com.ciel.twa.app-pngs-6 F:\development\Ciel\accounts-system\applications\android\bubblewrap-pwa\app\build\generated\res\pngs\release
+com.ciel.twa.app-resValues-7 F:\development\Ciel\accounts-system\applications\android\bubblewrap-pwa\app\build\generated\res\resValues\release
+com.ciel.twa.app-rs-8 F:\development\Ciel\accounts-system\applications\android\bubblewrap-pwa\app\build\generated\res\rs\release
+com.ciel.twa.app-mergeReleaseResources-9 F:\development\Ciel\accounts-system\applications\android\bubblewrap-pwa\app\build\intermediates\incremental\release\mergeReleaseResources\merged.dir
+com.ciel.twa.app-mergeReleaseResources-10 F:\development\Ciel\accounts-system\applications\android\bubblewrap-pwa\app\build\intermediates\incremental\release\mergeReleaseResources\stripped.dir
+com.ciel.twa.app-merged_res-11 F:\development\Ciel\accounts-system\applications\android\bubblewrap-pwa\app\build\intermediates\merged_res\release
+com.ciel.twa.app-main-12 F:\development\Ciel\accounts-system\applications\android\bubblewrap-pwa\app\src\main\res
+com.ciel.twa.app-release-13 F:\development\Ciel\accounts-system\applications\android\bubblewrap-pwa\app\src\release\res
